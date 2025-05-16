@@ -29,9 +29,53 @@ class HomeController extends Controller
         $slides = cache()->remember('slide', 60 * 60 * 24, function () {
             return Slide::where('status', 'Active')->get();
         });
-        $categories = cache()->remember('categories-home', 60 * 60 * 24, function () {
+        $categories_5 = cache()->remember('categories-home', 60 * 60 * 24, function () {
             return Category::orderBy('orders', 'ASC')->where('type', 'Regular')->where('parent_id', 0)->limit(6)->get();
         });
+        $categories = Category::all();
+        $brands = Product::groupBy('brand_id')
+            ->select('brand_id')
+            ->get();
+        // return $categories;
+        $featureds = Product::select(
+            'id',
+            'category_id',
+            'sku',
+            'title',
+            'slug',
+            'thumb',
+            'images',
+            'img_alt',
+            'gallery',
+            'qty',
+            'regular_price',
+            'sales_price',
+            'featured'
+        )
+            ->where('featured', 'Yes')
+            ->orderBy('id', 'ASC')
+            ->limit(10)
+            ->get();
+
+        $newArrivals = Product::select(
+            'id',
+            'category_id',
+            'sku',
+            'title',
+            'slug',
+            'thumb',
+            'images',
+            'img_alt',
+            'gallery',
+            'qty',
+            'regular_price',
+            'sales_price',
+            'featured'
+        )
+            ->orderBy('id', 'desc')
+            ->limit(10)
+            ->get();
+
         $spacials = cache()->remember('spacials-home', 60 * 60 * 24, function () {
             return Category::where('type', 'Special')->where('parent_id', 0)->limit(8)->get();
         });
@@ -58,7 +102,7 @@ class HomeController extends Controller
         //        $home3 = Banner::where('position','Home3')->first();
         //$spproducts = Product::orderBy('id','DESC')->where('spacialcat_id','!=',0)->limit(6)->get();
         //$blogs=Blog::orderBy('id','DESC')->where('status','Active')->limit(3)->get();
-        return view("Frontend.index", compact('slides', 'categories', 'home1', 'home2', 'home3', 'spproducts', 'spacials', 'blogs'));
+        return view("Frontend.Page.home", compact('slides', 'categories', 'featureds', 'home1', 'home2', 'home3', 'spproducts', 'spacials', 'blogs', 'newArrivals', 'brands'));
     }
     public function search(Request $request)
     {
