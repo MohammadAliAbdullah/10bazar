@@ -329,15 +329,19 @@
                             </ul>
                         </div><!-- .nav-links / end -->
                         <div class="nav-panel__indicators">
-                            <div class="indicator"><a href="wishlist.html" class="indicator__button"><span
-                                        class="indicator__area"><svg width="20px" height="20px">
+                            <div class="indicator">
+                                <a href="wishlist.html" class="indicator__button"><span class="indicator__area"><svg
+                                            width="20px" height="20px">
                                             <use xlink:href="images/sprite.svg#heart-20"></use>
-                                        </svg> <span class="indicator__value">0</span></span></a></div>
-                            <div class="indicator indicator--trigger--click"><a href="cart.html"
-                                    class="indicator__button"><span class="indicator__area"><svg width="20px"
-                                            height="20px">
-                                            <use xlink:href="images/sprite.svg#cart-20"></use>
-                                        </svg> <span class="indicator__value">3</span></span></a>
+                                        </svg> <span class="indicator__value">0</span></span></a>
+                            </div>
+                            <div class="indicator indicator--trigger--click">
+                                <a href="cart.html" class="indicator__button">
+                                    <span class="indicator__area">
+                                        <i class="fas fa-shopping-cart"></i>
+                                        <span class="indicator__value">{{ $cartCount }}</span>
+                                    </span>
+                                </a>
                                 <div class="indicator__dropdown"><!-- .dropcart -->
                                     <div class="dropcart">
                                         <div class="dropcart__products-list">
@@ -429,7 +433,8 @@
                                         <div class="dropcart__buttons"><a class="btn btn-secondary"
                                                 href="cart.html">View Cart</a> <a class="btn btn-primary"
                                                 href="checkout.html">Checkout</a></div>
-                                    </div><!-- .dropcart / end -->
+                                    </div>
+                                    <!-- .dropcart / end -->
                                 </div>
                             </div>
                         </div>

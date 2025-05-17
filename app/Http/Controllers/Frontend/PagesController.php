@@ -38,7 +38,7 @@ class PagesController extends Controller
         //dd($cat_products);
         //$brands = Brand::all();
         //$categories = Category::where('type', 'Regular')->where('parent_id',0)->get();
-        return view("Frontend.shop", compact('cat_products','brands', 'categories'));
+        return view("Frontend.Page.shop", compact('cat_products','brands', 'categories'));
     }
 
     public function shopfilter(Request $request)

@@ -31,18 +31,25 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Use Bootstrap for pagination
         Paginator::useBootstrap();
-        $category_menus = Category::where('id','!=',12)->where('parent_id', 0)->get();
-        view()->share('category_menus', $category_menus);
-        $contact_info = ContactInfo::where('id',1)->first();
-        view()->share('contact_info', $contact_info);
-//        $socials = SocialMedia::orderBy('orders','ASC')->get();
-//        view()->share('socials', $socials);
-        $seo = SeoConfig::where('id',1)->first();
-        view()->share('seo', $seo);
-        $tags = Tag::get();
-        view()->share('tags', $tags);
-        View::composer('Frontend.Layout.header', function ($view) {
+
+        // Shared globally with all views
+        View::share([
+            'category_menus' => Category::where('id', '!=', 12)->where('parent_id', 0)->get(),
+            'contact_info'   => ContactInfo::find(1),
+            'seo'            => SeoConfig::find(1),
+            'tags'           => Tag::all(),
+        ]);
+
+        // Views that need cart count
+        $cartViews = [
+            'Frontend.Layout.header',
+            'Frontend.Layout.partials.header',
+            'Frontend.Layout.partials.mobileHeader',
+        ];
+
+        View::composer($cartViews, function ($view) {
             $view->with('cartCount', Cart::getTotalQuantity());
         });
     }
