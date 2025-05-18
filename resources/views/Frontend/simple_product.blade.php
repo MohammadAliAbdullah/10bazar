@@ -15,21 +15,7 @@
     @section('meta_description', $seo->meta_description)
 @endif
 @section('content')
-    <!-- Breadcrumb Start -->
-    <div class="breadcrumbbg">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <nav class="breadcrumb bg-transparent">
-                        <a class="breadcrumb-item" href="#">Home <i class="fa fa-angle-right"></i></a>
-                        <a class="breadcrumb-item" href="#">Shop Detail <i class="fa fa-angle-right"></i></a>
-                        <span class="breadcrumb-title">Celling Fan</span>
-                    </nav>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Breadcrumb End -->
+    @include('Frontend.components.breadcrumb', ['page' => 'Shop', 'subPage' => 'abdullah'])
     <!-- Shop Detail Start -->
     <div class="productdatbg">
         <div class="container-fluid">
@@ -282,7 +268,6 @@
     </section>
     <!-- releted End -->
 @endsection
-
 @section('style')
     <link rel="stylesheet" href="{{ asset('public') }}/asset/css/xzoom.css">
     <link rel="stylesheet" href="{{ asset('public') }}/asset/css/product.css">

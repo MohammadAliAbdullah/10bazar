@@ -8,7 +8,7 @@ Route::get('/clear-cache', function() {
     return redirect()->back();
 });
 // Front end routes
-Route::get('/', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home.index');
+Route::get('/', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home.index'); // -- done
 Route::get('/today-offer', [App\Http\Controllers\Frontend\HomeController::class, 'today_offer'])->name('today.offer');
 Route::get('/newarrival', [App\Http\Controllers\Frontend\CampaignController::class, 'newarrival'])->name('new.arrival');
 Route::get('/upcomming', [App\Http\Controllers\Frontend\CampaignController::class, 'upcomming'])->name('up.comming');
@@ -17,20 +17,18 @@ Route::get('/campaigns/{slug}', [App\Http\Controllers\Frontend\CampaignControlle
 Route::get('/hotoffer', [App\Http\Controllers\Frontend\CampaignController::class, 'hotoffer'])->name('hotoffer.index');
 //Route::get('/login', [App\Http\Controllers\Frontend\HomeController::class, 'login'])->name('login');
 //Route::get('/register', [App\Http\Controllers\Frontend\HomeController::class, 'register'])->name('register');
-Route::get('/category/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_category'])->name('category');
-Route::get('/shops/{category}/{brand}/', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_shop'])->name('shops');
+Route::get('/category/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_category'])->name('category'); // -- done
+Route::get('/shops/{category}/{brand}/', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_shop'])->name('shops'); // -- process
 Route::get('/collection/{category}/{value}/', [App\Http\Controllers\Frontend\HomeController::class, 'collection'])->name('collection');
 Route::get('/price/{category}/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'price'])->name('price');
 Route::get('/brands/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_brand'])->name('brands');
 Route::post('/shopfilters', [App\Http\Controllers\Frontend\HomeController::class, 'shopfilters'])->name('shop.filters');
 Route::get('/shop', [App\Http\Controllers\Frontend\PagesController::class, 'shop'])->name('shop');
 Route::post('/shopfilter', [App\Http\Controllers\Frontend\PagesController::class, 'shopfilter'])->name('shop.filter');
-
 //blog
 Route::get('/blog', [App\Http\Controllers\Frontend\BlogController::class, 'index'])->name('blog.index');
 Route::get('/blogs/{slug}', [App\Http\Controllers\Frontend\BlogController::class, 'details'])->name('blog.details');
-
-Route::get('/brands/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_brand'])->name('brands');
+// Route::get('/brands/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_brand'])->name('brands');
 Route::get('/deals', [App\Http\Controllers\Frontend\PagesController::class, 'deals'])->name('deals');
 Route::get('/about-us', [App\Http\Controllers\Frontend\PagesController::class, 'about_us'])->name('about_us');
 Route::resource('/complains', 'App\Http\Controllers\Frontend\ComplainController');
@@ -39,7 +37,7 @@ Route::get('/brand', [App\Http\Controllers\Frontend\PagesController::class, 'bra
 Route::get('/warranty-policy', [App\Http\Controllers\Frontend\PagesController::class, 'warranty_policy'])->name('warranty_policy');
 Route::get('/terms-conditions', [App\Http\Controllers\Frontend\PagesController::class, 'trams'])->name('trams');
 Route::get('/privacy-policy', [App\Http\Controllers\Frontend\PagesController::class, 'privacy'])->name('privacy');
-Route::get('/product/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'product_details'])->name('product_details');
+Route::get('/product/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'product_details'])->name('product_details'); // -- done
 Route::get('/quick-view-product/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'product_quick_view_details'])->name('product_quick_view_details');
 Route::post('/review', [App\Http\Controllers\Frontend\PagesController::class, 'review_store'])->name('review_store');
 Route::get('/track', [App\Http\Controllers\Frontend\PagesController::class, 'track'])->name('track');

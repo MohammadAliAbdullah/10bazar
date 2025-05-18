@@ -198,7 +198,7 @@ class HomeController extends Controller
         $categories = Category::where('type', 'Regular')->where('parent_id', $category->id)->get();
         $colorss = Product::select('color')->where('category_id', $category->id)->where('color', '!=', NULL)->get();
         $sizess = Product::select('size')->where('category_id', $category->id)->where('size', '!=', NULL)->get();
-        return view("Frontend.shopbycategory", compact('cat_products', 'brands', 'category', 'categories', 'subcats', 'colorss', 'sizess'));
+        return view("Frontend.Page.shopByCatgory", compact('cat_products', 'brands', 'category', 'categories', 'subcats', 'colorss', 'sizess'));
     }
 
     public function shop_by_brand($slug)
@@ -242,7 +242,7 @@ class HomeController extends Controller
         $cat_products = Product::where('brand_id', $brand->id)->where('category_id', $category->id)->orWhere('sub_category_id', $category->id)->paginate(20);
         $all_partners = Brand::all()->toArray();
         //dd($cat_products);
-        return view("Frontend.shopinshop", compact('cat_products', 'brand', 'all_partners', 'category'));
+        return view("Frontend.Page.shopInShop", compact('cat_products', 'brand', 'all_partners', 'category'));
     }
 
     public function shopfilters(Request $request)
