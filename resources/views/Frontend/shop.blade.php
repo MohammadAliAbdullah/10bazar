@@ -25,7 +25,6 @@
                         @foreach ($cat_products as $recent)
                             <div class="col-6 col-lg-3 col-md-3">
                                 <div class="product-item">
-                                    {{--									<span class="badge badge-danger">30%</span> --}}
                                     <div class="product-img position-relative overflow-hidden">
                                         <img class="img-fluid w-100"
                                             src="{{ asset('public/images/product') }}/{{ $recent->thumb }}" alt="">

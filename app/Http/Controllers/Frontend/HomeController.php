@@ -213,11 +213,13 @@ class HomeController extends Controller
         //        $all_partners=cache()->remember('allpa-brand', 60*60*24, function(){
         //            return Brand::all()->toArray();
         //        });
+        
         $brand = Brand::where('slug', $slug)->first();
-        $subcats = Category::where('parent_id', $category->id)->get();
+        // return $brand;
+        // $subcats = Category::where('parent_id', $category->id)->get();
         $cat_products = Product::where('brand_id', $brand->id)->orWhere('sub_category_id', $brand->id)->paginate(20);
         $all_partners = Brand::all()->toArray();
-        return view("Frontend.shopbybrand", compact('cat_products', 'brand', 'all_partners'));
+        return view("Frontend.Page.shopByBrand", compact('cat_products', 'brand', 'all_partners'));
     }
     public function shop_by_shop($category, $brand)
     {

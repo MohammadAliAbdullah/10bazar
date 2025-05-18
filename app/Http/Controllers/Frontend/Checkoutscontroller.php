@@ -36,7 +36,7 @@ class Checkoutscontroller extends Controller
             $cartCollection = Cart::getContent();
             $districts=Division::orderBy('name','ASC')->get()->pluck('name','id')->toArray();
             $payments=PaymentGetway::orderBy('id','ASC')->where('status','Active')->get();
-            return view("Frontend.checkout", compact('customer', 'cartCollection', 'districts','payments'));
+            return view("Frontend.Page.checkout", compact('customer', 'cartCollection', 'districts','payments'));
         }else{
             session(['link' => url()->previous()]);
             return redirect()->route('login');

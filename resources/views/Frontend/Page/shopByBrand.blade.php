@@ -1,38 +1,38 @@
 @extends('Frontend.Layout.master')
-@if (!empty($category->meta_title))
-    @section('meta_title', $category->meta_title)
+@if (!empty($brand->meta_title))
+    @section('meta_title', $brand->meta_title)
 @else
     @section('meta_title', $seo->meta_title)
 @endif
-@if (!empty($category->meta_keyword))
-    @section('meta_keywords', $category->meta_keyword)
+@if (!empty($brand->meta_keyword))
+    @section('meta_keywords', $brand->meta_keyword)
 @else
     @section('meta_keywords', $seo->meta_keyword)
 @endif
-@if (!empty($category->meta_description))
-    @section('meta_description', $category->meta_description)
+@if (!empty($brand->meta_description))
+    @section('meta_description', $brand->meta_description)
 @else
     @section('meta_description', $seo->meta_description)
 @endif
 @section('content')
-    @include('Frontend.components.breadcrumb', ['page' => 'Category', 'subPage' => $category->title])
+    <!-- Breadcrumb Start -->
+    @include('Frontend.components.breadcrumb', ['page' => 'Shop', 'subPage' => $brand->title ?? 'N/A'])
     <div class="container">
-        <div class="shop-layout shop-layout--sidebar--start">
-            @include('Frontend.Page.components.categoryFilter')
-            <div class="shop-layout__content">
+        <div class="row">
+            <div class="col-12">
                 <div class="block">
                     <div class="products-view">
                         <div class="products-view__options">
                             <div class="view-options">
                                 <div class="view-options__layout">
                                     <div class="layout-switcher">
-                                        <div class="layout-switcher__list"><button data-layout="grid-3-sidebar"
+                                        <div class="layout-switcher__list"><button data-layout="grid-4-full"
                                                 data-with-features="false" title="Grid" type="button"
                                                 class="layout-switcher__button layout-switcher__button--active"><svg
                                                     width="16px" height="16px">
                                                     <use xlink:href="images/sprite.svg#layout-grid-16x16"></use>
-                                                </svg></button> <button data-layout="grid-3-sidebar"
-                                                data-with-features="true" title="Grid With Features" type="button"
+                                                </svg></button> <button data-layout="grid-4-full" data-with-features="true"
+                                                title="Grid With Features" type="button"
                                                 class="layout-switcher__button"><svg width="16px" height="16px">
                                                     <use xlink:href="images/sprite.svg#layout-grid-with-details-16x16">
                                                     </use>
@@ -59,8 +59,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="products-view__list products-list" data-layout="grid-3-sidebar"
-                            data-with-features="false">
+                        <div class="products-view__list products-list" data-layout="grid-4-full" data-with-features="false">
                             <div class="products-list__body">
                                 @foreach ($cat_products as $product)
                                     <div class="products-list__item">
@@ -111,7 +110,7 @@
                         </div>
                         <div class="products-view__pagination">
                             <ul class="pagination justify-content-center">
-                                {!! $cat_products->onEachSide(0)->links() !!}
+                                {{ $cat_products->render() }}
                             </ul>
                         </div>
                     </div>

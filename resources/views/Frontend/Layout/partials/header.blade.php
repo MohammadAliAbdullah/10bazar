@@ -10,14 +10,20 @@
         <div class="site-header__topbar topbar">
             <div class="topbar__container container">
                 <div class="topbar__row">
-                    <div class="topbar__item topbar__item--link"><a class="topbar-link" href="about-us.html">About
-                            Us</a></div>
-                    <div class="topbar__item topbar__item--link"><a class="topbar-link"
-                            href="contact-us.html">Contacts</a></div>
+                    {{-- <div class="topbar__item topbar__item--link">
+                        <a class="topbar-link" href="about-us.html">
+                            About Us
+                        </a>
+                    </div>
+                    <div class="topbar__item topbar__item--link">
+                        <a class="topbar-link" href="contact-us.html">Contacts</a>
+                    </div> --}}
                     <div class="topbar__item topbar__item--link"><a class="topbar-link" href="#">Store
                             Location</a></div>
-                    <div class="topbar__item topbar__item--link"><a class="topbar-link" href="track-order.html">Track
-                            Order</a></div>
+                    <div class="topbar__item topbar__item--link">
+                        <a class="topbar-link" href="{{ route('track') }}">Track
+                            Order</a>
+                    </div>
                     <div class="topbar__item topbar__item--link"><a class="topbar-link"
                             href="blog-classic.html">Blog</a></div>
                     <div class="topbar__spring"></div>
@@ -199,14 +205,16 @@
                                     <a class="nav-link" href="{{ route('shop') }}"><span>Shop</span>
                                     </a>
                                 </li>
-                                <li class="nav-links__item nav-links__item--with-submenu"><a
-                                        href="#"><span>Megamenu <svg class="nav-links__arrow" width="9px"
-                                                height="6px">
+                                {{-- <li class="nav-links__item nav-links__item--with-submenu">
+                                    <a href="#">
+                                        <span>Megamenu
+                                            <svg class="nav-links__arrow" width="9px" height="6px">
                                                 <use xlink:href="images/sprite.svg#arrow-rounded-down-9x6">
                                                 </use>
-                                            </svg></span></a>
+                                            </svg>
+                                        </span>
+                                    </a>
                                     <div class="nav-links__megamenu nav-links__megamenu--size--nl">
-                                        <!-- .megamenu -->
                                         <div class="megamenu">
                                             <div class="row">
                                                 <div class="col-6">
@@ -279,11 +287,10 @@
                                                     </ul>
                                                 </div>
                                             </div>
-                                        </div><!-- .megamenu / end -->
+                                        </div>
                                     </div>
-                                </li>
-
-                                <li class="nav-links__item nav-links__item--with-submenu"><a
+                                </li> --}}
+                                {{-- <li class="nav-links__item nav-links__item--with-submenu"><a
                                         href="blog-classic.html"><span>Blog <svg class="nav-links__arrow"
                                                 width="9px" height="6px">
                                                 <use xlink:href="images/sprite.svg#arrow-rounded-down-9x6">
@@ -300,29 +307,45 @@
                                             </li>
                                         </ul><!-- .menu / end -->
                                     </div>
-                                </li>
-                                <li class="nav-links__item nav-links__item--with-submenu"><a
-                                        href="#"><span>Pages <svg class="nav-links__arrow" width="9px"
-                                                height="6px">
+                                </li> --}}
+                                <li class="nav-links__item nav-links__item--with-submenu">
+                                    <a href="#">
+                                        <span>Pages
+                                            <svg class="nav-links__arrow" width="9px" height="6px">
                                                 <use xlink:href="images/sprite.svg#arrow-rounded-down-9x6">
                                                 </use>
-                                            </svg></span></a>
+                                            </svg>
+                                        </span>
+                                    </a>
                                     <div class="nav-links__menu"><!-- .menu -->
                                         <ul class="menu menu--layout--classic">
-                                            <li><a href="about-us.html">About Us</a></li>
-                                            <li><a href="contact-us.html">Contact Us</a></li>
-                                            <li><a href="contact-us-alt.html">Contact Us Alt</a></li>
-                                            <li><a href="404.html">404</a></li>
-                                            <li><a href="terms-and-conditions.html">Terms And Conditions</a>
+                                            <li>
+                                                <a href="{{ url('page') }}/terms-conditions">Terms & Conditions</a>
                                             </li>
-                                            <li><a href="faq.html">FAQ</a></li>
-                                            <li><a href="components.html">Components</a></li>
-                                            <li><a href="typography.html">Typography</a></li>
-                                        </ul><!-- .menu / end -->
+                                            <li>
+                                                <a href="{{ url('page') }}/payment-options	">Payment options</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ url('page') }}/refund-return-policy	">Refund & Return
+                                                    Policy</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ url('page') }}/terms-of-services">Termes of Service</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ url('page') }}/privacy-policy">Pivacy Policy</a>
+                                            </li>
+                                        </ul>
+                                        <!-- .menu / end -->
                                     </div>
                                 </li>
                                 <li class="nav-links__item">
-                                    <a href="contact-us.html">
+                                    <a href="{{ route('about.us') }}">
+                                        <span>About Us</span>
+                                    </a>
+                                </li>
+                                <li class="nav-links__item">
+                                    <a href="{{ route('contact.us') }}">
                                         <span>Contact Us</span>
                                     </a>
                                 </li>

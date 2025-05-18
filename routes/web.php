@@ -18,22 +18,20 @@ Route::get('/hotoffer', [App\Http\Controllers\Frontend\CampaignController::class
 //Route::get('/login', [App\Http\Controllers\Frontend\HomeController::class, 'login'])->name('login');
 //Route::get('/register', [App\Http\Controllers\Frontend\HomeController::class, 'register'])->name('register');
 Route::get('/category/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_category'])->name('category'); // -- done
-Route::get('/shops/{category}/{brand}/', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_shop'])->name('shops'); // -- process
-Route::get('/collection/{category}/{value}/', [App\Http\Controllers\Frontend\HomeController::class, 'collection'])->name('collection');
-Route::get('/price/{category}/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'price'])->name('price');
-Route::get('/brands/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_brand'])->name('brands');
+Route::get('/shops/{category}/{brand}/', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_shop'])->name('shops'); // -- done
+// Route::get('/collection/{category}/{value}/', [App\Http\Controllers\Frontend\HomeController::class, 'collection'])->name('collection'); // commit by abdullah 18-05-2025
+// Route::get('/price/{category}/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'price'])->name('price'); // commit by abdullah 18-05-2025
+Route::get('/brands/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_brand'])->name('brands'); // -- done
 Route::post('/shopfilters', [App\Http\Controllers\Frontend\HomeController::class, 'shopfilters'])->name('shop.filters');
-Route::get('/shop', [App\Http\Controllers\Frontend\PagesController::class, 'shop'])->name('shop');
-Route::post('/shopfilter', [App\Http\Controllers\Frontend\PagesController::class, 'shopfilter'])->name('shop.filter');
+Route::get('/shop', [App\Http\Controllers\Frontend\PagesController::class, 'shop'])->name('shop'); // -- done
+Route::post('/shopfilter', [App\Http\Controllers\Frontend\PagesController::class, 'shopfilter'])->name('shop.filter'); // -- done
 //blog
 Route::get('/blog', [App\Http\Controllers\Frontend\BlogController::class, 'index'])->name('blog.index');
 Route::get('/blogs/{slug}', [App\Http\Controllers\Frontend\BlogController::class, 'details'])->name('blog.details');
-// Route::get('/brands/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_brand'])->name('brands');
 Route::get('/deals', [App\Http\Controllers\Frontend\PagesController::class, 'deals'])->name('deals');
-Route::get('/about-us', [App\Http\Controllers\Frontend\PagesController::class, 'about_us'])->name('about_us');
 Route::resource('/complains', 'App\Http\Controllers\Frontend\ComplainController');
-Route::get('/contact-us', [App\Http\Controllers\Frontend\PagesController::class, 'contact_us'])->name('contact_us');
-Route::get('/brand', [App\Http\Controllers\Frontend\PagesController::class, 'brand'])->name('brand');
+Route::get('/contact-us', [App\Http\Controllers\Frontend\PagesController::class, 'contact_us'])->name('contact_us'); // -- done
+// Route::get('/brand', [App\Http\Controllers\Frontend\PagesController::class, 'brand'])->name('brand');
 Route::get('/warranty-policy', [App\Http\Controllers\Frontend\PagesController::class, 'warranty_policy'])->name('warranty_policy');
 Route::get('/terms-conditions', [App\Http\Controllers\Frontend\PagesController::class, 'trams'])->name('trams');
 Route::get('/privacy-policy', [App\Http\Controllers\Frontend\PagesController::class, 'privacy'])->name('privacy');
@@ -73,18 +71,17 @@ Route::post('/pay', [App\Http\Controllers\Mypanel\OrderController::class, 'store
 Route::post('/success', [App\Http\Controllers\SslCommerzPaymentController::class, 'success']);
 Route::post('/fail', [App\Http\Controllers\SslCommerzPaymentController::class, 'fail']);
 Route::post('/cancel', [App\Http\Controllers\SslCommerzPaymentController::class, 'cancel']);
-
 Route::post('/ipn', [App\Http\Controllers\SslCommerzPaymentController::class, 'ipn']);
 //Page
-Route::get('/faq', [App\Http\Controllers\Frontend\PagesController::class, 'faq'])->name('faq');
-Route::get('/about-us', [App\Http\Controllers\Frontend\PagesController::class, 'about_us'])->name('about.us');
-Route::get('/contact-us', [App\Http\Controllers\Frontend\PagesController::class, 'contact_us'])->name('contact.us');
-Route::get('/page/{slug}', [App\Http\Controllers\Frontend\PagesController::class, 'page']);
-Route::resource('/newsletter','\App\Http\Controllers\Frontend\NewsletterController');
+Route::get('/faq', [App\Http\Controllers\Frontend\PagesController::class, 'faq'])->name('faq'); // -- done
+Route::get('/about-us', [App\Http\Controllers\Frontend\PagesController::class, 'about_us'])->name('about.us'); // -- done
+Route::get('/contact-us', [App\Http\Controllers\Frontend\PagesController::class, 'contact_us'])->name('contact.us'); // -- done
+Route::get('/page/{slug}', [App\Http\Controllers\Frontend\PagesController::class, 'page']); // -- done
+// Route::resource('/newsletter','\App\Http\Controllers\Frontend\NewsletterController');
 
 //SSLCOMMERZ END
-Route::get('/login',[App\Http\Controllers\Mypanel\Auth\LoginController::class, 'showLoginForm'])->name('login');
-Route::get('/registration',[App\Http\Controllers\Mypanel\Auth\RegisterController::class, 'showLoginForm'])->name('register.user');
+Route::get('/login',[App\Http\Controllers\Mypanel\Auth\LoginController::class, 'showLoginForm'])->name('login'); // -- done
+Route::get('/registration',[App\Http\Controllers\Mypanel\Auth\RegisterController::class, 'showLoginForm'])->name('register.user'); // -- done
 
 Route::prefix('/mypanel')->name('mypanel.')->namespace('Mypanel')->group(function(){
     Route::namespace('Auth')->group(function(){
