@@ -26,6 +26,7 @@ class HomeController extends Controller
      */
     public function index()
     {
+        // dd(55);
         $slides = cache()->remember('slide', 60 * 60 * 24, function () {
             return Slide::where('status', 'Active')->get();
         });

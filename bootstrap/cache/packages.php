@@ -1,13 +1,24 @@
 <?php return array (
-  'carlos-meneses/laravel-mpdf' => 
+  'barryvdh/laravel-debugbar' => 
   array (
+    'aliases' => 
+    array (
+      'Debugbar' => 'Barryvdh\\Debugbar\\Facade',
+    ),
     'providers' => 
     array (
-      0 => 'Mccarlosen\\LaravelMpdf\\LaravelMpdfServiceProvider',
+      0 => 'Barryvdh\\Debugbar\\ServiceProvider',
     ),
+  ),
+  'carlos-meneses/laravel-mpdf' => 
+  array (
     'aliases' => 
     array (
       'PDF' => 'Mccarlosen\\LaravelMpdf\\Facades\\LaravelMpdf',
+    ),
+    'providers' => 
+    array (
+      0 => 'Mccarlosen\\LaravelMpdf\\LaravelMpdfServiceProvider',
     ),
   ),
   'concave/bkash' => 
@@ -19,13 +30,13 @@
   ),
   'darryldecode/cart' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Darryldecode\\Cart\\CartServiceProvider',
-    ),
     'aliases' => 
     array (
       'Cart' => 'Darryldecode\\Cart\\Facades\\CartFacade',
+    ),
+    'providers' => 
+    array (
+      0 => 'Darryldecode\\Cart\\CartServiceProvider',
     ),
   ),
   'facade/ignition' => 
