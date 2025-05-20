@@ -24,8 +24,8 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-   public function index_new()
-    { 
+    public function index_new()
+    {
         return view("Frontend.Page.home");
     }
 
@@ -39,29 +39,34 @@ class HomeController extends Controller
             return Category::orderBy('orders', 'ASC')->where('type', 'Regular')->where('parent_id', 0)->limit(6)->get();
         });
         // $categories = Category::all();
-        $brands = Product::groupBy('brand_id')
-            ->select('brand_id')
-            ->get();
+        $spacials = cache()->remember('spacials-home', 60 * 60 * 24, function () {
+            return Category::where('type', 'Special')->where('parent_id', 0)->limit(8)->get();
+        });
+        $brands = cache()->remember('brands-home', 60 * 60 * 24, function () {
+            return Brand::all();
+        });
         // return $categories;
-        $featureds = Product::select(
-            'id',
-            'category_id',
-            'sku',
-            'title',
-            'slug',
-            'thumb',
-            'images',
-            'img_alt',
-            'gallery',
-            'qty',
-            'regular_price',
-            'sales_price',
-            'featured'
-        )
-            ->where('featured', 'Yes')
-            ->orderBy('id', 'ASC')
-            ->limit(10)
-            ->get();
+        $featureds = cache()->remember('featureds-home', 60 * 60 * 24, function () {
+            return Product::select(
+                'id',
+                'category_id',
+                'sku',
+                'title',
+                'slug',
+                'thumb',
+                'images',
+                'img_alt',
+                'gallery',
+                'qty',
+                'regular_price',
+                'sales_price',
+                'featured'
+            )
+                ->where('featured', 'Yes')
+                ->orderBy('id', 'ASC')
+                ->limit(10)
+                ->get();
+        });
 
         $newArrivals = Product::select(
             'id',
@@ -219,7 +224,7 @@ class HomeController extends Controller
         //        $all_partners=cache()->remember('allpa-brand', 60*60*24, function(){
         //            return Brand::all()->toArray();
         //        });
-        
+
         $brand = Brand::where('slug', $slug)->first();
         // return $brand;
         // $subcats = Category::where('parent_id', $category->id)->get();
