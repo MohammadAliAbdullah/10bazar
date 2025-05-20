@@ -1,7 +1,7 @@
 @extends('Frontend.Layout.master')
-@section('meta_title', $seo->meta_title)
+{{-- @section('meta_title', $seo->meta_title)
 @section('meta_keywords', $seo->meta_keyword)
-@section('meta_description', $seo->meta_description)
+@section('meta_description', $seo->meta_description) --}}
 @section('content')
     <!-- .block-slideshow -->
     <div class="block-slideshow block-slideshow--layout--with-departments block">

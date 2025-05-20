@@ -24,16 +24,21 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+   public function index_new()
+    { 
+        return view("Frontend.Page.home");
+    }
+
     public function index()
     {
         // dd(55);
         $slides = cache()->remember('slide', 60 * 60 * 24, function () {
             return Slide::where('status', 'Active')->get();
         });
-        $categories_5 = cache()->remember('categories-home', 60 * 60 * 24, function () {
+        $categories = cache()->remember('categories-home', 60 * 60 * 24, function () {
             return Category::orderBy('orders', 'ASC')->where('type', 'Regular')->where('parent_id', 0)->limit(6)->get();
         });
-        $categories = Category::all();
+        // $categories = Category::all();
         $brands = Product::groupBy('brand_id')
             ->select('brand_id')
             ->get();

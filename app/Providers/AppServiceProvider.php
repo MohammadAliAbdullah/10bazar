@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Category;
 use Cart;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -33,6 +35,14 @@ class AppServiceProvider extends ServiceProvider
     {
         // Use Bootstrap for pagination
         Paginator::useBootstrap();
+        // Pre-cache some data when the application boots
+        $this->cacheCategoryBrandData();
+    }
+
+    protected function boot_old()
+    {
+        // Use Bootstrap for pagination
+        Paginator::useBootstrap();
 
         // Shared globally with all views
         View::share([
@@ -52,5 +62,60 @@ class AppServiceProvider extends ServiceProvider
         View::composer($cartViews, function ($view) {
             $view->with('cartCount', Cart::getTotalQuantity());
         });
+    }
+
+    protected function cacheCategoryBrandData()
+    {
+        $cacheKey = 'category_brand_data';
+
+        // Check if the data is already cached
+        if (Cache::has($cacheKey)) {
+            return;
+        }
+
+        // Fetch data from the database
+        $results = DB::table('categories as c')
+            ->leftJoin('products as p', 'p.category_id', '=', 'c.id')
+            ->leftJoin('brands as b', 'b.id', '=', 'p.brand_id')
+            ->select(
+                DB::raw('MAX(c.id) as id'),
+                DB::raw('MAX(c.title) as category_name'),
+                DB::raw('MAX(c.slug) as slug'),
+                'p.brand_id',
+                DB::raw('MAX(b.title) as brand_name'),
+                DB::raw('MAX(b.slug) as slug'),
+                DB::raw('MAX(p.blade) as blade')
+            )
+            ->groupBy('p.brand_id')
+            ->orderBy('id')
+            ->get();
+
+        $formattedResults = [];
+
+        foreach ($results as $result) {
+            $categoryId = $result->id;
+            $categoryName = $result->category_name;
+            $catSlug = $result->slug;
+
+            if (!isset($formattedResults[$categoryId])) {
+                $formattedResults[$categoryId] = [
+                    'category_name' => $categoryName,
+                    'slug' => $catSlug,
+                    'brand' => []
+                ];
+            }
+
+            if ($result->brand_id) {
+                $formattedResults[$categoryId]['brand'][] = [
+                    'brand_name' => $result->brand_name,
+                    'slug' => $result->slug
+                ];
+            }
+        }
+
+        $formattedResults = array_values($formattedResults);
+
+        // Store data in cache for 2 days
+        Cache::put($cacheKey, $formattedResults, 2880); // 2 days = 2880 minutes
     }
 }

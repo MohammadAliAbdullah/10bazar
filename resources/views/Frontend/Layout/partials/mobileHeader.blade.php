@@ -40,7 +40,7 @@
                             <a href="cart.html" class="indicator__button">
                                 <span class="indicator__area">
                                     <i class="fas fa-shopping-cart"></i>
-                                    <span class="indicator__value">{{ $cartCount }}</span>
+                                    {{-- <span class="indicator__value">{{ $cartCount }}</span> --}}
                                 </span>
                             </a>
                         </div>

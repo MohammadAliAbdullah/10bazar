@@ -21,8 +21,6 @@ class Product extends Model
     {
         return $this->hasOne(ProductStock::class, 'sku', 'sku');
     }
-
-
     public function brand()
     {
        return $this->belongsTo(Brand::class, 'brand_id', 'id');
