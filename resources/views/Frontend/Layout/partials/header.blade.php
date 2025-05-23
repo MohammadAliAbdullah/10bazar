@@ -3,6 +3,8 @@
     // Remove any non-digit characters and convert to international format
     $cleanHotline = preg_replace('/\D/', '', $hotline);
     $whatsappNumber = '880' . ltrim($cleanHotline, '0');
+    $categoryBrandData = Cache::get('category_brand_data', []);
+    // dd($categoryBrandData);
 @endphp
 <header class="site__header d-lg-block d-none">
     <div class="site-header">
@@ -98,33 +100,11 @@
                                 <div class="departments__body">
                                     <div class="departments__links-wrapper">
                                         <ul class="departments__links">
-                                            @php
-                                                $categoryBrandData = Cache::get('category_brand_data', []);
-                                            @endphp
+
                                             @if (is_array($categoryBrandData) && count($categoryBrandData) > 0)
                                                 @foreach ($categoryBrandData as $category)
-                                                    {{-- @php
-                                                        $subcats = \App\Models\Category::where(
-                                                            'parent_id',
-                                                            $menu->id,
-                                                        )->get();
-                                                        $brands = \App\Models\Product::groupBy('brand_id')
-                                                            ->select('brand_id')
-                                                            ->where('category_id', $menu->id)
-                                                            ->get();
-                                                        $colorss = \App\Models\Product::where('category_id', $menu->id)
-                                                            ->where('color', '!=', null)
-                                                            ->get();
-                                                        $sizess = \App\Models\Product::where('category_id', $menu->id)
-                                                            ->where('size', '!=', null)
-                                                            ->get();
-                                                        $bladess = \App\Models\Product::select('blade')
-                                                            ->where('category_id', $menu->id)
-                                                            ->where('blade', '!=', null)
-                                                            ->get();
-                                                    @endphp --}}
                                                     <li class="departments__item">
-                                                        <a href="{{ url('category') }}/{{ $category['slug'] }}">{{ $category['category_name'] }}
+                                                        <a href="{{ url('category') }}/{{ $category['category_slug'] }}">{{ $category['category_name'] }}
                                                             <svg class="departments__link-arrow" width="6px"
                                                                 height="9px">
                                                                 <use
@@ -137,26 +117,6 @@
                                                             <div class="megamenu megamenu--departments"
                                                                 style="background-image: url('images/megamenu/megamenu-1.jpg');">
                                                                 <div class="row">
-                                                                    {{-- @if (count($subcats) > 0)
-                                                                        <div class="col-3">
-                                                                            <ul
-                                                                                class="megamenu__links megamenu__links--level--0">
-                                                                                <li
-                                                                                    class="megamenu__item megamenu__item--with-submenu">
-                                                                                    <a href="#">TYPE</a>
-                                                                                    <ul
-                                                                                        class="megamenu__links megamenu__links--level--1">
-                                                                                        @foreach ($subcats as $subcat)
-                                                                                            <li class="megamenu__item">
-                                                                                                <a
-                                                                                                    href="{{ url('category') }}/{{ $subcat->slug }}">{{ $subcat->title }}</a>
-                                                                                            </li>
-                                                                                        @endforeach
-                                                                                    </ul>
-                                                                                </li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    @endif --}}
                                                                     @if (is_array($category['brand']) && count($category['brand']) > 0)
                                                                         <div class="col-3">
                                                                             <ul
@@ -169,7 +129,8 @@
                                                                                         @foreach ($category['brand'] as $brand)
                                                                                             <li class="megamenu__item">
                                                                                                 <a
-                                                                                                    href="{{ url('shops') }}/{{ $brand['slug'] }}/{{ $brand->brand->slug ?? '#' }}">{{ $brand['brand_name'] ?? 'N/A' }}</a>
+                                                                                                    href="{{ url('shops') }}/{{ $category['category_slug'] }}/{{  $brand['brand_slug'] ?? '#' }}">{{ $brand['brand_name'] ?? 'N/A' }}
+                                                                                                </a>
                                                                                             </li>
                                                                                         @endforeach
                                                                                     </ul>
@@ -369,7 +330,7 @@
                                 <a href="cart.html" class="indicator__button">
                                     <span class="indicator__area">
                                         <i class="fas fa-shopping-cart"></i>
-                                        {{-- <span class="indicator__value">{{ $cartCount }}</span> --}}
+                                        <span class="indicator__value">{{ $cartCount }}</span>
                                     </span>
                                 </a>
                                 <div class="indicator__dropdown"><!-- .dropcart -->

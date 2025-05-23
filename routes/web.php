@@ -9,12 +9,12 @@ Route::get('/clear-cache', function() {
 });
 // Front end routes
 Route::get('/', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home.index'); // -- done
-Route::get('/today-offer', [App\Http\Controllers\Frontend\HomeController::class, 'today_offer'])->name('today.offer');
-Route::get('/newarrival', [App\Http\Controllers\Frontend\CampaignController::class, 'newarrival'])->name('new.arrival');
-Route::get('/upcomming', [App\Http\Controllers\Frontend\CampaignController::class, 'upcomming'])->name('up.comming');
+Route::get('/today-offer', [App\Http\Controllers\Frontend\HomeController::class, 'today_offer'])->name('today.offer'); // -- done
+Route::get('/newarrival', [App\Http\Controllers\Frontend\CampaignController::class, 'newarrival'])->name('new.arrival'); // -- done
+Route::get('/upcomming', [App\Http\Controllers\Frontend\CampaignController::class, 'upcomming'])->name('up.comming'); // -- done
 Route::get('/campaign', [App\Http\Controllers\Frontend\CampaignController::class, 'campaign'])->name('campaign.index');
 Route::get('/campaigns/{slug}', [App\Http\Controllers\Frontend\CampaignController::class, 'campaigns'])->name('campaign.slug');
-Route::get('/hotoffer', [App\Http\Controllers\Frontend\CampaignController::class, 'hotoffer'])->name('hotoffer.index');
+Route::get('/hotoffer', [App\Http\Controllers\Frontend\CampaignController::class, 'hotoffer'])->name('hotoffer.index'); // -- done
 //Route::get('/login', [App\Http\Controllers\Frontend\HomeController::class, 'login'])->name('login');
 //Route::get('/register', [App\Http\Controllers\Frontend\HomeController::class, 'register'])->name('register');
 Route::get('/category/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_category'])->name('category'); // -- done
@@ -28,13 +28,14 @@ Route::post('/shopfilter', [App\Http\Controllers\Frontend\PagesController::class
 //blog
 Route::get('/blog', [App\Http\Controllers\Frontend\BlogController::class, 'index'])->name('blog.index');
 Route::get('/blogs/{slug}', [App\Http\Controllers\Frontend\BlogController::class, 'details'])->name('blog.details');
-Route::get('/deals', [App\Http\Controllers\Frontend\PagesController::class, 'deals'])->name('deals');
+// Route::get('/deals', [App\Http\Controllers\Frontend\PagesController::class, 'deals'])->name('deals');
 Route::resource('/complains', 'App\Http\Controllers\Frontend\ComplainController');
 Route::get('/contact-us', [App\Http\Controllers\Frontend\PagesController::class, 'contact_us'])->name('contact_us'); // -- done
 // Route::get('/brand', [App\Http\Controllers\Frontend\PagesController::class, 'brand'])->name('brand');
 Route::get('/warranty-policy', [App\Http\Controllers\Frontend\PagesController::class, 'warranty_policy'])->name('warranty_policy');
 Route::get('/terms-conditions', [App\Http\Controllers\Frontend\PagesController::class, 'trams'])->name('trams');
-Route::get('/privacy-policy', [App\Http\Controllers\Frontend\PagesController::class, 'privacy'])->name('privacy');
+Route::get('/privacy-
+', [App\Http\Controllers\Frontend\PagesController::class, 'privacy'])->name('privacy');
 Route::get('/product/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'product_details'])->name('product_details'); // -- done
 Route::get('/quick-view-product/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'product_quick_view_details'])->name('product_quick_view_details');
 Route::post('/review', [App\Http\Controllers\Frontend\PagesController::class, 'review_store'])->name('review_store');

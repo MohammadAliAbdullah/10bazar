@@ -37,6 +37,9 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         // Pre-cache some data when the application boots
         $this->cacheCategoryBrandData();
+
+        // add by abdullah
+        $this->boot_old();
     }
 
     protected function boot_old()
@@ -66,6 +69,7 @@ class AppServiceProvider extends ServiceProvider
 
     protected function cacheCategoryBrandData()
     {
+        // dd(55);
         $cacheKey = 'category_brand_data';
 
         // Check if the data is already cached
@@ -80,27 +84,27 @@ class AppServiceProvider extends ServiceProvider
             ->select(
                 DB::raw('MAX(c.id) as id'),
                 DB::raw('MAX(c.title) as category_name'),
-                DB::raw('MAX(c.slug) as slug'),
-                'p.brand_id',
+                DB::raw('MAX(c.slug) as category_slug'),
                 DB::raw('MAX(b.title) as brand_name'),
-                DB::raw('MAX(b.slug) as slug'),
-                DB::raw('MAX(p.blade) as blade')
+                DB::raw('MAX(b.slug) as brand_slug'),
+                'p.brand_id',
             )
             ->groupBy('p.brand_id')
             ->orderBy('id')
             ->get();
-
+        // return $results;
+        // dd(66);
         $formattedResults = [];
 
         foreach ($results as $result) {
             $categoryId = $result->id;
             $categoryName = $result->category_name;
-            $catSlug = $result->slug;
+            $catSlug = $result->category_slug;
 
             if (!isset($formattedResults[$categoryId])) {
                 $formattedResults[$categoryId] = [
                     'category_name' => $categoryName,
-                    'slug' => $catSlug,
+                    'category_slug' => $catSlug,
                     'brand' => []
                 ];
             }
@@ -108,12 +112,13 @@ class AppServiceProvider extends ServiceProvider
             if ($result->brand_id) {
                 $formattedResults[$categoryId]['brand'][] = [
                     'brand_name' => $result->brand_name,
-                    'slug' => $result->slug
+                    'brand_slug' => $result->brand_slug
                 ];
             }
         }
 
         $formattedResults = array_values($formattedResults);
+        // dd($formattedResults);
 
         // Store data in cache for 2 days
         Cache::put($cacheKey, $formattedResults, 2880); // 2 days = 2880 minutes

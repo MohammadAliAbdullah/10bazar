@@ -142,8 +142,8 @@ class HomeController extends Controller
         //            $product = Product::findOrFail($id);
         //            array_push($products, $product);
         //        }
-        //$products = Product::limit(36)->get();
-        return view("Frontend.today_offer", compact('discounts'));
+        $products = Product::limit(20)->get();
+        return view("Frontend.Page.today_offer", compact('discounts', 'products'));
     }
     /**
      * Show the form for creating a new resource.
@@ -203,6 +203,7 @@ class HomeController extends Controller
         //            return Product::select('size')->where('category_id',$catid)->where('size','!=',NULL)->get();
         //        });
         $category = Category::where('slug', $slug)->first();
+        // return $category;
         $cat_products = Product::where('category_id', $category->id)->orWhere('sub_category_id', $category->id)->paginate(20);
         $subcats = Product::groupBy('sub_category_id')->select('sub_category_id')->where('category_id', $category->id)->where('sub_category_id', '!=', 0)->get();
         $brands = Product::groupBy('brand_id')->select('brand_id')->where('category_id', $category->id)->where('brand_id', '!=', 0)->get();

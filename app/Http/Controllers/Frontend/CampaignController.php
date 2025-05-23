@@ -14,13 +14,13 @@ class CampaignController extends Controller
     {
         //Session::flash();
         $products = Product::where('status','Active')->orderBy('id','DESC')->paginate(24);
-        return view("Frontend.campaign.new", compact('products'));
+        return view("Frontend.Page.newArrival", compact('products')); // new
     }
     public function upcomming()
     {
         //Session::flash();
         $products = Product::where('status','Active')->orderBy('id','DESC')->paginate(24);
-        return view("Frontend.campaign.upcomming", compact('products'));
+        return view("Frontend.Page.upcomming", compact('products'));
     }
     public function campaign()
     {
@@ -48,6 +48,6 @@ class CampaignController extends Controller
     {
         //Session::flash();
         $products = Product::where('status','Active')->orderBy('id','DESC')->paginate(24);
-        return view("Frontend.campaign.hotoffer", compact('products'));
+        return view("Frontend.Page.hotOffer", compact('products'));
     }
 }
