@@ -51,7 +51,13 @@ Route::post('/checkout-Store', [App\Http\Controllers\Frontend\Checkoutscontrolle
 Route::post('/transaction_fee', [App\Http\Controllers\Frontend\Checkoutscontroller::class, 'transaction_fee'])->name('transaction_fee');
 Route::post('/coupon', [App\Http\Controllers\Frontend\Checkoutscontroller::class, 'coupon'])->name('coupon');
 
-//add to cart
+// cart updated by abdullah
+Route::post('/add-to-cart', [App\Http\Controllers\Frontend\CartsController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/update-quantity', [App\Http\Controllers\Frontend\CartsController::class, 'updateQuantity'])->name('cart.update');
+Route::post('/cart/remove', [App\Http\Controllers\Frontend\CartsController::class, 'removeItem'])->name('cart.remove');
+Route::get('/cart/list', [App\Http\Controllers\Frontend\CartsController::class, 'headerCartList'])->name('headerCart.list');
+
+// 
 Route::post('/add', [App\Http\Controllers\Frontend\CartsController::class, 'add'])->name('cart.Store');
 Route::get('/cart', [App\Http\Controllers\Frontend\CartsController::class, 'cart'])->name('cart.list');
 Route::post('/update', [App\Http\Controllers\Frontend\CartsController::class, 'update'])->name('update.cart');
@@ -60,7 +66,7 @@ Route::post('/clear', [App\Http\Controllers\Frontend\CartsController::class, 'cl
 //Route::get('/add-to-cart/{id}', [App\Http\Controllers\Frontend\CartsController::class, 'addtocart'])->name('addtocart');
 //Route::post('/cart-update/', [App\Http\Controllers\Frontend\CartsController::class, 'cart_update'])->name('cart_update');
 //Route::get('/cart', [App\Http\Controllers\Frontend\CartsController::class, 'cart'])->name('cart');
-Route::get('/remove/{id}', [App\Http\Controllers\Frontend\CartsController::class, 'remove'])->name('cart.remove');
+// Route::get('/remove/{id}', [App\Http\Controllers\Frontend\CartsController::class, 'remove'])->name('cart.remove');
 
 // SSLCOMMERZ Start
 //Route::get('/example1', [App\Http\Controllers\SslCommerzPaymentController::class, 'exampleEasyCheckout']);

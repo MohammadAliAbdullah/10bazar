@@ -1,12 +1,10 @@
 @extends('Frontend.Layout.master')
-
 @section('content')
     <!-- Breadcrumb Start -->
     @include('Frontend.components.breadcrumb', [
         'page' => 'Shop',
         'subPage' => 'Cart',
     ])
-
     <div class="cart block">
         <div class="container">
             <table class="cart__table cart-table">
@@ -22,42 +20,32 @@
                 </thead>
                 <tbody class="cart-table__body">
                     @foreach ($cartCollection as $item)
-                        <input type="hidden" class="item_id" value="{{ $item->id }}">
-                        <tr class="cart-table__row">
-                            <td class="cart-table__column cart-table__column--image"><a href="#"><img
-                                        src="{{ asset('public/images/product/' . $item->attributes['image']) }}"
-                                        alt=""></a></td>
-                            <td class="cart-table__column cart-table__column--product"><a href="#"
-                                    class="cart-table__product-name"> {{ $item->name }}</a>
+                        <tr class="cart-table__row" data-id="{{ $item->id }}">
+                            <td class="cart-table__column cart-table__column--image">
+                                <a href="#">
+                                    <img src="{{ asset('public/images/product/' . $item->attributes['image']) }}"
+                                        alt="">
+                                </a>
+                            </td>
+                            <td class="cart-table__column cart-table__column--product">
+                                <a href="#" class="cart-table__product-name"> {{ $item->name }}</a>
                             </td>
                             <td class="cart-table__column cart-table__column--price" data-title="Price">
-                                {{ $item->price ?? 0 }}</td>
-                            <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
-
-
-                                {!! Form::open(['method' => 'POST', 'route' => 'update.cart']) !!}
-                                <div class="input-number">
-                                    <input type="hidden" value="{{ $item->id }}" class="form-control id"
-                                        name="id" />
-                                    <input type="number" value="{{ $item->quantity }}"
-                                        class="form-control input-number__input" id="quantity" name="quantity" />
-                                    <button type="submit" class="input-number__add"></button>
-                                    {{-- <button type="submit" class="input-number__sub"></button> --}}
-                                </div>
-                                {!! Form::close() !!}
-
-                                {{-- <div class="input-number">
-                                    <input class="form-control input-number__input" type="number" min="1"
-                                        value="1">
-                                    <div class="input-number__add"></div>
-                                    <div class="input-number__sub"></div>
-                                </div> --}}
+                                {{ $item->price ?? 0 }}
                             </td>
-                            <td class="cart-table__column cart-table__column--total" data-title="Total">
-                                {{ $item->getPriceSum() }}
+                            <td class="cart-table__column cart-table__column--quantity" data-title="Quantity">
+                                <div class="input-number">
+                                    <input class="form-control input-number__input quantity" type="number" min="1"
+                                        value="{{ $item->quantity }}">
+                                    <div class="input-number__add increment"></div>
+                                    <div class="input-number__sub decrement"></div>
+                                </div>
+                            </td>
+                            <td class="cart-table__column cart-table__column--total itemTotalPrice" data-title="Total">
+                                {{ number_format($item->getPriceSum(), 2) }}
                             </td>
                             <td class="cart-table__column cart-table__column--remove">
-                                <a href="{{ route('cart.remove', $item->id) }}" class="btn btn-sm btn-danger">
+                                <a href="#" class="btn btn-sm btn-danger itemRemove">
                                     <i class="fa fa-times" aria-hidden="true"></i>
                                 </a>
                             </td>
@@ -86,7 +74,7 @@
                                 <thead class="cart__totals-header">
                                     <tr>
                                         <th>Subtotal</th>
-                                        <td>{{ Cart::getSubTotal() }}</td>
+                                        <td class="itemSubTotal">{{ Cart::getSubTotal() }}</td>
                                     </tr>
                                 </thead>
                                 <tbody class="cart__totals-body">
@@ -107,7 +95,7 @@
                                 <tfoot class="cart__totals-footer">
                                     <tr>
                                         <th>Total</th>
-                                        <td>{{ Cart::getTotal() }}</td>
+                                        <td class="itemTotal">{{ Cart::getTotal() }}</td>
                                     </tr>
                                 </tfoot>
                             </table>
