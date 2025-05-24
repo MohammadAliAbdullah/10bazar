@@ -215,6 +215,11 @@
                 // If the class 'indicator--open' is not present, do nothing
                 return;
             }
+            var loadingHtml = `<div class="dropcart__loading">
+                <div class="dropcart__loading-spinner"></div>
+                <div class="dropcart__loading-text">Loading cart...</div>
+            </div>`;
+            $('#headerCartList').html(loadingHtml);
             $.ajax({
                 url: "{{ route('headerCart.list') }}",
                 method: "GET",
