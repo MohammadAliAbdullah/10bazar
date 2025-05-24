@@ -28,6 +28,8 @@
     <!-- font - coot_assets -->
     <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/fonts/coot_assets/coot_assets.css">
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-6"></script>
+    {{-- sweetalert.js --}}
+    <script src="{{ asset('public') }}/coot_assets/vendor/sweetalert/sweetalert.js"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -39,7 +41,8 @@
     </script>
 </head>
 
-<body><!-- quickview-modal -->
+<body>
+    <!-- quickview-modal -->
     <div id="quickview-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-xl">
             <div class="modal-content"></div>
@@ -67,8 +70,6 @@
         <!-- site__footer / end -->
     </div>
     <!-- site / end -->
-    <!-- SweetAlert2 CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $.ajaxSetup({
             headers: {
@@ -215,31 +216,25 @@
                 // If the class 'indicator--open' is not present, do nothing
                 return;
             }
-            var loadingHtml = `<div class="dropcart__loading">
-                <div class="dropcart__loading-spinner"></div>
-                <div class="dropcart__loading-text">Loading cart...</div>
+            var img = "<?php echo asset('public/coot_assets/loader.gif'); ?>";
+            var loadingHtml = `<div class="text-center">
+                <img src="${img}" alt="Loading..." style="width: 50px; height: 50px;">
+                <p>Loading cart...</p>
             </div>`;
             $('#headerCartList').html(loadingHtml);
+            // return false;
             $.ajax({
                 url: "{{ route('headerCart.list') }}",
                 method: "GET",
                 success: function(res) {
-                    Swal.fire({
-                        title: 'Loading cart...',
-                        // html: 'Please wait while we update your cart.',
-                        didOpen: () => {
-                            Swal.showLoading();
-                        },
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        showConfirmButton: false,
-                        timer: 400, // simulate loading delay
-                        timerProgressBar: true
-                    }).then(() => {
-                        let html = `<div class="dropcart__products-list">`;
+                    if (res.items.length === 0) {
+                        $('#headerCartList').html('<p class="text-center">Your cart is empty.</p>');
+                        return;
+                    }
+                    let html = `<div class="dropcart__products-list">`;
 
-                        Object.values(res.items).forEach(item => {
-                            html += `
+                    Object.values(res.items).forEach(item => {
+                        html += `
                 <div class="dropcart__product">
                     <div class="dropcart__product-image">
                         <a href="/product/${item.attributes.slug}">
@@ -266,11 +261,11 @@
                         </svg>
                     </button>
                 </div>`;
-                        });
+                    });
 
-                        html += `</div> <!-- /.dropcart__products-list -->`;
+                    html += `</div> <!-- /.dropcart__products-list -->`;
 
-                        html += `
+                    html += `
             <div class="dropcart__totals">
                 <table>
                     <tr>
@@ -292,19 +287,9 @@
                 </table>
             </div>`;
 
-                        $('#headerCartList').html(html);
+                    $('#headerCartList').html(html);
 
-                        // Show success message
-                        // Swal.fire({
-                        //     icon: 'success',
-                        //     title: 'Cart Updated',
-                        //     showConfirmButton: false,
-                        //     timer: 1000
-                        // });
-                    });
                 }
-
-
             });
         });
     </script>
