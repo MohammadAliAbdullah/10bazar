@@ -70,7 +70,10 @@
         <!-- site__footer / end -->
     </div>
     <!-- site / end -->
-    <script>
+    {{-- custom js - --}}
+    <script src="{{ asset('public') }}/coot_assets/js/cart.js"></script>
+    <!-- custom js - end -->
+    {{-- <script>
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -292,7 +295,7 @@
                 }
             });
         });
-    </script>
+    </script> --}}
 </body>
 
 </html>
