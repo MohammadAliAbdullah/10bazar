@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/clear-cache', function() {
+Route::get('/clear-cache', function () {
     Artisan::call('route:clear');
     Artisan::call('cache:clear');
     return redirect()->back();
@@ -22,6 +22,9 @@ Route::get('/shops/{category}/{brand}/', [App\Http\Controllers\Frontend\HomeCont
 // Route::get('/collection/{category}/{value}/', [App\Http\Controllers\Frontend\HomeController::class, 'collection'])->name('collection'); // commit by abdullah 18-05-2025
 // Route::get('/price/{category}/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'price'])->name('price'); // commit by abdullah 18-05-2025
 Route::get('/brands/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_brand'])->name('brands'); // -- done
+
+// filter product
+Route::get('/filter-products', [App\Http\Controllers\Frontend\HomeController::class, 'filterProducts'])->name('filter.products');
 Route::post('/shopfilters', [App\Http\Controllers\Frontend\HomeController::class, 'shopfilters'])->name('shop.filters');
 Route::get('/shop', [App\Http\Controllers\Frontend\PagesController::class, 'shop'])->name('shop'); // -- done
 Route::post('/shopfilter', [App\Http\Controllers\Frontend\PagesController::class, 'shopfilter'])->name('shop.filter'); // -- done
@@ -87,26 +90,26 @@ Route::get('/page/{slug}', [App\Http\Controllers\Frontend\PagesController::class
 // Route::resource('/newsletter','\App\Http\Controllers\Frontend\NewsletterController');
 
 //SSLCOMMERZ END
-Route::get('/login',[App\Http\Controllers\Mypanel\Auth\LoginController::class, 'showLoginForm'])->name('login'); // -- done
-Route::get('/registration',[App\Http\Controllers\Mypanel\Auth\RegisterController::class, 'showLoginForm'])->name('register.user'); // -- done
+Route::get('/login', [App\Http\Controllers\Mypanel\Auth\LoginController::class, 'showLoginForm'])->name('login'); // -- done
+Route::get('/registration', [App\Http\Controllers\Mypanel\Auth\RegisterController::class, 'showLoginForm'])->name('register.user'); // -- done
 
-Route::prefix('/mypanel')->name('mypanel.')->namespace('Mypanel')->group(function(){
-    Route::namespace('Auth')->group(function(){
+Route::prefix('/mypanel')->name('mypanel.')->namespace('Mypanel')->group(function () {
+    Route::namespace('Auth')->group(function () {
         //Login Routes
         //Route::get('/userpanel',[App\Http\Controllers\Mypanel\UserController::class, 'index'])->name('index');
-        Route::post('/login',[App\Http\Controllers\Mypanel\Auth\LoginController::class, 'login'])->name("loginuser");
-        Route::post('/register',[App\Http\Controllers\Mypanel\Auth\RegisterController::class, 'create'])->name('register_user');
-        Route::get('/logout',[App\Http\Controllers\Mypanel\Auth\LoginController::class, 'logout'])->name('elogout');
+        Route::post('/login', [App\Http\Controllers\Mypanel\Auth\LoginController::class, 'login'])->name("loginuser");
+        Route::post('/register', [App\Http\Controllers\Mypanel\Auth\RegisterController::class, 'create'])->name('register_user');
+        Route::get('/logout', [App\Http\Controllers\Mypanel\Auth\LoginController::class, 'logout'])->name('elogout');
     });
-    Route::group(['middleware'=>'mypanel'], function () {
-        Route::get('/',[App\Http\Controllers\Mypanel\Deshboardcontroller::class, 'index'])->name('users');
-        Route::resource('/morder','\App\Http\Controllers\Mypanel\OrderController');
+    Route::group(['middleware' => 'mypanel'], function () {
+        Route::get('/', [App\Http\Controllers\Mypanel\Deshboardcontroller::class, 'index'])->name('users');
+        Route::resource('/morder', '\App\Http\Controllers\Mypanel\OrderController');
         Route::get('/invoice/{invoice_no}', [App\Http\Controllers\Mypanel\OrderController::class, 'invoice'])->name('minvoice.index');
-        Route::resource('/mreview','\App\Http\Controllers\Mypanel\ReviewController');
-        Route::resource('/maddress','\App\Http\Controllers\Mypanel\AddressController');
-        Route::resource('/mwallet','\App\Http\Controllers\Mypanel\WalletController');
-        Route::resource('/profile','\App\Http\Controllers\Mypanel\UserController');
-        Route::resource('/password','\App\Http\Controllers\Mypanel\PasswordController');
+        Route::resource('/mreview', '\App\Http\Controllers\Mypanel\ReviewController');
+        Route::resource('/maddress', '\App\Http\Controllers\Mypanel\AddressController');
+        Route::resource('/mwallet', '\App\Http\Controllers\Mypanel\WalletController');
+        Route::resource('/profile', '\App\Http\Controllers\Mypanel\UserController');
+        Route::resource('/password', '\App\Http\Controllers\Mypanel\PasswordController');
     });
 });
 
@@ -214,4 +217,3 @@ Route::prefix('/mypanel')->name('mypanel.')->namespace('Mypanel')->group(functio
 // });
 //Auth::routes();
 require __DIR__ . '/admin.php';
-

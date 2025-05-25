@@ -316,6 +316,28 @@ class HomeController extends Controller
         }
     }
 
+    public function filterProducts(Request $request)
+    {
+        $query = Product::query();
+
+        // Filter by brands
+        if ($request->has('brands')) {
+            $query->whereIn('brand_id', $request->brands);
+        }
+
+        // Filter by categories
+        if ($request->has('categories')) {
+            $query->whereIn('category_id', $request->categories);
+        }
+
+        $products = $query->latest()->paginate(12);
+        // return $products;
+
+        return response()->json([
+            'html' => view('Frontend.Page.components.filteredProducts', compact('products'))->render()
+        ]);
+    }
+
     public function collection($category, $value)
     {
 

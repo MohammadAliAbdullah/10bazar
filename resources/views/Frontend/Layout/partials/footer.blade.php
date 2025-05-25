@@ -11,7 +11,7 @@
                                    <ul class="footer-contacts__contacts">
                                        <li><i class="footer-contacts__icon fas fa-globe-americas"></i> Road-1/A,
                                            Sector-7, Uttara</li>
-                                       <li><i class="footer-contacts__icon far fa-envelope"></i> 10bazar@gmail.com
+                                       <li><i class="footer-contacts__icon far fa-envelope"></i> 10bazar.store@gmail.com
                                        </li>
                                        <li><i class="footer-contacts__icon fas fa-mobile-alt"></i> +880 17 200 85127
                                        </li>

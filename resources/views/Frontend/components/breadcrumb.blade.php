@@ -10,6 +10,7 @@
                         <i class="fa fa-angle-right" aria-hidden="true"></i>
                     </li>
                     <li class="breadcrumb-item active" aria-current="page">{{ $subPage ?? '' }}</li>
+                    <li class="loader"></li>
                 </ol>
             </nav>
         </div>

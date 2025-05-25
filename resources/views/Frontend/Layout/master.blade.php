@@ -73,16 +73,68 @@
     {{-- custom js - --}}
     <script>
         window.routes = {
-            cartAdd       : "{{ route('cart.add') }}",
-            cartUpdate    : "{{ route('cart.update') }}",
-            cartRemove    : "{{ route('cart.remove') }}",
+            cartAdd: "{{ route('cart.add') }}",
+            cartUpdate: "{{ route('cart.update') }}",
+            cartRemove: "{{ route('cart.remove') }}",
             headerCartList: "{{ route('headerCart.list') }}",
-            loader        : "{{ asset('public/coot_assets/loader.gif') }}"
+            loader: "{{ asset('public/coot_assets/loader.gif') }}",
+            // search
+            shopFilter: "{{ route('filter.products') }}",
         };
     </script>
-    <script src="{{ asset('public') }}/coot_assets/js/cart.js"></script>
-    <script src="{{ asset('public') }}/coot_assets/js/search.js"></script>
+    <script src="{{ asset('public') }}/coot_assets/js/cart.js?v={{ time() }}"></script>
+    {{-- <script src="{{ asset('public') }}/coot_assets/js/search.js"></script> --}}
     <!-- custom js - end -->
+    <script>
+        $(document).ready(function() {
+            function filterProducts(page = 1) {
+                let brands = [];
+                let categories = [];
+
+                $('.brand:checked').each(function() {
+                    brands.push($(this).val());
+                });
+
+                $('.category:checked').each(function() {
+                    categories.push($(this).val());
+                });
+
+                $.ajax({
+                    url: window.routes.shopFilter + '?page=' + page,
+                    type: 'GET',
+                    data: {
+                        brands: brands,
+                        categories: categories,
+                    },
+                    beforeSend: function() {
+                        $('.loader').html(
+                            `<div><img src="${window.routes.loader}" alt="Loading..." style="width: 20px; height: 20px;"></div>`
+                        );
+                    },
+                    success: function(res) {
+                        $('.productList').html(res.html);
+                        $('.loader').html('');
+                    },
+                    error: function() {
+                        $('.productList').html('<p>Error loading products.</p>');
+                    }
+                });
+            }
+
+            // Trigger on filter change
+            $('.sort_rang').on('change', function() {
+                filterProducts();
+            });
+
+            // Handle pagination links
+            $(document).on('click', '.pagination a', function(e) {
+                e.preventDefault();
+                let page = $(this).attr('href').split('page=')[1];
+                filterProducts(page);
+            });
+        });
+    </script>
+
 </body>
 
 </html>
