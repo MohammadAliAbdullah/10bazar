@@ -4,29 +4,35 @@
         <li class="nav-item">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
         </li>
-{{--        <li class="nav-item d-none d-sm-inline-block">--}}
-{{--            <a href="" class="nav-link">--}}
-{{--               <i class="fas fa-print text-danger"></i> Pos Sale--}}
-{{--            </a>--}}
-{{--        </li>--}}
-{{--        <li class="nav-item d-none d-sm-inline-block">--}}
-{{--            <a href="#" class="nav-link">--}}
-{{--                <i class="fas fa-shopping-cart"></i> Local Sale--}}
-{{--            </a>--}}
-{{--        </li>--}}
+
+        {{-- <div class="page-preloader">
+            <img class="animation__shake" src="{{ asset('public') }}/coot_assets/loader.gif" alt="AdminLTELogo"
+                height="35" width="40">
+        </div> --}}
+        {{--        <li class="nav-item d-none d-sm-inline-block"> --}}
+        {{--            <a href="" class="nav-link"> --}}
+        {{--               <i class="fas fa-print text-danger"></i> Pos Sale --}}
+        {{--            </a> --}}
+        {{--        </li> --}}
+        {{--        <li class="nav-item d-none d-sm-inline-block"> --}}
+        {{--            <a href="#" class="nav-link"> --}}
+        {{--                <i class="fas fa-shopping-cart"></i> Local Sale --}}
+        {{--            </a> --}}
+        {{--        </li> --}}
     </ul>
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
         <!-- Navbar Search -->
         <li class="nav-item">
-{{--            <a class="nav-link" data-widget="navbar-search" href="#" role="button">--}}
-{{--                <i class="fas fa-search"></i>--}}
-{{--            </a>--}}
+            {{--            <a class="nav-link" data-widget="navbar-search" href="#" role="button"> --}}
+            {{--                <i class="fas fa-search"></i> --}}
+            {{--            </a> --}}
             <div class="navbar-search-block">
                 <form class="form-inline">
                     <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                        <input class="form-control form-control-navbar" type="search" placeholder="Search"
+                            aria-label="Search">
                         <div class="input-group-append">
                             <button class="btn btn-navbar" type="submit">
                                 <i class="fas fa-search"></i>
@@ -42,15 +48,16 @@
 
         <!-- Messages Dropdown Menu -->
         <li class="nav-item dropdown">
-{{--            <a class="nav-link" data-toggle="dropdown" href="#">--}}
-{{--                <i class="far fa-comments"></i>--}}
-{{--                <span class="badge badge-danger navbar-badge">3</span>--}}
-{{--            </a>--}}
+            {{--            <a class="nav-link" data-toggle="dropdown" href="#"> --}}
+            {{--                <i class="far fa-comments"></i> --}}
+            {{--                <span class="badge badge-danger navbar-badge">3</span> --}}
+            {{--            </a> --}}
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="{{asset('public')}}/admin/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                        <img src="{{ asset('public') }}/admin/dist/img/user1-128x128.jpg" alt="User Avatar"
+                            class="img-size-50 mr-3 img-circle">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
                                 Brad Diesel
@@ -66,7 +73,8 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="{{asset('public')}}/admin/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                        <img src="{{ asset('public') }}/admin/dist/img/user8-128x128.jpg" alt="User Avatar"
+                            class="img-size-50 img-circle mr-3">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
                                 John Pierce
@@ -82,7 +90,8 @@
                 <a href="#" class="dropdown-item">
                     <!-- Message Start -->
                     <div class="media">
-                        <img src="{{asset('public')}}/admin/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                        <img src="{{ asset('public') }}/admin/dist/img/user3-128x128.jpg" alt="User Avatar"
+                            class="img-size-50 img-circle mr-3">
                         <div class="media-body">
                             <h3 class="dropdown-item-title">
                                 Nora Silvester
@@ -100,10 +109,10 @@
         </li>
         <!-- Notifications Dropdown Menu -->
         <li class="nav-item dropdown">
-{{--            <a class="nav-link" data-toggle="dropdown" href="#">--}}
-{{--                <i class="far fa-bell"></i>--}}
-{{--                <span class="badge badge-warning navbar-badge">15</span>--}}
-{{--            </a>--}}
+            {{--            <a class="nav-link" data-toggle="dropdown" href="#"> --}}
+            {{--                <i class="far fa-bell"></i> --}}
+            {{--                <span class="badge badge-warning navbar-badge">15</span> --}}
+            {{--            </a> --}}
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                 <span class="dropdown-item dropdown-header">15 Notifications</span>
                 <div class="dropdown-divider"></div>
@@ -140,12 +149,14 @@
                 <i class="fas fa-server"></i> Cache Clear
             </a>
         </li>
-        @if(Auth::guard('madmin')->check())
+        @if (Auth::guard('madmin')->check())
             <li class="nav-item dropdown">
-                <a class="btn btn-danger" href="#" onclick="event.preventDefault();document.querySelector('#admin-logout-form').submit();">
+                <a class="btn btn-danger" href="#"
+                    onclick="event.preventDefault();document.querySelector('#admin-logout-form').submit();">
                     Logout
                 </a>
-                <form id="admin-logout-form" action="{{ route('madmin.logout') }}" method="POST" style="display: none;">
+                <form id="admin-logout-form" action="{{ route('madmin.logout') }}" method="POST"
+                    style="display: none;">
                     @csrf
                 </form>
             </li>
