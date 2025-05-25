@@ -12,14 +12,6 @@
         <div class="site-header__topbar topbar">
             <div class="topbar__container container">
                 <div class="topbar__row">
-                    {{-- <div class="topbar__item topbar__item--link">
-                        <a class="topbar-link" href="about-us.html">
-                            About Us
-                        </a>
-                    </div>
-                    <div class="topbar__item topbar__item--link">
-                        <a class="topbar-link" href="contact-us.html">Contacts</a>
-                    </div> --}}
                     <div class="topbar__item topbar__item--link"><a class="topbar-link" href="#">Store
                             Location</a></div>
                     <div class="topbar__item topbar__item--link">
@@ -30,17 +22,21 @@
                             href="blog-classic.html">Blog</a></div>
                     <div class="topbar__spring"></div>
                     <div class="topbar__item">
-                        <div class="topbar-dropdown"><button class="topbar-dropdown__btn" type="button">My
+                        <div class="topbar-dropdown">
+                            <button class="topbar-dropdown__btn" type="button">My
                                 Account <svg width="7px" height="5px">
                                     <use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use>
-                                </svg></button>
-                            <div class="topbar-dropdown__body"><!-- .menu -->
+                                </svg>
+                            </button>
+                            <div class="topbar-dropdown__body">
+                                <!-- .menu -->
                                 <ul class="menu menu--layout--topbar">
                                     <li><a href="account.html">Login</a></li>
                                     <li><a href="account.html">Register</a></li>
                                     <li><a href="#">Orders</a></li>
                                     <li><a href="#">Addresses</a></li>
-                                </ul><!-- .menu / end -->
+                                </ul>
+                                <!-- .menu / end -->
                             </div>
                         </div>
                     </div>
@@ -74,14 +70,14 @@
             </div>
             <div class="site-header__search">
                 <div class="search">
-                    <form class="search__form" action="#"><input class="search__input" name="search"
-                            placeholder="Search over 10,000 products" aria-label="Site search" type="text"
-                            autocomplete="off"> <button class="search__button" type="submit"><svg width="20px"
-                                height="20px">
-                                <use xlink:href="images/sprite.svg#search-20"></use>
-                            </svg></button>
-                        <div class="search__border"></div>
-                    </form>
+                    {!! Form::open(['method' => 'POST', 'route' => 'search', 'class' => 'search__form']) !!}
+                    <input class="search__input" name="search" placeholder="Search for products, brands and more"
+                        aria-label="Site search" type="text" autocomplete="off">
+                    <button class="search__button" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    <div class="search__border"></div>
+                    {!! Form::close() !!}
                 </div>
             </div>
             <div class="site-header__phone">
@@ -228,7 +224,8 @@
                                     </span>
                                 </a>
                             </div>
-                            <div class="indicator indicator--trigger--click" id="{{ !request()->is('cart') ? 'cartViewButton' : '' }}">
+                            <div class="indicator indicator--trigger--click"
+                                id="{{ !request()->is('cart') ? 'cartViewButton' : '' }}">
                                 <a class="indicator__button">
                                     <span class="indicator__area">
                                         <i class="fas fa-shopping-cart"></i>
@@ -335,8 +332,10 @@
                                             </div>
 
                                             <div class="dropcart__buttons">
-                                                <a class="btn btn-secondary" href="{{ route('cart.list') }}">View Cart</a>
-                                                <a class="btn btn-primary" href="{{ route('checkout') }}">Checkout</a>
+                                                <a class="btn btn-secondary" href="{{ route('cart.list') }}">View
+                                                    Cart</a>
+                                                <a class="btn btn-primary"
+                                                    href="{{ route('checkout') }}">Checkout</a>
                                             </div>
                                         </div>
                                     @endif

@@ -1,92 +1,107 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{config('app.name')}} | Log in</title>
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <!-- Google Font: Source Sans Pro -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="{{asset('public')}}/admin/plugins/fontawesome-free/css/all.min.css">
-    <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{asset('public')}}/admin/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="{{asset('public')}}/admin/dist/css/adminlte.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/vendor/bootstrap-4.2.1/css/bootstrap.min.css">
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        .global-container {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f5f5f5;
+        }
+
+        form {
+            padding-top: 10px;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+
+        .card-title {
+            font-weight: 300;
+        }
+
+        .btn {
+            font-size: 14px;
+            margin-top: 20px;
+        }
+
+
+        .login-form {
+            width: 330px;
+            margin: 20px;
+        }
+
+        .sign-up {
+            text-align: center;
+            padding: 20px 0 0;
+        }
+
+        .alert {
+            margin-bottom: -30px;
+            font-size: 13px;
+            margin-top: 20px;
+        }
+    </style>
 </head>
-<body class="hold-transition login-page" style="background: linear-gradient(
-      rgba(8, 8, 8, 0.74), rgba(0, 0, 0, 0.85)
-    ), url({{ asset('public/admin/images/adminbg.jpg') }}); background-size: cover;">
-<div class="login-box">
-    <!-- /.login-logo -->
-    <div class="card card-outline card-primary">
-        <div class="card-header text-center">
-            <a href="#" class="h1" style=" color: #8e0000;"><b  style=" color: #004b9c;">My</b>Commerce</a>
-        </div>
-        <div class="card-body">
-            <p class="login-box-msg">Sign in to start your session</p>
-            <form method="POST" action="{{ url('madmin/login') }}">
-                @csrf
-                <div class="input-group mb-3">
-                    <input id="email" value="" type="email" placeholder="Enter your email address..." class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus autocomplete="off">
-                    @if ($errors->has('email'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('email') }}</strong>
-                        </span>
-                    @endif
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-envelope"></span>
+
+<body>
+    <div class="global-container">
+        <div class="card login-form">
+            <div class="card-body">
+                <h3 class="card-title text-center">Log in</h3>
+                <div class="text-center font-weight-bold text-danger">10 BAZAR</div>
+                <div class="card-text">
+
+                    <form method="POST" action="{{ url('madmin/login') }}">
+                        @csrf
+                        <div class="form-group">
+                            <label for="email">Email address</label>
+                            <input type="email" placeholder="Enter your email address..."
+                                class="form-control form-control-sm" id="email" name="email"
+                                value="{{ old('email') }}" required autofocus autocomplete="off">
+                            @if ($errors->has('email'))
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </span>
+                            @endif
                         </div>
-                    </div>
-                </div>
-                <div class="input-group mb-3">
-                    <input id="password" value="" type="password" placeholder="Enter your password..." class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required autocomplete="off">
-                    @if ($errors->has('password'))
-                        <span class="invalid-feedback" role="alert">
-                            <strong>{{ $errors->first('password') }}</strong>
-                        </span>
-                    @endif
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
+                        <div class="form-group">
+                            <label for="password">password address</label>
+                            <input type="password" placeholder="Enter your password..."
+                                class="form-control form-control-sm" id="password" name="password"
+                                value="{{ old('password') }}" required autofocus autocomplete="off">
+                            @if ($errors->has('password'))
+                                <span class="text-danger" role="alert">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </span>
+                            @endif
                         </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-8">
-                        <div class="icheck-primary">
+                        <div class="form-group">
                             <input type="checkbox" id="remember">
                             <label for="remember">
                                 Remember Me
                             </label>
                         </div>
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-4">
-                        <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                    </div>
-                    <!-- /.col -->
+                        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+                        {{-- <div class="sign-up">
+                            Don't have an account? <a href="#">Create One</a>
+                        </div> --}}
+                    </form>
                 </div>
-            </form>
-
-            <!-- /.social-auth-links -->
-
-            <p class="mb-1">
-                <a href="forgot-password.html">I forgot my password</a>
-            </p>
+            </div>
         </div>
-        <!-- /.card-body -->
     </div>
-    <!-- /.card -->
-</div>
-<!-- /.login-box -->
-
-<!-- jQuery -->
-<script src="{{asset('public')}}/admin/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="{{asset('public')}}/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- AdminLTE App -->
-<script src="{{asset('public')}}/admin/dist/js/adminlte.min.js"></script>
 </body>
+
 </html>

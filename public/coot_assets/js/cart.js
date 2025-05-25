@@ -5,8 +5,13 @@ $(document).ready(function () {
         }
     });
 
-    $('.itemAddToCart').on('click', function () {
-        var productId = $(this).data('id');
+    // Add to cart function
+    // function addToCart(product_id) {
+    //     alert(product_id);
+    // }
+
+    $(document).on('click', '.itemAddToCart', function () {
+
         var productId = $(this).data('id');
 
         $.post(window.routes.cartAdd, {

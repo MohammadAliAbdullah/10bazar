@@ -1,53 +1,66 @@
 $(document).ready(function () {
+    function filterProducts(page = 1) {
+        let brands = [];
+        let categories = [];
+        let subCategories = [];
+        let colors = [];
+        let sizes = [];
+        let prices = [];
 
-    filter_data();
+        $('.brand:checked').each(function () {
+            brands.push($(this).val());
+        });
+        $('.category:checked').each(function () {
+            categories.push($(this).val());
+        });
+        $('.subCategory:checked').each(function () {
+            subCategories.push($(this).val());
+        });
+        $('.color:checked').each(function () {
+            colors.push($(this).val());
+        });
+        $('.size:checked').each(function () {
+            sizes.push($(this).val());
+        });
+        $('.price:checked').each(function () {
+            prices.push($(this).val());
+        });
 
-    function filter_data() {
-        var brand = get_filter('brand');
-        var category = get_filter('category');
-        var size = get_filter('size');
-        var color = get_filter('color');
         $.ajax({
-            url: window.routes.shopFilter,
-            method: "POST",
+            url: window.routes.shopFilter + '?page=' + page,
+            type: 'GET',
             data: {
-                brand: brand,
-                category: category,
-                size: size,
-                color: color
+                brands: brands,
+                categories: categories,
+                subCategories: subCategories,
+                colors: colors,
+                sizes: sizes,
+                prices: prices
             },
-            success: function (data) {
-                //console.log(data)
-                $('.filter_data').html(data);
+            beforeSend: function () {
+                $('.loader').html(
+                    `<div><img src="${window.routes.loader}" alt="Loading..." style="width: 20px; height: 20px;"></div>`
+                );
+            },
+            success: function (res) {
+                $('.productList').html(res.html);
+                $('.loader').html('');
+            },
+            error: function () {
+                $('.productList').html('<p>Error loading products.</p>');
             }
         });
     }
 
-    function get_filter(class_name) {
-        var filter = [];
-        $('.' + class_name + ':checked').each(function () {
-            filter.push($(this).val());
-        });
-        return filter;
-    }
-
-    $(document).on('click', '.sort_rang', function () {
-        alert('hi');
-        filter_data();
+    // Trigger on filter change
+    $(document).on('change', '.sort_rang', function () {
+        filterProducts();
     });
 
-    $('#price_range').slider({
-        range: true,
-        min: 1000,
-        max: 65000,
-        values: [1000, 65000],
-        step: 500,
-        stop: function (event, ui) {
-            $('#price_show').html(ui.values[0] + ' - ' + ui.values[1]);
-            $('#hidden_minimum_price').val(ui.values[0]);
-            $('#hidden_maximum_price').val(ui.values[1]);
-            filter_data();
-        }
+    // Handle pagination links
+    $(document).on('click', '.pagination a', function (e) {
+        e.preventDefault();
+        let page = $(this).attr('href').split('page=')[1];
+        filterProducts(page);
     });
-
 });

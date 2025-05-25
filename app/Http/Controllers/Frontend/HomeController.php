@@ -123,7 +123,7 @@ class HomeController extends Controller
             //->orWhere('warrenty', 'LIKE',"%$query%")
             ->paginate(24);
         //dd($products);
-        return view("Frontend.search", compact('cat_products'));
+        return view("Frontend.Page.search", compact('cat_products'));
     }
     public function today_offer()
     {
@@ -297,7 +297,7 @@ class HomeController extends Controller
                 $products->whereRaw('p.color IN (' . $color . ')');
             }
 
-            $cat_products = $products->get();
+            $products = $products->get();
             $brands = Brand::all();
             $categories = Category::where('type', 'Regular')->where('parent_id', 0)->get();
             return view("Frontend.ajax", compact('cat_products', 'brands', 'categories'));
@@ -320,23 +320,54 @@ class HomeController extends Controller
     {
         $query = Product::query();
 
+        // Only active products
+        $query->where('status', 'Active');
+
         // Filter by brands
         if ($request->has('brands')) {
             $query->whereIn('brand_id', $request->brands);
         }
 
-        // Filter by categories
+        // Filter by parent categories
         if ($request->has('categories')) {
             $query->whereIn('category_id', $request->categories);
         }
 
+        // Filter by subcategories
+        if ($request->has('subCategories')) {
+            $query->whereIn('sub_category_id', $request->subCategories);
+        }
+
+        // Filter by colors
+        if ($request->has('colors')) {
+            $query->whereIn('color', $request->colors);
+        }
+
+        // Filter by sizes
+        if ($request->has('sizes')) {
+            $query->whereIn('size', $request->sizes);
+        }
+
+        // Filter by price range
+        if ($request->has('prices')) {
+            // Assuming price range format is like: ["100-300"]
+            $priceRange = explode('-', $request->prices[0]);
+            $minPrice = $priceRange[0] ?? 0;
+            $maxPrice = $priceRange[1] ?? 1000000;
+
+            $query->where(function ($q) use ($minPrice, $maxPrice) {
+                $q->whereBetween('regular_price', [$minPrice, $maxPrice])
+                    ->orWhereBetween('sales_price', [$minPrice, $maxPrice]);
+            });
+        }
+
         $products = $query->latest()->paginate(12);
-        // return $products;
 
         return response()->json([
             'html' => view('Frontend.Page.components.filteredProducts', compact('products'))->render()
         ]);
     }
+
 
     public function collection($category, $value)
     {

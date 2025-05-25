@@ -15,8 +15,8 @@ class LoginController extends Controller
     public function showLoginForm()
     {
         return view('Admin.login',[
-            'title' => 'Login',
-            'loginRoute' => 'login',
+            'title'               => 'Login',
+            'loginRoute'          => 'login',
             'forgotPasswordRoute' => 'password.request',
         ]);
     }
