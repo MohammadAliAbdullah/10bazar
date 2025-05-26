@@ -52,8 +52,8 @@ class OrderController extends Controller
     {
         //dd($request->all());
         $customer = Auth::guard('mypanel')->user()->id;
-        $city=Division::where('id',$request->city)->first();
-        $area=City::where('id',$request->area)->first();
+        $city     = Division::where('id',$request->city)->first();
+        $area     = City::where('id',$request->area)->first();
         //Shipping Address
         $shipping['customer_id']=$customer;
         $shipping['name']=$request->name;

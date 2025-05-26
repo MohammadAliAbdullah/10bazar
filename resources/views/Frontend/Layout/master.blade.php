@@ -10,7 +10,8 @@
     <link rel="icon" type="image/png" href="{{ asset('public') }}/coot_assets/images/favicon.png"><!-- fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i"><!-- css -->
     <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/vendor/bootstrap-4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="{{ asset('public') }}/coot_assets/vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/css/style.css"><!-- js -->
     <script src="{{ asset('public') }}/coot_assets/vendor/jquery-3.3.1/jquery.min.js"></script>
     <script src="{{ asset('public') }}/coot_assets/vendor/bootstrap-4.2.1/js/bootstrap.bundle.min.js"></script>
@@ -19,7 +20,7 @@
     <script src="{{ asset('public') }}/coot_assets/js/number.js"></script>
     <script src="{{ asset('public') }}/coot_assets/js/main.js"></script>
     <script src="{{ asset('public') }}/coot_assets/vendor/svg4everybody-2.1.9/svg4everybody.min.js"></script>
-    
+
     <script>
         svg4everybody();
     </script>
@@ -73,17 +74,43 @@
     {{-- custom js - --}}
     <script>
         window.routes = {
-            cartAdd       : "{{ route('cart.add') }}",
-            cartUpdate    : "{{ route('cart.update') }}",
-            cartRemove    : "{{ route('cart.remove') }}",
+            cartAdd: "{{ route('cart.add') }}",
+            cartUpdate: "{{ route('cart.update') }}",
+            cartRemove: "{{ route('cart.remove') }}",
             headerCartList: "{{ route('headerCart.list') }}",
-            loader        : "{{ asset('public/coot_assets/loader.gif') }}",
-            shopFilter    : "{{ route('filter.products') }}",                 // search
+            loader: "{{ asset('public/coot_assets/loader.gif') }}",
+            shopFilter: "{{ route('filter.products') }}", // search
         };
     </script>
     <script src="{{ asset('public') }}/coot_assets/js/cart.js?v={{ time() }}"></script>
     <script src="{{ asset('public') }}/coot_assets/js/search.js?v={{ time() }}"></script>
     <!-- custom js - end -->
+    <script>
+        $('#district').change(function() {
+            var id = $(this).val();
+            if (id) {
+                $.ajax({
+                    type: "GET",
+                    url: "{{ route('areas') }}?parent_id=" + id,
+                    success: function(res) {
+                        if (res) {
+                            $("#sub_cat").empty();
+                            $("#sub_cat").append('<option>Select Area</option>');
+                            $.each(res, function(key, value) {
+                                $("#sub_cat").append('<option value="' + key + '">' + value +
+                                    '</option>');
+                            });
+
+                        } else {
+                            $("#sub_cat").empty();
+                        }
+                    }
+                });
+            } else {
+                $("#sub_cat").empty();
+            }
+        });
+    </script>
 </body>
 
 </html>
