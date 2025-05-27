@@ -1,121 +1,83 @@
 @extends('../Frontend.Layout.master')
 
 @section('content')
-    <!-- Breadcrumb Start -->
-    <div class="breadcrumbbg">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-md-8">
-                    <nav class="breadcrumb bg-transparent">
-                        <a class="breadcrumb-item" href="#">Home <i class="fa fa-angle-right"></i></a>
-                        <a class="breadcrumb-item" href="#">My Panel <i class="fa fa-angle-right"></i></a>
-                        <span class="breadcrumb-title">Account Information</span>
-                    </nav>
+    @include('Frontend.components.breadcrumb', ['page' => 'My Panel', 'subPage' => 'Account Information'])
+    <!-- main-section-area-start -->
+    <div class="checkout block">
+        <div class="container">
+            <div class="bg-light">
+                <div class="container py-3">
+                    <div class="row">
+                        <!-- Profile Header -->
+                        <div class="col-12">
+                            <div class="profile-header position-relative mb-4">
+                                <div class="position-absolute top-0 end-0 p-3">
+                                    <button class="btn btn-light"><i class="fas fa-edit me-2"></i>Edit
+                                        Cover</button>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <div class="position-relative d-inline-block">
+                                    <img src="https://randomuser.me/api/portraits/men/40.jpg"
+                                        class="rounded-circle profile-pic" alt="Profile Picture">
+                                    <button class="btn btn-primary btn-sm position-absolute bottom-0 end-0 rounded-circle">
+                                        <i class="fas fa-camera"></i>
+                                    </button>
+                                </div>
+                                <h3 class="mt-3 mb-1">{{ $profile->name }}</h3>
+                                <div class="d-flex justify-content-center gap-2 mb-4">
+                                    <button class="btn btn-outline-primary mr-2">
+                                        <i class="fas fa-envelope me-2"></i>Message
+                                    </button>
+                                    <button class="btn btn-primary">
+                                        <i class="fas fa-user-plus me-2"></i>Connect
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Content -->
+                        <div class="col-12">
+                            <div class="card border-0 shadow-sm">
+                                <div class="card-body p-0">
+                                    @include('Mypanel.message')
+                                    <div class="row g-0">
+                                        <!-- Sidebar -->
+                                        <div class="col-lg-3 border-end">
+                                            <div class="p-4">
+                                                <div class="nav flex-column nav-pills">
+                                                    <a class="nav-link {{ Route::currentRouteName() == 'mypanel.profile.index' ? 'active' : '' }}"
+                                                        href="{{ route('mypanel.profile.index') }}">
+                                                        <i class="fas fa-user me-2"></i> &nbsp;Personal Info
+                                                    </a>
+                                                    <a class="nav-link {{ Route::currentRouteName() == 'mypanel.morder.index' ? 'active' : '' }}"
+                                                        href="{{ route('mypanel.morder.index') }}">
+                                                        <i class="fas fa-lock me-2"></i> &nbsp; Orders</a>
+                                                    <a class="nav-link {{ Route::currentRouteName() == 'mypanel.password.index' ? 'active' : '' }}"
+                                                        href="{{ route('mypanel.password.index') }}"><i
+                                                            class="fas fa-cog me-2"></i> &nbsp; Settings</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-9">
+                                            <!-- Content Area -->
+                                            @if (Route::currentRouteName() == 'mypanel.profile.index')
+                                                @include('Mypanel/personalInfo')
+                                            @endif
+                                            @if (Route::currentRouteName() == 'mypanel.morder.index')
+                                                @include('Mypanel/orderInfo')
+                                            @endif
+                                            @if (Route::currentRouteName() == 'mypanel.password.index')
+                                                @include('Mypanel/passwordChange')
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Breadcrumb End -->
-    <!-- main-section-area-start -->
-    <section>
-
-        <div class="main-section-area">
-            <div class="container">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-12">
-                            @include('Mypanel.message')
-                        </div>
-                    </div>
-                </div>
-            @if($profile->status=='Active')
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="hello-omor">
-                            <p>Hello ! <b>{{ $profile->name }}</b> Your account not verified, Please verify your account <a href="">Click to Verify</a> .</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-                <!-- Terms-Condition-area-start -->
-
-                <!-- <div class="faq-area">
-                    <h3>Frequently Asked Questions</h3>
-
-                    <p>Last Updated on Jun 02, 2017</p>
-                </div> -->
-
-                <!-- Terms-Condition-area-end -->
-
-                <div class="row">
-
-                    <div class="col-md-3">
-                        @include('Mypanel.sidebar')
-                    </div>
-                    <div class="col-md-9">
-                        <div class="form-area">
-                            <div class="form-area-head">
-                                <h5>Account Information</h5>
-                            </div>
-{{--                            <div class="add-btn-area">--}}
-{{--                                <a href="#">Add new shipping address</a>--}}
-{{--                            </div>--}}
-                            <div class="anather">
-                                {!! Form::model($profile, ['method'=>'PATCH','route'=> ['mypanel.profile.update', $profile->id],'class'=>'form-horizontal']) !!}
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                {!! Form::label('name', 'Name', ['class' => 'col-sm-2 col-form-label']) !!}
-                                                {!! Form::text('name', null, ['class'=>'form-control','id'=>'receiver', 'readonly']) !!}
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                {!! Form::label('name', 'Email', ['class' => 'col-sm-2 col-form-label']) !!}
-                                                {!! Form::email('email', null, ['class'=>'form-control','id'=>'receiver']) !!}
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                {!! Form::label('name', 'Phone', ['class' => 'col-sm-2 col-form-label']) !!}
-                                                {!! Form::email('phone', null, ['class'=>'form-control','id'=>'receiver', 'readonly']) !!}
-                                            </div>
-                                        </div>
-
-                                        <div class="col-md-6">
-                                            {!! Form::label('name', 'Address', ['class' => 'col-sm-2 col-form-label']) !!}
-                                            {!! Form::textarea('address', null, ['class'=>'form-control','id'=>'receiver', 'rows'=>2]) !!}
-                                        </div>
-
-                                    </div>
-
-{{--                                    <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike">--}}
-{{--                                    <label for="vehicle1"> Set As Default</label>--}}
-
-
-                                <div class="d-flex justify-content-start mt-3">
-                                    <div class="save">
-                                        <button type="submit" class="btn btn-success">Update</button>
-                                    </div>
-                                    <div class="save">
-                                        <button  onclick="window.history.back()" class="btn btn-default float-right">Cancel</button>
-                                    </div>
-                                </div>
-                                {!! Form::close() !!}
-                            </div>
-                        </div>
-                </div>
-
-
-
-
-            </div>
-        </div>
-
-    </section>
-@endsection
-@section('style')
-    <link href="{{ asset('public/asset/css') }}/order.css" rel="stylesheet" type="text/css">
 @endsection

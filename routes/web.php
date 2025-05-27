@@ -117,26 +117,6 @@ Route::prefix('/mypanel')->name('mypanel.')->namespace('Mypanel')->group(functio
     });
 });
 
-// Payment Routes for bKash
-// Route::get('/bkash/payment', [BkashController::class, 'index']);
-// Route::post('/bkash/get-token', [BkashController::class, 'getToken'])->name('bkash-get-token');
-// Route::post('/bkash/create-payment', [BkashController::class, 'createPayment'])->name('bkash-create-payment');
-// Route::post('/bkash/execute-payment', [BkashController::class, 'executePayment'])->name('bkash-execute-payment');
-
-// Route::post('bkash/create-payment', [BkashController::class, 'createPayment'])->name('bkash-create-payment');
-// Route::post('bkash/execute-payment', [BkashController::class, 'executePayment'])->name('bkash-execute-payment');
-// Route::get('bkash/query-payment', [BkashController::class, 'queryPayment'])->name('bkash-query-payment');
-// Route::post('bkash/success', [BkashController::class, 'bkashSuccess'])->name('bkash-success');
-
-// // Refund Routes for bKash
-// Route::get('bkash/refund', [BkashRefundController::class, 'index'])->name('bkash-refund');
-// Route::post('bkash/refund', [BkashRefundController::class, 'refund'])->name('bkash-refund');
-
-// Route::get('/bkash/pay', [BkashPaymentController::class, 'showForm'])->name('bkash.form');
-// Route::post('/bkash/create', [BkashPaymentController::class, 'createPayment'])->name('bkash.create');
-// Route::get('/bkash/execute', [BkashPaymentController::class, 'executePayment'])->name('bkash.execute');
-// Route::get('/bkash/success', [BkashPaymentController::class, 'paymentSuccess'])->name('bkash.success');
-// Route::get('/bkash/fail', [BkashPaymentController::class, 'paymentFailed'])->name('bkash.fail');
 Route::get('/bkash', function () {
     return view('bkash');
 });

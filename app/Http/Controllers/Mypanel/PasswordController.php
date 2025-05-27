@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Mypanel;
 
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
+use App\Models\Order;
 use App\Rules\MatchOldPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,9 +20,18 @@ class PasswordController extends Controller
      */
     public function index()
     {
-        $user = Auth::guard('mypanel')->user()->id;
-        $profile=Customer::where('id', $user)->first();
-        return view('Mypanel.password',compact('profile'));
+        // $user = Auth::guard('mypanel')->user()->id;
+        // $profile=Customer::where('id', $user)->first();
+
+
+        $data['user'] = $user = Auth::guard('mypanel')->user()->id;
+        $data['orders'] =Order::orderBy('id','DESC')->where('customer_id',$user)->paginate(10);
+        $data['profile'] =Customer::where('id', $user)->first();
+        // return view('Mypanel.order.index', compact('orders'));
+        return view('Mypanel.user', $data);
+
+
+        // return view('Mypanel.password',compact('profile'));
     }
 
     /**
