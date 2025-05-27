@@ -132,12 +132,28 @@ Route::prefix('/mypanel')->name('mypanel.')->namespace('Mypanel')->group(functio
 // Route::get('bkash/refund', [BkashRefundController::class, 'index'])->name('bkash-refund');
 // Route::post('bkash/refund', [BkashRefundController::class, 'refund'])->name('bkash-refund');
 
-Route::get('/bkash/pay', [BkashPaymentController::class, 'showForm'])->name('bkash.form');
-Route::post('/bkash/create', [BkashPaymentController::class, 'createPayment'])->name('bkash.create');
-Route::get('/bkash/execute', [BkashPaymentController::class, 'executePayment'])->name('bkash.execute');
-Route::get('/bkash/success', [BkashPaymentController::class, 'paymentSuccess'])->name('bkash.success');
-Route::get('/bkash/fail', [BkashPaymentController::class, 'paymentFailed'])->name('bkash.fail');
+// Route::get('/bkash/pay', [BkashPaymentController::class, 'showForm'])->name('bkash.form');
+// Route::post('/bkash/create', [BkashPaymentController::class, 'createPayment'])->name('bkash.create');
+// Route::get('/bkash/execute', [BkashPaymentController::class, 'executePayment'])->name('bkash.execute');
+// Route::get('/bkash/success', [BkashPaymentController::class, 'paymentSuccess'])->name('bkash.success');
+// Route::get('/bkash/fail', [BkashPaymentController::class, 'paymentFailed'])->name('bkash.fail');
+Route::get('/bkash', function () {
+    return view('bkash');
+});
 
+Route::get('/bkash/callback', function () {
+    $paymentId = session('payment_id');
 
+    if ($paymentId) {
+        $bkashService = new \App\Services\BkashPaymentService();
+        $result = $bkashService->executePayment($paymentId);
+        dd($result); // or redirect with a message
+    }
+
+    return redirect('/bkash')->with('error', 'Payment ID not found.');
+});
+
+Route::post('/bkash/create', [BkashPaymentController::class, 'create'])->name('bkash.create');
+Route::post('/bkash/execute', [BkashPaymentController::class, 'execute']);
 //admin panel
 require __DIR__ . '/admin.php';
