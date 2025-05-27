@@ -80,8 +80,9 @@
                     <div class="mobile-links__item-sub-links" data-collapse-content>
                         <ul class="mobile-links mobile-links--level--1">
                             <li class="mobile-links__item" data-collapse-item>
-                                <div class="mobile-links__item-title"><a href="about-us.html"
-                                        class="mobile-links__item-link">About Us</a></div>
+                                <div class="mobile-links__item-title">
+                                    <a href="about-us.html" class="mobile-links__item-link">About Us</a>
+                                </div>
                             </li>
                             <li class="mobile-links__item" data-collapse-item>
                                 <div class="mobile-links__item-title"><a href="contact-us.html"
@@ -115,33 +116,43 @@
                     </div>
                 </li>
                 <li class="mobile-links__item" data-collapse-item>
-                    <div class="mobile-links__item-title"><a data-collapse-trigger
-                            class="mobile-links__item-link">Currency</a> <button class="mobile-links__item-toggle"
-                            type="button" data-collapse-trigger><svg class="mobile-links__item-arrow" width="12px"
-                                height="7px">
+                    <div class="mobile-links__item-title">
+                        <a data-collapse-trigger class="mobile-links__item-link">Currency</a>
+                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger><svg
+                                class="mobile-links__item-arrow" width="12px" height="7px">
                                 <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
-                            </svg></button></div>
+                            </svg>
+                        </button>
+                    </div>
                     <div class="mobile-links__item-sub-links" data-collapse-content>
                         <ul class="mobile-links mobile-links--level--1">
                             <li class="mobile-links__item" data-collapse-item>
-                                <div class="mobile-links__item-title"><a href="#"
-                                        class="mobile-links__item-link">€
-                                        Euro</a></div>
+                                <div class="mobile-links__item-title">
+                                    <a href="#" class="mobile-links__item-link">
+                                        € Euro
+                                    </a>
+                                </div>
                             </li>
                             <li class="mobile-links__item" data-collapse-item>
-                                <div class="mobile-links__item-title"><a href="#"
-                                        class="mobile-links__item-link">£
-                                        Pound Sterling</a></div>
+                                <div class="mobile-links__item-title">
+                                    <a href="#" class="mobile-links__item-link">
+                                        £ Pound Sterling
+                                    </a>
+                                </div>
                             </li>
                             <li class="mobile-links__item" data-collapse-item>
-                                <div class="mobile-links__item-title"><a href="#"
-                                        class="mobile-links__item-link">$
-                                        US Dollar</a></div>
+                                <div class="mobile-links__item-title">
+                                    <a href="#" class="mobile-links__item-link">
+                                        $US Dollar
+                                    </a>
+                                </div>
                             </li>
                             <li class="mobile-links__item" data-collapse-item>
-                                <div class="mobile-links__item-title"><a href="#"
-                                        class="mobile-links__item-link">₽
-                                        Russian Ruble</a></div>
+                                <div class="mobile-links__item-title">
+                                    <a href="#" class="mobile-links__item-link">₽
+                                        Russian Ruble
+                                    </a>
+                                </div>
                             </li>
                         </ul>
                     </div>

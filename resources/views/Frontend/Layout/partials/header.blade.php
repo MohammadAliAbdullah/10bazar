@@ -23,18 +23,24 @@
                     <div class="topbar__spring"></div>
                     <div class="topbar__item">
                         <div class="topbar-dropdown">
-                            <button class="topbar-dropdown__btn" type="button">My
-                                Account <svg width="7px" height="5px">
+                            <button class="topbar-dropdown__btn" type="button">
+                                My Account
+                                <svg width="7px" height="5px">
                                     <use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use>
                                 </svg>
                             </button>
                             <div class="topbar-dropdown__body">
                                 <!-- .menu -->
                                 <ul class="menu menu--layout--topbar">
-                                    <li><a href="account.html">Login</a></li>
-                                    <li><a href="account.html">Register</a></li>
-                                    <li><a href="#">Orders</a></li>
-                                    <li><a href="#">Addresses</a></li>
+                                    @if (Auth::guard('mypanel')->user())
+                                        <li><a href="{{ route('mypanel.users') }}">Profile</a></li>
+                                        <li><a href="{{ route('mypanel.elogout') }}">Logout</a></li>
+                                    @else
+                                        <li><a href="{{ route('login') }}">Login</a></li>
+                                        <li><a href="{{ route('register.user') }}">Register</a></li>
+                                    @endif
+                                    {{-- <li><a href="#">Orders</a></li>
+                                    <li><a href="#">Addresses</a></li> --}}
                                 </ul>
                                 <!-- .menu / end -->
                             </div>
@@ -147,8 +153,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <button class="departments__button"><svg class="departments__button-icon" width="18px"
-                                        height="14px">
+                                <button class="departments__button"><svg class="departments__button-icon"
+                                        width="18px" height="14px">
                                         <use xlink:href="images/sprite.svg#menu-18x14"></use>
                                     </svg> Shop By Category <svg class="departments__button-arrow" width="9px"
                                         height="6px">
@@ -214,7 +220,7 @@
                             </ul>
                         </div><!-- .nav-links / end -->
                         <div class="nav-panel__indicators">
-                            <div class="indicator">
+                            {{-- <div class="indicator">
                                 <a href="wishlist.html" class="indicator__button">
                                     <span class="indicator__area">
                                         <svg width="20px" height="20px">
@@ -223,7 +229,7 @@
                                         <span class="indicator__value">0</span>
                                     </span>
                                 </a>
-                            </div>
+                            </div> --}}
                             <div class="indicator indicator--trigger--click"
                                 id="{{ !request()->is('cart') ? 'cartViewButton' : '' }}">
                                 <a class="indicator__button">
@@ -237,98 +243,6 @@
                                     @if ($cartCount > 0 && !request()->is('cart'))
                                         <div class="dropcart">
                                             <div id="headerCartList">
-                                                {{-- <div class="dropcart__products-list">
-                                                    <div class="dropcart__product">
-                                                        <div class="dropcart__product-image"><a
-                                                                href="product.html"><img
-                                                                    src="{{ asset('public') }}/coot_assets/images/products/product-1.jpg"
-                                                                    alt=""></a>
-                                                        </div>
-                                                        <div class="dropcart__product-info">
-                                                            <div class="dropcart__product-name"><a
-                                                                    href="product.html">Electric Planer Brandix
-                                                                    KL370090G 300 Watts</a></div>
-                                                            <ul class="dropcart__product-options">
-                                                                <li>Color: Yellow</li>
-                                                                <li>Material: Aluminium</li>
-                                                            </ul>
-                                                            <div class="dropcart__product-meta"><span
-                                                                    class="dropcart__product-quantity">2</span> x <span
-                                                                    class="dropcart__product-price">$699.00</span>
-                                                            </div>
-                                                        </div><button type="button"
-                                                            class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon"><svg
-                                                                width="10px" height="10px">
-                                                                <use xlink:href="images/sprite.svg#cross-10"></use>
-                                                            </svg>
-                                                        </button>
-                                                    </div>
-                                                    <div class="dropcart__product">
-                                                        <div class="dropcart__product-image"><a
-                                                                href="product.html"><img
-                                                                    src="{{ asset('public') }}/coot_assets/images/products/product-2.jpg"
-                                                                    alt=""></a>
-                                                        </div>
-                                                        <div class="dropcart__product-info">
-                                                            <div class="dropcart__product-name"><a
-                                                                    href="product.html">Undefined Tool IRadix DPS3000SY
-                                                                    2700 watts</a></div>
-                                                            <div class="dropcart__product-meta"><span
-                                                                    class="dropcart__product-quantity">1</span> x <span
-                                                                    class="dropcart__product-price">$849.00</span>
-                                                            </div>
-                                                        </div><button type="button"
-                                                            class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon"><svg
-                                                                width="10px" height="10px">
-                                                                <use xlink:href="images/sprite.svg#cross-10"></use>
-                                                            </svg></button>
-                                                    </div>
-                                                    <div class="dropcart__product">
-                                                        <div class="dropcart__product-image"><a
-                                                                href="product.html"><img
-                                                                    src="{{ asset('public') }}/coot_assets/images/products/product-5.jpg"
-                                                                    alt=""></a>
-                                                        </div>
-                                                        <div class="dropcart__product-info">
-                                                            <div class="dropcart__product-name"><a
-                                                                    href="product.html">Brandix
-                                                                    Router Power Tool
-                                                                    2017ERXPK</a></div>
-                                                            <ul class="dropcart__product-options">
-                                                                <li>Color: True Red</li>
-                                                            </ul>
-                                                            <div class="dropcart__product-meta"><span
-                                                                    class="dropcart__product-quantity">3</span> x <span
-                                                                    class="dropcart__product-price">$1,210.00</span>
-                                                            </div>
-                                                        </div><button type="button"
-                                                            class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon"><svg
-                                                                width="10px" height="10px">
-                                                                <use xlink:href="images/sprite.svg#cross-10"></use>
-                                                            </svg></button>
-                                                    </div>
-                                                </div>
-
-                                                <div class="dropcart__totals">
-                                                    <table>
-                                                        <tr>
-                                                            <th>Subtotal</th>
-                                                            <td>$5,877.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Shipping</th>
-                                                            <td>$25.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Tax</th>
-                                                            <td>$0.00</td>
-                                                        </tr>
-                                                        <tr>
-                                                            <th>Total</th>
-                                                            <td>$5,902.00</td>
-                                                        </tr>
-                                                    </table>
-                                                </div> --}}
                                             </div>
 
                                             <div class="dropcart__buttons">
