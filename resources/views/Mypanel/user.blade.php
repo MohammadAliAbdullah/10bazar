@@ -35,7 +35,24 @@
                                 </div>
                             </div>
                         </div>
-
+                        @php
+                            $active = '2';
+                            // swich case
+                            switch (Route::currentRouteName()) {
+                                case 'mypanel.profile.index':
+                                    $active = '1';
+                                    break;
+                                case 'mypanel.morder.index':
+                                    $active = '2';
+                                    break;
+                                case 'mypanel.password.index':
+                                    $active = '3';
+                                    break;
+                                default:
+                                    $active = '2';
+                                    break;
+                            }
+                        @endphp
                         <!-- Main Content -->
                         <div class="col-12">
                             <div class="card border-0 shadow-sm">
@@ -46,14 +63,14 @@
                                         <div class="col-lg-3 border-end">
                                             <div class="p-4">
                                                 <div class="nav flex-column nav-pills">
-                                                    <a class="nav-link {{ Route::currentRouteName() == 'mypanel.profile.index' ? 'active' : '' }}"
+                                                    <a class="nav-link {{ $active == '1' ? 'active' : '' }}"
                                                         href="{{ route('mypanel.profile.index') }}">
                                                         <i class="fas fa-user me-2"></i> &nbsp;Personal Info
                                                     </a>
-                                                    <a class="nav-link {{ Route::currentRouteName() == 'mypanel.morder.index' ? 'active' : '' }}"
+                                                    <a class="nav-link {{ $active == '2' ? 'active' : '' }}"
                                                         href="{{ route('mypanel.morder.index') }}">
                                                         <i class="fas fa-lock me-2"></i> &nbsp; Orders</a>
-                                                    <a class="nav-link {{ Route::currentRouteName() == 'mypanel.password.index' ? 'active' : '' }}"
+                                                    <a class="nav-link {{ $active == '3' ? 'active' : '' }}"
                                                         href="{{ route('mypanel.password.index') }}"><i
                                                             class="fas fa-cog me-2"></i> &nbsp; Settings</a>
                                                 </div>
@@ -61,13 +78,13 @@
                                         </div>
                                         <div class="col-lg-9">
                                             <!-- Content Area -->
-                                            @if (Route::currentRouteName() == 'mypanel.profile.index')
+                                            @if ($active == '1')
                                                 @include('Mypanel/personalInfo')
                                             @endif
-                                            @if (Route::currentRouteName() == 'mypanel.morder.index')
+                                            @if ($active == '2')
                                                 @include('Mypanel/orderInfo')
                                             @endif
-                                            @if (Route::currentRouteName() == 'mypanel.password.index')
+                                            @if ($active == '3')
                                                 @include('Mypanel/passwordChange')
                                             @endif
                                         </div>

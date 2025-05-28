@@ -39,8 +39,6 @@
                                         <li><a href="{{ route('login') }}">Login</a></li>
                                         <li><a href="{{ route('register.user') }}">Register</a></li>
                                     @endif
-                                    {{-- <li><a href="#">Orders</a></li>
-                                    <li><a href="#">Addresses</a></li> --}}
                                 </ul>
                                 <!-- .menu / end -->
                             </div>

@@ -189,6 +189,45 @@
                         </ul>
                     </div>
                 </li>
+                <li class="mobile-links__item" data-collapse-item>
+                    <div class="mobile-links__item-title"><a data-collapse-trigger class="mobile-links__item-link">My
+                            Account</a>
+                        <button class="mobile-links__item-toggle" type="button" data-collapse-trigger>
+                            <svg class="mobile-links__item-arrow" width="12px" height="7px">
+                                <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="mobile-links__item-sub-links" data-collapse-content>
+                        <ul class="mobile-links mobile-links--level--1">
+                            @if (Auth::guard('mypanel')->user())
+                                <li class="mobile-links__item" data-collapse-item>
+                                    <div class="mobile-links__item-title">
+                                        <a href="{{ route('mypanel.users') }}"
+                                            class="mobile-links__item-link">Profile</a>
+                                    </div>
+                                </li>
+                                <li class="mobile-links__item" data-collapse-item>
+                                    <div class="mobile-links__item-title">
+                                        <a class="mobile-links__item-link"
+                                            href="{{ route('mypanel.elogout') }}">Logout</a>
+                                    </div>
+                                </li>
+                            @else
+                                <li class="mobile-links__item" data-collapse-item>
+                                    <div class="mobile-links__item-title">
+                                        <a href="{{ route('login') }}" class="mobile-links__item-link">Login</a>
+                                    </div>
+                                </li>
+                                <li class="mobile-links__item" data-collapse-item>
+                                    <div class="mobile-links__item-title">
+                                        <a href="{{ route('register.user') }}" class="mobile-links__item-link">Register </a>
+                                    </div>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
+                </li>
             </ul>
         </div>
     </div>

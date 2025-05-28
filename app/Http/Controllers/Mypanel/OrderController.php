@@ -29,9 +29,7 @@ class OrderController extends Controller
         $data['user'] = $user = Auth::guard('mypanel')->user()->id;
         $data['orders'] =Order::orderBy('id','DESC')->where('customer_id',$user)->paginate(10);
         $data['profile'] =Customer::where('id', $user)->first();
-        // return view('Mypanel.order.index', compact('orders'));
         return view('Mypanel.user', $data);
-
     }
 
     /**

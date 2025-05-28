@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Mypanel;
 
 use App\Http\Controllers\Controller;
+use App\Models\Customer;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,9 +17,13 @@ class Deshboardcontroller extends Controller
      */
     public function index()
     {
-        $user = Auth::guard('mypanel')->user()->id;
-        $orders=Order::where('customer_id',$user)->paginate(10);
-        return view('Mypanel.order.index', compact('orders'));
+        $data['user'] = $user = Auth::guard('mypanel')->user()->id;
+        $data['orders'] = Order::orderBy('id', 'DESC')->where('customer_id', $user)->paginate(10);
+        $data['profile'] = Customer::where('id', $user)->first();
+        return view('Mypanel.user', $data);
+        // $user = Auth::guard('mypanel')->user()->id;
+        // $orders=Order::where('customer_id',$user)->paginate(10);
+        // return view('Mypanel.order.index', compact('orders'));
     }
 
     /**

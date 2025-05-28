@@ -1,55 +1,44 @@
-<table class="table table-striped">
-    <tr>
-        <th><span class="nibor"><b>Order</b></span></th>
-        <th><span class="nibor"><b>Date</b></span></th>
-        <th><span class="nibor"><b>Payment</b></span></th>
-        <th><span class="nibor"><b>Status</b></span></th>
+<div class="table-responsive">
+    <table class="table table-striped table-bordered align-middle text-nowrap">
+        <thead class="table-dark">
+            <tr>
+                <th><span class="nibor">Order</span></th>
+                <th><span class="nibor">Date</span></th>
+                <th><span class="nibor">Payment</span></th>
+                <th><span class="nibor">Status</span></th>
+                <th><span class="nibor">Action</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach ($orders as $value)
+                <tr>
+                    <td>#{{ $value->invoice_no }}</td>
+                    <td>{{ \Carbon\Carbon::parse($value->created_at)->format('d/m/Y') }}</td>
+                    <td>{{ $value->payment_status }}</td>
+                    <td>
+                        @php
+                            $statusColors = [
+                                'Pending' => 'danger',
+                                'Processing' => 'warning',
+                                'Shipped' => 'info',
+                                'Complete' => 'success'
+                            ];
+                            $color = $statusColors[$value->status] ?? 'dark';
+                        @endphp
+                        <span class="badge bg-{{ $color }} p-2">{{ $value->status }}</span>
+                    </td>
+                    <td>
+                        <a href="{{ route('mypanel.morder.show', $value->invoice_no) }}" class="btn btn-sm btn-primary">
+                            <i class="fa fa-eye"></i> View
+                        </a>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
-        <th><span class="nibor"><b>Action</b></span></th>
-    </tr>
-    @foreach ($orders as $value)
-        <tr>
-            <td>
-                #{{ $value->invoice_no }}
-            </td>
-            <td>
-                {{ date('d/m/Y', strtotime($value->created_at)) }}
-            </td>
-            <td>
-                {{ $value->payment_status }}
-            </td>
-            <td>
-                @if ($value->status == 'Pending')
-                    <span class="bg bg-danger p-2 text-white">
-                        {{ $value->status }}
-                    </span>
-                @elseif($value->status == 'Processing')
-                    <span class="bg bg-warning p-2 text-white">
-                        {{ $value->status }}
-                    </span>
-                @elseif($value->status == 'Shipped')
-                    <span class="bg bg-info p-2 text-white">
-                        {{ $value->status }}
-                    </span>
-                @elseif($value->status == 'Complete')
-                    <span class="bg bg-success p-2 text-white">
-                        {{ $value->status }}
-                    </span>
-                @else
-                    <span class="bg bg-dark p-2 text-white">
-                        {{ $value->status }}
-                    </span>
-                @endif
-            </td>
-
-            <td>
-                <a href="{{ route('mypanel.morder.show', $value->invoice_no) }}" class="btn btn-info">
-                    <i class="fa fa-eye"></i>
-                </a>
-            </td>
-        </tr>
-    @endforeach
-</table>
-<div class="">
-    {{ $orders->render() }}
+<!-- Pagination -->
+<div class="mt-3">
+    {{ $orders->links() }}
 </div>

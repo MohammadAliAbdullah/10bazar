@@ -9,7 +9,7 @@
                     <nav class="breadcrumb bg-transparent">
                         <a class="breadcrumb-item" href="#">Home <i class="fa fa-angle-right"></i></a>
                         <a class="breadcrumb-item" href="#">My Panel <i class="fa fa-angle-right"></i></a>
-                        <span class="breadcrumb-title">Account</span>
+                        <span class="breadcrumb-title">Account 44</span>
                     </nav>
                 </div>
             </div>

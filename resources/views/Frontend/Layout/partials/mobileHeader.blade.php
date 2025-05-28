@@ -10,37 +10,50 @@
                         <img src="{{ asset('public') }}/coot_assets/10_bazar_logo.jpg" alt="logo">
                     </a>
                     <div class="mobile-header__search">
-                        <form class="mobile-header__search-form" action="#"><input
-                                class="mobile-header__search-input" name="search"
+                        <form class="mobile-header__search-form" action="#">
+                            <input class="mobile-header__search-input" name="search"
                                 placeholder="Search over 10,000 products" aria-label="Site search" type="text"
-                                autocomplete="off"> <button
-                                class="mobile-header__search-button mobile-header__search-button--submit"
-                                type="submit"><svg width="20px" height="20px">
+                                autocomplete="off">
+                            <button class="mobile-header__search-button mobile-header__search-button--submit"
+                                type="submit">
+                                <svg width="20px" height="20px">
                                     <use xlink:href="images/sprite.svg#search-20"></use>
-                                </svg></button> <button
-                                class="mobile-header__search-button mobile-header__search-button--close"
-                                type="button"><svg width="20px" height="20px">
+                                </svg>
+                            </button>
+                            <button class="mobile-header__search-button mobile-header__search-button--close"
+                                type="button">
+                                <svg width="20px" height="20px">
                                     <use xlink:href="images/sprite.svg#cross-20"></use>
-                                </svg></button>
+                                </svg>
+                            </button>
                             <div class="mobile-header__search-body"></div>
                         </form>
                     </div>
                     <div class="mobile-header__indicators">
                         <div class="indicator indicator--mobile-search indicator--mobile d-sm-none"><button
-                                class="indicator__button"><span class="indicator__area"><svg width="20px"
-                                        height="20px">
+                                class="indicator__button">
+                                <span class="indicator__area">
+                                    <svg width="20px" height="20px">
                                         <use xlink:href="images/sprite.svg#search-20"></use>
-                                    </svg></span></button></div>
-                        <div class="indicator indicator--mobile d-sm-flex d-none"><a href="wishlist.html"
-                                class="indicator__button"><span class="indicator__area"><svg width="20px"
-                                        height="20px">
+                                    </svg>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="indicator indicator--mobile d-sm-flex d-none">
+                            <a href="wishlist.html" class="indicator__button">
+                                <span class="indicator__area">
+                                    <svg width="20px" height="20px">
                                         <use xlink:href="images/sprite.svg#heart-20"></use>
-                                    </svg> <span class="indicator__value">0</span></span></a></div>
+                                    </svg>
+                                    <span class="indicator__value">0</span>
+                                </span>
+                            </a>
+                        </div>
                         <div class="indicator indicator--mobile">
-                            <a href="cart.html" class="indicator__button">
+                            <a href="{{ route('cart.list') }}" class="indicator__button">
                                 <span class="indicator__area">
                                     <i class="fas fa-shopping-cart"></i>
-                                    {{-- <span class="indicator__value">{{ $cartCount }}</span> --}}
+                                    <span class="indicator__value" id="cartCount">{{ $cartCount }}</span>
                                 </span>
                             </a>
                         </div>
