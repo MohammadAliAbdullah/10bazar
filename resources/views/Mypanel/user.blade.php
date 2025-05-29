@@ -36,18 +36,25 @@
                             </div>
                         </div>
                         @php
-                            $active = '2';
-                            // swich case
-                            switch (Route::currentRouteName()) {
-                                case 'mypanel.profile.index':
+                            $active = '2'; // Default
+
+                            switch (true) {
+                                case request()->routeIs('mypanel.profile.index'):
                                     $active = '1';
                                     break;
-                                case 'mypanel.morder.index':
+
+                                case request()->routeIs('mypanel.morder.index'):
                                     $active = '2';
                                     break;
-                                case 'mypanel.password.index':
+
+                                case request()->routeIs('mypanel.password.index'):
                                     $active = '3';
                                     break;
+
+                                case request()->is('mypanel/morder/*'):
+                                    $active = '4';
+                                    break;
+
                                 default:
                                     $active = '2';
                                     break;
@@ -67,7 +74,7 @@
                                                         href="{{ route('mypanel.profile.index') }}">
                                                         <i class="fas fa-user me-2"></i> &nbsp;Personal Info
                                                     </a>
-                                                    <a class="nav-link {{ $active == '2' ? 'active' : '' }}"
+                                                    <a class="nav-link {{ $active == '2' || $active == '4' ? 'active' : '' }}"
                                                         href="{{ route('mypanel.morder.index') }}">
                                                         <i class="fas fa-lock me-2"></i> &nbsp; Orders</a>
                                                     <a class="nav-link {{ $active == '3' ? 'active' : '' }}"
@@ -82,10 +89,13 @@
                                                 @include('Mypanel/personalInfo')
                                             @endif
                                             @if ($active == '2')
-                                                @include('Mypanel/orderInfo')
+                                                @include('Mypanel/order/orderInfo')
                                             @endif
                                             @if ($active == '3')
                                                 @include('Mypanel/passwordChange')
+                                            @endif
+                                            @if ($active == '4')
+                                                @include('Mypanel/order/singleOrder')
                                             @endif
                                         </div>
                                     </div>

@@ -25,7 +25,7 @@
                             ];
                             $color = $statusColors[$value->status] ?? 'dark';
                         @endphp
-                        <span class="badge bg-{{ $color }} p-2">{{ $value->status }}</span>
+                        <span class="badge bg-{{ $color }} text-white p-2">{{ $value->status }}</span>
                     </td>
                     <td>
                         <a href="{{ route('mypanel.morder.show', $value->invoice_no) }}" class="btn btn-sm btn-primary">

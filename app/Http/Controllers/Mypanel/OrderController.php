@@ -27,8 +27,8 @@ class OrderController extends Controller
     public function index()
     {
         $data['user'] = $user = Auth::guard('mypanel')->user()->id;
-        $data['orders'] =Order::orderBy('id','DESC')->where('customer_id',$user)->paginate(10);
-        $data['profile'] =Customer::where('id', $user)->first();
+        $data['orders'] = Order::orderBy('id', 'DESC')->where('customer_id', $user)->paginate(10);
+        $data['profile'] = Customer::where('id', $user)->first();
         return view('Mypanel.user', $data);
     }
 
@@ -52,41 +52,41 @@ class OrderController extends Controller
     {
         //dd($request->all());
         $customer = Auth::guard('mypanel')->user()->id;
-        $city     = Division::where('id',$request->city)->first();
-        $area     = City::where('id',$request->area)->first();
+        $city     = Division::where('id', $request->city)->first();
+        $area     = City::where('id', $request->area)->first();
         //Shipping Address
-        $shipping['customer_id']=$customer;
-        $shipping['name']=$request->name;
-        $shipping['phone']=$request->phone;
-        $shipping['city_id']=$request->city;
-        $shipping['area_id']=$request->area;
-        $shipping['city']=$city->name;
-        $shipping['area']=$area->name;
-        $shipping['address']=$request->address;
+        $shipping['customer_id'] = $customer;
+        $shipping['name'] = $request->name;
+        $shipping['phone'] = $request->phone;
+        $shipping['city_id'] = $request->city;
+        $shipping['area_id'] = $request->area;
+        $shipping['city'] = $city->name;
+        $shipping['area'] = $area->name;
+        $shipping['address'] = $request->address;
         $shipping_address = json_encode($shipping);
 
         //Order
         $order = array();
         $order['currency'] = "BDT";
-        $order['invoice_no'] = "IN".time();
-        $order['callan_no'] = "CL".time();
+        $order['invoice_no'] = "IN" . time();
+        $order['callan_no'] = "CL" . time();
         $order['customer_id'] = $customer;
         $order['subtotal'] = Cart::getSubTotal();
         $order['discount'] = 0;
         $order['vat'] = 0;
         $order['delivary_charge'] = 0;
-        $order['total'] = Cart::getTotal() - $order['discount'] + $order['delivary_charge'] + ($order['vat'] * $order['subtotal'] /100) ; # You cant not pay less than 10
+        $order['total'] = Cart::getTotal() - $order['discount'] + $order['delivary_charge'] + ($order['vat'] * $order['subtotal'] / 100); # You cant not pay less than 10
         $order['shipping_address'] = $shipping_address;
         if ($request->payment_method == 'cash_on_delivery') {
             $order['payment_type'] = "COD";
             $order['payment_status'] = "Pending";
-        }elseif($request->payment_method == 'Bkash'){
+        } elseif ($request->payment_method == 'Bkash') {
             $order['payment_type'] = "Bkash";
             $order['payment_status'] = "Pending";
-        }elseif($request->payment_method == 'Rocket'){
+        } elseif ($request->payment_method == 'Rocket') {
             $order['payment_type'] = "Rocket";
             $order['payment_status'] = "Pending";
-        }elseif($request->payment_method == 'ssl'){
+        } elseif ($request->payment_method == 'ssl') {
             $order['payment_type'] = "SSLCommerz";
             $order['payment_status'] = "Pending";
         }
@@ -94,11 +94,11 @@ class OrderController extends Controller
         $order['cupon_id'] = "cupon_id";
         $order['cupon_amount'] = "cupon_amount";
         $order['status'] = "Pending";
-        $orderId=Order::create($order)->id;
+        $orderId = Order::create($order)->id;
 
         //Shipping Insert
         $shipping['order_id'] = $orderId;
-        $shipping_id=OrderAddress::create($shipping);
+        $shipping_id = OrderAddress::create($shipping);
 
         //order details table
         $cartCollection = Cart::getContent();
@@ -115,37 +115,37 @@ class OrderController extends Controller
         }
 
         //Payment Insert
-        $paymentt['order_id']=$orderId;
+        $paymentt['order_id'] = $orderId;
         if ($request->payment_method == 'cash_on_delivery') {
             $paymentt['payment_id'] = 1;
             $paymentt['transaction_id'] = 'COD';
             $paymentt['full_info'] = 'cash_on_delivery';
             $paymentt['amount'] =  $order['total'];
-            $pay=OrderPayment::create($paymentt);
-        }elseif($request->payment_method == 'Bkash'){
+            $pay = OrderPayment::create($paymentt);
+        } elseif ($request->payment_method == 'Bkash') {
             $paymentt['payment_id'] = 2;
             $paymentt['transaction_id'] = $request->transaction;
             $paymentt['full_info'] = $request->bkashnumber;
             $paymentt['amount'] =  $order['total'];
-            $pay=OrderPayment::create($paymentt);
-        }elseif($request->payment_method == 'Rocket'){
+            $pay = OrderPayment::create($paymentt);
+        } elseif ($request->payment_method == 'Rocket') {
             $paymentt['payment_id'] = 3;
             $paymentt['transaction_id'] = $request->rocket_transaction;
             $paymentt['full_info'] = $request->rocket_number;
             $paymentt['amount'] =  $order['total'];
-            $pay=OrderPayment::create($paymentt);
+            $pay = OrderPayment::create($paymentt);
         }
-        
+
         //dd($pay);
         if ($request->payment_method == 'cash_on_delivery') {
             Cart::clear();
-            return redirect()->route('mypanel.morder.index')->with('status','Order has is Successful! placed!');
-        }elseif ($request->payment_method == 'Nogod' OR $request->payment_method == 'Bkash') {
+            return redirect()->route('mypanel.morder.index')->with('status', 'Order has is Successful! placed!');
+        } elseif ($request->payment_method == 'Nogod' or $request->payment_method == 'Bkash') {
             Cart::clear();
-            return redirect()->route('mypanel.morder.index')->with('status','Order has is Successful! placed!');
-        }else{
+            return redirect()->route('mypanel.morder.index')->with('status', 'Order has is Successful! placed!');
+        } else {
             // default code is bellow.
-            $customers=Customer::where('id',$customer)->first();
+            $customers = Customer::where('id', $customer)->first();
             $post_data = array();
             $post_data['total_amount'] = $order['total']; # You cant not pay less than 10
             $post_data['currency'] = "BDT";
@@ -200,21 +200,24 @@ class OrderController extends Controller
      */
     public function show($id)
     {
-        $order=Order::where('invoice_no', $id)->first();
-        $orders=OrderDetails::where('order_id', $order->id)->get();
-        return view('Mypanel.order.show', compact('order','orders'));
+        $data['user']    = $user  = Auth::guard('mypanel')->user()->id;
+        $data['orders']  = Order::orderBy('id', 'DESC')->where('customer_id', $user)->paginate(10);
+        $data['profile'] = Customer::where('id', $user)->first();
+        $data['order']  = $order = Order::where('invoice_no', $id)->first();
+        $data['orders'] = OrderDetails::where('order_id', $order->id)->get();
+        return view('Mypanel.user', $data);
+        // return view('Mypanel.order.show', compact('order', 'orders'));
     }
 
     public function invoice($id)
     {
-//        $order=Order::where('invoice_no', $id)->first();
-//        $orders=OrderDetails::where('invoice_no', $id)->get();
+
         $data = [
             'invoice_no' => $id
         ];
         //return view('Mypanel.order.invoice', compact('data'));
         $pdf = PDF::loadView('Mypanel.order.invoice', $data);
-        return $pdf->stream('invoice-'.$id.'.pdf');
+        return $pdf->stream('invoice-' . $id . '.pdf');
     }
 
     /**
