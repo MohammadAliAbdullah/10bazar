@@ -21,20 +21,20 @@ class CategoriesController extends Controller
      */
     public function index()
     {
-        $categories = Category::paginate(10);
-        return view('Admin.Categories.index',compact('categories'));
+        $categories = Category::all();
+        return view('Admin.Categories.index', compact('categories'));
     }
 
     public function spacial()
     {
-        $categories = Category::where('type','Special')->paginate(10);
-        return view('Admin.Categories.index',compact('categories'));
+        $categories = Category::where('type', 'Special')->paginate(10);
+        return view('Admin.Categories.index', compact('categories'));
     }
 
     public function regular()
     {
-        $categories = Category::where('type','Regular')->paginate(10);
-        return view('Admin.Categories.index',compact('categories'));
+        $categories = Category::where('type', 'Regular')->paginate(10);
+        return view('Admin.Categories.index', compact('categories'));
     }
 
     /**
@@ -44,7 +44,7 @@ class CategoriesController extends Controller
      */
     public function create()
     {
-        $parents = Category::where('parent_id', 0)->get()->pluck('title','id')->toArray();
+        $parents = Category::where('parent_id', 0)->get()->pluck('title', 'id')->toArray();
         return view('Admin.Categories.add', compact('parents'));
     }
 
@@ -57,66 +57,66 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        if($file=$request->file('image')){
-            $img=preg_replace('/\s+/', '-','thumb.'. $file->extension());
-            $names=time().$img;
+        if ($file = $request->file('image')) {
+            $img = preg_replace('/\s+/', '-', 'thumb.' . $file->extension());
+            $names = time() . $img;
             //$names=$img;
             $destinationPath = public_path('images/category/');
             $img = Image::make($file->path());
             $img->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $names);
-            $category['thumb']=$names;
+            $category['thumb'] = $names;
         }
-        if($file=$request->file('image')){
-            $img=preg_replace('/\s+/', '-','images.'. $file->extension());
-            $names=time().$img;
+        if ($file = $request->file('image')) {
+            $img = preg_replace('/\s+/', '-', 'images.' . $file->extension());
+            $names = time() . $img;
             //$names=$img;
             $destinationPath = public_path('images/category/');
             $img = Image::make($file->path());
             $img->resize(400, 400, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $names);
-            $category['images']=$names;
+            $category['images'] = $names;
         }
-        if($file=$request->file('banner')){
-            $img=preg_replace('/\s+/', '-','banner.'. $file->extension());
-            $names=time().$img;
+        if ($file = $request->file('banner')) {
+            $img = preg_replace('/\s+/', '-', 'banner.' . $file->extension());
+            $names = time() . $img;
             //$names=$img;
             $destinationPath = public_path('images/category/');
             $img = Image::make($file->path());
             $img->resize(1000, 400, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $names);
-            $category['banner']=$names;
+            $category['banner'] = $names;
         }
-        if($file=$request->file('background')){
-            $img=preg_replace('/\s+/', '-','background.'. $file->extension());
-            $names=time().$img;
+        if ($file = $request->file('background')) {
+            $img = preg_replace('/\s+/', '-', 'background.' . $file->extension());
+            $names = time() . $img;
             //$names=$img;
             $destinationPath = public_path('images/');
             $img = Image::make($file->path());
             $img->resize(1300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $names);
-            $category['background']=$names;
+            $category['background'] = $names;
         }
         $category['title'] = $data['title'];
-        $category['slug']=$this->createSlug($data['title']);
+        $category['slug'] = $this->createSlug($data['title']);
         $category['type'] = $data['type'];
         $category['status'] = $data['status'];
         $category['parent_id'] = $data['parent_id'];
-//dd($category);
-        $category['img_alt']=$data['img_alt'];
-        $category['smm_title']=$data['smm_title'];
-        $category['smm_content']=$data['smm_content'];
-        $category['meta_title']=$data['meta_title'];
-        $category['meta_description']=$data['meta_description'];
-        $category['meta_keyword']=$data['meta_keyword'];
-        $category['schema']=$data['schema'];
-        $category['follow']=$data['follow'];
+        //dd($category);
+        $category['img_alt'] = $data['img_alt'];
+        $category['smm_title'] = $data['smm_title'];
+        $category['smm_content'] = $data['smm_content'];
+        $category['meta_title'] = $data['meta_title'];
+        $category['meta_description'] = $data['meta_description'];
+        $category['meta_keyword'] = $data['meta_keyword'];
+        $category['schema'] = $data['schema'];
+        $category['follow'] = $data['follow'];
         Category::create($category);
-        Session::flash('status','Your Category has been sucessfully add');
+        Session::flash('status', 'Your Category has been sucessfully add');
         return redirect()->route('madmin.categories.index');
     }
 
@@ -139,7 +139,7 @@ class CategoriesController extends Controller
      */
     public function edit($id)
     {
-        $parents = Category::where('parent_id', 0)->get()->pluck('title','id')->toArray();
+        $parents = Category::where('parent_id', 0)->get()->pluck('title', 'id')->toArray();
         $category = Category::findOrFail($id);
         $seo_meta = SeoMeta::where('id', $category->meta_id)->first();
         return view('Admin.Categories.edit', compact('category', 'seo_meta', 'parents'));
@@ -156,79 +156,79 @@ class CategoriesController extends Controller
     {
         $data = $request->all();
         $category_edit = Category::findOrFail($id);
-        if($file=$request->file('image')){
-//            if(file_exists(public_path("/images/category/" . $category_edit->thumb))) {
-//                unlink(public_path() . "/images/category/" . $category_edit->thumb);
-//            }
-            $img=preg_replace('/\s+/', '-','thumb.'. $file->extension());
-            $names=time().$img;
+        if ($file = $request->file('image')) {
+            //            if(file_exists(public_path("/images/category/" . $category_edit->thumb))) {
+            //                unlink(public_path() . "/images/category/" . $category_edit->thumb);
+            //            }
+            $img = preg_replace('/\s+/', '-', 'thumb.' . $file->extension());
+            $names = time() . $img;
             //$names=$img;
             $destinationPath = public_path('images/category/');
             $img = Image::make($file->path());
             $img->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $names);
-            $category['thumb']=$names;
+            $category['thumb'] = $names;
         }
-        if($file=$request->file('image')){
-//            if(file_exists(public_path() . "/images/category/" . $category_edit->images)) {
-//                unlink(public_path() . "/images/category/" . $category_edit->images);
-//            }
-            $img=preg_replace('/\s+/', '-','images.'. $file->extension());
-            $names=time().$img;
+        if ($file = $request->file('image')) {
+            //            if(file_exists(public_path() . "/images/category/" . $category_edit->images)) {
+            //                unlink(public_path() . "/images/category/" . $category_edit->images);
+            //            }
+            $img = preg_replace('/\s+/', '-', 'images.' . $file->extension());
+            $names = time() . $img;
             //$names=$img;
             $destinationPath = public_path('images/category/');
             $img = Image::make($file->path());
             $img->resize(400, 400, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $names);
-            $category['images']=$names;
+            $category['images'] = $names;
         }
-        if($file=$request->file('banner')){
-//            if(file_exists(public_path("/images/category/" . $category_edit->banner))) {
-//                unlink(public_path() . "/images/category/" . $category_edit->banner);
-//            }
-            $img=preg_replace('/\s+/', '-','banner.'. $file->extension());
-            $names=time().$img;
+        if ($file = $request->file('banner')) {
+            //            if(file_exists(public_path("/images/category/" . $category_edit->banner))) {
+            //                unlink(public_path() . "/images/category/" . $category_edit->banner);
+            //            }
+            $img = preg_replace('/\s+/', '-', 'banner.' . $file->extension());
+            $names = time() . $img;
             //$names=$img;
             $destinationPath = public_path('images/category/');
             $img = Image::make($file->path());
             $img->resize(500, 800, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $names);
-            $category['banner']=$names;
+            $category['banner'] = $names;
         }
-        if($file=$request->file('background')){
-            $img=preg_replace('/\s+/', '-','background.'. $file->extension());
-            $names=time().$img;
+        if ($file = $request->file('background')) {
+            $img = preg_replace('/\s+/', '-', 'background.' . $file->extension());
+            $names = time() . $img;
             //$names=$img;
             $destinationPath = public_path('images/');
             $img = Image::make($file->path());
             $img->resize(1300, 300, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $names);
-            $category['background']=$names;
+            $category['background'] = $names;
         }
         $category['title'] = $data['title'];
-        if($data['title']==$category_edit->title){
-            $category['slug']=$category_edit->slug;
-        }else{
-            $category['slug']=$this->createSlug($data['title']);
+        if ($data['title'] == $category_edit->title) {
+            $category['slug'] = $category_edit->slug;
+        } else {
+            $category['slug'] = $this->createSlug($data['title']);
         }
         $category['type'] = $data['type'];
         $category['content'] = $data['content'];
         $category['parent_id'] = $data['parent_id'];
-        $category['img_alt']=$data['img_alt'];
+        $category['img_alt'] = $data['img_alt'];
         $category['status'] = $data['status'];
-        $category['smm_title']=$data['smm_title'];
-        $category['smm_content']=$data['smm_content'];
-        $category['meta_title']=$data['meta_title'];
-        $category['meta_description']=$data['meta_description'];
-        $category['meta_keyword']=$data['meta_keyword'];
-        $category['schema']=$data['schema'];
-        $category['follow']=$data['follow'];
+        $category['smm_title'] = $data['smm_title'];
+        $category['smm_content'] = $data['smm_content'];
+        $category['meta_title'] = $data['meta_title'];
+        $category['meta_description'] = $data['meta_description'];
+        $category['meta_keyword'] = $data['meta_keyword'];
+        $category['schema'] = $data['schema'];
+        $category['follow'] = $data['follow'];
         $category_edit->update($category);
-        Session::flash('status','Your Category has been sucessfully Updated!');
+        Session::flash('status', 'Your Category has been sucessfully Updated!');
         return redirect()->route('madmin.categories.index');
     }
 
@@ -241,32 +241,32 @@ class CategoriesController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-//        if(file_exists(public_path() . "/images/category/" . $category->banner)) {
-//            unlink(public_path() . "/images/category/" . $category->banner);
-//        }
-//        if(file_exists(public_path() . "/images/category/" . $category->images)) {
-//            unlink(public_path() . "/images/category/" . $category->images);
-//        }
-//        if(file_exists(public_path() . "/images/category/" . $category->thumb)) {
-//            unlink(public_path() . "/images/category/" . $category->thumb);
-//        }
-//        $products = $category->products;
-//        foreach ($products as $product) {
-//            $product->productstock->delete();
-//            //$product->seometa->delete();
-//            $product->delete();
-//        }
+        //        if(file_exists(public_path() . "/images/category/" . $category->banner)) {
+        //            unlink(public_path() . "/images/category/" . $category->banner);
+        //        }
+        //        if(file_exists(public_path() . "/images/category/" . $category->images)) {
+        //            unlink(public_path() . "/images/category/" . $category->images);
+        //        }
+        //        if(file_exists(public_path() . "/images/category/" . $category->thumb)) {
+        //            unlink(public_path() . "/images/category/" . $category->thumb);
+        //        }
+        //        $products = $category->products;
+        //        foreach ($products as $product) {
+        //            $product->productstock->delete();
+        //            //$product->seometa->delete();
+        //            $product->delete();
+        //        }
 
         //SeoMeta::where('id', $category->meta_id)->delete();
         $category->delete();
-        Session::flash('status','Your Category has been sucessfully deleted with child products!');
+        Session::flash('status', 'Your Category has been sucessfully deleted with child products!');
         return redirect()->route('madmin.categories.index');
     }
     public function createSlug($title, $id = 0)
     {
         $slug = str_slug($title);
         $allSlugs = $this->getRelatedSlugs($slug, $id);
-        if (! $allSlugs->contains('slug', $slug)){
+        if (! $allSlugs->contains('slug', $slug)) {
             return $slug;
         }
 
@@ -283,7 +283,7 @@ class CategoriesController extends Controller
     }
     protected function getRelatedSlugs($slug, $id = 0)
     {
-        return Category::select('slug')->where('slug', 'like', $slug.'%')
+        return Category::select('slug')->where('slug', 'like', $slug . '%')
             ->where('id', '<>', $id)
             ->get();
     }

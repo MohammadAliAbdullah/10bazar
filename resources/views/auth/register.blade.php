@@ -35,9 +35,9 @@
                                 <div class="form-group form-check">
                                     <input type="checkbox" name="rememberme" class="form-check-input" id="exampleCheck1"
                                         checked>
-                                    <label class="form-check-label" for="exampleCheck1">I agree to Femina Lightings Ltd
-                                        <a href="">Terms of Use</a> and <a href="">Privacy
-                                            Policy</a></label>
+                                    <label class="form-check-label" for="exampleCheck1">I agree to 10 Bazar Ltd
+                                        <a href="">Terms of Use</a> and <a href="">Privacy Policy</a>
+                                    </label>
                                 </div>
                                 <button class="btn btn-primary mt-4" type="submit">Registration</button>
                             </form>

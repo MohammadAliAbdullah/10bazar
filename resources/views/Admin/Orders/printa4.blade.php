@@ -319,8 +319,8 @@
                 3. For any assistance, you are entitled to 12 months of service warranty from the date
                 of
                 purchase.<br>
-                4. You can reach us at <strong>+8801705210280</strong> or email us at
-                <strong>info@feminalightings.com</strong>.<br>
+                4. You can reach us at <strong> +880 17 200 85127</strong> or email us at
+                <strong>10bazar.store@gmail.com</strong>.<br>
                 5. <strong>No Money Back Policy.</strong><br>
                 <span style="font-size: 17px">Thank you for shopping with us. Have a great day!</span>
             </p>

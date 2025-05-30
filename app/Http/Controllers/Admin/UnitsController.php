@@ -19,7 +19,7 @@ class UnitsController extends Controller
      */
     public function index()
     {
-        $units = Unit::paginate(10);
+        $units = Unit::all();
         return view('Admin.Units.index', compact('units'));
     }
 

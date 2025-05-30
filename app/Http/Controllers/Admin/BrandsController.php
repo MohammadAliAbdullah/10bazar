@@ -22,7 +22,7 @@ class BrandsController extends Controller
      */
     public function index()
     {
-        $brands=Brand::paginate(10);
+        $brands=Brand::all();
         return view('Admin.Brands.index',compact('brands'));
     }
 

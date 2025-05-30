@@ -22,6 +22,8 @@ use Image;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
+use Yajra\DataTables\Facades\DataTables;
+
 class ProductsController extends Controller
 {
     /**
@@ -32,17 +34,108 @@ class ProductsController extends Controller
      */
     public function index(Request $request)
     {
+        if ($request->ajax()) {
+            $searchValue = $request->search; // Access the search value correctly
+            // dd($searchValue);
+
+            $data = Product::with(['category', 'brand'])
+                ->orderByDesc('id');
+
+            // Apply global search filter
+            if (!empty($searchValue)) {
+                $data->where(function ($query) use ($searchValue) {
+                    $query->where('title', 'like', "%{$searchValue}%")
+                        ->orWhere('slug', 'like', "%{$searchValue}%");
+                });
+            }
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+                ->editColumn('thumb', function ($row) {
+                    return '<img src="' . asset('uploads/products/' . $row->thumb) . '" height="40">';
+                })
+                ->editColumn('category', function ($row) {
+                    return $row->category->name ?? 'N/A';
+                })
+                ->editColumn('brand', function ($row) {
+                    return $row->brand->name ?? 'N/A';
+                })
+                ->editColumn('status', function ($row) {
+                    return $row->status ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>';
+                })
+                ->editColumn('created_at', function ($row) {
+                    return $row->created_at->format('Y-m-d');
+                })
+                ->addColumn('action', function ($row) {
+                    return view('Admin.Products.actions', compact('row'))->render();
+                })
+                ->rawColumns(['thumb', 'status', 'action'])
+                ->make(true);
+        }
+
+        return view('Admin.Products.index');
+    }
+
+    public function index_9999(Request $request)
+    {
+        if ($request->ajax()) {
+            $searchValue = $request->search; // Access the search value correctly
+
+            $data = Product::with(['category', 'brand'])->orderByDesc('id');
+
+            return DataTables::of($data)
+                ->addIndexColumn()
+
+                // Use the search value from the request
+                ->filterColumn('title', function ($query) use ($searchValue) {
+                    $query->where('title', 'like', "%{$searchValue}%");
+                })
+                // ->filterColumn('slug', function ($query) use ($searchValue) {
+                //     $query->orWhere('slug', 'like', "%{$searchValue}%");
+                // })
+
+                ->editColumn('thumb', function ($row) {
+                    return '<img src="' . asset('uploads/products/' . $row->thumb) . '" height="40">';
+                })
+                ->editColumn('category', function ($row) {
+                    return $row->category->name ?? 'N/A';
+                })
+                ->editColumn('brand', function ($row) {
+                    return $row->brand->name ?? 'N/A';
+                })
+                ->editColumn('status', function ($row) {
+                    return $row->status ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>';
+                })
+                ->editColumn('created_at', function ($row) {
+                    return $row->created_at->format('Y-m-d');
+                })
+                ->addColumn('action', function ($row) {
+                    return view('Admin.Products.actions', compact('row'))->render();
+                })
+                ->rawColumns(['thumb', 'status', 'action'])
+                ->make(true);
+        }
+
+        return view('Admin.Products.index');
+    }
+
+    public function index_old(Request $request)
+    {
         $query = Product::orderBy('id', 'DESC');
 
         if ($request->has('search') && $request->search != '') {
             $query->where('title', 'like', '%' . $request->search . '%')
                 ->orWhere('slug', 'like', '%' . $request->search . '%');
+            $products = $query->paginate(10)->appends($request->all());
+        } else {
+            $products = Product::all();
         }
 
-        $products = $query->paginate(10)->appends($request->all());
+
 
         return view('Admin.Products.index', compact('products'));
     }
+
 
     /**
      * Show the form for creating a new resource.

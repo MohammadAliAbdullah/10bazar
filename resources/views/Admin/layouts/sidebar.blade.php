@@ -17,7 +17,8 @@
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
-            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                data-accordion="false">
                 <!-- Dashboard -->
                 <li class="nav-item">
                     <a href="{{ url('myadminpanel/dashboard') }}" class="nav-link active">
@@ -56,7 +57,8 @@
                         <ul class="nav nav-treeview">
                             @foreach ($admes as $subadm)
                                 <li class="nav-item">
-                                    <a href="{{ $subadm->url === '#' ? $subadm->url : route($subadm->url) }}" class="nav-link">
+                                    <a href="{{ $subadm->url === '#' ? $subadm->url : route($subadm->url) }}"
+                                        class="nav-link">
                                         <i class="{{ $subadm->icon }} nav-icon"></i>
                                         <p>{{ $subadm->name }}</p>
                                     </a>
