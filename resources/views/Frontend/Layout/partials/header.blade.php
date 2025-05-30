@@ -21,7 +21,7 @@
                     <div class="topbar__item topbar__item--link"><a class="topbar-link"
                             href="blog-classic.html">Blog</a></div>
                     <div class="topbar__spring"></div>
-                    <div class="topbar__item">
+                    {{-- <div class="topbar__item">
                         <div class="topbar-dropdown">
                             <button class="topbar-dropdown__btn" type="button">
                                 My Account
@@ -43,7 +43,7 @@
                                 <!-- .menu / end -->
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                     <div class="topbar__item">
                         <div class="topbar-dropdown">
                             <button class="topbar-dropdown__btn" type="button">Currency: <span
@@ -151,8 +151,8 @@
                                         </ul>
                                     </div>
                                 </div>
-                                <button class="departments__button"><svg class="departments__button-icon"
-                                        width="18px" height="14px">
+                                <button class="departments__button"><svg class="departments__button-icon" width="18px"
+                                        height="14px">
                                         <use xlink:href="images/sprite.svg#menu-18x14"></use>
                                     </svg> Shop By Category <svg class="departments__button-arrow" width="9px"
                                         height="6px">
@@ -228,6 +228,32 @@
                                     </span>
                                 </a>
                             </div> --}}
+                            <div class="indicator indicator--trigger--click">
+                                <a class="indicator__button">
+                                    <span class="indicator__area">
+                                        <i class="fas fa-user"></i>
+                                    </span>
+                                </a>
+                                <div class="indicator__dropdown">
+                                    <div class="dropcart">
+                                        <div class="dropcart__buttons">
+                                            @if (Auth::guard('mypanel')->user())
+                                                <a class="btn btn-secondary" href="{{ route('mypanel.users') }}">Profile</a>
+                                                <a class="btn btn-primary" href="{{ route('mypanel.elogout') }}">Logout</a>
+                                            @else
+                                                <a class="btn btn-secondary" href="{{ route('login') }}">Login</a>
+                                                <a class="btn btn-primary" href="{{ route('register.user') }}">Register</a>
+                                            @endif
+
+
+                                            {{-- <a class="btn btn-secondary" href="{{ route('cart.list') }}">View
+                                                Cart</a>
+                                            <a class="btn btn-primary" href="{{ route('checkout') }}">Checkout</a> --}}
+                                        </div>
+                                    </div>
+                                    <!-- .dropcart / end -->
+                                </div>
+                            </div>
                             <div class="indicator indicator--trigger--click"
                                 id="{{ !request()->is('cart') ? 'cartViewButton' : '' }}">
                                 <a class="indicator__button">
