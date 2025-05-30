@@ -1,7 +1,7 @@
 @extends('Frontend.Layout.master')
-{{-- @section('meta_title', $seo->meta_title)
+@section('meta_title', $seo->meta_title)
 @section('meta_keywords', $seo->meta_keyword)
-@section('meta_description', $seo->meta_description) --}}
+@section('meta_description', $seo->meta_description)
 @section('content')
     <!-- .block-slideshow -->
     <div class="block-slideshow block-slideshow--layout--with-departments block">
@@ -108,9 +108,11 @@
                                     </div>
                                     <div class="product-card__info">
                                         <div class="product-card__name">
-                                            <a href="{{ route('product_details', ['id' => $product->slug]) }}">
-                                                {!! Str::limit($product->title, 32, ' ...') !!}
-                                            </a>
+                                            @if ($product)
+                                                <a href="{{ route('product_details', ['id' => $product->slug]) }}">
+                                                    {!! Str::limit($product->title, 32, ' ...') !!}
+                                                </a>
+                                            @endif
                                         </div>
 
                                     </div>
@@ -171,16 +173,24 @@
                                 <div class="product-card__badge product-card__badge--new">New</div>
                             </div>
                             <div class="product-card__image">
-                                <a href="product.html">
-                                    <img src="{{ asset('public/images/product/' . $bestSeller->thumb) }}"
-                                        alt="{{ $bestSeller->img_alt ?? 'Product Image' }}">
+                                <a>
+                                    @if ($bestSeller && $bestSeller->thumb)
+                                        <img src="{{ asset('public/images/product/' . $bestSeller->thumb) }}"
+                                            alt="{{ $product->img_alt ?? 'Product Image' }}">
+                                    @else
+                                        <img src="{{ asset('public/images/product/default-thumb.jpg') }}"
+                                            alt="Default Product Image">
+                                    @endif
                                 </a>
                             </div>
                             <div class="product-card__info">
                                 <div class="product-card__name">
-                                    <a href="{{ route('product_details', ['id' => $bestSeller->slug]) }}">
-                                        {!! Str::limit($bestSeller->title, 32, ' ...') !!}
-                                    </a>
+                                    @if ($bestSeller)
+                                        <a
+                                            href="{{ route('product_details', ['id' => isset($bestSeller->slug) ? $bestSeller->slug : '']) }}">
+                                            {!! Str::limit($bestSeller->title, 32, ' ...') !!}
+                                        </a>
+                                    @endif
                                 </div>
                                 <div class="product-card__rating">
                                     <div class="rating">
@@ -295,26 +305,30 @@
                         @if ($key < 6)
                             <div class="block-products__list-item">
                                 <div class="product-card">
-                                    <button class="product-card__quickview" type="button"><svg width="16px"
-                                            height="16px">
+                                    <button class="product-card__quickview" type="button">
+                                        <svg width="16px" height="16px">
                                             <use xlink:href="images/sprite.svg#quickview-16"></use>
-                                        </svg> <span class="fake-svg-icon"></span></button>
+                                        </svg>
+                                        <span class="fake-svg-icon"></span>
+                                    </button>
                                     <div class="product-card__badges-list">
                                         <div class="product-card__badge product-card__badge--hot">Hot</div>
                                     </div>
                                     <div class="product-card__image">
-                                        <a href="product.html">
-                                            <img src="{{ asset('public/images/product/' . $product->thumb) }}"
-                                                alt="{{ $product->img_alt ?? 'Product Image' }}">
-                                        </a>
+                                        @if ($product)
+                                            <a href="#">
+                                                <img src="{{ asset('public/images/product/' . $product->thumb) }}"
+                                                    alt="{{ $product->img_alt ?? 'Product Image' }}">
+                                            </a>
+                                        @endif
                                     </div>
                                     <div class="product-card__info">
                                         <div class="product-card__name">
-                                            <a href="product.html">
+                                            @if ($product)
                                                 <a href="{{ route('product_details', ['id' => $product->slug]) }}">
                                                     {!! Str::limit($product->title, 32, ' ...') !!}
                                                 </a>
-                                            </a>
+                                            @endif
                                         </div>
                                         <div class="product-card__rating">
                                             <div class="rating">
@@ -601,7 +615,8 @@
                         <div class="post-card">
                             <div class="post-card__image">
                                 <a href="#">
-                                    <img src="{{ asset('public/images/blogs') }}/{{ $blog->images }}" alt="{{ $blog->title ?? 'N/A' }}">
+                                    <img src="{{ asset('public/images/blogs') }}/{{ $blog->images }}"
+                                        alt="{{ $blog->title ?? 'N/A' }}">
                                 </a>
                             </div>
                             <div class="post-card__info">
