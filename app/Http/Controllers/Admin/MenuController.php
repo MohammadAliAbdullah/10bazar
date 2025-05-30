@@ -49,7 +49,7 @@ class MenuController extends Controller
         Menu::create($udata);
         //dd($user_data);
         Session::flash('status','Your Admin Menu has been sucessfully add');
-        return redirect('/madmin/adminmenu');
+        return redirect('/myadminpanel/adminmenu');
     }
 
     /**
@@ -97,7 +97,7 @@ class MenuController extends Controller
         $edits->update($udata);
         //dd($user_data);
         Session::flash('status','Your Admin Menu has been sucessfully Update!!');
-        return redirect('/madmin/adminmenu');
+        return redirect('/myadminpanel/adminmenu');
 
 
     }
@@ -113,6 +113,6 @@ class MenuController extends Controller
         $edits=Menu::findOrFail($id);
         $edits->delete();
         Session::flash('status','Your Admin Menu has been sucessfully Delete!!');
-        return redirect('/madmin/adminmenu');
+        return redirect('/myadminpanel/adminmenu');
     }
 }

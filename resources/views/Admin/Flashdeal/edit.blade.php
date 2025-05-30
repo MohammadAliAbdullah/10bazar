@@ -13,7 +13,7 @@
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('madmin/flashdealadmin') }}">Campaign</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url('myadminpanel/flashdealadmin') }}">Campaign</a></li>
                         <li class="breadcrumb-item active">Add Campaign</li>
                     </ol>
                 </div><!-- /.col -->

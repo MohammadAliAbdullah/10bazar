@@ -372,7 +372,7 @@
             datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
             queryTokenizer: Bloodhound.tokenizers.whitespace,
             prefetch: {
-                url: '{{ url('madmin/tags') }}',
+                url: '{{ url('myadminpanel/tags') }}',
                 filter: function(list) {
                     return $.map(list, function(name) {
                         return { name: name }; });

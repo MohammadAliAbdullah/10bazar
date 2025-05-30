@@ -46,7 +46,7 @@ class UnitsController extends Controller
         Unit::create($data);
         //dd($user_data);
         Session::flash('status','Your Unit has been sucessfully add');
-        return redirect('/madmin/units');
+        return redirect('/myadminpanel/units');
     }
 
     /**
@@ -90,7 +90,7 @@ class UnitsController extends Controller
         $unit->update($udata);
         //dd($user_data);
         Session::flash('status','Your Unit has been sucessfully Update!!');
-        return redirect('/madmin/units');
+        return redirect('/myadminpanel/units');
     }
 
     /**

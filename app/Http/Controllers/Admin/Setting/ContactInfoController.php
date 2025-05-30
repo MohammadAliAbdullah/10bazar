@@ -55,7 +55,7 @@ class ContactInfoController extends Controller
         ContactInfo::create($udata);
 
         Session::flash('status','Your Contact Info has been sucessfully add');
-        return redirect('/madmin/contactinfo');
+        return redirect('/myadminpanel/contactinfo');
     }
 
     /**
@@ -137,7 +137,7 @@ class ContactInfoController extends Controller
         $oldData->update($udata);
         //dd($user_data);
         Session::flash('status','Your Contact Info has been sucessfully Updated!');
-        return redirect('/madmin/contactinfo');
+        return redirect('/myadminpanel/contactinfo');
     }
 
     /**

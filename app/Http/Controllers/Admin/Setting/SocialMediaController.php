@@ -52,7 +52,7 @@ class SocialMediaController extends Controller
         Socialmedia::create($udata);
         //dd($user_data);
         Session::flash('status','Social Media Info  has been sucessfully add');
-        return redirect('/madmin/socialmedia');
+        return redirect('/myadminpanel/socialmedia');
     }
 
     /**
@@ -100,7 +100,7 @@ class SocialMediaController extends Controller
         $show->update($udata);
         //dd($user_data);
         Session::flash('status','Social Media Info  has been sucessfully Updated!!');
-        return redirect('/madmin/socialmedia');
+        return redirect('/myadminpanel/socialmedia');
     }
 
     /**
@@ -114,6 +114,6 @@ class SocialMediaController extends Controller
         $show=Socialmedia::findOrFail($id);
         $show->delete();
         Session::flash('status','Social Media  Info  has been sucessfully Deleted!!');
-        return redirect('/madmin/socialmedia');
+        return redirect('/myadminpanel/socialmedia');
     }
 }

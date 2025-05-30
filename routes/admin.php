@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 
-Route::get('/madmin/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
+Route::get('/myadminpanel/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
 //Auth::routes();
-Route::prefix('/madmin')->name('madmin.')->namespace('Madmin')->group(function () {
+Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(function () {
     Route::namespace('Auth')->group(function () {
         //Login Routes
         Route::get('/', [App\Http\Controllers\Admin\AdminController::class, 'index']);
@@ -28,13 +28,11 @@ Route::prefix('/madmin')->name('madmin.')->namespace('Madmin')->group(function (
         Route::resource('/products', '\App\Http\Controllers\Admin\ProductsController');
         Route::resource('/bercode', '\App\Http\Controllers\Admin\BercodeController');
         Route::get('/autocompleteproduct', [App\Http\Controllers\Admin\BercodeController::class, 'autocompleteproduct'])->name('autocomplete.product');
-
         Route::resource('/purchases', '\App\Http\Controllers\Admin\PurchasesController');
         Route::post('/get_sku_item/data', [App\Http\Controllers\Admin\PurchasesController::class, 'get_sku_item'])->name('get_sku_item');
         Route::post('/get_price', [App\Http\Controllers\Admin\PurchasesController::class, 'get_price'])->name('get_price');
         Route::post('/get_supplier/data', [App\Http\Controllers\Admin\PurchasesController::class, 'get_supplier'])->name('get_supplier');
         Route::resource('/suppliers', '\App\Http\Controllers\Admin\SuppliersController');
-
         Route::get('/stock', [App\Http\Controllers\Admin\StockController::class, 'index'])->name('stock.index');
         Route::get('/stock/low', [App\Http\Controllers\Admin\StockController::class, 'stock_low'])->name('stock.low');
         Route::get('/stock/sold', [App\Http\Controllers\Admin\StockController::class, 'stock_sold'])->name('stock.sold');
@@ -45,7 +43,6 @@ Route::prefix('/madmin')->name('madmin.')->namespace('Madmin')->group(function (
         Route::post('/adjustment/Store', [App\Http\Controllers\Admin\StockController::class, 'store'])->name('adjustment.Store');
         Route::get('/adjustment/edit/{id}', [App\Http\Controllers\Admin\StockController::class, 'edit'])->name('adjustment.edit');
         Route::post('/adjustment/store/{id}', [App\Http\Controllers\Admin\StockController::class, 'update'])->name('adjustment.update');
-
         Route::resource('/slides', '\App\Http\Controllers\Admin\SlidesController');
         Route::resource('/blogs', '\App\Http\Controllers\Admin\BlogsController');
         Route::resource('/faqs', '\App\Http\Controllers\Admin\FaqsController');
@@ -66,7 +63,6 @@ Route::prefix('/madmin')->name('madmin.')->namespace('Madmin')->group(function (
         Route::resource('/contacts', '\App\Http\Controllers\Admin\Setting\ContactInfoController');
         Route::resource('/seoconfigs', '\App\Http\Controllers\Admin\Setting\SeoConfigsController');
         Route::resource('/socialmedia', '\App\Http\Controllers\Admin\Setting\SocialMediaController');
-
         Route::resource('/aboutadmin', '\App\Http\Controllers\Admin\AboutController');
         Route::resource('/customeradmin', '\App\Http\Controllers\Admin\CustomerController');
         Route::resource('/newsletteradmin', '\App\Http\Controllers\Admin\NewsletterController');

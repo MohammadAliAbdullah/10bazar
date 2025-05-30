@@ -63,7 +63,7 @@
                 <div class="text-center font-weight-bold text-danger">10 BAZAR</div>
                 <div class="card-text">
 
-                    <form method="POST" action="{{ url('madmin/login') }}">
+                    <form method="POST" action="{{ url('myadminpanel/login') }}">
                         @csrf
                         <div class="form-group">
                             <label for="email">Email address</label>

@@ -60,7 +60,7 @@ class SmsSendController extends Controller
         $smstemplete->update($smscamp);
 
         Session::flash('status','Your SMS Campaign has been sucessfully send!!');
-        return redirect('/madmin/smscampaign');
+        return redirect('/myadminpanel/smscampaign');
     }
     /**
      * Display a listing of the resource.

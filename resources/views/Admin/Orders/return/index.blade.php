@@ -29,7 +29,7 @@
                 <div class="col-md-12">
                     <div class="card">
                     <div class="card-header">
-                        {!! Form::open(['method'=>'GET','url'=>'madmin/orderreturn']) !!}
+                        {!! Form::open(['method'=>'GET','url'=>'myadminpanel/orderreturn']) !!}
                         <div class="row">
                             <div class="col-md-4">
                                 {!! Form::text('search', null, ['class'=>'form-control','id'=>'receiver','required']) !!}

@@ -66,7 +66,7 @@ class AttributesController extends Controller
 
         Atribute::create($udata);
         Session::flash('status','Your attribute has been sucessfully add');
-        return redirect('/madmin/attributes');
+        return redirect('/myadminpanel/attributes');
 
     }
 
@@ -128,7 +128,7 @@ class AttributesController extends Controller
 
         $attribute->update($udata);
         Session::flash('status','Your attribute has been sucessfully updated');
-        return redirect('/madmin/attributes');
+        return redirect('/myadminpanel/attributes');
     }
 
     /**
@@ -142,7 +142,7 @@ class AttributesController extends Controller
         $attribute=Atribute::findOrFail($id);
         $attribute->delete();
         Session::flash('status','Your attribute has been sucessfully delete!!');
-        return redirect('/madmin/attributes');
+        return redirect('/myadminpanel/attributes');
     }
     public function createSlug($title, $id = 0)
     {

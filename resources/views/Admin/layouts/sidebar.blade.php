@@ -1,6 +1,6 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: navy">
     <!-- Brand Logo -->
-    <a href="{{ url('/madmin/dashboard') }}" class="brand-link">
+    <a href="{{ url('/myadminpanel/dashboard') }}" class="brand-link">
         <img src="{{ asset('public') }}/coot_assets/10_bazar_logo.jpg" width="60" height="50">
         <span class="brand-text font-weight-light">10 Bazar</span>
     </a>
@@ -20,7 +20,7 @@
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                 <!-- Dashboard -->
                 <li class="nav-item">
-                    <a href="{{ url('madmin/dashboard') }}" class="nav-link active">
+                    <a href="{{ url('myadminpanel/dashboard') }}" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>Dashboard</p>
                     </a>

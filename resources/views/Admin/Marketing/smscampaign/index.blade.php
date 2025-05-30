@@ -78,7 +78,7 @@
                                             @endif
                                                 <br>
                                                 <br>
-                                                <a href="{{url('/madmin/smssends')}}/{{ $value->id }}" class="btn btn-success m-1">Send </a>
+                                                <a href="{{url('/myadminpanel/smssends')}}/{{ $value->id }}" class="btn btn-success m-1">Send </a>
                                         </td>
 
                                         <td>

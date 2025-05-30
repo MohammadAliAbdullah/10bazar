@@ -67,7 +67,7 @@ class SMSCampaignController extends Controller
         $udata['status']=$data['status'];
         SmsCampaign::create($udata);
         Session::flash('status','SMS Campaign has been sucessfully add');
-        return redirect('/madmin/smscampaign');
+        return redirect('/myadminpanel/smscampaign');
     }
 
     /**
@@ -112,7 +112,7 @@ class SMSCampaignController extends Controller
         $udata['status']=$data['status'];
         $smscam->update($udata);
         Session::flash('status','SMS Campaign has been sucessfully update');
-        return redirect('/madmin/smscampaign');
+        return redirect('/myadminpanel/smscampaign');
     }
 
     /**
