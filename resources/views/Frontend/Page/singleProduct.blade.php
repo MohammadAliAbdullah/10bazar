@@ -28,7 +28,7 @@
                                     @if (!empty($gallery[0]))
                                         @foreach ($gallery as $key => $img)
                                             <a href="#">
-                                                <img src="{{ asset('public/images/product/' . $img) }}" alt="">
+                                                <img src="{{ asset('public/coot_assets/images/products/' . $img) }}" alt="">
                                             </a>
                                         @endforeach
                                     @endif
@@ -40,7 +40,7 @@
                                         @foreach ($gallery as $key => $img)
                                             <a href="#" class="product-gallery__carousel-item">
                                                 <img class="product-gallery__carousel-image"
-                                                    src="{{ asset('public/images/product/' . $img) }}" alt="">
+                                                    src="{{ asset('public/coot_assets/images/products/' . $img) }}" alt="">
                                             </a>
                                         @endforeach
                                     @endif
@@ -252,7 +252,7 @@
                                         </div>
                                         <div class="product-card__image">
                                             <a href="#">
-                                                <img src="{{ asset('public/images/product/' . $product->thumb) }}"
+                                                <img src="{{ asset('public/coot_assets/images/products/' . $product->thumb) }}"
                                                     alt="{{ $product->img_alt ?? 'Product Image' }}">
                                             </a>
                                         </div>

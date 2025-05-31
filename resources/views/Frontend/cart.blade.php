@@ -42,7 +42,7 @@
                                         {{ $item->name }}
                                     </td>
                                     <td class="align-middle algimg">
-                                        <img src="{{ asset('public/images/product/' . $item->attributes['image']) }}"
+                                        <img src="{{ asset('public/coot_assets/images/products/' . $item->attributes['image']) }}"
                                             alt="" style="width: 50px;">
                                     </td>
                                     <td class="align-middle">Tk {{ $item->price ?? 0 }}</td>

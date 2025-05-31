@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Session;
 use Image;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
-
 use Yajra\DataTables\Facades\DataTables;
 
 class ProductsController extends Controller
@@ -183,7 +182,7 @@ class ProductsController extends Controller
             $time = date_format($var, 'YmdHis');
             $img = preg_replace('/\s+/', '-', $time . '-thumbnail-180X178.' . $file->extension());
             $names = $img;
-            $destinationPath = public_path('images/product');
+            $destinationPath = public_path('coot_assets/images/products');
             $img = Image::make($file->path());
             $img->resize(250, 250, function ($constraint) {
                 $constraint->aspectRatio();
@@ -196,7 +195,7 @@ class ProductsController extends Controller
             $time = date_format($var, 'YmdHis');
             $img1 = preg_replace('/\s+/', '-', $time . '-photo-300X370.' . $file->extension());
             $names1 = $img1;
-            $destinationPath = public_path('images/product');
+            $destinationPath = public_path('coot_assets/images/products');
             $img1 = Image::make($file->path());
             $img1->resize(2000, 2000, function ($constraint) {
                 $constraint->aspectRatio();
@@ -212,7 +211,7 @@ class ProductsController extends Controller
                 $time = date_format($var, 'YmdHis');
                 $fileName = preg_replace('/\s+/', '-', $item->getClientOriginalName());
                 $imageName = $time . '-' . $fileName;
-                $item->move(public_path() . '/images/product/', $imageName);
+                $item->move(public_path() . '/coot_assets/images/products/', $imageName);
                 $arr1[] = $imageName;
             endforeach;
             $image = implode(",", $arr1);
@@ -370,14 +369,14 @@ class ProductsController extends Controller
         $product_edit = Product::findOrFail($id);
         //dd($stock_edit);
         if ($file = $request->file('images')) {
-            if (file_exists(public_path() . "/images/product/" . $product_edit->thumb)) {
-                unlink(public_path() . "/images/product/" . $product_edit->thumb);
+            if (file_exists(public_path() . "/coot_assets/images/products/" . $product_edit->thumb)) {
+                unlink(public_path() . "/coot_assets/images/products/" . $product_edit->thumb);
             }
             $var = date_create();
             $time = date_format($var, 'YmdHis');
             $img = preg_replace('/\s+/', '-', $time . '-thumbnail-180X178.' . $file->extension());
             $names = $img;
-            $destinationPath = public_path('images/product');
+            $destinationPath = public_path('coot_assets/images/products');
             $img = Image::make($file->path());
             $img->resize(300, 300, function ($constraint) {
                 $constraint->aspectRatio();
@@ -386,14 +385,14 @@ class ProductsController extends Controller
         }
         //Images
         if ($file = $request->file('images')) {
-            if (file_exists(public_path() . "/images/product/" . $product_edit->images)) {
-                unlink(public_path() . "/images/product/" . $product_edit->images);
+            if (file_exists(public_path() . "/coot_assets/images/products/" . $product_edit->images)) {
+                unlink(public_path() . "/coot_assets/images/products/" . $product_edit->images);
             }
             $var = date_create();
             $time = date_format($var, 'YmdHis');
             $img1 = preg_replace('/\s+/', '-', $time . '-photo-300X370.' . $file->extension());
             $names1 = $img1;
-            $destinationPath = public_path('images/product');
+            $destinationPath = public_path('coot_assets/images/products');
             $img1 = Image::make($file->path());
             $img1->resize(2000, 2000, function ($constraint) {
                 $constraint->aspectRatio();
@@ -409,7 +408,7 @@ class ProductsController extends Controller
                 $time = date_format($var, 'YmdHis');
                 $fileName = preg_replace('/\s+/', '-', $item->getClientOriginalName());
                 $imageName = $time . '-' . $fileName;
-                $item->move(public_path() . '/images/product/', $imageName);
+                $item->move(public_path() . '/coot_assets/images/products/', $imageName);
                 $arr[] = $imageName;
             endforeach;
             $image = implode(",", $arr);

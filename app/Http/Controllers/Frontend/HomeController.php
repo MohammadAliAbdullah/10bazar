@@ -129,19 +129,6 @@ class HomeController extends Controller
     {
         $todate = Carbon::now()->toDateString();
         $discounts = Discount::where('start_date', '<', $todate)->where('end_date', '>', $todate)->where('status', '=', 'Ongoing')->get();
-        //        $discounts_product_id = [];
-        //        foreach ($discounts as $discount) {
-        //            $discount_array = explode(',', $discount->product_id);
-        //            foreach ($discount_array as $item) {
-        //                array_push($discounts_product_id, $item);
-        //            }
-        //        }
-        //        $discount_ids = array_unique($discounts_product_id);
-        //        $products = [];
-        //        foreach ($discount_ids as $id) {
-        //            $product = Product::findOrFail($id);
-        //            array_push($products, $product);
-        //        }
         $products = Product::limit(20)->get();
         return view("Frontend.Page.today_offer", compact('discounts', 'products'));
     }

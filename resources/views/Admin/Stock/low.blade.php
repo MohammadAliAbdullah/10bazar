@@ -57,7 +57,7 @@
                                         <td>{{ $value->title ?? '' }}</td>
 {{--                                        <td>--}}
 {{--                                            @if($value->product->thumb!==null)--}}
-{{--                                            <img src="{{ asset('public/images/product/'.$value->product->thumb ?? '' ) }}" width="60" height="40">--}}
+{{--                                            <img src="{{ asset('public/coot_assets/images/products/'.$value->product->thumb ?? '' ) }}" width="60" height="40">--}}
 {{--                                            @endif--}}
 {{--                                        </td>--}}
                                         <td>{{ $value->sku }}</td>

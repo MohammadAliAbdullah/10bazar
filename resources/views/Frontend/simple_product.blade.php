@@ -22,13 +22,13 @@
             <div class="row">
                 <div class="col-lg-5">
                     <div class="productdet zoom-option">
-                        <img class="xzoom lazy" id="xzoom-default" src="{{ asset('public/images/product/' . $product->images) }}" xoriginal="{{ asset('public/images/product/' . $product->images) }}" />
+                        <img class="xzoom lazy" id="xzoom-default" src="{{ asset('public/coot_assets/images/products/' . $product->images) }}" xoriginal="{{ asset('public/coot_assets/images/products/' . $product->images) }}" />
                         <div class="owl-carousel xzoom-thumbs">
                             @if (!empty($gallery[0]))
                                 @foreach ($gallery as $key => $img)
-                                    <a href="{{ asset('public/images/product/' . $img) }}">
+                                    <a href="{{ asset('public/coot_assets/images/products/' . $img) }}">
                                         <img class="xzoom-gallery " width="80"
-                                            src="{{ asset('public/images/product/' . $img) }}">
+                                            src="{{ asset('public/coot_assets/images/products/' . $img) }}">
                                     </a>
                                 @endforeach
                             @endif

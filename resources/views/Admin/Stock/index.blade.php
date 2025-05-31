@@ -57,7 +57,7 @@
                                         <td>{{ $value->id }}</td>
                                         <td>{{ $value->title ?? 'N/A' }}</td>
 {{--                                        <td>--}}
-{{--                                            <img src="{{ asset('public/images/product/'.$value->product->thumb ) }}" width="60" height="40"></td>--}}
+{{--                                            <img src="{{ asset('public/coot_assets/images/products/'.$value->product->thumb ) }}" width="60" height="40"></td>--}}
 {{--                                        <td>{{ $value->sku }}</td>--}}
 
 {{--                                        <td>--}}

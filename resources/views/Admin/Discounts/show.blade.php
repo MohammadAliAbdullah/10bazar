@@ -78,7 +78,7 @@
                         
                         <tr>
                           <td>{{ $product->title }}</td>
-                          <td><img width="120px" height="90px;" src="{{ asset('public/images/product/'.$product->images) }}"></td>
+                          <td><img width="120px" height="90px;" src="{{ asset('public/coot_assets/images/products/'.$product->images) }}"></td>
                           <td>{{ $product->sku }}</td>
                           <td>{{ $product->productstock->ragular_price }}</td>
                           <td>{{ $product->productstock->sales_price }}</td>

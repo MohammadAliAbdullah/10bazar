@@ -38,7 +38,9 @@
                                             <th>Action</th>
                                         </tr>
                                     </thead>
-                                    <tbody></tbody>
+                                    <tbody>
+                                        
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -49,5 +51,5 @@
     </section>
 @endsection
 @section('script')
-    <script src="{{ asset('public') }}/coot_assets/js/customJs/productDataTable.js"></script>
+    <script src="{{ asset('public') }}/coot_assets/js/customJs/productDataTable.js?v={{ time() }}"></script>
 @endsection

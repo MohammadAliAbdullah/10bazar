@@ -3,7 +3,7 @@
         <div class="product-area">
             <div class="product-img text-center">
                 <a href="{{ route('product_details', ['id' => $product->slug]) }}">
-                    <img data-original="{{ asset('public/images/product/'.$product->thumb) }}" alt="img">
+                    <img data-original="{{ asset('public/coot_assets/images/products/'.$product->thumb) }}" alt="img">
                 </a>
                 {!! Form::open(['method'=>'POST','route'=>'cart.Store']) !!}
                 {!! Form::hidden('id', $product->id) !!}

@@ -4,7 +4,7 @@
         <td>{{ $value->title }}</td>
         <td>{{ $value->slug }}</td>
         <td>
-            <img src="{{ asset('public/images/product/' . $value->thumb) }}" width="50" height="30">
+            <img src="{{ asset('public/coot_assets/images/products/' . $value->thumb) }}" width="50" height="30">
         </td>
         <td>{{ $value->category->title ?? 'N/A' }}</td>
         <td>{{ $value->brand->title ?? 'N/A' }}</td>
