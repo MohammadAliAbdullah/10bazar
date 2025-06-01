@@ -13,7 +13,7 @@
                             <form method="post" action="{{ route('mypanel.loginuser') }}">
                                 @csrf
                                 <div class="form-group"><label>Email address</label>
-                                    <input type="email" name="email" class="form-control" placeholder="Enter email">
+                                    <input type="text" name="login" class="form-control" placeholder="Enter email or phone">
                                 </div>
                                 <div class="form-group">
                                     <label>Password</label>

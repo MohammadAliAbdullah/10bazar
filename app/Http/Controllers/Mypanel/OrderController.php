@@ -12,7 +12,7 @@ use App\Models\Order;
 use App\Models\OrderAddress;
 use App\Models\OrderDetails;
 use App\Models\OrderPayment;
-use Cart;
+use Darryldecode\Cart\Facades\CartFacade as Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use PDF;
@@ -51,19 +51,33 @@ class OrderController extends Controller
     public function store(Request $request)
     {
         //dd($request->all());
+        if (!Auth::guard('mypanel')->check()) {
+            $user = Customer::firstOrCreate(
+                ['phone' => $request->phone],
+                [
+                    'name'     => $request->name,
+                    'address'  => $request->address,
+                    'status'   => 'Active',
+                    'password' => bcrypt(12345678),
+                ]
+            );
+
+            Auth::guard('mypanel')->login($user);
+        }
+
         $customer = Auth::guard('mypanel')->user()->id;
         $city     = Division::where('id', $request->city)->first();
         $area     = City::where('id', $request->area)->first();
         //Shipping Address
         $shipping['customer_id'] = $customer;
-        $shipping['name'] = $request->name;
-        $shipping['phone'] = $request->phone;
-        $shipping['city_id'] = $request->city;
-        $shipping['area_id'] = $request->area;
-        $shipping['city'] = $city->name;
-        $shipping['area'] = $area->name;
-        $shipping['address'] = $request->address;
-        $shipping_address = json_encode($shipping);
+        $shipping['name']        = $request->name;
+        $shipping['phone']       = $request->phone;
+        $shipping['city_id']     = $request->city;
+        $shipping['area_id']     = $request->area;
+        $shipping['city']        = $city->name;
+        $shipping['area']        = $area->name;
+        $shipping['address']     = $request->address;
+        $shipping_address        = json_encode($shipping);
 
         //Order
         $order = array();

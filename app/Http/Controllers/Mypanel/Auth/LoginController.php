@@ -1,9 +1,10 @@
 <?php
+
 namespace App\Http\Controllers\Mypanel\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Wallet;
-use Cart;
+use Darryldecode\Cart\Facades\CartFacade as Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,9 +20,9 @@ class LoginController extends Controller
      */
     public function showLoginForm()
     {
-        return view('auth.login',[
-            'title' => 'Login',
-            'loginRoute' => 'login',
+        return view('auth.login', [
+            'title'               => 'Login',
+            'loginRoute'          => 'login',
             'forgotPasswordRoute' => 'password.request',
         ]);
     }
@@ -32,11 +33,47 @@ class LoginController extends Controller
      * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\RedirectResponse
      */
+
     public function login(Request $request)
+    {
+        // Validate input
+        $request->validate([
+            'login' => 'required',
+            'password' => 'required'
+        ]);
+
+        $login_input = $request->input('login');
+        $password = $request->input('password');
+
+        // Determine login type: email or phone
+        $fieldType = is_numeric($login_input) ? 'phone' : 'email';
+
+        $credentials = [
+            $fieldType => $login_input,
+            'password' => $password
+        ];
+
+        if (Auth::guard('mypanel')->attempt($credentials)) {
+            if (!empty(session('link'))) {
+                return redirect(session('link'));
+            }
+
+            if (!empty(Cart::getTotal())) {
+                return redirect()->intended(route('cart.list'))->with('status', 'You are Logged in as mypanel!');
+            }
+
+            return redirect()->intended(route('home.index'))->with('status', 'You are Logged in as mypanel!');
+        }
+
+        // Failed login
+        return redirect()->route('mypanel.mypanel.login')->with('error', 'Email/Phone and Password are incorrect.');
+    }
+
+    public function login_old(Request $request)
     {
 
         //$this->validator($request);
-        if(is_numeric($request->email)) {
+        if (is_numeric($request->email)) {
             //dd($request);
             $userdata = array(
                 'phone' => $request->email,
@@ -44,55 +81,55 @@ class LoginController extends Controller
                 //'status' => 'Active',
             );
             if (Auth::guard('mypanel')->attempt($userdata)) {
-                    if (!empty(Cart::gettotal())) {
-                        return redirect()->intended(route('cart.list'))->with('status', 'You are Logged in as mypanel!');
-                    }
-                    return redirect()->intended(route('home.index'))->with('status', 'You are Logged in as mypanel!');
-                } else {
-                    //dd($request->all());
-                    return redirect()->route('mypanel.mypanel.login')->with('error', 'Email-Address And Password Are Wrong.');
+                if (!empty(Cart::gettotal())) {
+                    return redirect()->intended(route('cart.list'))->with('status', 'You are Logged in as mypanel!');
                 }
-        }else{
+                return redirect()->intended(route('home.index'))->with('status', 'You are Logged in as mypanel!');
+            } else {
+                //dd($request->all());
+                return redirect()->route('mypanel.mypanel.login')->with('error', 'Email-Address And Password Are Wrong.');
+            }
+        } else {
             $userdata = array(
                 'email' => $request->email,
                 'password' => $request->password,
                 //'status' => 'Active',
             );
-            if(Auth::guard('mypanel')->attempt($userdata)){
+            if (Auth::guard('mypanel')->attempt($userdata)) {
                 //dd(Cart::gettotal());
-                if(!empty(session('link'))){
-                //if(!empty(Cart::gettotal())){
+                if (!empty(session('link'))) {
+                    //if(!empty(Cart::gettotal())){
                     return redirect(session('link'));
                     //return redirect()->intended(route('cart.list'))->with('status','You are Logged in as mypanel!');
                 }
-                return redirect()->intended(route('home.index'))->with('status','You are Logged in as mypanel!');
-            }else{
+                return redirect()->intended(route('home.index'))->with('status', 'You are Logged in as mypanel!');
+            } else {
                 //dd($request->all());
-                return redirect()->route('login')->with('error','Email-Address And Password Are Wrong.');
+                return redirect()->route('login')->with('error', 'Email-Address And Password Are Wrong.');
             }
-
         }
 
 
         //if(Auth::guard('mypanel')->attempt($userdata),$request->filled('remember')){
 
     }
-    public function generateOTP(){
-        $otp = mt_rand(10000,99999);
+    public function generateOTP()
+    {
+        $otp = mt_rand(10000, 99999);
         return $otp;
     }
 
     public function register_user(Request $request)
     {
         //dd($request->checkd);
-        if($request->checked=='on'){
+        if ($request->checked == 'on') {
             $validated = $request->validate([
                 'name'    => 'required',
                 //'email'    => 'email',
                 'phone' => 'required',
                 //'password' => 'required'
             ]);
-        }else{
+        } else {
             $validated = $request->validate([
                 'name'    => 'required',
                 'email'    => 'required',
@@ -100,28 +137,27 @@ class LoginController extends Controller
                 //'password' => 'required',
             ]);
         }
-        $validated['password']=Hash::make($request->password);
-        $validated['virification']=$this->generateOTP();
+        $validated['password'] = Hash::make($request->password);
+        $validated['virification'] = $this->generateOTP();
         $validated['status'] = "Pending";
         //dd($validated);
         $exists = Customer::where("email", $request->email)->first();
         $existsphone = Customer::where("phone", $request->phone)->first();
         if ($exists) {
-            return redirect()->route('mypanel.mypanel.login')->with('error','Email already exists!');
-        }elseif($existsphone){
-            return redirect()->route('mypanel.mypanel.login')->with('error','Phone already exists!');
-        }else{
-            $user_id=Customer::create($validated);
-            $data['customer_id']=$user_id->id;
-            $data['holding_balance']=0;
-            $data['cashback_balance']=0;
-            $data['giftcard_balance']=0;
-            $data['current_balance']=0;
+            return redirect()->route('mypanel.mypanel.login')->with('error', 'Email already exists!');
+        } elseif ($existsphone) {
+            return redirect()->route('mypanel.mypanel.login')->with('error', 'Phone already exists!');
+        } else {
+            $user_id = Customer::create($validated);
+            $data['customer_id'] = $user_id->id;
+            $data['holding_balance'] = 0;
+            $data['cashback_balance'] = 0;
+            $data['giftcard_balance'] = 0;
+            $data['current_balance'] = 0;
             Wallet::create($data);
             //dd($user_id);
-            return redirect()->route('mypanel.mypanel.login')->with('status','Your Registration is Sucessfully! Please login now!');
+            return redirect()->route('mypanel.mypanel.login')->with('status', 'Your Registration is Sucessfully! Please login now!');
         }
-
     }
 
     /**
@@ -135,7 +171,7 @@ class LoginController extends Controller
         Auth::guard('mypanel')->logout();
         return redirect()
             ->route('home.index')
-            ->with('status','Admin has been logged out!');
+            ->with('status', 'Admin has been logged out!');
     }
 
     /**
@@ -158,7 +194,7 @@ class LoginController extends Controller
         ];
 
         //validate the request.
-        $request->validate($rules,$messages);
+        $request->validate($rules, $messages);
     }
 
     /**
@@ -166,10 +202,11 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\RedirectResponse
      */
-    private function loginFailed(){
+    private function loginFailed()
+    {
         return redirect()
             ->back()
             ->withInput()
-            ->with('error','Login failed, please try again!');
+            ->with('error', 'Login failed, please try again!');
     }
 }
