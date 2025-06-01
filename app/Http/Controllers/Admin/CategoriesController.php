@@ -61,7 +61,7 @@ class CategoriesController extends Controller
             $img = preg_replace('/\s+/', '-', 'thumb.' . $file->extension());
             $names = time() . $img;
             //$names=$img;
-            $destinationPath = public_path('images/category/');
+            $destinationPath = public_path('coot_assets/images/categories/');
             $img = Image::make($file->path());
             $img->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
@@ -72,7 +72,7 @@ class CategoriesController extends Controller
             $img = preg_replace('/\s+/', '-', 'images.' . $file->extension());
             $names = time() . $img;
             //$names=$img;
-            $destinationPath = public_path('images/category/');
+            $destinationPath = public_path('coot_assets/images/categories/');
             $img = Image::make($file->path());
             $img->resize(400, 400, function ($constraint) {
                 $constraint->aspectRatio();
@@ -83,7 +83,7 @@ class CategoriesController extends Controller
             $img = preg_replace('/\s+/', '-', 'banner.' . $file->extension());
             $names = time() . $img;
             //$names=$img;
-            $destinationPath = public_path('images/category/');
+            $destinationPath = public_path('coot_assets/images/categories/');
             $img = Image::make($file->path());
             $img->resize(1000, 400, function ($constraint) {
                 $constraint->aspectRatio();
@@ -157,13 +157,13 @@ class CategoriesController extends Controller
         $data = $request->all();
         $category_edit = Category::findOrFail($id);
         if ($file = $request->file('image')) {
-            //            if(file_exists(public_path("/images/category/" . $category_edit->thumb))) {
-            //                unlink(public_path() . "/images/category/" . $category_edit->thumb);
+            //            if(file_exists(public_path("/coot_assets/images/categories/" . $category_edit->thumb))) {
+            //                unlink(public_path() . "/coot_assets/images/categories/" . $category_edit->thumb);
             //            }
             $img = preg_replace('/\s+/', '-', 'thumb.' . $file->extension());
             $names = time() . $img;
             //$names=$img;
-            $destinationPath = public_path('images/category/');
+            $destinationPath = public_path('coot_assets/images/categories/');
             $img = Image::make($file->path());
             $img->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
@@ -171,13 +171,13 @@ class CategoriesController extends Controller
             $category['thumb'] = $names;
         }
         if ($file = $request->file('image')) {
-            //            if(file_exists(public_path() . "/images/category/" . $category_edit->images)) {
-            //                unlink(public_path() . "/images/category/" . $category_edit->images);
+            //            if(file_exists(public_path() . "/coot_assets/images/categories/" . $category_edit->images)) {
+            //                unlink(public_path() . "/coot_assets/images/categories/" . $category_edit->images);
             //            }
             $img = preg_replace('/\s+/', '-', 'images.' . $file->extension());
             $names = time() . $img;
             //$names=$img;
-            $destinationPath = public_path('images/category/');
+            $destinationPath = public_path('coot_assets/images/categories/');
             $img = Image::make($file->path());
             $img->resize(400, 400, function ($constraint) {
                 $constraint->aspectRatio();
@@ -185,13 +185,13 @@ class CategoriesController extends Controller
             $category['images'] = $names;
         }
         if ($file = $request->file('banner')) {
-            //            if(file_exists(public_path("/images/category/" . $category_edit->banner))) {
-            //                unlink(public_path() . "/images/category/" . $category_edit->banner);
+            //            if(file_exists(public_path("/coot_assets/images/categories/" . $category_edit->banner))) {
+            //                unlink(public_path() . "/coot_assets/images/categories/" . $category_edit->banner);
             //            }
             $img = preg_replace('/\s+/', '-', 'banner.' . $file->extension());
             $names = time() . $img;
             //$names=$img;
-            $destinationPath = public_path('images/category/');
+            $destinationPath = public_path('coot_assets/images/categories/');
             $img = Image::make($file->path());
             $img->resize(500, 800, function ($constraint) {
                 $constraint->aspectRatio();
@@ -241,14 +241,14 @@ class CategoriesController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        //        if(file_exists(public_path() . "/images/category/" . $category->banner)) {
-        //            unlink(public_path() . "/images/category/" . $category->banner);
+        //        if(file_exists(public_path() . "/coot_assets/images/categories/" . $category->banner)) {
+        //            unlink(public_path() . "/coot_assets/images/categories/" . $category->banner);
         //        }
-        //        if(file_exists(public_path() . "/images/category/" . $category->images)) {
-        //            unlink(public_path() . "/images/category/" . $category->images);
+        //        if(file_exists(public_path() . "/coot_assets/images/categories/" . $category->images)) {
+        //            unlink(public_path() . "/coot_assets/images/categories/" . $category->images);
         //        }
-        //        if(file_exists(public_path() . "/images/category/" . $category->thumb)) {
-        //            unlink(public_path() . "/images/category/" . $category->thumb);
+        //        if(file_exists(public_path() . "/coot_assets/images/categories/" . $category->thumb)) {
+        //            unlink(public_path() . "/coot_assets/images/categories/" . $category->thumb);
         //        }
         //        $products = $category->products;
         //        foreach ($products as $product) {

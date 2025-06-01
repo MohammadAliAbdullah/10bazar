@@ -49,7 +49,7 @@ class BrandsController extends Controller
             $img=preg_replace('/\s+/', '-','thumb.'. $file->extension());
             $names=time().$img;
             //$names=$img;
-            $destinationPath = public_path('images/brand/');
+            $destinationPath = public_path('coot_assets/images/brands/');
             $img = Image::make($file->path());
             $img->resize(100, 100, function ($constraint) {
                 $constraint->aspectRatio();
@@ -60,7 +60,7 @@ class BrandsController extends Controller
             $img=preg_replace('/\s+/', '-','images.'. $file->extension());
             $names=time().$img;
             //$names=$img;
-            $destinationPath = public_path('images/brand/');
+            $destinationPath = public_path('coot_assets/images/brands/');
             $img = Image::make($file->path());
             $img->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
@@ -71,7 +71,7 @@ class BrandsController extends Controller
             $img=preg_replace('/\s+/', '-','banner.'. $file->extension());
             $names=time().$img;
             //$names=$img;
-            $destinationPath = public_path('images/brand/');
+            $destinationPath = public_path('coot_assets/images/brands/');
             $img = Image::make($file->path());
             $img->resize(1000, 400, function ($constraint) {
                 $constraint->aspectRatio();
@@ -149,13 +149,13 @@ class BrandsController extends Controller
         $brand_edit = Brand::findOrFail($id);
         $data = $request->all();
         if($file=$request->file('image')){
-            if(file_exists(public_path() . "/images/brand/" . $brand_edit->thumb) AND $brand_edit->thumb!=NULL) {
-                unlink(public_path() . "/images/brand/" . $brand_edit->thumb);
+            if(file_exists(public_path() . "/coot_assets/images/brands/" . $brand_edit->thumb) AND $brand_edit->thumb!=NULL) {
+                unlink(public_path() . "/coot_assets/images/brands/" . $brand_edit->thumb);
             }
             $img=preg_replace('/\s+/', '-','thumb.'. $file->extension());
             $names=time().$img;
             //$names=$img;
-            $destinationPath = public_path('images/brand/');
+            $destinationPath = public_path('coot_assets/images/brands/');
             $img = Image::make($file->path());
             $img->resize(100, 100, function ($constraint) {
                 $constraint->aspectRatio();
@@ -163,13 +163,13 @@ class BrandsController extends Controller
             $brand['thumb']=$names;
         }
         if($file=$request->file('image')){
-            if(file_exists(public_path() . "/images/brand/" . $brand_edit->images)  AND $brand_edit->images!=NULL) {
-                unlink(public_path() . "/images/brand/" . $brand_edit->images);
+            if(file_exists(public_path() . "/coot_assets/images/brands/" . $brand_edit->images)  AND $brand_edit->images!=NULL) {
+                unlink(public_path() . "/coot_assets/images/brands/" . $brand_edit->images);
             }
             $img=preg_replace('/\s+/', '-','images.'. $file->extension());
             $names=time().$img;
             //$names=$img;
-            $destinationPath = public_path('images/brand/');
+            $destinationPath = public_path('coot_assets/images/brands/');
             $img = Image::make($file->path());
             $img->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
@@ -177,13 +177,13 @@ class BrandsController extends Controller
             $brand['images']=$names;
         }
         if($file=$request->file('banner')){
-            if(file_exists(public_path() . "/images/brand/" . $brand_edit->banner)  AND $brand_edit->banner!=NULL) {
-                unlink(public_path() . "/images/brand/" . $brand_edit->banner);
+            if(file_exists(public_path() . "/coot_assets/images/brands/" . $brand_edit->banner)  AND $brand_edit->banner!=NULL) {
+                unlink(public_path() . "/coot_assets/images/brands/" . $brand_edit->banner);
             }
             $img=preg_replace('/\s+/', '-','banner.'. $file->extension());
             $names=time().$img;
             //$names=$img;
-            $destinationPath = public_path('images/brand/');
+            $destinationPath = public_path('coot_assets/images/brands/');
             $img = Image::make($file->path());
             $img->resize(1000, 400, function ($constraint) {
                 $constraint->aspectRatio();

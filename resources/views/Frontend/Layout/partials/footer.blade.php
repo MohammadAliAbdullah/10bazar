@@ -78,32 +78,33 @@
                                            id="footer-newsletter-address" placeholder="Email Address..."> <button
                                            class="footer-newsletter__form-button btn btn-primary">Subscribe</button>
                                    </form>
-                                   <div class="footer-newsletter__text footer-newsletter__text--social">Follow us on
-                                       social networks</div>
+                                   <div class="footer-newsletter__text footer-newsletter__text--social">
+                                       Follow us on social networks
+                                   </div>
                                    <ul class="footer-newsletter__social-links">
                                        <li
                                            class="footer-newsletter__social-link footer-newsletter__social-link--facebook">
-                                           <a href="https://themeforest.net/user/kos9" target="_blank"><i
+                                           <a href="{{ socialh()->facebook ?? '#' }}" target="_blank"><i
                                                    class="fab fa-facebook-f"></i></a>
                                        </li>
                                        <li
                                            class="footer-newsletter__social-link footer-newsletter__social-link--twitter">
-                                           <a href="https://themeforest.net/user/kos9" target="_blank"><i
+                                           <a href="{{ socialh()->twitter ?? '#' }}" target="_blank"><i
                                                    class="fab fa-twitter"></i></a>
                                        </li>
                                        <li
                                            class="footer-newsletter__social-link footer-newsletter__social-link--youtube">
-                                           <a href="https://themeforest.net/user/kos9" target="_blank"><i
+                                           <a href="{{ socialh()->youtube ?? '#' }}" target="_blank"><i
                                                    class="fab fa-youtube"></i></a>
                                        </li>
                                        <li
                                            class="footer-newsletter__social-link footer-newsletter__social-link--instagram">
-                                           <a href="https://themeforest.net/user/kos9" target="_blank"><i
+                                           <a href="{{ socialh()->instagram ?? '#' }}" target="_blank"><i
                                                    class="fab fa-instagram"></i></a>
                                        </li>
                                        <li class="footer-newsletter__social-link footer-newsletter__social-link--rss">
-                                           <a href="https://themeforest.net/user/kos9" target="_blank"><i
-                                                   class="fas fa-rss"></i></a>
+                                           <a href="{{ socialh()->linkedin ?? '#' }}" target="_blank"><i
+                                                   class="fab fa-linkedin-in text-white"></i></a>
                                        </li>
                                    </ul>
                                </div>

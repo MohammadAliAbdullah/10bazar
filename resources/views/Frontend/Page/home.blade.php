@@ -442,7 +442,7 @@
                         <div class="category-card__body">
                             <div class="category-card__image">
                                 <a href="#">
-                                    <img src="{{ asset('public/images/category/' . $category->images) }}"
+                                    <img src="{{ asset('public/coot_assets/images/categories/' . $category->images) }}"
                                         alt="{{ $category->title }}">
                                 </a>
                             </div>
