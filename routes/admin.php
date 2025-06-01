@@ -1,6 +1,14 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+
+// test route 
+// Route::get('/test', function () {
+//     $data = Product::with(['category', 'brand'])
+//                 ->orderByDesc('id');
+//     return $data->limit(10)->get();
+// });
 
 Route::get('/myadminpanel/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
 //Auth::routes();

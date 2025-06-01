@@ -51,13 +51,13 @@ class ProductsController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('thumb', function ($row) {
-                    return '<img src="' . asset('uploads/products/' . $row->thumb) . '" height="40">';
+                    return '<img src="' . asset('coot_assets/images/products/' . $row->thumb) . '" height="40">';
                 })
                 ->editColumn('category', function ($row) {
-                    return $row->category->name ?? 'N/A';
+                    return $row->category->title ?? 'N/A';
                 })
                 ->editColumn('brand', function ($row) {
-                    return $row->brand->name ?? 'N/A';
+                    return $row->brand->title ?? 'N/A';
                 })
                 ->editColumn('status', function ($row) {
                     return $row->status ? '<span class="badge badge-success">Active</span>' : '<span class="badge badge-danger">Inactive</span>';
