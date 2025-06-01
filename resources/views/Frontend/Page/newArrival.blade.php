@@ -56,9 +56,9 @@
                                                 </svg>
                                                 <span class="fake-svg-icon"></span>
                                             </button>
-                                            <div class="product-card__badges-list">
-                                                <div class="product-card__badge product-card__badge--new">New</div>
-                                            </div>
+                                            @include('Frontend.components.productDiscount', [
+                                                'product' => $product,
+                                            ])
                                             <div class="product-card__image">
                                                 <a href="{{ route('product_details', ['id' => $product->slug]) }}">
                                                     <img src="{{ asset('public/coot_assets/images/products/' . $product->thumb) }}"

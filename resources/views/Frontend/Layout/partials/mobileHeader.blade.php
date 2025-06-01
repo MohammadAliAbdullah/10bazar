@@ -6,7 +6,7 @@
                     <button class="mobile-header__menu-button">
                         <i class="fa fa-bars" aria-hidden="true"></i>
                     </button>
-                    <a class="mobile-header__logo" href="index.html">
+                    <a class="mobile-header__logo" href="{{ url('/') }}">
                         <img src="{{ asset('public') }}/coot_assets/10_bazar_logo.jpg" alt="logo">
                     </a>
                     <div class="mobile-header__search">

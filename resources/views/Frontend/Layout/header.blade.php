@@ -281,10 +281,6 @@
                         </li>
                     @endif
                 @endforeach
-                <!--=========-->
-                {{--				<li class="nav-item"><a class="nav-link" href="portfolio.php">Blog</a></li> --}}
-                {{--				<li class="nav-item"><a class="nav-link" href="contact-us.php">Contact us</a></li> --}}
-
             </ul>
         </div>
     </div>

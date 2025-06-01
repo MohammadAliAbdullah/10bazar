@@ -2302,8 +2302,9 @@ html:not([dir=rtl]) .noUi-horizontal .noUi-handle {
 }
 
 .product-card__badge--new {
-    background: #37f;
-    color: #fff
+    background: rgb(238, 48, 48);
+    color: #fff;
+    font-weight: bold;
 }
 
 .product-card__badge--hot {

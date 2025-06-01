@@ -85,9 +85,9 @@
                                                 </button>
 
                                                 {{-- Product Badges --}}
-                                                <div class="product-card__badges-list">
-                                                    <div class="product-card__badge product-card__badge--new">New</div>
-                                                </div>
+                                                @include('Frontend.components.productDiscount', [
+                                                    'product' => $product,
+                                                ])
 
                                                 {{-- Product Image --}}
                                                 <div class="product-card__image">

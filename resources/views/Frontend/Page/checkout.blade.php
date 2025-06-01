@@ -104,7 +104,7 @@
                                                 delivery.</div>
                                         </div>
                                     </li>
-                                    <li class="payment-methods__item">
+                                    {{-- <li class="payment-methods__item">
                                         <label class="payment-methods__item-header">
                                             <span class="payment-methods__item-radio input-radio">
                                                 <span class="input-radio__body">
@@ -119,7 +119,7 @@
                                             <div class="payment-methods__item-description text-muted">Pay via SSLCommerz.
                                             </div>
                                         </div>
-                                    </li>
+                                    </li> --}}
                                     <li class="payment-methods__item">
                                         <label class="payment-methods__item-header">
                                             <span class="payment-methods__item-radio input-radio">
@@ -135,7 +135,7 @@
                                             <div class="payment-methods__item-description text-muted">Pay via Bkash.</div>
                                         </div>
                                     </li>
-                                    <li class="payment-methods__item">
+                                    {{-- <li class="payment-methods__item">
                                         <label class="payment-methods__item-header">
                                             <span class="payment-methods__item-radio input-radio">
                                                 <span class="input-radio__body">
@@ -149,7 +149,7 @@
                                         <div class="payment-methods__item-container">
                                             <div class="payment-methods__item-description text-muted">Pay via Rocket.</div>
                                         </div>
-                                    </li>
+                                    </li> --}}
                                 </ul>
                             </div>
                             <div class="checkout__agree form-group">
