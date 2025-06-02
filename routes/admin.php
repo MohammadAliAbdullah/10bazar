@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\VisitorController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Route;
 //                 ->orderByDesc('id');
 //     return $data->limit(10)->get();
 // });
+Route::get('/visitors', [App\Http\Controllers\VisitorController::class, 'index']);
 
 Route::get('/myadminpanel/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
 //Auth::routes();
