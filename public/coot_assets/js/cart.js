@@ -10,15 +10,15 @@ $(document).ready(function () {
     //     alert(product_id);
     // }
 
-    $(document).on('click', '.itemAddToCart', function () {
-
+    $(document).on('click', '.itemAddToCart', function (e) {
+        e.preventDefault();
         var productId = $(this).data('id');
 
         $.post(window.routes.cartAdd, {
             id: productId
         }, function (response) {
             if (response.success) {
-                $('#cartCount').text(response.cart_count);
+                $('#cartCountHeader, #cartCountMobileHeader').text(response.cart_count);
                 Swal.fire({
                     icon: 'success',
                     title: 'Added to Cart!',
@@ -70,7 +70,7 @@ $(document).ready(function () {
                 row.find('.itemTotalPrice').text(parseFloat(res.total_price).toFixed(2));
                 $('.itemSubTotal').text(parseFloat(res.sub_total).toFixed(2));
                 $('.itemTotal').text(parseFloat(res.grand_total).toFixed(2));
-                $('#cartCount').text(res.cart_count);
+                $('#cartCountHeader, #cartCountMobileHeader').text(res.cart_count);
             }
         });
     }
@@ -108,8 +108,9 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.itemRemove', function () {
-        let row = $(this).closest('tr');
-        let productId = row.data('id');
+        let row = $(this).closest('tr') || $(this).closest('.dropcart__product');
+        let productId = row.data('id') || $(this).data('id');
+        // console.log(productId);
 
         Swal.fire({
             title: 'Are you sure?',
@@ -127,7 +128,7 @@ $(document).ready(function () {
                         row.remove();
                         $('.itemSubTotal').text(parseFloat(res.sub_total).toFixed(2));
                         $('.itemTotal').text(parseFloat(res.grand_total).toFixed(2));
-                        $('#cartCount').text(res.cart_count);
+                        $('#cartCountHeader, #cartCountMobileHeader').text(res.cart_count);
                         Swal.fire({
                             icon: 'success',
                             title: res.message,
@@ -145,6 +146,7 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '#cartViewButton', function () {
+        // alert('cartView');
         if (!$(this).hasClass('indicator--opened')) {
             // If the class 'indicator--open' is not present, do nothing
             return;
@@ -161,7 +163,7 @@ $(document).ready(function () {
             method: "GET",
             success: function (res) {
                 if (res.items.length === 0) {
-                    $('#headerCartList').html('<p class="text-center">Your cart is empty.</p>');
+                    $('#headerCartList').html('<h4 class="text-center pt-5 text-danger fw-bold">Your cart is empty.</h3>');
                     return;
                 }
                 let html = `<div class="dropcart__products-list">`;
@@ -187,11 +189,9 @@ $(document).ready(function () {
                 </div>
             </div>
             <button type="button"
-                class="dropcart__product-remove btn btn-light btn-sm btn-svg-icon remove-from-cart"
+                class="dropcart__product-remove btn btn-danger btn-sm btn-svg-icon remove-from-cart itemRemove"
                 data-id="${item.id}">
-                <svg width="10px" height="10px">
-                    <use xlink:href="images/sprite.svg#cross-10"></use>
-                </svg>
+               <i class="fa fa-times"></i>
             </button>
         </div>`;
                 });
@@ -203,7 +203,7 @@ $(document).ready(function () {
         <table>
             <tr>
                 <th>Subtotal</th>
-                <td>$${res.subtotal}</td>
+                <td class="itemSubTotal">$${res.subtotal}</td>
             </tr>
             <tr>
                 <th>Shipping</th>
@@ -215,7 +215,7 @@ $(document).ready(function () {
             </tr>
             <tr>
                 <th>Total</th>
-                <td>$${res.subtotal}</td>
+                <td class="itemTotal">$${res.subtotal}</td>
             </tr>
         </table>
     </div>`;

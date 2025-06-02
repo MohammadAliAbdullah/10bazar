@@ -69,10 +69,7 @@
                             <div class="block-products-carousel__cell">
                                 <div class="product-card">
                                     <button class="product-card__quickview" type="button">
-                                        <svg width="16px" height="16px">
-                                            <use xlink:href="images/sprite.svg#quickview-16"></use>
-                                        </svg>
-                                        <span class="fake-svg-icon"></span>
+                                        <i class="fa fa-eye"></i>
                                     </button>
                                     @include('Frontend.components.productDiscount', [
                                         'product' => $product,
@@ -193,10 +190,7 @@
                             <div class="block-products__list-item">
                                 <div class="product-card">
                                     <button class="product-card__quickview" type="button">
-                                        <svg width="16px" height="16px">
-                                            <use xlink:href="images/sprite.svg#quickview-16"></use>
-                                        </svg>
-                                        <span class="fake-svg-icon"></span>
+                                        <i class="fa fa-eye"></i>
                                     </button>
                                     @include('Frontend.components.productDiscount', [
                                         'product' => $product,
@@ -227,8 +221,7 @@
                                         </ul>
                                     </div>
                                     <div class="product-card__actions">
-                                        <div class="product-card__availability">Availability: <span
-                                                class="text-success">In
+                                        <div class="product-card__availability">Availability: <span class="text-success">In
                                                 Stock</span>
                                         </div>
 

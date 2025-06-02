@@ -166,10 +166,11 @@
                     '<"row"<"col-sm-12"tr>>' +
                     '<"row mt-3"<"col-md-5"i><"col-md-7"p>>',
             }).buttons().container().appendTo('#dataTable_wrapper .col-md-6');
-
-
         });
+
+        // chart
     </script>
+    
 
 </body>
 

@@ -53,7 +53,7 @@
                             <a href="{{ route('cart.list') }}" class="indicator__button">
                                 <span class="indicator__area">
                                     <i class="fas fa-shopping-cart"></i>
-                                    <span class="indicator__value" id="cartCount">{{ $cartCount }}</span>
+                                    <span class="indicator__value" id="cartCountMobileHeader">{{ $cartCount }}</span>
                                 </span>
                             </a>
                         </div>

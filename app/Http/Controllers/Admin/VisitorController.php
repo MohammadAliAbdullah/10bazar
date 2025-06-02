@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
 use App\Models\Visitor;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class VisitorController extends Controller
 {
@@ -20,6 +21,6 @@ class VisitorController extends Controller
         $chartLabels = $visitorStats->pluck('date')->toArray();
         $chartData = $visitorStats->pluck('count')->toArray();
 
-        return view('visitors.index', compact('visitors', 'chartLabels', 'chartData'));
+        return view('Admin.reports.visitor', compact('visitors', 'chartLabels', 'chartData'));
     }
 }

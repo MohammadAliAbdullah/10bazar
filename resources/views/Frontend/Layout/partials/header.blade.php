@@ -238,11 +238,14 @@
                                     <div class="dropcart">
                                         <div class="dropcart__buttons">
                                             @if (Auth::guard('mypanel')->user())
-                                                <a class="btn btn-secondary" href="{{ route('mypanel.users') }}">Profile</a>
-                                                <a class="btn btn-primary" href="{{ route('mypanel.elogout') }}">Logout</a>
+                                                <a class="btn btn-secondary"
+                                                    href="{{ route('mypanel.users') }}">Profile</a>
+                                                <a class="btn btn-primary"
+                                                    href="{{ route('mypanel.elogout') }}">Logout</a>
                                             @else
                                                 <a class="btn btn-secondary" href="{{ route('login') }}">Login</a>
-                                                <a class="btn btn-primary" href="{{ route('register.user') }}">Register</a>
+                                                <a class="btn btn-primary"
+                                                    href="{{ route('register.user') }}">Register</a>
                                             @endif
 
 
@@ -259,12 +262,13 @@
                                 <a class="indicator__button">
                                     <span class="indicator__area">
                                         <i class="fas fa-shopping-cart"></i>
-                                        <span class="indicator__value" id="cartCount">{{ $cartCount }}</span>
+                                        <span class="indicator__value"
+                                            id="cartCountHeader">{{ $cartCount }}</span>
                                     </span>
                                 </a>
                                 <div class="indicator__dropdown">
                                     <!-- .dropcart -->
-                                    @if ($cartCount > 0 && !request()->is('cart'))
+                                    @if (!request()->is('cart'))
                                         <div class="dropcart">
                                             <div id="headerCartList">
                                             </div>

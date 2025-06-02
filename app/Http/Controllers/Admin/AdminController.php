@@ -8,6 +8,7 @@ use App\Models\Customer;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Visitor;
 
 class AdminController extends Controller
 {
@@ -22,14 +23,22 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $category=Category::where('status','Active')->count();
-        $product=Product::where('status','Active')->count();
-        $customer=Customer::count();
-        $order=Order::count();
-        $orders=Order::orderBy('id','DESC')->limit(8)->get();
-        $products=Product::orderBy('id','DESC')->limit(8)->get();
+        $data['category'] = Category::where('status', 'Active')->count();
+        $data['product'] = Product::where('status', 'Active')->count();
+        $data['customer'] = Customer::count();
+        $data['order'] = Order::count();
+        $data['orders'] = Order::orderBy('id', 'DESC')->limit(8)->get();
+        $data['products'] = Product::orderBy('id', 'DESC')->limit(8)->get();
         //dd($products);
-        return view('Admin.deshboard', compact('customer','order','orders','products', 'category','product'));
+                // Chart data: visitors per day
+        $visitorStats = Visitor::selectRaw('DATE(created_at) as date, COUNT(*) as count')
+            ->groupBy('date')
+            ->orderBy('date', 'asc')
+            ->get();
+
+        $data['chartLabels'] = $visitorStats->pluck('date')->toArray();
+        $data['chartData'] = $visitorStats->pluck('count')->toArray();
+        return view('Admin.deshboard', $data);
     }
 
     /**

@@ -74,12 +74,12 @@
     {{-- custom js - --}}
     <script>
         window.routes = {
-            cartAdd: "{{ route('cart.add') }}",
-            cartUpdate: "{{ route('cart.update') }}",
-            cartRemove: "{{ route('cart.remove') }}",
+            cartAdd       : "{{ route('cart.add') }}",
+            cartUpdate    : "{{ route('cart.update') }}",
+            cartRemove    : "{{ route('cart.remove') }}",
             headerCartList: "{{ route('headerCart.list') }}",
-            loader: "{{ asset('public/coot_assets/loader.gif') }}",
-            shopFilter: "{{ route('filter.products') }}", // search
+            loader        : "{{ asset('public/coot_assets/loader.gif') }}",
+            shopFilter    : "{{ route('filter.products') }}",                 // search
         };
     </script>
     <script src="{{ asset('public') }}/coot_assets/js/cart.js?v={{ time() }}"></script>

@@ -1,8 +1,9 @@
 <?php
 
-use App\Http\Controllers\VisitorController;
+use App\Http\Controllers\Admin\VisitorController;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+
 
 // test route 
 // Route::get('/test', function () {
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 //                 ->orderByDesc('id');
 //     return $data->limit(10)->get();
 // });
-Route::get('/visitors', [App\Http\Controllers\VisitorController::class, 'index']);
+
 
 Route::get('/myadminpanel/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
 //Auth::routes();
@@ -107,6 +108,8 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         //Reports
         Route::get('salesreports', '\App\Http\Controllers\Admin\ReportController@sales')->name('sales.reports');
         Route::get('stockreports', '\App\Http\Controllers\Admin\ReportController@stock')->name('stock.reports');
+        // visitor
+        Route::get('/visitors', [VisitorController::class, 'index'])->name('visitors');
     });
 });
 //Auth::routes();
