@@ -88,7 +88,7 @@ class AppServiceProvider extends ServiceProvider
                 DB::raw('MAX(b.title) as brand_name'),
                 DB::raw('MAX(b.slug) as brand_slug'),
                 'p.brand_id',
-            )
+            )->groupBy('c.id')
             ->groupBy('p.brand_id')
             ->orderBy('id')
             ->get();
