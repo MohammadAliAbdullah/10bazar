@@ -75,6 +75,17 @@
       'Image' => 'Intervention\\Image\\Facades\\Image',
     ),
   ),
+  'jenssegers/agent' => 
+  array (
+    'aliases' => 
+    array (
+      'Agent' => 'Jenssegers\\Agent\\Facades\\Agent',
+    ),
+    'providers' => 
+    array (
+      0 => 'Jenssegers\\Agent\\AgentServiceProvider',
+    ),
+  ),
   'jorenvanhocht/laravel-share' => 
   array (
     'providers' => 
@@ -143,6 +154,17 @@
     'providers' => 
     array (
       0 => 'NunoMaduro\\Collision\\Adapters\\Laravel\\CollisionServiceProvider',
+    ),
+  ),
+  'torann/geoip' => 
+  array (
+    'aliases' => 
+    array (
+      'GeoIP' => 'Torann\\GeoIP\\Facades\\GeoIP',
+    ),
+    'providers' => 
+    array (
+      0 => 'Torann\\GeoIP\\GeoIPServiceProvider',
     ),
   ),
   'yajra/laravel-datatables-oracle' => 
