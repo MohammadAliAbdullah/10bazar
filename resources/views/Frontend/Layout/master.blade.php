@@ -95,7 +95,7 @@
                     success: function(res) {
                         if (res) {
                             $("#sub_cat").empty();
-                            $("#sub_cat").append('<option>Select Area</option>');
+                            $("#sub_cat").append('<option value="">Select Area</option>');
                             $.each(res, function(key, value) {
                                 $("#sub_cat").append('<option value="' + key + '">' + value +
                                     '</option>');

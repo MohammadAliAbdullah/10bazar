@@ -28,21 +28,38 @@
                             </div>
                             <div class="form-group">
                                 <label for="checkout-country">District <span class="text-danger">*</span> </label>
-                                {!! Form::select('city', ['0' => 'Select District'] + $districts, null, [
+                                {!! Form::select('city', ['' => 'Select District'] + $districts, null, [
                                     'class' => 'form-control',
                                     'id' => 'district',
                                     'required',
                                 ]) !!}
                             </div>
+                            <div class="form-group border p-3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="location" id="inDhaka"
+                                        value="inDhaka" required>
+                                    <label class="form-check-label" for="inDhaka">In Dhaka</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="location" id="outDhaka"
+                                        value="outDhaka">
+                                    <label class="form-check-label" for="outDhaka">Out of Dhaka</label>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="checkout-company-name">Area <span class="text-danger">*</span></label>
                                 <select name="area" id="sub_cat" class="form-control input-sm" required>
-                                    <option value="0"></option>
+                                    <option value=""></option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="checkout-street-address">Address <span class="text-danger">*</span></label>
-                                {!! Form::textarea('address', null, ['class' => 'form-control', 'id' => 'checkout-street-address', 'rows' => 3, 'required']) !!}
+                                {!! Form::textarea('address', null, [
+                                    'class' => 'form-control',
+                                    'id' => 'checkout-street-address',
+                                    'rows' => 3,
+                                    'required',
+                                ]) !!}
                             </div>
                         </div>
                         <div class="card-divider"></div>
@@ -65,7 +82,7 @@
                                             @if ($item)
                                                 <tr>
                                                     <td>{{ $item->name ?? 'N/A' }}</td>
-                                                    <td>TK.{{ $item->getPriceSum() ?? '0' }}</td>
+                                                    <td>{{ $item->getPriceSum() ?? '0' }}</td>
                                                 </tr>
                                             @endif
                                         @endforeach
@@ -78,11 +95,15 @@
                                 <tbody class="checkout__totals-subtotals">
                                     <tr>
                                         <th>Subtotal</th>
-                                        <td>TK.{{ Cart::getSubTotal() ?? '0' }}</td>
+                                        <td><span id="subTotal">{{ Cart::getSubTotal() ?? '0' }}</span></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Shipping Fee</th>
+                                        <td><span id="shippingFee">0</span></td>
                                     </tr>
                                     <tr>
                                         <th>Total</th>
-                                        <td>TK.{{ Cart::getTotal() ?? '0' }}</td>
+                                        <td><span id="grandTotal">{{ Cart::getTotal() ?? '0' }}</span></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -176,4 +197,55 @@
             {!! Form::close() !!}
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            const SHIPPING_FEES = {
+                inDhaka: 80,
+                outDhaka: 130
+            };
+            const DHAKA_DISTRICT_ID = '47';
+
+            function updateShippingInfo(districtId) {
+                const isInDhaka = districtId === DHAKA_DISTRICT_ID;
+                const shippingFee = isInDhaka ? SHIPPING_FEES.inDhaka : SHIPPING_FEES.outDhaka;
+
+                // Sync radio buttons
+                $('#inDhaka').prop('checked', isInDhaka);
+                $('#outDhaka').prop('checked', !isInDhaka);
+
+                // Update fee and total
+                const subTotal = parseFloat($('#subTotal').text()) || 0;
+                const grandTotal = subTotal + shippingFee;
+
+                $('#shippingFee').text(shippingFee);
+                $('#grandTotal').text(grandTotal);
+            }
+
+            // Handle district change
+            $(document).on('change', '#district', function() {
+                const districtId = $(this).val();
+                updateShippingInfo(districtId);
+            });
+
+            // Handle inDhaka click
+            $(document).on('change', '#inDhaka', function() {
+                if ($(this).is(':checked')) {
+                    $('#district').val(DHAKA_DISTRICT_ID).trigger('change');
+                }
+            });
+
+            // Handle outDhaka click
+            $(document).on('change', '#outDhaka', function() {
+                if ($(this).is(':checked')) {
+                    const currentDistrict = $('#district').val();
+                    if (currentDistrict === DHAKA_DISTRICT_ID) {
+                        $('#district').val('').trigger('change');
+                    }
+                }
+            });
+
+            // Optional: Trigger initial calculation on page load
+            updateShippingInfo($('#district').val());
+        });
+    </script>
 @endsection

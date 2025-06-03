@@ -44,6 +44,7 @@
     @include('Frontend.Page.components.homeFeature')
     <!-- .block-features / end -->
     <!-- .block-products-carousel -->
+
     <div class="block block-products-carousel" data-layout="grid-4">
         <div class="container">
             <div class="block-header">
@@ -139,9 +140,7 @@
                     <div class="block-products__featured-item">
                         <div class="product-card">
                             <button class="product-card__quickview" type="button">
-                                <svg width="16px" height="16px">
-                                    <use xlink:href="images/sprite.svg#quickview-16"></use>
-                                </svg> <span class="fake-svg-icon"></span>
+                                <i class="fa fa-eye"></i>
                             </button>
                             @include('Frontend.components.productDiscount', [
                                 'product' => $bestSeller,

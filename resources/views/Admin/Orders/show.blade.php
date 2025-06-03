@@ -223,6 +223,10 @@
                                             <th>Discount</th>
                                             <td>{{ $order->discount }} Tk</td>
                                         </tr>
+                                        <tr>
+                                            <th>Delivery Charge</th>
+                                            <td>{{ $order->delivary_charge }} Tk</td>
+                                        </tr>
 {{--                                        <tr>--}}
 {{--                                            <th>Tax (0%)</th>--}}
 {{--                                            <td>{{ $order->vat }} Tk</td>--}}

@@ -136,8 +136,8 @@
                                         <td>{{ $sl }}</td>
                                         <td>{{ $value->name }}</td>
                                         <td>{{ $value->qty }}</td>
-                                        <td>{{ $value->price }} Tk</td>
-                                        <td>{{ $value->total }} Tk</td>
+                                        <td>{{ $value->price }}</td>
+                                        <td>{{ $value->total }}</td>
                                     </tr>
                                     @php $sl++; @endphp
                                 @endforeach
@@ -156,11 +156,15 @@
                             <tbody>
                                 <tr>
                                     <td><strong>Subtotal</strong></td>
-                                    <td>{{ $order->subtotal }} Tk</td>
+                                    <td>{{ $order->subtotal }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Delivery Charge</strong></td>
+                                    <td>{{ $order->delivary_charge }}</td>
                                 </tr>
                                 <tr>
                                     <td><strong>Total</strong></td>
-                                    <td>{{ $order->total }} Tk</td>
+                                    <td>{{ $order->total }}</td>
                                 </tr>
                             </tbody>
                         </table>

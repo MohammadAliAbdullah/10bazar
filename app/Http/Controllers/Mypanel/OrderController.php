@@ -50,7 +50,7 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //dd($request->all());
+        // dd($request->all());
         if (!Auth::guard('mypanel')->check()) {
             $user = Customer::firstOrCreate(
                 ['phone' => $request->phone],
@@ -78,6 +78,7 @@ class OrderController extends Controller
         $shipping['area']        = $area->name;
         $shipping['address']     = $request->address;
         $shipping_address        = json_encode($shipping);
+        $delivery_fee             = $request->city == 47 ? 80 : 130;
 
         //Order
         $order = array();
@@ -88,7 +89,7 @@ class OrderController extends Controller
         $order['subtotal'] = Cart::getSubTotal();
         $order['discount'] = 0;
         $order['vat'] = 0;
-        $order['delivary_charge'] = 0;
+        $order['delivary_charge'] = $delivery_fee;
         $order['total'] = Cart::getTotal() - $order['discount'] + $order['delivary_charge'] + ($order['vat'] * $order['subtotal'] / 100); # You cant not pay less than 10
         $order['shipping_address'] = $shipping_address;
         if ($request->payment_method == 'cash_on_delivery') {
