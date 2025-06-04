@@ -120,7 +120,9 @@
                                         <div class=""></div>
                                     </div>
                                 </div> --}}
-                                <canvas id="visitorsChart" height="200" style="display: block; width: 765px; height: 200px;" width="765" class="chartjs-render-monitor"></canvas>
+                                <canvas id="visitorsChart" height="200"
+                                    style="display: block; width: 765px; height: 200px;" width="765"
+                                    class="chartjs-render-monitor"></canvas>
 
 
 
@@ -1452,93 +1454,84 @@
                 <!-- right col -->
             </div>
             <div class="row">
-                <div class="col-lg-7 col-7">
+                {{-- Recent Orders --}}
+                <div class="col-lg-7 col-12 mb-3">
                     <div class="card">
+                        <div class="card-header">
+                            <h5>Recent Orders</h5>
+                        </div>
                         <div class="card-body p-0">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered mb-0">
                                 <thead>
                                     <tr>
-                                        <td colspan="6">
-                                            <h5>
-                                                Recent Order
-                                            </h5>
-                                        </td>
+                                        <th>Invoice</th>
+                                        <th>Customer</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
                                     </tr>
                                 </thead>
-                                <tr>
-                                    <th>Invoice</th>
-                                    <th>Customer</th>
-
-                                    <th>Price</th>
-                                    <th>Status</th>
-                                </tr>
-                                @foreach ($orders as $orderss)
-                                    <tr>
-                                        <td>
-                                            {{ $orderss->invoice_no }}
-                                        </td>
-                                        <td>
-                                            {{ $orderss->customer->name }}<br>
-                                            {{ $orderss->customer->phone }}
-                                        </td>
-                                        <td>
-                                            {{ $orderss->total }} Tk
-                                        </td>
-                                        <td>
-                                            @if ($orderss->status == 'Pending')
-                                                <sapn class="bg bg-danger" style="padding: 5px; border-radius: 5px;">
-                                                    {{ $orderss->status }}
-                                                </sapn>
-                                            @else
-                                                <span class="bg bg-info" style="padding: 5px; border-radius:5px;">
-                                                    {{ $orderss->status }}
-                                                </span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
+                                <tbody>
+                                    @forelse ($orders as $order)
+                                        <tr>
+                                            <td>{{ $order->invoice_no }}</td>
+                                            <td>
+                                                {{ optional($order->customer)->name ?? 'N/A' }}<br>
+                                                {{ optional($order->customer)->phone ?? 'N/A' }}
+                                            </td>
+                                            <td>{{ $order->total }} Tk</td>
+                                            <td>
+                                                @if ($order->status === 'Pending')
+                                                    <span class="badge bg-danger">{{ $order->status }}</span>
+                                                @else
+                                                    <span class="badge bg-info">{{ $order->status }}</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="4">No recent orders found.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-5 col-5">
+
+                {{-- Recent Products --}}
+                <div class="col-lg-5 col-12 mb-3">
                     <div class="card">
+                        <div class="card-header">
+                            <h5>Recently Added Products</h5>
+                        </div>
                         <div class="card-body p-0">
-                            <table class="table table-bordered">
+                            <table class="table table-bordered mb-0">
                                 <thead>
                                     <tr>
-                                        <td colspan="6">
-                                            <h5>
-                                                Recent Added Product
-                                            </h5>
-                                        </td>
+                                        <th>SI</th>
+                                        <th>Product</th>
+                                        <th>Category</th>
                                     </tr>
                                 </thead>
-                                <tr>
-                                    <th>SI</th>
-                                    <th>Product</th>
-                                    <th>Category</th>
-
-
-
-                                </tr>
-                                @foreach ($products as $prod)
-                                    <tr>
-                                        <td>{{ $prod->id }}</td>
-                                        <td>{{ $prod->title }}</td>
-                                        <td>
-
-                                            {{ $prod->category->title }}
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-
+                                <tbody>
+                                    @forelse ($products as $prod)
+                                        <tr>
+                                            <td>{{ $prod->id }}</td>
+                                            <td>{{ $prod->title }}</td>
+                                            <td>{{ optional($prod->category)->title ?? 'N/A' }}</td>
+                                        </tr>
+                                    @empty
+                                        <tr>
+                                            <td colspan="3">No products found.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
+
     </section>
 @endsection
 @section('script')
