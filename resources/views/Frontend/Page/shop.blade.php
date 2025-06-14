@@ -19,40 +19,36 @@
                             <div class="view-options">
 
                                 {{-- Layout Switcher --}}
-                                <div class="view-options__layout">
-                                    <div class="layout-switcher">
-                                        <div class="layout-switcher__list">
-                                            <button data-layout="grid-3-sidebar" data-with-features="false" title="Grid"
-                                                type="button"
-                                                class="layout-switcher__button layout-switcher__button--active">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#layout-grid-16x16"></use>
-                                                </svg>
-                                            </button>
-                                            <button data-layout="grid-3-sidebar" data-with-features="true"
-                                                title="Grid With Features" type="button" class="layout-switcher__button">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#layout-grid-with-details-16x16">
-                                                    </use>
-                                                </svg>
-                                            </button>
-                                            <button data-layout="list" data-with-features="false" title="List"
-                                                type="button" class="layout-switcher__button">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#layout-list-16x16"></use>
-                                                </svg>
-                                            </button>
-                                        </div>
+                                <div class="layout-switcher">
+                                    <div class="layout-switcher__list">
+                                        <!-- Grid View -->
+                                        {{-- <button data-layout="grid-3-sidebar" data-with-features="false" title="Grid"
+            type="button" class="layout-switcher__button layout-switcher__button--active">
+            <i class="fas fa-th-large" style="font-size: 16px;"></i>
+        </button> --}}
+
+                                        <!-- Grid with Features -->
+                                        <button data-layout="grid-3-sidebar" data-with-features="true"
+                                            title="Grid With Features" type="button" class="layout-switcher__button">
+                                            <i class="fas fa-th-large" style="font-size: 16px;"></i>
+                                        </button>
+
+                                        <!-- List View -->
+                                        <button data-layout="list" data-with-features="false" title="List" type="button"
+                                            class="layout-switcher__button">
+                                            <i class="fas fa-list" style="font-size: 16px;"></i>
+                                        </button>
                                     </div>
                                 </div>
 
+
                                 {{-- Legend --}}
-                                <div class="view-options__legend">Showing 6 of 98 products</div>
+                                {{-- <div class="view-options__legend">Showing 6 of 98 products</div> --}}
                                 <div class="view-options__divider"></div>
 
                                 {{-- Sort By --}}
                                 <div class="view-options__control">
-                                    <label for="">Sort By</label>
+                                    {{-- <label for="">Sort By</label> --}}
                                     <select class="form-control form-control-sm">
                                         <option value="">Default</option>
                                         <option value="">Name (A-Z)</option>

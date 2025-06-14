@@ -6,8 +6,8 @@
                            <div class="col-12 col-md-6 col-lg-4">
                                <div class="site-footer__widget footer-contacts">
                                    <h5 class="footer-contacts__title">Contact Us</h5>
-                                   <div class="footer-contacts__text">Lorem ipsum dolor sit amet, consectetur
-                                       adipiscing elit. Integer in feugiat lorem. Pellentque ac placerat tellus.</div>
+                                   {{-- <div class="footer-contacts__text">Lorem ipsum dolor sit amet, consectetur
+                                       adipiscing elit. Integer in feugiat lorem. Pellentque ac placerat tellus.</div> --}}
                                    <ul class="footer-contacts__contacts">
                                        <li><i class="footer-contacts__icon fas fa-globe-americas"></i> Road-1/A,
                                            Sector-7, Uttara</li>
