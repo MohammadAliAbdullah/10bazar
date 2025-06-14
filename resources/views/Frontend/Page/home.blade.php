@@ -41,7 +41,7 @@
     </div>
     <!-- .block-slideshow / end -->
     <!-- .block-features -->
-    @include('Frontend.Page.components.homeFeature')
+    {{-- @include('Frontend.Page.components.homeFeature') --}}
     <!-- .block-features / end -->
     <!-- .block-products-carousel -->
 
@@ -239,7 +239,7 @@
     </div>
     <!-- .block-products / end -->
     <!-- .block-categories -->
-    <div class="block block--highlighted block-categories block-categories--layout--classic">
+    {{-- <div class="block block--highlighted block-categories block-categories--layout--classic">
         <div class="container">
             <div class="block-header">
                 <h3 class="block-header__title">Popular Categories</h3>
@@ -268,7 +268,7 @@
                 @endforeach
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- .block-categories / end -->
     <!-- .block-products-carousel -->
     <div class="block block-products-carousel" data-layout="horizontal">
@@ -430,7 +430,6 @@
                             <a href="#">{{ $brand->brand->title ?? 'N/A' }}</a>
                         </div>
                     @endforeach
-
                 </div>
             </div>
         </div>

@@ -24,13 +24,13 @@ class AdminController extends Controller
     public function index()
     {
         $data['category'] = Category::where('status', 'Active')->count();
-        $data['product'] = Product::where('status', 'Active')->count();
+        $data['product']  = Product::where('status', 'Active')->count();
         $data['customer'] = Customer::count();
-        $data['order'] = Order::count();
-        $data['orders'] = Order::orderBy('id', 'DESC')->limit(8)->get();
+        $data['order']    = Order::count();
+        $data['orders']   = Order::orderBy('id', 'DESC')->limit(8)->get();
         $data['products'] = Product::orderBy('id', 'DESC')->limit(8)->get();
         //dd($products);
-                // Chart data: visitors per day
+        // Chart data: visitors per day
         $visitorStats = Visitor::selectRaw('DATE(created_at) as date, COUNT(*) as count')
             ->groupBy('date')
             ->orderBy('date', 'asc')
