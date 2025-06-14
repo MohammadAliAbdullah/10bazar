@@ -15,7 +15,7 @@
     @section('meta_description', $seo->meta_description)
 @endif
 @section('content')
-    @include('Frontend.components.breadcrumb', ['page' => 'Shop', 'subPage' => 'abdullah'])
+    @include('Frontend.components.breadcrumb', ['page' => 'Shop', 'subPage' =>  $product->title ?? 'N/A' ])
     <div class="block">
         <div class="container">
             <div class="product product--layout--standard" data-layout="standard">
@@ -51,22 +51,12 @@
                     <!-- .product__gallery / end -->
                     <!-- .product__info -->
                     <div class="product__info">
-                        <div class="product__wishlist-compare">
-                            <button type="button" class="btn btn-sm btn-light btn-svg-icon" data-toggle="tooltip"
-                                data-placement="right" title="Wishlist"><svg width="16px" height="16px">
-                                    <use xlink:href="images/sprite.svg#wishlist-16"></use>
-                                </svg></button> <button type="button" class="btn btn-sm btn-light btn-svg-icon"
-                                data-toggle="tooltip" data-placement="right" title="Compare"><svg width="16px"
-                                    height="16px">
-                                    <use xlink:href="images/sprite.svg#compare-16"></use>
-                                </svg></button>
-                        </div>
-                        <h1 class="product__name">{{ $product->title ?? 'N/A' }}</h1>
-                        @include('Frontend.components.ratingReview')
+                        <h1 class="product__name">{{ $product->title ?? '' }}</h1>
+                        {{-- @include('Frontend.components.ratingReview') --}}
                         <div class="product__description">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing
-                            elit. Curabitur ornare, mi in ornare elementum, libero nibh lacinia urna, quis
-                            convallis lorem erat at purus. Maecenas eu varius nisi.
+                            <p>
+                                {{ $product->description ?? '' }}
+                            </p>                           
                         </div>
                         <ul class="product__meta">
                             <li><b>Category:</b> {{ $product->category->title ?? 'N/A' }}</li>
