@@ -3,6 +3,106 @@
 @section('meta_keywords', $seo->meta_keyword)
 @section('meta_description', $seo->meta_description)
 @section('content')
+    <style>
+        #product1 {
+            text-align: center;
+        }
+
+        #product1 .pro {
+            width: 23%;
+            min-width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #cce7d0;
+            border-radius: 15px;
+            cursor: pointer;
+            box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.02);
+            margin: 15px 0;
+            transition: 0.2s ease;
+            position: relative;
+        }
+
+        #product1 .pro:hover {
+            transform: translateY(-3px);
+            box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.06);
+        }
+
+        /* #product1 .pro:hover {
+                            transform: translateY(-10px);
+                            box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.15);
+                        } */
+
+        #product1 .pro img {
+            width: 100%;
+            border-radius: 20px;
+        }
+
+        #product1 .pro .des {
+            text-align: start;
+            padding: 10px 0;
+        }
+
+        #product1 .pro .des span {
+            color: #606063;
+            font-size: 12px;
+        }
+
+        #product1 .pro .des h5 {
+            padding-top: 7px;
+            color: #1a1a1a;
+            font-size: 14px;
+        }
+
+        #product1 .pro .des i {
+            font-size: 12px;
+            color: rgb(243, 181, 25)
+        }
+
+        #product1 .pro .des h4 {
+            font-size: 15px;
+            padding-top: 7px;
+            font-weight: 700;
+            color: #088178;
+        }
+
+        .button-container {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .cart,
+        .eye {
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 50px;
+            background-color: #e8f6ea;
+            font-weight: 500;
+            color: #088178;
+            border: 1px solid #cce7d0;
+            text-align: center;
+        }
+
+        .cart:hover,
+        .eye:hover {
+            background-color: #088178;
+            color: white;
+        }
+
+        .discount-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #ff4757;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    </style>
     <!-- .block-slideshow -->
     <div class="block-slideshow block-slideshow--layout--with-departments block">
         <div class="container">
@@ -44,71 +144,8 @@
     {{-- @include('Frontend.Page.components.homeFeature') --}}
     <!-- .block-features / end -->
     <!-- .block-products-carousel -->
-
-    <div class="block block-products-carousel" data-layout="grid-4">
-        <div class="container">
-            <div class="block-header">
-                <h3 class="block-header__title">Featured Products</h3>
-                <div class="block-header__divider"></div>
-                <ul class="block-header__groups-list">
-                    <li><button type="button" class="block-header__group block-header__group--active">All</button></li>
-                </ul>
-                <div class="block-header__arrows-list">
-                    <button class="block-header__arrow block-header__arrow--left" type="button">
-                        <i class="fa fa-angle-left"></i>
-                    </button>
-                    <button class="block-header__arrow block-header__arrow--right" type="button">
-                        <i class="fa fa-angle-right"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="block-products-carousel__slider">
-                <div class="block-products-carousel__preloader"></div>
-                <div class="owl-carousel">
-                    @foreach ($featureds as $product)
-                        <div class="block-products-carousel__column">
-                            <div class="block-products-carousel__cell">
-                                <div class="product-card">
-                                    <button class="product-card__quickview" type="button">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                    @include('Frontend.components.productDiscount', [
-                                        'product' => $product,
-                                    ])
-                                    <div class="product-card__image">
-                                        <a href="#">
-                                            <img src="{{ asset('public/coot_assets/images/products/' . $product->thumb) }}"
-                                                alt="{{ $product->img_alt ?? 'Product Image' }}">
-                                        </a>
-                                    </div>
-                                    <div class="product-card__info">
-                                        <div class="product-card__name">
-                                            @if ($product)
-                                                <a href="{{ route('product_details', ['id' => $product->slug]) }}">
-                                                    {!! Str::limit($product->title, 32, ' ...') !!}
-                                                </a>
-                                            @endif
-                                        </div>
-
-                                    </div>
-                                    <div class="product-card__actions">
-                                        <div class="product-card__availability">Availability: <span class="text-success">In
-                                                Stock</span></div>
-
-                                        @include('Frontend.components.productPrice', [
-                                            'product' => $product,
-                                        ])
-                                        @include('Frontend.components.addToCart', ['product' => $product])
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
-                    {{-- @endforeach --}}
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- customs start --}}
+    {{-- customs --}}
     <!-- .block-products-carousel / end -->
     <!-- .block-banner -->
     {{-- <div class="block block-banner">
@@ -128,6 +165,195 @@
     <div class="block block-products block-products--layout--large-first">
         <div class="container">
             <div class="block-header">
+                <h3 class="block-header__title">Featured</h3>
+                <div class="block-header__divider"></div>
+            </div>
+
+            <section id="product1" class="section-p1">
+                <div class="row">
+                    <!-- Product 1 -->
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <div class="discount-tag">20% OFF</div>
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>
+                                    <del>৳78000000</del>
+                                    ৳780000
+                                </h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <!-- Additional products can follow the same pattern -->
+                </div>
+            </section>
+
+        </div>
+    </div>
+    <div class="block block-products block-products--layout--large-first">
+        <div class="container">
+            <div class="block-header">
                 <h3 class="block-header__title">Bestsellers</h3>
                 <div class="block-header__divider"></div>
             </div>
@@ -135,140 +361,189 @@
                 // Best Seller Banner Product
                 $bestSeller = $featureds->first();
             @endphp
-            <div class="block-products__body">
-                <div class="block-products__featured">
-                    <div class="block-products__featured-item">
-                        <div class="product-card">
-                            <button class="product-card__quickview" type="button">
-                                <i class="fa fa-eye"></i>
-                            </button>
-                            @include('Frontend.components.productDiscount', [
-                                'product' => $bestSeller,
-                            ])
-                            <div class="product-card__image">
-                                <a>
-                                    @if ($bestSeller && $bestSeller->thumb)
-                                        <img src="{{ asset('public/coot_assets/images/products/' . $bestSeller->thumb) }}"
-                                            alt="{{ $product->img_alt ?? 'Product Image' }}">
-                                    @else
-                                        <img src="{{ asset('public/coot_assets/images/products/default-thumb.jpg') }}"
-                                            alt="Default Product Image">
-                                    @endif
-                                </a>
-                            </div>
-                            <div class="product-card__info">
-                                <div class="product-card__name">
-                                    @if ($bestSeller)
-                                        <a
-                                            href="{{ route('product_details', ['id' => isset($bestSeller->slug) ? $bestSeller->slug : '']) }}">
-                                            {!! Str::limit($bestSeller->title, 32, ' ...') !!}
-                                        </a>
-                                    @endif
+
+            <section id="product1" class="section-p1">
+                <div class="row">
+                    <!-- Product 1 -->
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <div class="discount-tag">20% OFF</div>
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
                                 </div>
-                                @include('Frontend.components.ratingReview')
-                                <ul class="product-card__features-list">
-                                    <li>Speed: 750 RPM</li>
-                                    <li>Power Source: Cordless-Electric</li>
-                                    <li>Battery Cell Type: Lithium</li>
-                                    <li>Voltage: 20 Volts</li>
-                                    <li>Battery Capacity: 2 Ah</li>
-                                </ul>
+                                <h4>
+                                    <del>৳78000000</del>
+                                    ৳780000
+                                </h4>
                             </div>
-                            <div class="product-card__actions">
-                                <div class="product-card__availability">Availability: <span class="text-success">In
-                                        Stock</span></div>
-                                @include('Frontend.components.productPrice', ['product' => $bestSeller])
-                                @include('Frontend.components.addToCart', ['product' => $bestSeller])
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="block-products__list">
-                    @foreach ($featureds as $key => $product)
-                        @if ($key < 6)
-                            <div class="block-products__list-item">
-                                <div class="product-card">
-                                    <button class="product-card__quickview" type="button">
-                                        <i class="fa fa-eye"></i>
-                                    </button>
-                                    @include('Frontend.components.productDiscount', [
-                                        'product' => $product,
-                                    ])
-                                    <div class="product-card__image">
-                                        @if ($product)
-                                            <a href="#">
-                                                <img src="{{ asset('public/coot_assets/images/products/' . $product->thumb) }}"
-                                                    alt="{{ $product->img_alt ?? 'Product Image' }}">
-                                            </a>
-                                        @endif
-                                    </div>
-                                    <div class="product-card__info">
-                                        <div class="product-card__name">
-                                            @if ($product)
-                                                <a href="{{ route('product_details', ['id' => $product->slug]) }}">
-                                                    {!! Str::limit($product->title, 32, ' ...') !!}
-                                                </a>
-                                            @endif
-                                        </div>
-                                        @include('Frontend.components.ratingReview')
-                                        <ul class="product-card__features-list">
-                                            <li>Speed: 750 RPM</li>
-                                            <li>Power Source: Cordless-Electric</li>
-                                            <li>Battery Cell Type: Lithium</li>
-                                            <li>Voltage: 20 Volts</li>
-                                            <li>Battery Capacity: 2 Ah</li>
-                                        </ul>
-                                    </div>
-                                    <div class="product-card__actions">
-                                        <div class="product-card__availability">Availability: <span class="text-success">In
-                                                Stock</span>
-                                        </div>
-
-                                        @include('Frontend.components.productPrice', [
-                                            'product' => $product,
-                                        ])
-                                        @include('Frontend.components.addToCart', ['product' => $product])
-                                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
                                 </div>
+                                <h4>$78</h4>
                             </div>
-                        @endif
-                    @endforeach
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="pro">
+                            <img src="https://i.postimg.cc/kg9YYbTn/f1.jpg" alt="">
+                            <div class="des">
+                                <span>adidas</span>
+                                <h5>Carton Astronault Tshirts</h5>
+                                <div class="star">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <h4>$78</h4>
+                            </div>
+                            <div class="button-container">
+                                <a href="#" class="eye"><i class="fas fa-eye"></i></a>
+                                <a href="#" class="cart"><i class="fas fa-shopping-cart"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Additional products can follow the same pattern -->
                 </div>
-            </div>
+            </section>
         </div>
     </div>
     <!-- .block-products / end -->
     <!-- .block-categories -->
-    {{-- <div class="block block--highlighted block-categories block-categories--layout--classic">
-        <div class="container">
-            <div class="block-header">
-                <h3 class="block-header__title">Popular Categories</h3>
-                <div class="block-header__divider"></div>
-            </div>
-            <div class="block-categories__list">
-                @foreach ($categories as $category)
-                    <div class="block-categories__item category-card category-card--layout--classic">
-                        <div class="category-card__body">
-                            <div class="category-card__image">
-                                <a href="#">
-                                    <img src="{{ asset('public/coot_assets/images/categories/' . $category->images) }}"
-                                        alt="{{ $category->title }}">
-                                </a>
-                            </div>
-                            <div class="category-card__content">
-                                <div class="category-card__name">
-                                    <a href="{{ url('category') }}/{{ $category->slug }}">{{ $category->title }}</a>
-                                </div>
-                                <div class="category-card__all">
-                                    <a href="{{ url('category') }}/{{ $category->slug }}">Show All</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-        </div>
-    </div> --}}
     <!-- .block-categories / end -->
     <!-- .block-products-carousel -->
     <div class="block block-products-carousel" data-layout="horizontal">
