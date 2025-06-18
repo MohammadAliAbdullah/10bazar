@@ -5,7 +5,5 @@
 @endphp
 
 @if ($discount)
-    <div class="product-card__badges-list">
-        <div class="product-card__badge product-card__badge--new"> -{{ $discount }}%</div>
-    </div>
+    <div class="discount-tag"> -{{ $discount }}% OFF</div>
 @endif

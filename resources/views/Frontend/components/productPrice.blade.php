@@ -1,10 +1,10 @@
-<div class="product-card__prices">
+<h4>
     @if ($product)
         @if ($product->sales_price && $product->sales_price < $product->regular_price)
-            <del>৳{{ number_format($product->regular_price, 2) }}</del>
-            <span>৳{{ number_format($product->sales_price, 2) }}</span>
-        @else
-            <span>৳{{ number_format($product->regular_price, 2) }}</span>
+            <del>৳{{ number_format($product->regular_price, 2) }}
+                ৳{{ number_format($product->sales_price, 2) }}
+            @else
+                ৳{{ number_format($product->regular_price, 2) }}
         @endif
     @endif
-</div>
+</h4>

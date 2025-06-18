@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/vendor/bootstrap-4.2.1/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="{{ asset('public') }}/coot_assets/vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css">
-    <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/css/style.css"><!-- js -->
+    <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/css/style.css">
+    <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/css/custom_style.css">
+    <!-- js -->
     <script src="{{ asset('public') }}/coot_assets/vendor/jquery-3.3.1/jquery.min.js"></script>
     <script src="{{ asset('public') }}/coot_assets/vendor/bootstrap-4.2.1/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('public') }}/coot_assets/vendor/owl-carousel-2.3.4/owl.carousel.min.js"></script>

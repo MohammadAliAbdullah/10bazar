@@ -43,7 +43,7 @@ class HomeController extends Controller
             return Category::where('type', 'Special')->where('parent_id', 0)->limit(8)->get();
         });
         $brands = cache()->remember('brands-home', 60 * 60 * 24, function () {
-            return Brand::all();
+            return Brand::limit(12)->get();
         });
         // return $categories;
         $featureds = cache()->remember('featureds-home', 60 * 60 * 24, function () {
