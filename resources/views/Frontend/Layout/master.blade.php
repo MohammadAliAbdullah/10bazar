@@ -21,11 +21,6 @@
     <script src="{{ asset('public') }}/coot_assets/vendor/nouislider-12.1.0/nouislider.min.js"></script>
     <script src="{{ asset('public') }}/coot_assets/js/number.js"></script>
     <script src="{{ asset('public') }}/coot_assets/js/main.js"></script>
-    <script src="{{ asset('public') }}/coot_assets/vendor/svg4everybody-2.1.9/svg4everybody.min.js"></script>
-
-    <script>
-        svg4everybody();
-    </script>
     <!-- font - fontawesome -->
     <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/vendor/fontawesome-5.6.1/css/all.min.css">
     <!-- font - coot_assets -->
@@ -42,6 +37,7 @@
         gtag('js', new Date());
         gtag('config', 'UA-97489509-6');
     </script>
+    @include('Frontend.Layout.partials.facebook_pixel')
 </head>
 
 <body>
@@ -82,6 +78,7 @@
             headerCartList: "{{ route('headerCart.list') }}",
             loader        : "{{ asset('public/coot_assets/loader.gif') }}",
             shopFilter    : "{{ route('filter.products') }}",                 // search
+            areas         : "{{ route('areas') }}",
         };
     </script>
     <script src="{{ asset('public') }}/coot_assets/js/cart.js?v={{ time() }}"></script>
@@ -93,7 +90,7 @@
             if (id) {
                 $.ajax({
                     type: "GET",
-                    url: "{{ route('areas') }}?parent_id=" + id,
+                    url: window.routes.areas + "?parent_id=" + id,
                     success: function(res) {
                         if (res) {
                             $("#sub_cat").empty();

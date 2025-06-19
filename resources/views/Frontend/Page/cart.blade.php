@@ -5,7 +5,7 @@
         'page' => 'Shop',
         'subPage' => 'Cart',
     ])
-    <div class="cart block">
+    {{-- <div class="cart block"> --}}
         <div class="container">
             <table class="cart__table cart-table">
                 <thead class="cart-table__head">
@@ -108,5 +108,5 @@
                 </div>
             </div>
         </div>
-    </div>
+    {{-- </div> --}}
 @endsection

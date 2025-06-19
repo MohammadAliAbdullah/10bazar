@@ -5,10 +5,16 @@
                 <img src="{{ asset('public/coot_assets/no_product_found.png') }}" alt="" class="img-fluid">
             </div>
         @endif
-        @foreach ($products as $product)
-            {{-- Copy the product card from shop.blade.php --}}
-            @include('Frontend.components.productCard', ['product' => $product])
-        @endforeach
+        {{-- Product Items --}}
+        <section id="product1" class="section-p1">
+            <div class="row">
+                @foreach ($products as $product)
+                    {{-- Copy the product card from shop.blade.php --}}
+                    @include('Frontend.components.productCard', ['product' => $product])
+                @endforeach
+            </div>
+        </section>
+        {{-- Product Items / End --}}
     </div>
 </div>
 

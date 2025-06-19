@@ -47,54 +47,22 @@
                         </div>
                         <div class="products-view__list products-list" data-layout="grid-5-full" data-with-features="false">
                             <div class="products-list__body">
-
-                                @foreach ($products as $product)
-                                    <div class="products-list__item">
-                                        <div class="product-card">
-                                            <button class="product-card__quickview" type="button">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#quickview-16"></use>
-                                                </svg>
-                                                <span class="fake-svg-icon"></span>
-                                            </button>
-                                            @include('Frontend.components.productDiscount', [
+                                @if ($products->isEmpty())
+                                    <div class="products-list__empty text-center py-5">
+                                        <img src="{{ asset('public/coot_assets/no_product_found.png') }}" alt="" class="img-fluid">
+                                    </div>
+                                @endif
+                                {{-- Product Items --}}
+                                <section id="product1" class="section-p1">
+                                    <div class="row">
+                                        @foreach ($products as $product)
+                                            @include('Frontend.components.productCard', [
                                                 'product' => $product,
                                             ])
-                                            <div class="product-card__image">
-                                                <a href="{{ route('product_details', ['id' => $product->slug]) }}">
-                                                    <img src="{{ asset('public/coot_assets/images/products/' . $product->thumb) }}"
-                                                        alt="{{ $product->img_alt ?? 'Product Image' }}">
-                                                </a>
-                                            </div>
-                                            <div class="product-card__info">
-                                                <div class="product-card__name">
-                                                    <a href="{{ route('product_details', ['id' => $product->slug]) }}">
-                                                        {{ $product->title }}
-                                                    </a>
-                                                </div>
-                                                <ul class="product-card__features-list">
-                                                    <li>Speed: 750 RPM</li>
-                                                    <li>Power Source: Cordless-Electric</li>
-                                                    <li>Battery Cell Type: Lithium</li>
-                                                    <li>Voltage: 20 Volts</li>
-                                                    <li>Battery Capacity: 2 Ah</li>
-                                                </ul>
-                                            </div>
-                                            <div class="product-card__actions">
-                                                <div class="product-card__availability">
-                                                    Availability:
-                                                    <span class="text-success">In Stock</span>
-                                                </div>
-                                                @include('Frontend.components.productPrice', [
-                                                    'product' => $product,
-                                                ])
-                                                @include('Frontend.components.addToCart', [
-                                                    'product' => $product,
-                                                ])
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
-                                @endforeach
+                                </section>
+                                {{-- Product Items / End --}}
                             </div>
                         </div>
                         <div class="products-view__pagination">
