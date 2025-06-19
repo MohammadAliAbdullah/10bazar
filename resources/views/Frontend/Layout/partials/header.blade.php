@@ -68,7 +68,7 @@
         <!-- .topbar / end -->
         <div class="site-header__middle container">
             <div class="site-header__logo">
-                <a href="index.html">
+                <a href="{{ url('/') }}" class="site-header__logo-link">
                     <img src="{{ asset('public') }}/coot_assets/10_bazar_logo.jpg">
                 </a>
             </div>

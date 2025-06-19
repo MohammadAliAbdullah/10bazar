@@ -2,14 +2,30 @@
     <div class="mobilemenu__backdrop"></div>
     <div class="mobilemenu__body">
         <div class="mobilemenu__header">
-            <div class="mobilemenu__title">Menu</div><button type="button" class="mobilemenu__close"><svg width="20px"
-                    height="20px">
-                    <use xlink:href="images/sprite.svg#cross-20"></use>
-                </svg></button>
+            <div class="mobilemenu__title">Menu</div>
+            <button type="button" class="mobilemenu__close">
+                {{-- fa fa bars --}}
+                <i class="fa fa-bars" aria-hidden="true"></i>
+            </button>
         </div>
         <div class="mobilemenu__content">
             <ul class="mobile-links mobile-links--level--0" data-collapse
                 data-collapse-opened-class="mobile-links__item--open">
+                <li>
+                    <div class="site-header__search">
+                        <div class="search">
+                            {!! Form::open(['method' => 'POST', 'route' => 'search', 'class' => 'search__form']) !!}
+                            <input class="search__input" name="search"
+                                placeholder="Search for products, brands and more" aria-label="Site search"
+                                type="text" autocomplete="off">
+                            <button class="search__button" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                            <div class="search__border"></div>
+                            {!! Form::close() !!}
+                        </div>
+                    </div>
+                </li>
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
                         <a href="{{ route('home.index') }}" class="mobile-links__item-link">Home</a>
@@ -221,7 +237,8 @@
                                 </li>
                                 <li class="mobile-links__item" data-collapse-item>
                                     <div class="mobile-links__item-title">
-                                        <a href="{{ route('register.user') }}" class="mobile-links__item-link">Register </a>
+                                        <a href="{{ route('register.user') }}"
+                                            class="mobile-links__item-link">Register </a>
                                     </div>
                                 </li>
                             @endif
