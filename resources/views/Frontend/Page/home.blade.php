@@ -158,7 +158,7 @@
                             </div>
                             <div class="post-card__info">
                                 <div class="post-card__category"><a href="#">Special Offers</a></div>
-                                <div class="post-card__name"><a href="#">{!! Str::limit($blog->title, 80, ' ...') !!}</a></div>
+                                <div class="post-card__name"><a href="{{ url('blogs') }}/{{ $blog->slug }}">{!! Str::limit($blog->title, 80, ' ...') !!}</a></div>
                                 <div class="post-card__date">October 19, 2019</div>
                                 <div class="post-card__content">{!! Str::limit($blog->title, 80, ' ...') !!}</div>
                                 <div class="post-card__read-more">

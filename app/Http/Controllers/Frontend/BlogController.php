@@ -12,13 +12,14 @@ class BlogController extends Controller
     {
         $blogs = Blog::paginate(10);
         $recents = Blog::orderBy('id','DESC')->limit(5)->get();
-        return view("Frontend.Blog.blog_full_width_list", compact('blogs','recents'));
+        // return view("Frontend.Blog.blog_full_width_list", compact('blogs','recents'));
+        return view("Frontend.Page.blog", compact('blogs','recents'));
     }
 
     public function details($slug=NULL)
     {
         $value = Blog::where('slug',$slug)->first();
         $recents = Blog::orderBy('id','DESC')->limit(5)->get();
-        return view("Frontend.Blog.details", compact('value','recents'));
+        return view("Frontend.Page.blogDetails", compact('value','recents'));
     }
 }

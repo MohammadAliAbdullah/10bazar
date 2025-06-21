@@ -75,53 +75,25 @@
                             <div class="products-view__list products-list" data-layout="grid-3-sidebar"
                                 data-with-features="false">
                                 <div class="products-list__body">
-                                    @foreach ($cat_products as $product)
-                                        <div class="products-list__item">
-                                            <div class="product-card">
-                                                {{-- Quickview Button --}}
-                                                <button class="product-card__quickview" type="button">
-                                                    <i class="fa fa-eye"></i>
-                                                    {{-- <span class="fake-svg-icon"></span> --}}
-                                                </button>
 
-                                                {{-- Product Badges --}}
-                                                @include('Frontend.components.productDiscount', [
+                                    @if ($cat_products->isEmpty())
+                                        <div class="products-list__empty text-center py-5">
+                                            <img src="{{ asset('public/coot_assets/no_product_found.png') }}" alt=""
+                                                class="img-fluid">
+                                        </div>
+                                    @endif
+                                    {{-- Product Items --}}
+                                    <section id="product1" class="section-p1">
+                                        <div class="row">
+                                            @foreach ($cat_products as $product)
+                                                @include('Frontend.components.productCard', [
                                                     'product' => $product,
                                                 ])
-
-                                                {{-- Product Image --}}
-                                                <div class="product-card__image">
-                                                    <a href="{{ route('product_details', ['id' => $product->slug]) }}">
-                                                        <img src="{{ asset('public/coot_assets/images/products/' . $product->thumb) }}"
-                                                            alt="{{ $product->img_alt ?? 'Product Image' }}">
-                                                    </a>
-                                                </div>
-
-                                                {{-- Product Info --}}
-                                                <div class="product-card__info">
-                                                    <div class="product-card__name">
-                                                        <a href="{{ route('product_details', ['id' => $product->slug]) }}">
-                                                            {!! Str::limit($product->title, 32, ' ...') !!}
-                                                        </a>
-                                                    </div>
-                                                    @include('Frontend.components.ratingReview')
-                                                </div>
-
-                                                {{-- Product Actions --}}
-                                                <div class="product-card__actions">
-                                                    <div class="product-card__availability">Availability: <span
-                                                            class="text-success">In Stock</span></div>
-                                                    @include('Frontend.components.productPrice', [
-                                                        'product' => $product,
-                                                    ])
-                                                    @include('Frontend.components.addToCart', [
-                                                        'product' => $product,
-                                                    ])
-                                                </div>
-
-                                            </div>
+                                            @endforeach
                                         </div>
-                                    @endforeach
+                                    </section>
+                                    {{-- Product Items / End --}}
+
                                 </div>
                             </div>
 

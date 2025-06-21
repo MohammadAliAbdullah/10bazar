@@ -5205,10 +5205,10 @@ screen and (-ms-high-contrast:active) {
 }
 
 .about-us__image {
-    background-image: url(../images/aboutus.jpg);
-    background-size: cover;
-    background-position: bottom;
-    height: 500px
+    /* background-image: url(../images/aboutus.jpg); */
+    /* background-size: cover; */
+    /* background-position: bottom; */
+    height: 350px
 }
 
 .about-us__body {
