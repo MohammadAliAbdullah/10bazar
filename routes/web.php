@@ -38,14 +38,14 @@ Route::get('/blogs/{slug}', [App\Http\Controllers\Frontend\BlogController::class
 // Route::get('/deals', [App\Http\Controllers\Frontend\PagesController::class, 'deals'])->name('deals');
 Route::resource('/complains', 'App\Http\Controllers\Frontend\ComplainController');
 Route::get('/contact-us', [App\Http\Controllers\Frontend\PagesController::class, 'contact_us'])->name('contact_us'); // -- done
-Route::get('/brand', [App\Http\Controllers\Frontend\PagesController::class, 'brand'])->name('brand');
-Route::get('/warranty-policy', [App\Http\Controllers\Frontend\PagesController::class, 'warranty_policy'])->name('warranty_policy');
+Route::get('/brand', [App\Http\Controllers\Frontend\PagesController::class, 'brand'])->name('brand'); // -- done
+Route::get('/warranty-policy', [App\Http\Controllers\Frontend\PagesController::class, 'warranty_policy'])->name('warranty_policy'); // -- done
 Route::get('/terms-conditions', [App\Http\Controllers\Frontend\PagesController::class, 'trams'])->name('trams');
-Route::get('/privacy-policy', [App\Http\Controllers\Frontend\PagesController::class, 'privacy'])->name('privacy');
+Route::get('/privacy-policy', [App\Http\Controllers\Frontend\PagesController::class, 'privacy'])->name('privacy'); // -- done
 Route::get('/product/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'product_details'])->name('product_details'); // -- done
 Route::get('/quick-view-product/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'product_quick_view_details'])->name('product_quick_view_details');
 Route::post('/review', [App\Http\Controllers\Frontend\PagesController::class, 'review_store'])->name('review_store');
-Route::get('/track', [App\Http\Controllers\Frontend\PagesController::class, 'track'])->name('track');
+Route::get('/track', [App\Http\Controllers\Frontend\PagesController::class, 'track'])->name('track'); // -- done
 Route::post('/search', [App\Http\Controllers\Frontend\HomeController::class, 'search'])->name('search');
 //VRF
 Route::get('/vrf', [App\Http\Controllers\Frontend\VrfController::class, 'index'])->name('vrf');
@@ -88,7 +88,7 @@ Route::get('/faq', [App\Http\Controllers\Frontend\PagesController::class, 'faq']
 Route::get('/about-us', [App\Http\Controllers\Frontend\PagesController::class, 'about_us'])->name('about.us'); // -- done
 Route::get('/contact-us', [App\Http\Controllers\Frontend\PagesController::class, 'contact_us'])->name('contact.us'); // -- done
 Route::get('/page/{slug}', [App\Http\Controllers\Frontend\PagesController::class, 'page']); // -- done
-// Route::resource('/newsletter','\App\Http\Controllers\Frontend\NewsletterController');
+Route::resource('/newsletter','\App\Http\Controllers\Frontend\NewsletterController'); // -- done
 
 //SSLCOMMERZ END
 Route::get('/login', [App\Http\Controllers\Mypanel\Auth\LoginController::class, 'showLoginForm'])->name('login'); // -- done

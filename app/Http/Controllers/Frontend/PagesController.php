@@ -167,7 +167,7 @@ class PagesController extends Controller
     public function privacy()
     {
         $page = Page::where('id', 3)->first();
-        return view("Frontend.privacy", compact('page'));
+        return view("Frontend.Page.privacy", compact('page'));
     }
 
     public function brand()
