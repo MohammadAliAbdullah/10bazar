@@ -192,7 +192,7 @@
                                                 <a href="{{ url('page') }}/payment-options	">Payment options</a>
                                             </li>
                                             <li>
-                                                <a href="{{ url('page') }}/refund-return-policy	">Refund & Return
+                                                <a href="{{ url('page') }}/refund-return-policy">Refund & Return
                                                     Policy</a>
                                             </li>
                                             <li>

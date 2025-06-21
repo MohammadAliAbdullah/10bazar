@@ -157,7 +157,7 @@ class PagesController extends Controller
     {
         $page = Page::where('id', 1)->first();
         //dd($page);
-        return view("Frontend.warranty_policy", compact('page'));
+        return view("Frontend.Page.warranty_policy", compact('page'));
     }
     public function trams()
     {
@@ -173,7 +173,7 @@ class PagesController extends Controller
     public function brand()
     {
         $brands = Brand::where('status', 'Active')->get();
-        return view("Frontend.brand", compact('brands'));
+        return view("Frontend.Page.brand", compact('brands'));
     }
 
     public function product_details($id = NULL)

@@ -38,17 +38,15 @@ Route::get('/blogs/{slug}', [App\Http\Controllers\Frontend\BlogController::class
 // Route::get('/deals', [App\Http\Controllers\Frontend\PagesController::class, 'deals'])->name('deals');
 Route::resource('/complains', 'App\Http\Controllers\Frontend\ComplainController');
 Route::get('/contact-us', [App\Http\Controllers\Frontend\PagesController::class, 'contact_us'])->name('contact_us'); // -- done
-// Route::get('/brand', [App\Http\Controllers\Frontend\PagesController::class, 'brand'])->name('brand');
+Route::get('/brand', [App\Http\Controllers\Frontend\PagesController::class, 'brand'])->name('brand');
 Route::get('/warranty-policy', [App\Http\Controllers\Frontend\PagesController::class, 'warranty_policy'])->name('warranty_policy');
 Route::get('/terms-conditions', [App\Http\Controllers\Frontend\PagesController::class, 'trams'])->name('trams');
-Route::get('/privacy-
-', [App\Http\Controllers\Frontend\PagesController::class, 'privacy'])->name('privacy');
+Route::get('/privacy-policy', [App\Http\Controllers\Frontend\PagesController::class, 'privacy'])->name('privacy');
 Route::get('/product/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'product_details'])->name('product_details'); // -- done
 Route::get('/quick-view-product/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'product_quick_view_details'])->name('product_quick_view_details');
 Route::post('/review', [App\Http\Controllers\Frontend\PagesController::class, 'review_store'])->name('review_store');
 Route::get('/track', [App\Http\Controllers\Frontend\PagesController::class, 'track'])->name('track');
 Route::post('/search', [App\Http\Controllers\Frontend\HomeController::class, 'search'])->name('search');
-//Route::get('/shop', [App\Http\Controllers\Frontend\HomeController::class, 'shop'])->name('shop');
 //VRF
 Route::get('/vrf', [App\Http\Controllers\Frontend\VrfController::class, 'index'])->name('vrf');
 //Checkout
@@ -63,7 +61,6 @@ Route::post('/add-to-cart', [App\Http\Controllers\Frontend\CartsController::clas
 Route::post('/cart/update-quantity', [App\Http\Controllers\Frontend\CartsController::class, 'updateQuantity'])->name('cart.update');
 Route::post('/cart/remove', [App\Http\Controllers\Frontend\CartsController::class, 'removeItem'])->name('cart.remove');
 Route::get('/cart/list', [App\Http\Controllers\Frontend\CartsController::class, 'headerCartList'])->name('headerCart.list');
-
 // 
 Route::post('/add', [App\Http\Controllers\Frontend\CartsController::class, 'add'])->name('cart.Store');
 Route::get('/cart', [App\Http\Controllers\Frontend\CartsController::class, 'cart'])->name('cart.list');

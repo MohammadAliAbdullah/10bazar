@@ -30,19 +30,21 @@
                                        <li class="footer-links__item"><a href="#"
                                                class="footer-links__link">Delivery
                                                Information</a></li>
-                                       <li class="footer-links__item"><a href="#"
-                                               class="footer-links__link">Privacy
-                                               Policy</a></li>
-                                       <li class="footer-links__item"><a href="#"
+                                       <li class="footer-links__item">
+                                           <a href="{{ url('page') }}/privacy-policy" class="footer-links__link">Privacy Policy</a>
+                                       </li>
+                                       <li class="footer-links__item">
+                                           <a href="{{ route('warranty_policy') }}" class="footer-links__link">Warranty Policy</a>
+                                       </li>
+                                       <li class="footer-links__item"><a href="{{ route('brand') }}"
                                                class="footer-links__link">Brands</a>
                                        </li>
-                                       <li class="footer-links__item"><a href="#"
-                                               class="footer-links__link">Contact
-                                               Us</a></li>
-                                       <li class="footer-links__item"><a href="#"
+                                       <li class="footer-links__item"><a href="{{ route('contact.us') }}"
+                                               class="footer-links__link">Contact Us</a></li>
+                                       <li class="footer-links__item"><a href="{{ url('page') }}/refund-return-policy"
                                                class="footer-links__link">Returns</a></li>
-                                       <li class="footer-links__item"><a href="#" class="footer-links__link">Site
-                                               Map</a></li>
+                                       <li class="footer-links__item"><a href="{{ route('contact.us') }}"
+                                               class="footer-links__link">Site Map</a></li>
                                    </ul>
                                </div>
                            </div>
