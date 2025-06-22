@@ -19,7 +19,7 @@ class LogoFavsController extends Controller
     public function index()
     {
         $logofavs = ContactInfo::all();
-        return view("Admin.LogoFavs.index", compact("logofavs"));
+        return view("Admin.LogoFavs.application", compact("logofavs"));
     }
 
     /**

@@ -52,3 +52,60 @@ INSERT INTO `visitors` (`ip`, `country`, `city`, `browser`, `platform`, `device`
 -- June 7
 ('203.0.113.24', 'Italy', 'Rome', 'Chrome', 'macOS', 'Desktop', 'https://stackoverflow.com', '2025-06-07 09:35:00', '2025-06-07 09:35:00'),
 ('198.51.100.25', 'Spain', 'Madrid', 'Edge', 'Windows', 'Tablet', 'https://elpais.com', '2025-06-07 10:50:00', '2025-06-07 10:50:00');
+
+-- 22-06-2025
+CREATE TABLE `settings` (
+  `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+
+  -- General Info
+  `site_title` VARCHAR(255) DEFAULT NULL,
+  `store_name` VARCHAR(100) DEFAULT NULL,
+  `address` TEXT DEFAULT NULL,
+  `email` VARCHAR(50) DEFAULT NULL,
+  `phone` VARCHAR(200) DEFAULT NULL,
+
+  -- Branding & Logos
+  `logo` VARCHAR(50) DEFAULT NULL,
+  `splash_logo` VARCHAR(255) NOT NULL,
+  `favicon` VARCHAR(100) DEFAULT NULL,
+
+  -- VAT and Service Charges
+  `vat` INT DEFAULT 0,
+  `show_vat_number` TINYINT(1) DEFAULT 0,
+  `vat_number` VARCHAR(30) DEFAULT NULL,
+  `service_charge` INT DEFAULT 0,
+  `discount_type` TINYINT DEFAULT 0 COMMENT '0 = amount, 1 = percent',
+  `service_charge_type` TINYINT DEFAULT 0 COMMENT '0 = amount, 1 = percent',
+  `discount_rate` DECIMAL(19,3) DEFAULT 0.000,
+
+  -- Location & Language
+  `country` VARCHAR(100) DEFAULT NULL,
+  `google_map_embed_link` TEXT DEFAULT NULL,
+  `latitude` VARCHAR(10) DEFAULT NULL,
+  `longitude` VARCHAR(10) DEFAULT NULL,
+  `currency_id` INT DEFAULT 0,
+  `language` VARCHAR(100) DEFAULT NULL,
+  `timezone` VARCHAR(150) NOT NULL,
+
+  -- Formatting
+  `date_format` TEXT NOT NULL,
+  `site_alignment` VARCHAR(50) DEFAULT NULL,
+
+  -- Footer and Texts
+  `powered_by_text` TEXT DEFAULT NULL,
+  `footer_text` VARCHAR(255) DEFAULT NULL,
+
+  -- Contact & API Credentials (Commented out fields are excluded)
+
+  -- Refund & Approvals
+  `refund_restriction` TINYINT(1) DEFAULT 0 COMMENT '0 = refund allowed',
+  `refund_auto_approve` TINYINT(1) DEFAULT 1 COMMENT '1 = auto-approve refunds',
+  `refund_deduction_percent` DECIMAL(10,2) DEFAULT 0.00,
+
+  -- Inventory System
+  `inventory_type` TINYINT DEFAULT 1 COMMENT '1 = Periodic, 2 = Perpetual',
+
+  -- Timestamps
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
