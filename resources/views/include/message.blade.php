@@ -1,4 +1,4 @@
-<div class="row">
+resources/views/Frontend/Layout/partials/facebook_pixel.blade.phpresources/views/Frontend/Layout/partials/facebook_pixel.blade.php<div class="row">
     <div class="col-md-12">
         {{-- Success Alert --}}
         @if(session('status'))

@@ -30,7 +30,7 @@ class CampaignController extends Controller
                     ->where('start_date', "<=", $today)
                     ->where('end_date', ">", $today)
                     ->orderBy('id','DESC')->paginate(24);
-        return view("Frontend.campaign.campaign", compact('campaigns'));
+        return view("Frontend.Page.campaign", compact('campaigns'));
     }
     public function campaigns($slug)
     {
@@ -39,7 +39,7 @@ class CampaignController extends Controller
 
         if ($deals != null){
             $products = FlashDealProduct::where('flash_deal_id', $deals->id)->paginate(24);
-            return view("Frontend.campaign.deals", compact('deals', 'products'));
+            return view("Frontend.Page.deals", compact('deals', 'products'));
         }else{
             abort(404);
         }

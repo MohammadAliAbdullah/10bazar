@@ -36,7 +36,7 @@
         gtag('js', new Date());
         gtag('config', 'UA-97489509-6');
     </script>
-    @include('Frontend.Layout.partials.facebook_pixel')
+    @include('include.facebook_pixel')
 </head>
 
 <body>

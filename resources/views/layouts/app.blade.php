@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
@@ -16,34 +17,12 @@
     <link rel="stylesheet" href="{{ asset('public/asset/css/responsive.css') }}">
 </head>
 <body>
-
     @include('layouts.header')
-
     @yield('content')
-
     @include('layouts.footer')
-
     <!-- Meta Pixel Code -->
-    <script>
-        !function(f,b,e,v,n,t,s){
-            if(f.fbq)return; n=f.fbq=function(){
-                n.callMethod ? n.callMethod.apply(n,arguments) : n.queue.push(arguments)
-            };
-            if(!f._fbq)f._fbq=n;
-            n.push=n; n.loaded=!0; n.version='2.0';
-            n.queue=[]; t=b.createElement(e); t.async=!0;
-            t.src=v; s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)
-        }(window, document,'script', 'https://connect.facebook.net/en_US/fbevents.js');
-        fbq('init', '1619859908827032');
-        fbq('track', 'PageView');
-    </script>
-    <noscript>
-        <img height="1" width="1" style="display:none"
-             src="https://www.facebook.com/tr?id=1619859908827032&ev=PageView&noscript=1"/>
-    </noscript>
+    @include('include.facebook_pixel')
     <!-- End Meta Pixel Code -->
-
     <!-- Scripts -->
     <script src="{{ asset('public/asset/js/jquery.min.js') }}"></script>
     <script src="{{ asset('public/asset/js/bootstrap.min.js') }}"></script>
@@ -51,7 +30,6 @@
     <script src="{{ asset('public/asset/js/jquery.counterup.min.js') }}"></script>
     <script src="{{ asset('public/asset/js/waypoints.min.js') }}"></script>
     <script src="{{ asset('public/asset/js/main.js') }}"></script>
-
     <script>
         $('.counter').counterUp({
             delay: 10,
