@@ -23,7 +23,7 @@
                         {!! Str::limit($product->title, 32, ' ...') !!}
                     </a>
                 </h5>
-                @include('Frontend.components.ratingReview')
+                {{-- @include('Frontend.components.ratingReview') --}}
                 @include('Frontend.components.productPrice', [
                     'product' => $product,
                 ])

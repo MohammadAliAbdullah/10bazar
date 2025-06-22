@@ -132,5 +132,15 @@ Route::get('/bkash/callback', function () {
 
 Route::post('/bkash/create', [BkashPaymentController::class, 'create'])->name('bkash.create');
 Route::post('/bkash/execute', [BkashPaymentController::class, 'execute']);
+// language change
+Route::get('/lang', function () {
+    return view('language');
+});
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'bn'])) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+});
 //admin panel
 require __DIR__ . '/admin.php';
