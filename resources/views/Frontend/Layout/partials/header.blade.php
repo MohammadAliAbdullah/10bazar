@@ -1,71 +1,36 @@
 @php
     $hotline = contacth()->hotline;
-    // Remove any non-digit characters and convert to international format
     $cleanHotline = preg_replace('/\D/', '', $hotline);
     $whatsappNumber = '880' . ltrim($cleanHotline, '0');
     $categoryBrandData = Cache::get('category_brand_data', []);
-    // dd($categoryBrandData);
 @endphp
 <header class="site__header d-lg-block d-none">
     <div class="site-header">
-        <!-- .topbar -->
         <div class="site-header__topbar topbar">
             <div class="topbar__container container">
                 <div class="topbar__row">
-                    {{-- <div class="topbar__item topbar__item--link"><a class="topbar-link" href="#">Store Location</a></div> --}}
                     <div class="topbar__item topbar__item--link">
                         <a class="topbar-link" href="{{ route('track') }}">
-                            Track Order
+                            {{ __('Track Order') }}
                         </a>
                     </div>
-                    <div class="topbar__item topbar__item--link"><a class="topbar-link"
-                            href="{{ route('blog.index') }}">Blog</a></div>
+                    <div class="topbar__item topbar__item--link">
+                        <a class="topbar-link" href="{{ route('blog.index') }}">{{ __('Blog') }}</a>
+                    </div>
                     <div class="topbar__spring"></div>
-                    {{-- <div class="topbar__item">
-                        <div class="topbar-dropdown">
-                            <button class="topbar-dropdown__btn" type="button">
-                                My Account
-                                <svg width="7px" height="5px">
-                                    <use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use>
-                                </svg>
-                            </button>
-                            <div class="topbar-dropdown__body">
-                                <!-- .menu -->
-                                <ul class="menu menu--layout--topbar">
-                                    @if (Auth::guard('mypanel')->user())
-                                        <li><a href="{{ route('mypanel.users') }}">Profile</a></li>
-                                        <li><a href="{{ route('mypanel.elogout') }}">Logout</a></li>
-                                    @else
-                                        <li><a href="{{ route('login') }}">Login</a></li>
-                                        <li><a href="{{ route('register.user') }}">Register</a></li>
-                                    @endif
-                                </ul>
-                                <!-- .menu / end -->
-                            </div>
-                        </div>
-                    </div> --}}
                     <div class="topbar__item">
                         <div class="topbar-dropdown">
-                            <button class="topbar-dropdown__btn" type="button">Currency: <span
-                                    class="topbar__item-value">BDT</span> <svg width="7px" height="5px">
-                                    <use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use>
-                                </svg>
-                            </button>
+                            <button class="topbar-dropdown__btn" type="button">{{ __('Currency') }}: <span class="topbar__item-value">BDT</span> <svg width="7px" height="5px"><use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use></svg></button>
                         </div>
                     </div>
                     <div class="topbar__item">
                         <div class="topbar-dropdown">
-                            <button class="topbar-dropdown__btn" type="button">Language: <span
-                                    class="topbar__item-value">EN</span> <svg width="7px" height="5px">
-                                    <use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use>
-                                </svg>
-                            </button>
+                            <button class="topbar-dropdown__btn" type="button">{{ __('Language') }}: <span class="topbar__item-value">{{ strtoupper(app()->getLocale()) }}</span> <svg width="7px" height="5px"><use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use></svg></button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- .topbar / end -->
         <div class="site-header__middle container">
             <div class="site-header__logo">
                 <a href="{{ url('/') }}" class="site-header__logo-link">
@@ -75,8 +40,7 @@
             <div class="site-header__search">
                 <div class="search">
                     {!! Form::open(['method' => 'POST', 'route' => 'search', 'class' => 'search__form']) !!}
-                    <input class="search__input" name="search" placeholder="Search for products, brands and more"
-                        aria-label="Site search" type="text" autocomplete="off">
+                    <input class="search__input" name="search" placeholder="{{ __('Search for products, brands and more') }}" aria-label="Site search" type="text" autocomplete="off">
                     <button class="search__button" type="submit">
                         <i class="fa fa-search"></i>
                     </button>
@@ -85,7 +49,7 @@
                 </div>
             </div>
             <div class="site-header__phone">
-                <div class="site-header__phone-title">Hot Line</div>
+                <div class="site-header__phone-title">{{ __('Hot Line') }}</div>
                 <div class="site-header__phone-number">{{ $apps->phone ?? '' }}</div>
             </div>
         </div>
@@ -94,44 +58,26 @@
                 <div class="nav-panel__container container">
                     <div class="nav-panel__row">
                         <div class="nav-panel__departments">
-                            <!-- .departments -->
-                            <div class="departments {{ request()->is('/') ? 'departments--opened departments--fixed' : '' }}"
-                                data-departments-fixed-by="{{ request()->is('/') ? '.block-slideshow' : '' }}">
+                            <div class="departments {{ request()->is('/') ? 'departments--opened departments--fixed' : '' }}" data-departments-fixed-by="{{ request()->is('/') ? '.block-slideshow' : '' }}">
                                 <div class="departments__body">
                                     <div class="departments__links-wrapper">
                                         <ul class="departments__links">
-
                                             @if (is_array($categoryBrandData) && count($categoryBrandData) > 0)
                                                 @foreach ($categoryBrandData as $category)
                                                     <li class="departments__item">
-                                                        <a
-                                                            href="{{ url('category') }}/{{ $category['category_slug'] }}">{{ $category['category_name'] }}
-                                                            <svg class="departments__link-arrow" width="6px"
-                                                                height="9px">
-                                                                <use
-                                                                    xlink:href="images/sprite.svg#arrow-rounded-right-6x9">
-                                                                </use>
-                                                            </svg>
-                                                        </a>
+                                                        <a href="{{ url('category') }}/{{ $category['category_slug'] }}">{{ $category['category_name'] }}<svg class="departments__link-arrow" width="6px" height="9px"><use xlink:href="images/sprite.svg#arrow-rounded-right-6x9"></use></svg></a>
                                                         <div class="departments__megamenu departments__megamenu--xl">
-                                                            <!-- .megamenu -->
-                                                            <div class="megamenu megamenu--departments"
-                                                                style="background-image: url('images/megamenu/megamenu-1.jpg');">
+                                                            <div class="megamenu megamenu--departments" style="background-image: url('images/megamenu/megamenu-1.jpg');">
                                                                 <div class="row">
                                                                     @if (is_array($category['brand']) && count($category['brand']) > 0)
                                                                         <div class="col-3">
-                                                                            <ul
-                                                                                class="megamenu__links megamenu__links--level--0">
-                                                                                <li
-                                                                                    class="megamenu__item megamenu__item--with-submenu">
+                                                                            <ul class="megamenu__links megamenu__links--level--0">
+                                                                                <li class="megamenu__item megamenu__item--with-submenu">
                                                                                     <a href="#">BRAND</a>
-                                                                                    <ul
-                                                                                        class="megamenu__links megamenu__links--level--1">
+                                                                                    <ul class="megamenu__links megamenu__links--level--1">
                                                                                         @foreach ($category['brand'] as $brand)
                                                                                             <li class="megamenu__item">
-                                                                                                <a
-                                                                                                    href="{{ url('shops') }}/{{ $category['category_slug'] }}/{{ $brand['brand_slug'] ?? '#' }}">{{ $brand['brand_name'] ?? 'N/A' }}
-                                                                                                </a>
+                                                                                                <a href="{{ url('shops') }}/{{ $category['category_slug'] }}/{{ $brand['brand_slug'] ?? '#' }}">{{ $brand['brand_name'] ?? 'N/A' }}</a>
                                                                                             </li>
                                                                                         @endforeach
                                                                                     </ul>
@@ -141,147 +87,96 @@
                                                                     @endif
                                                                 </div>
                                                             </div>
-                                                            <!-- .megamenu / end -->
                                                         </div>
                                                     </li>
                                                 @endforeach
                                             @else
-                                                <p>No category brand data available.</p>
+                                                <p>{{ __('No category brand data available.') }}</p>
                                             @endif
                                         </ul>
                                     </div>
                                 </div>
-                                <button class="departments__button"><svg class="departments__button-icon" width="18px"
-                                        height="14px">
-                                        <use xlink:href="images/sprite.svg#menu-18x14"></use>
-                                    </svg> Shop By Category <svg class="departments__button-arrow" width="9px"
-                                        height="6px">
-                                        <use xlink:href="images/sprite.svg#arrow-rounded-down-9x6"></use>
-                                    </svg>
+                                <button class="departments__button">
+                                    <svg class="departments__button-icon" width="18px" height="14px"><use xlink:href="images/sprite.svg#menu-18x14"></use></svg>
+                                    {{ __('Shop By Category') }}
+                                    <svg class="departments__button-arrow" width="9px" height="6px"><use xlink:href="images/sprite.svg#arrow-rounded-down-9x6"></use></svg>
                                 </button>
                             </div>
-                            <!-- .departments / end -->
                         </div>
-                        <!-- .nav-links -->
                         <div class="nav-panel__nav-links nav-links">
                             <ul class="nav-links__list">
                                 <li class="nav-links__item">
                                     <a class="nav-link" href="{{ route('home.index') }}">
-                                        <span>Home</span>
+                                        <span>{{ __('Home') }}</span>
                                     </a>
                                 </li>
                                 <li class="nav-links__item">
-                                    <a class="nav-link" href="{{ route('shop') }}"><span>Shop</span>
+                                    <a class="nav-link" href="{{ route('shop') }}">
+                                        <span>{{ __('Shop') }}</span>
                                     </a>
                                 </li>
                                 <li class="nav-links__item nav-links__item--with-submenu">
                                     <a href="#">
-                                        <span>Pages
-                                            <svg class="nav-links__arrow" width="9px" height="6px">
-                                                <use xlink:href="images/sprite.svg#arrow-rounded-down-9x6">
-                                                </use>
-                                            </svg>
-                                        </span>
+                                        <span>{{ __('Pages') }}<svg class="nav-links__arrow" width="9px" height="6px"><use xlink:href="images/sprite.svg#arrow-rounded-down-9x6"></use></svg></span>
                                     </a>
-                                    <div class="nav-links__menu"><!-- .menu -->
+                                    <div class="nav-links__menu">
                                         <ul class="menu menu--layout--classic">
-                                            <li>
-                                                <a href="{{ url('page') }}/terms-conditions">Terms & Conditions</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ url('page') }}/payment-options	">Payment options</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ url('page') }}/refund-return-policy">Refund & Return
-                                                    Policy</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ url('page') }}/terms-of-services">Termes of Service</a>
-                                            </li>
-                                            <li>
-                                                <a href="{{ url('page') }}/privacy-policy">Pivacy Policy</a>
-                                            </li>
+                                            <li><a href="{{ url('page/terms-conditions') }}">{{ __('Terms & Conditions') }}</a></li>
+                                            <li><a href="{{ url('page/payment-options') }}">{{ __('Payment options') }}</a></li>
+                                            <li><a href="{{ url('page/refund-return-policy') }}">{{ __('Refund & Return Policy') }}</a></li>
+                                            <li><a href="{{ url('page/terms-of-services') }}">{{ __('Terms of Service') }}</a></li>
+                                            <li><a href="{{ url('page/privacy-policy') }}">{{ __('Privacy Policy') }}</a></li>
                                         </ul>
-                                        <!-- .menu / end -->
                                     </div>
                                 </li>
                                 <li class="nav-links__item">
                                     <a href="{{ route('about.us') }}">
-                                        <span>About Us</span>
+                                        <span>{{ __('About Us') }}</span>
                                     </a>
                                 </li>
                                 <li class="nav-links__item">
                                     <a href="{{ route('contact.us') }}">
-                                        <span>Contact Us</span>
+                                        <span>{{ __('Contact Us') }}</span>
                                     </a>
                                 </li>
                             </ul>
-                        </div><!-- .nav-links / end -->
+                        </div>
                         <div class="nav-panel__indicators">
-                            {{-- <div class="indicator">
-                                <a href="wishlist.html" class="indicator__button">
-                                    <span class="indicator__area">
-                                        <svg width="20px" height="20px">
-                                            <use xlink:href="images/sprite.svg#heart-20"></use>
-                                        </svg>
-                                        <span class="indicator__value">0</span>
-                                    </span>
-                                </a>
-                            </div> --}}
                             <div class="indicator indicator--trigger--click">
                                 <a class="indicator__button">
-                                    <span class="indicator__area">
-                                        <i class="fas fa-user"></i>
-                                    </span>
+                                    <span class="indicator__area"><i class="fas fa-user"></i></span>
                                 </a>
                                 <div class="indicator__dropdown">
                                     <div class="dropcart">
                                         <div class="dropcart__buttons">
                                             @if (Auth::guard('mypanel')->user())
-                                                <a class="btn btn-secondary"
-                                                    href="{{ route('mypanel.users') }}">Profile</a>
-                                                <a class="btn btn-primary"
-                                                    href="{{ route('mypanel.elogout') }}">Logout</a>
+                                                <a class="btn btn-secondary" href="{{ route('mypanel.users') }}">{{ __('Profile') }}</a>
+                                                <a class="btn btn-primary" href="{{ route('mypanel.elogout') }}">{{ __('Logout') }}</a>
                                             @else
-                                                <a class="btn btn-secondary" href="{{ route('login') }}">Login</a>
-                                                <a class="btn btn-primary"
-                                                    href="{{ route('register.user') }}">Register</a>
+                                                <a class="btn btn-secondary" href="{{ route('login') }}">{{ __('Login') }}</a>
+                                                <a class="btn btn-primary" href="{{ route('register.user') }}">{{ __('Register') }}</a>
                                             @endif
-
-
-                                            {{-- <a class="btn btn-secondary" href="{{ route('cart.list') }}">View
-                                                Cart</a>
-                                            <a class="btn btn-primary" href="{{ route('checkout') }}">Checkout</a> --}}
                                         </div>
                                     </div>
-                                    <!-- .dropcart / end -->
                                 </div>
                             </div>
-                            <div class="indicator indicator--trigger--click"
-                                id="{{ !request()->is('cart') ? 'cartViewButton' : '' }}">
+                            <div class="indicator indicator--trigger--click" id="{{ !request()->is('cart') ? 'cartViewButton' : '' }}">
                                 <a class="indicator__button">
                                     <span class="indicator__area">
                                         <i class="fas fa-shopping-cart"></i>
-                                        <span class="indicator__value"
-                                            id="cartCountHeader">{{ $cartCount }}</span>
+                                        <span class="indicator__value" id="cartCountHeader">{{ $cartCount }}</span>
                                     </span>
                                 </a>
                                 <div class="indicator__dropdown">
-                                    <!-- .dropcart -->
                                     @if (!request()->is('cart'))
                                         <div class="dropcart">
-                                            <div id="headerCartList">
-                                            </div>
-
+                                            <div id="headerCartList"></div>
                                             <div class="dropcart__buttons">
-                                                <a class="btn btn-secondary" href="{{ route('cart.list') }}">View
-                                                    Cart</a>
-                                                <a class="btn btn-primary"
-                                                    href="{{ route('checkout') }}">Checkout</a>
+                                                <a class="btn btn-secondary" href="{{ route('cart.list') }}">{{ __('View Cart') }}</a>
+                                                <a class="btn btn-primary" href="{{ route('checkout') }}">{{ __('Checkout') }}</a>
                                             </div>
                                         </div>
                                     @endif
-                                    <!-- .dropcart / end -->
                                 </div>
                             </div>
                         </div>
