@@ -1,4 +1,17 @@
 {
-    "Welcome to our website, :Name": "Добро пожаловать на наш сайт, :Name",
-    "{0} There :form no apples|{1} There :form just :count apple|[2,19] There :form :count apples": "{0} Нет яблок|{1} Только :count яблоко|[2,19] :count яблок"
+  "Welcome Page": "Страница приветствия",
+  "We are glad to have you here!": "Мы рады вас видеть!",
+  "Apple Count Example": "Пример количества яблок",
+  "Today's Date Message": "Сообщение с датой на сегодня",
+  "Feel free to explore our site and learn more about what we offer.": "Изучите наш сайт, чтобы узнать больше о том, что мы предлагаем.",
+  "Explore Now": "Исследовать сейчас",
+  "Select Language": "Выберите язык",
+  "All rights reserved.": "Все права защищены.",
+  "Why Choose Us?": "Почему выбирают нас?",
+  "High-quality services tailored to your needs.": "Качественные услуги, адаптированные под ваши потребности.",
+  "24/7 customer support in multiple languages.": "Круглосуточная поддержка на нескольких языках.",
+  "Secure and reliable platform.": "Безопасная и надежная платформа.",
+  "Trusted by thousands of users worldwide.": "Нам доверяют тысячи пользователей по всему миру.",
+  "Contact Us": "Свяжитесь с нами",
+  "Have questions? Reach out via our contact page or email us anytime.": "Остались вопросы? Свяжитесь с нами через страницу контактов или по электронной почте в любое время."
 }

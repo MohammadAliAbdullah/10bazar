@@ -157,6 +157,12 @@ Route::get('/lang', function () {
     ]);
 });
 
+Route::get('/lang-switch', function (\Illuminate\Http\Request $request) {
+    session(['locale' => $request->lang]);
+    app()->setLocale($request->lang);
+    return back();
+})->name('lang.switch');
+
 // Route::get('/lang', function () {
 //     return view('language');
 // });

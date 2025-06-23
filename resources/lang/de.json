@@ -1,0 +1,19 @@
+{
+  "Welcome Page": "Willkommensseite",
+  "We are glad to have you here!": "Wir freuen uns, dass Sie hier sind!",
+  "Welcome to our website, :Name": "Willkommen auf unserer Website, :Name",
+  "{0} There :form no apples|{1} There :form just :count apple|[2,19] There :form :count apples": "{0} Keine Äpfel vorhanden|{1} Nur :count Apfel|[2,19] :count Äpfel vorhanden",
+  "Apple Count Example": "Beispiel für Apfelanzahl",
+  "Today's Date Message": "Heutige Datumsnachricht",
+  "Feel free to explore our site and learn more about what we offer.": "Schauen Sie sich gerne auf unserer Website um und erfahren Sie mehr über unser Angebot.",
+  "Explore Now": "Jetzt entdecken",
+  "Select Language": "Sprache auswählen",
+  "All rights reserved.": "Alle Rechte vorbehalten.",
+  "Why Choose Us?": "Warum uns wählen?",
+  "High-quality services tailored to your needs.": "Hochwertige Dienstleistungen, zugeschnitten auf Ihre Bedürfnisse.",
+  "24/7 customer support in multiple languages.": "Rund-um-die-Uhr-Kundensupport in mehreren Sprachen.",
+  "Secure and reliable platform.": "Sichere und zuverlässige Plattform.",
+  "Trusted by thousands of users worldwide.": "Vertraut von Tausenden von Nutzern weltweit.",
+  "Contact Us": "Kontaktieren Sie uns",
+  "Have questions? Reach out via our contact page or email us anytime.": "Haben Sie Fragen? Kontaktieren Sie uns über unsere Kontaktseite oder per E-Mail."
+}

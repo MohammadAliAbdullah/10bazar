@@ -104,9 +104,16 @@ return [
     |
     */
     'available_locales' => [
+        'Bangla'  => 'bn',
+        'Arabic'  => 'ar',
+        'Urdu'    => 'ur',
         'English' => 'en',
+        'Hindi'   => 'hi',
+        'Chinese' => 'zh',
+        'German'  => 'de',
+        'Spanish' => 'es',
         'Russian' => 'ru',
-        'French' => 'fr',
+        'French'  => 'fr',
     ],
     /*
     |--------------------------------------------------------------------------
