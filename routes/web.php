@@ -133,21 +133,39 @@ Route::get('/bkash/callback', function () {
 Route::post('/bkash/create', [BkashPaymentController::class, 'create'])->name('bkash.create');
 Route::post('/bkash/execute', [BkashPaymentController::class, 'execute']);
 // language change
-Route::get('/lang', function () {
-    return view('language');
-});
-Route::get('/lang/{locale}', function ($locale) {
-    if (in_array($locale, ['en', 'bn'])) {
-        session(['locale' => $locale]);
-    }
+
+Route::get('language/{locale}', function ($locale) {
+    app()->setLocale($locale);
+    session()->put('locale', $locale);
+
     return redirect()->back();
 });
 
-Route::get('/lang/{locale}', function ($locale) {
-    if (in_array($locale, ['en', 'bn'])) {
-        session(['locale' => $locale]);
-    }
-    return redirect()->back();
+Route::get('/lang', function () {
+    $today = \Carbon\Carbon::now()
+        ->settings(
+            [
+                'locale' => app()->getLocale(),
+            ]
+        );
+
+    // LL is macro placeholder for MMMM D, YYYY (you could write same as dddd, MMMM D, YYYY)
+    $dateMessage = $today->isoFormat('dddd, LL');
+
+    return view('language', [
+        'date_message' => $dateMessage
+    ]);
 });
+
+// Route::get('/lang', function () {
+//     return view('language');
+// });
+// Route::get('/lang/{locale}', function ($locale) {
+//     if (in_array($locale, ['en', 'bn'])) {
+//         session(['locale' => $locale]);
+//     }
+//     return redirect()->back();
+// });
+
 //admin panel
 require __DIR__ . '/admin.php';

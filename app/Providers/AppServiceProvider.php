@@ -64,6 +64,10 @@ class AppServiceProvider extends ServiceProvider
         View::composer($cartViews, function ($view) {
             $view->with('cartCount', Cart::getTotalQuantity());
         });
+        view()->composer('language_switcher', function ($view) {
+            $view->with('current_locale', app()->getLocale());
+            $view->with('available_locales', config('app.available_locales'));
+        });
     }
 
     protected function cacheCategoryBrandData()

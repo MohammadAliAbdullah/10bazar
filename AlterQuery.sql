@@ -109,3 +109,23 @@ CREATE TABLE `settings` (
   `created_at` TIMESTAMP NULL DEFAULT NULL,
   `updated_at` TIMESTAMP NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- 23-06-2025
+CREATE TABLE `currencies` (
+  `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(50) NOT NULL,
+  `icon` VARCHAR(50) NOT NULL,
+  `position` INT(11) NOT NULL DEFAULT 1 COMMENT '1=left.2=right',
+  `rate` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
+   
+  -- Timestamps
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+INSERT INTO `currencies` (`title`, `icon`, `position`, `rate`, `created_at`, `updated_at`) VALUES
+('USD', '$', 1, 1.00, NOW(), NOW()),
+('EUR', '€', 1, 0.85, NOW(), NOW()),
+('GBP', '£', 1, 0.75, NOW(), NOW()),
+('INR', '₹', 1, 73.00, NOW(), NOW()),
+('JPY', '¥', 1, 110.00, NOW(), NOW());
