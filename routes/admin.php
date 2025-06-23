@@ -68,6 +68,9 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         Route::resource('/testimonials', '\App\Http\Controllers\Admin\TestimonialsController');
         Route::resource('/couriers', '\App\Http\Controllers\Admin\CouriersController');
         //Setting
+        Route::get('/app-setting', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'create'])->name('app-setting');
+        Route::post('/app-store', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'store'])->name('app-store');
+    
         Route::resource('/paymentgetway', '\App\Http\Controllers\Admin\Setting\PaymentController');
         Route::resource('/contactinfo', '\App\Http\Controllers\Admin\Setting\ContactInfoController');
         Route::resource('/logofavs', '\App\Http\Controllers\Admin\Setting\LogoFavsController');

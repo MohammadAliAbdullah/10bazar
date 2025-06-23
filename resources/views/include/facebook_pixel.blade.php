@@ -1,4 +1,4 @@
-@if env('FACEBOOK_PIXEL_ID')
+@if (env('FACEBOOK_PIXEL_ID'))
 <!-- Facebook Meta Pixel Code -->
 <script>
     ! function(f, b, e, v, n, t, s) {

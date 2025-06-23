@@ -69,24 +69,24 @@
                 @endforeach
 
                 <!-- Static Menu Items -->
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="{{ route('madmin.tutorial.index') }}" class="nav-link" target="_blank">
                         <i class="nav-icon fa fa-bug"></i>
                         <p>Bug & Update <span class="right badge badge-danger">New</span></p>
                     </a>
-                </li>
-                <li class="nav-item">
+                </li> --}}
+                {{-- <li class="nav-item">
                     <a href="{{ route('madmin.tutorial.index') }}" class="nav-link" target="_blank">
                         <i class="nav-icon fas fa-user-md"></i>
                         <p>Tutorial <span class="right badge badge-danger">New</span></p>
                     </a>
-                </li>
-                <li class="nav-item">
+                </li> --}}
+                {{-- <li class="nav-item">
                     <a href="{{ route('madmin.store.index') }}" class="nav-link" target="_blank">
                         <i class="nav-icon fas fa-code"></i>
                         <p>Store(Beta) <span class="right badge badge-danger">New</span></p>
                     </a>
-                </li>
+                </li> --}}
             </ul>
         </nav>
     </div>

@@ -10,6 +10,7 @@ class LanguageMiddleware
 {
     public function handle($request, Closure $next)
     {
+        // dd(App::setLocale(config('app.locale')));
         if (Session::has('locale')) {
             App::setLocale(Session::get('locale'));
         } else {
