@@ -5,8 +5,8 @@
     <title>{{ __('language.welcome') }}</title>
 </head>
 <body>
-    <h1>{{ __('language.welcome') }}</h1>
+    <h1>{{ __('lang.welcome') }}</h1>
     <a href="/lang/en">English</a> | <a href="/lang/bn">বাংলা</a>
-    <p>{{ __('language.shop_now') }}</p>
+    <p>{{ __('lang.shop_now') }}</p>
 </body>
 </html>

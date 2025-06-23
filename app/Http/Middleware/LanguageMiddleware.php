@@ -10,13 +10,16 @@ class LanguageMiddleware
 {
     public function handle($request, Closure $next)
     {
-        // dd(App::setLocale(config('app.locale')));
-        if (Session::has('locale')) {
-            App::setLocale(Session::get('locale'));
-        } else {
-            App::setLocale(config('app.locale'));
-        }
-
+        $locale = Session::get('locale', config('app.locale'));
+        App::setLocale($locale);
         return $next($request);
+        // dd(App::setLocale(config('app.locale')));
+        // if (Session::has('locale')) {
+        //     App::setLocale(Session::get('locale'));
+        // } else {
+        //     App::setLocale(config('app.locale'));
+        // }
+
+        // return $next($request);
     }
 }

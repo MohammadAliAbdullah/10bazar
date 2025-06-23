@@ -142,5 +142,12 @@ Route::get('/lang/{locale}', function ($locale) {
     }
     return redirect()->back();
 });
+
+Route::get('/lang/{locale}', function ($locale) {
+    if (in_array($locale, ['en', 'bn'])) {
+        session(['locale' => $locale]);
+    }
+    return redirect()->back();
+});
 //admin panel
 require __DIR__ . '/admin.php';
