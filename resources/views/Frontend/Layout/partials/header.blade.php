@@ -69,7 +69,7 @@
         <div class="site-header__middle container">
             <div class="site-header__logo">
                 <a href="{{ url('/') }}" class="site-header__logo-link">
-                    <img src="{{ asset('public') }}/coot_assets/10_bazar_logo.jpg">
+                    <img src="{{ asset($apps->logo) }}">
                 </a>
             </div>
             <div class="site-header__search">
@@ -86,7 +86,7 @@
             </div>
             <div class="site-header__phone">
                 <div class="site-header__phone-title">Hot Line</div>
-                <div class="site-header__phone-number">+880 17 200 85127</div>
+                <div class="site-header__phone-number">{{ $apps->phone ?? '' }}</div>
             </div>
         </div>
         <div class="site-header__nav-panel">

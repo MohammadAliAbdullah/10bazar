@@ -41,9 +41,9 @@
                                 <h4 class="contact-us__header card-title">Our Address</h4>
                                 <div class="contact-us__address">
                                     <p>
-                                        Phone: {{ $office->phone }}
-                                        </br>Email: {{ $office->email ?? '' }}
-                                        </br>Address: {{ $office->address ?? '' }}
+                                        Phone: {{ $apps->phone }}
+                                        </br>Email: {{ $apps->email ?? '' }}
+                                        </br>Address: {{ $apps->address ?? '' }}
                                     </p>
                                     <p>
                                         <strong>Opening Hours</strong>

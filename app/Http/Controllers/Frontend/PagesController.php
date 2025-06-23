@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Frontend;
 use App\Http\Controllers\Controller;
 use App\Models\AboutUs;
 use App\Models\Address;
+use App\Models\AppSetting;
 use App\Models\Brand;
 use App\Models\Category;
 use App\Models\ContactInfo;
@@ -126,17 +127,9 @@ class PagesController extends Controller
     }
     public function contact_us()
     {
-        //        return cache()->remember('contact-us', 60*60*24, function(){
-        //            $shop=ContactInfo::where('id',1)->first();
-        //            $office=ContactInfo::where('id',2)->first();
-        //        });
-        //        dd($office);
-        //        $shop=cache()->remember('contact-us', 60*60*24, function(){
-        //            ContactInfo::where('id',1)->first();
-        //        });
-        $shop = ContactInfo::where('id', 1)->first();
-        $office = ContactInfo::where('id', 2)->first();
-        return view("Frontend.Page.contactUs", compact('shop', 'office'));
+        // $shop = AppSetting::where('id', 1)->first();
+        // $office = AppSetting::first();
+        return view("Frontend.Page.contactUs");
     }
     public function page($slug)
     {

@@ -6,17 +6,11 @@
                            <div class="col-12 col-md-6 col-lg-4">
                                <div class="site-footer__widget footer-contacts">
                                    <h5 class="footer-contacts__title">Contact Us</h5>
-                                   {{-- <div class="footer-contacts__text">Lorem ipsum dolor sit amet, consectetur
-                                       adipiscing elit. Integer in feugiat lorem. Pellentque ac placerat tellus.</div> --}}
                                    <ul class="footer-contacts__contacts">
-                                       <li><i class="footer-contacts__icon fas fa-globe-americas"></i> Road-1/A,
-                                           Sector-7, Uttara</li>
-                                       <li><i class="footer-contacts__icon far fa-envelope"></i> 10bazar.store@gmail.com
-                                       </li>
-                                       <li><i class="footer-contacts__icon fas fa-mobile-alt"></i> +880 17 200 85127
-                                       </li>
-                                       <li><i class="footer-contacts__icon far fa-clock"></i> Sat-Thu 09:00am - 7:00pm
-                                       </li>
+                                       <li><i class="footer-contacts__icon fas fa-globe-americas"></i>{{ $apps->address ?? '' }}</li>
+                                       <li><i class="footer-contacts__icon far fa-envelope"></i> {{ $apps->email ?? '' }}</li>
+                                       <li><i class="footer-contacts__icon fas fa-mobile-alt"></i> {{ $apps->phone ?? '' }}</li>
+                                       <li><i class="footer-contacts__icon far fa-clock"></i> Sat-Thu 09:00am - 7:00pm</li>
                                    </ul>
                                </div>
                            </div>
@@ -27,26 +21,21 @@
                                        <li class="footer-links__item">
                                            <a href="{{ route('faq') }}" class="footer-links__link">FAQ</a>
                                        </li>
-                                       <li class="footer-links__item"><a href="#"
-                                               class="footer-links__link">Delivery
-                                               Information</a></li>
+                                       <li class="footer-links__item"><a href="#" class="footer-links__link">Delivery Information</a></li>
                                        <li class="footer-links__item">
                                            <a href="{{ url('page') }}/privacy-policy"
-                                               class="footer-links__link">Privacy Policy</a>
+                                               class="footer-links__link">
+                                               Privacy Policy
+                                            </a>
                                        </li>
                                        <li class="footer-links__item">
-                                           <a href="{{ route('warranty_policy') }}" class="footer-links__link">Warranty
-                                               Policy</a>
+                                           <a href="{{ route('warranty_policy') }}" class="footer-links__link">Warranty Policy</a>
                                        </li>
-                                       <li class="footer-links__item"><a href="{{ route('brand') }}"
-                                               class="footer-links__link">Brands</a>
+                                       <li class="footer-links__item"><a href="{{ route('brand') }}" class="footer-links__link">Brands</a>
                                        </li>
-                                       <li class="footer-links__item"><a href="{{ route('contact.us') }}"
-                                               class="footer-links__link">Contact Us</a></li>
-                                       <li class="footer-links__item"><a href="{{ url('page') }}/refund-return-policy"
-                                               class="footer-links__link">Returns</a></li>
-                                       <li class="footer-links__item"><a href="{{ route('contact.us') }}"
-                                               class="footer-links__link">Site Map</a></li>
+                                       <li class="footer-links__item"><a href="{{ route('contact.us') }}" class="footer-links__link">Contact Us</a></li>
+                                       <li class="footer-links__item"><a href="{{ url('page') }}/refund-return-policy" class="footer-links__link">Returns</a></li>
+                                       <li class="footer-links__item"><a href="{{ route('contact.us') }}" class="footer-links__link">Site Map</a></li>
                                    </ul>
                                </div>
                            </div>

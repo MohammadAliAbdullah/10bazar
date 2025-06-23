@@ -2,9 +2,8 @@
 
 namespace App\Providers;
 
-use App\Models\ContactInfo;
+use App\Models\AppSetting;
 use App\Models\SeoConfig;
-use App\Models\SocialMedia;
 use App\Models\Tag;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
@@ -50,7 +49,7 @@ class AppServiceProvider extends ServiceProvider
         // Shared globally with all views
         View::share([
             'category_menus' => Category::where('id', '!=', 12)->where('parent_id', 0)->get(),
-            'contact_info'   => ContactInfo::find(1),
+            'apps'           => AppSetting::find(1),
             'seo'            => SeoConfig::find(1),
             'tags'           => Tag::all(),
         ]);

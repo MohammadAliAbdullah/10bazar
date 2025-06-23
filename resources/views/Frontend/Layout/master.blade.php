@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="format-detection" content="telephone=no">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>10 Bazar</title>
-    <link rel="icon" type="image/png" href="{{ asset('public') }}/coot_assets/images/favicon.png"><!-- fonts -->
+    <title>{{ $apps->site_title ?? '' }}</title>
+    <link rel="icon" type="image/png" href="{{ asset($apps->favicon) }}"><!-- fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i"><!-- css -->
     <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/vendor/bootstrap-4.2.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css">
