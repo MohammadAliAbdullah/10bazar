@@ -129,3 +129,22 @@ INSERT INTO `currencies` (`title`, `icon`, `position`, `rate`, `created_at`, `up
 ('GBP', '£', 1, 0.75, NOW(), NOW()),
 ('INR', '₹', 1, 73.00, NOW(), NOW()),
 ('JPY', '¥', 1, 110.00, NOW(), NOW());
+
+-- payment methods
+CREATE TABLE `payment_methods` (
+  `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(100) NOT NULL,
+  `icon` VARCHAR(100) DEFAULT NULL,
+  `description` TEXT DEFAULT NULL,
+  `is_active` TINYINT(1) NOT NULL DEFAULT 1 COMMENT '1 = active, 0 = inactive',
+  
+  -- Timestamps
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `payment_methods` (`title`, `icon`, `description`, `is_active`, `created_at`, `updated_at`) VALUES
+('Cash on Delivery', 'cash-icon.png', 'Pay with cash upon delivery.', 1, NOW(), NOW()),
+('Credit Card', 'credit-card-icon.png', 'Pay using your credit card.', 1, NOW(), NOW()),
+('PayPal', 'paypal-icon.png', 'Secure online payment via PayPal.', 1, NOW(), NOW()),
+('Bank Transfer', 'bank-transfer-icon.png', 'Direct bank transfer for payments.', 1, NOW(), NOW());
