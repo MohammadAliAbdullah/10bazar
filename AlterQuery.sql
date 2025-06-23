@@ -148,3 +148,16 @@ INSERT INTO `payment_methods` (`title`, `icon`, `description`, `is_active`, `cre
 ('Credit Card', 'credit-card-icon.png', 'Pay using your credit card.', 1, NOW(), NOW()),
 ('PayPal', 'paypal-icon.png', 'Secure online payment via PayPal.', 1, NOW(), NOW()),
 ('Bank Transfer', 'bank-transfer-icon.png', 'Direct bank transfer for payments.', 1, NOW(), NOW());
+
+-- 24-06-2025--
+ALTER TABLE `settings`
+ADD COLUMN `facebook` VARCHAR(255) DEFAULT NULL AFTER `footer_text`,
+ADD COLUMN `twitter` VARCHAR(255) DEFAULT NULL AFTER `facebook`,
+ADD COLUMN `linkedin` VARCHAR(255) DEFAULT NULL AFTER `twitter`,
+ADD COLUMN `instagram` VARCHAR(255) DEFAULT NULL AFTER `linkedin`,
+ADD COLUMN `youtube` VARCHAR(255) DEFAULT NULL AFTER `instagram`,
+ADD COLUMN `tiktok` VARCHAR(255) DEFAULT NULL AFTER `youtube`;
+
+-- 24-06-2025
+DROP TABLE `contacts`, `socialmedia`;
+-- 24-06-2025

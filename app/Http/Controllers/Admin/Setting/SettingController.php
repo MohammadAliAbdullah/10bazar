@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppSetting;
+use App\Models\SeoConfig;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -45,6 +46,14 @@ class SettingController extends Controller
             'site_alignment'           => 'nullable|string|max:50',
             'powered_by_text'          => 'nullable|string|max:255',
             'footer_text'              => 'nullable|string|max:255',
+            // Social Media Links
+            'facebook'                 => 'nullable|url|max:255',
+            'twitter'                  => 'nullable|max:255',
+            'linkedin'                 => 'nullable|max:255',
+            'instagram'                => 'nullable|max:255',
+            'youtube'                  => 'nullable|max:255',
+            'tiktok'                   => 'nullable|max:255',
+            // end Social Media Links
             'whatsapp_number'          => 'nullable|string|max:20',
             'refund_restriction'       => 'nullable|boolean',
             'refund_auto_approve'      => 'nullable|boolean',
@@ -68,5 +77,11 @@ class SettingController extends Controller
         AppSetting::updateOrCreate(['id' => $request->input('id')], $validated);
 
         return redirect()->back()->with('success', 'Settings saved successfully!');
+    }
+
+    public function seoIndex()
+    {
+        $configs = SeoConfig::paginate(10);
+        return view("Admin.Setting.seo.index", compact('configs'));
     }
 }

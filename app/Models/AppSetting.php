@@ -46,5 +46,11 @@ class AppSetting extends Model
         'invoice_company',
         'invoice_email',
         'invoice_logo',
+        'facebook',
+        'twitter',
+        'linkedin',
+        'instagram',
+        'youtube',
+        'tiktok'
     ];
 }

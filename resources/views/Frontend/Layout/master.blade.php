@@ -1,5 +1,10 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+@php
+    $rtlLocales = ['ar', 'ur'];
+    $isRtl = in_array(app()->getLocale(), $rtlLocales);
+@endphp
+{{-- <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ $isRtl ? 'rtl' : 'ltr' }}"> --}}
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" dir="{{ $isRtl ? 'ltr' : 'ltr' }}">
 
 <head>
     <meta charset="UTF-8">
@@ -10,7 +15,8 @@
     <link rel="icon" type="image/png" href="{{ isset($apps->favicon) ? asset($apps->favicon) : '' }}"><!-- fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i"><!-- css -->
     <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/vendor/bootstrap-4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet"
+        href="{{ asset('public') }}/coot_assets/vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/css/style.css">
     <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/css/custom_style.css">
     <!-- js -->
@@ -27,6 +33,22 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-6"></script>
     {{-- sweetalert.js --}}
     <script src="{{ asset('public') }}/coot_assets/vendor/sweetalert/sweetalert.js"></script>
+    {{-- @if ($isRtl)
+        <style>
+            body {
+                direction: rtl;
+                text-align: right;
+            }
+
+            .text-left {
+                text-align: right !important;
+            }
+
+            .text-right {
+                text-align: left !important;
+            }
+        </style>
+    @endif --}}
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -71,13 +93,13 @@
     {{-- custom js - --}}
     <script>
         window.routes = {
-            cartAdd       : "{{ route('cart.add') }}",
-            cartUpdate    : "{{ route('cart.update') }}",
-            cartRemove    : "{{ route('cart.remove') }}",
+            cartAdd: "{{ route('cart.add') }}",
+            cartUpdate: "{{ route('cart.update') }}",
+            cartRemove: "{{ route('cart.remove') }}",
             headerCartList: "{{ route('headerCart.list') }}",
-            loader        : "{{ asset('public/coot_assets/loader.gif') }}",
-            shopFilter    : "{{ route('filter.products') }}",                 // search
-            areas         : "{{ route('areas') }}",
+            loader: "{{ asset('public/coot_assets/loader.gif') }}",
+            shopFilter: "{{ route('filter.products') }}", // search
+            areas: "{{ route('areas') }}",
         };
     </script>
     <script src="{{ asset('public') }}/coot_assets/js/customJs/cart.js?v={{ time() }}"></script>

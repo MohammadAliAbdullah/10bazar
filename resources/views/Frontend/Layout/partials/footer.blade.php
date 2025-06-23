@@ -67,19 +67,19 @@
                             </div>
                             <ul class="footer-newsletter__social-links">
                                 <li class="footer-newsletter__social-link footer-newsletter__social-link--facebook">
-                                    <a href="{{ socialh()->facebook ?? '#' }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                    <a href="{{ $apps->facebook ?? '#' }}" target="_blank"><i class="fab fa-facebook-f"></i></a>
                                 </li>
                                 <li class="footer-newsletter__social-link footer-newsletter__social-link--twitter">
-                                    <a href="{{ socialh()->twitter ?? '#' }}" target="_blank"><i class="fab fa-twitter"></i></a>
+                                    <a href="{{ $apps->twitter ?? '#' }}" target="_blank"><i class="fab fa-twitter"></i></a>
                                 </li>
                                 <li class="footer-newsletter__social-link footer-newsletter__social-link--youtube">
-                                    <a href="{{ socialh()->youtube ?? '#' }}" target="_blank"><i class="fab fa-youtube"></i></a>
+                                    <a href="{{ $apps->youtube ?? '#' }}" target="_blank"><i class="fab fa-youtube"></i></a>
                                 </li>
                                 <li class="footer-newsletter__social-link footer-newsletter__social-link--instagram">
-                                    <a href="{{ socialh()->instagram ?? '#' }}" target="_blank"><i class="fab fa-instagram"></i></a>
+                                    <a href="{{ $apps->instagram ?? '#' }}" target="_blank"><i class="fab fa-instagram"></i></a>
                                 </li>
                                 <li class="footer-newsletter__social-link footer-newsletter__social-link--rss">
-                                    <a href="{{ socialh()->linkedin ?? '#' }}" target="_blank"><i class="fab fa-linkedin-in text-white"></i></a>
+                                    <a href="{{ $apps->linkedin ?? '#' }}" target="_blank"><i class="fab fa-linkedin-in text-white"></i></a>
                                 </li>
                             </ul>
                         </div>

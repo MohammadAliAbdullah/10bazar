@@ -27,6 +27,7 @@
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#branding">Branding & Logos</a></li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#invoice">Invoice</a></li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#location">Location & Language</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#social">Social Media</a></li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#other">Other</a></li>
                 </ul>
 
@@ -138,6 +139,24 @@
                             </div>
                         </div>
                     </div>
+                     {{-- social media --}}
+                    <div class="tab-pane fade" id="social">
+                        @foreach ([
+                            'facebook' => 'Facebook',
+                            'twitter' => 'Twitter',
+                            'linkedin' => 'LinkedIn',
+                            'instagram' => 'Instagram',
+                            'youtube' => 'YouTube',
+                            'tiktok' => 'TikTok',
+                        ] as $name => $label)
+                            <div class="form-group row">
+                                {!! Form::label($name, $label, ['class' => 'col-sm-3 col-form-label']) !!}
+                                <div class="col-sm-9">
+                                    {!! Form::text($name, old($name, $setting->$name ?? ''), ['class' => 'form-control']) !!}
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
 
                     {{-- Other --}}
                     <div class="tab-pane fade" id="other">
@@ -165,7 +184,7 @@
 
                 <div class="card-footer">
                     <button type="submit" class="btn btn-success">Save Settings</button>
-                    <a href="{{ url()->previous() }}" class="btn btn-secondary float-right">Cancel</a>
+                    <a href="{{ url()->previous() }}" class="btn btn-secondary">Cancel</a>
                 </div>
 
                 {!! Form::close() !!}
