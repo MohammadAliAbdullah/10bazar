@@ -97,4 +97,33 @@ class SettingController extends Controller
 
         return redirect()->back()->with('success', 'Currency added successfully!');
     }
+
+    public function editCurrency($id)
+    {
+        $currency = Currency::findOrFail($id);
+        $currencies = Currency::latest()->get();
+
+        return view('Admin.Setting.Currency.index', compact('currency', 'currencies'));
+    }
+
+    public function updateCurrency(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'title'    => 'required|string|max:50',
+            'icon'     => 'required|string|max:10',
+            'position' => 'required|in:1,2',
+            'rate'     => 'required|numeric|min:0',
+        ]);
+
+        $currency = Currency::findOrFail($id);
+        $currency->update($validated);
+
+        return redirect()->route('madmin.currency.create')->with('success', 'Currency updated successfully!');
+    }
+
+    public function destroyCurrency($id)
+    {
+        Currency::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'Currency deleted successfully.');
+    }
 }

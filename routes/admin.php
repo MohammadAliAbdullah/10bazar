@@ -72,7 +72,11 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         Route::post('/app-store', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'store'])->name('app-store');
         Route::get('currency', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createCurrency'])->name('currency.create');
         Route::post('currency', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storeCurrency'])->name('currency.store');
-        
+        Route::get('currency/edit/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'editCurrency'])->name('currency.edit');
+        Route::post('currency/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updateCurrency'])->name('currency.update');
+        Route::delete('currency/delete/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'destroyCurrency'])->name('currency.destroy');
+
+
         Route::resource('/paymentgetway', '\App\Http\Controllers\Admin\Setting\PaymentController');
         Route::resource('/contactinfo', '\App\Http\Controllers\Admin\Setting\ContactInfoController');
         Route::resource('/logofavs', '\App\Http\Controllers\Admin\Setting\LogoFavsController');
