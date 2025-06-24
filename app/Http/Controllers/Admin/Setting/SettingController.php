@@ -8,8 +8,10 @@ use App\Models\Currency;
 use App\Models\PaymentMethod;
 use App\Models\PaymentSetup;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Session;
 
 class SettingController extends Controller
 {
@@ -234,5 +236,28 @@ class SettingController extends Controller
     {
         PaymentSetup::findOrFail($id)->delete();
         return redirect()->back()->with('success', 'Payment setup deleted.');
+    }
+
+    public function smsConfig()
+    {
+        $sms = DB::table('cs_sms_configs')->first();
+        return view('Admin.Setting.sms.index', compact('sms'));
+    }
+
+    public function smsConfigStore(Request $request)
+    {
+        $validated = $request->validate([
+            'provider'    => 'required|string|max:100',
+            'username'    => 'required|string|max:100',
+            'password'    => 'required|string|max:100',
+            'phone'       => 'nullable|string|max:20',
+            'sender_name' => 'nullable|string|max:100',
+            'is_invoice'  => 'required|in:0,1',
+            'is_receive'  => 'required|in:0,1',
+        ]);
+
+        DB::table('cs_sms_configs')->updateOrInsert(['id' => 1], $validated);
+        Session::flash('status', 'SMS configuration updated successfully!');
+        return back()->with('success', 'SMS configuration updated successfully!');
     }
 }
