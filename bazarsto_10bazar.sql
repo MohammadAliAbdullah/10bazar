@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.2
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: localhost:3306
--- Generation Time: Jun 16, 2025 at 04:55 PM
--- Server version: 10.6.22-MariaDB
--- PHP Version: 8.3.21
+-- Host: 127.0.0.1
+-- Generation Time: Jun 24, 2025 at 08:55 PM
+-- Server version: 10.4.28-MariaDB
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -245,7 +245,9 @@ INSERT INTO `categories` (`id`, `title`, `slug`, `type`, `content`, `thumb`, `im
 (26, 'Bag', 'bag', 'Regular', NULL, NULL, NULL, NULL, NULL, 0, 'Bag', 'Bag', NULL, 'Bag', 'Bag', 'Bag', 'Bag', 'Yes', 0, 'Active', '2025-06-01 03:39:40', '2025-06-01 03:39:40', NULL),
 (27, 'Ghee (ঘি)', 'ghee-ghi', 'Regular', NULL, NULL, NULL, NULL, NULL, 0, 'Ghee (ঘি)', 'Ghee (ঘি)', NULL, 'Ghee (ঘি)', 'Ghee (ঘি)', 'Ghee (ঘি)', 'Ghee (ঘি)', 'Yes', 0, 'Active', '2025-06-01 03:55:41', '2025-06-01 03:55:41', NULL),
 (28, 'Accessories', 'accessories', 'Regular', NULL, NULL, NULL, NULL, NULL, 0, 'Accessories', 'Accessories', NULL, 'Accessories', 'Accessories', 'Accessories', 'Accessories', 'Yes', 0, 'Active', '2025-06-01 04:50:08', '2025-06-01 04:50:08', NULL),
-(30, 'Fashion & Lifestyle', 'fashion-lifestyle', 'Regular', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes', 0, 'Active', '2025-06-04 05:50:45', '2025-06-04 05:50:45', NULL);
+(30, 'Fashion & Lifestyle', 'fashion-lifestyle', 'Regular', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes', 0, 'Active', '2025-06-04 05:50:45', '2025-06-04 05:50:45', NULL),
+(31, 'Book-বই', 'book-bi', 'Regular', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes', 0, 'Active', '2025-06-16 23:39:38', '2025-06-16 23:39:38', NULL),
+(32, 'Combo', 'combo', 'Regular', NULL, NULL, NULL, NULL, NULL, 0, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Yes', 0, 'Active', '2025-06-18 05:39:29', '2025-06-18 05:39:29', NULL);
 
 -- --------------------------------------------------------
 
@@ -880,6 +882,181 @@ INSERT INTO `contact_infos` (`id`, `branch_name`, `logo`, `favicon`, `hotline`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cs_currencies`
+--
+
+CREATE TABLE `cs_currencies` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(50) NOT NULL,
+  `icon` varchar(50) NOT NULL,
+  `position` int(11) NOT NULL DEFAULT 1 COMMENT '1=left.2=right',
+  `rate` decimal(10,2) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `cs_currencies`
+--
+
+INSERT INTO `cs_currencies` (`id`, `title`, `icon`, `position`, `rate`, `created_at`, `updated_at`) VALUES
+(1, 'USD', '$', 1, 1.00, '2025-06-24 15:31:14', '2025-06-24 15:31:14'),
+(3, 'GBP', '£', 1, 0.75, '2025-06-24 15:31:14', '2025-06-24 15:31:14'),
+(4, 'INR', '₹', 1, 73.00, '2025-06-24 15:31:14', '2025-06-24 15:31:14'),
+(5, 'JPY', '¥', 1, 110.00, '2025-06-24 15:31:14', '2025-06-24 15:31:14');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_mail_configs`
+--
+
+CREATE TABLE `cs_mail_configs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `protocol` varchar(100) NOT NULL,
+  `smtp_host` varchar(100) NOT NULL,
+  `smtp_port` varchar(100) NOT NULL,
+  `smtp_user` varchar(100) NOT NULL,
+  `smtp_pass` varchar(100) NOT NULL,
+  `mail_type` varchar(100) NOT NULL,
+  `is_invoice` tinyint(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_purchase` tinyint(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_receive` tinyint(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_payment` tinyint(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_active` tinyint(1) DEFAULT 1 COMMENT '1 = active, 0 = No',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_payment_methods`
+--
+
+CREATE TABLE `cs_payment_methods` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `title` varchar(100) NOT NULL,
+  `is_web` int(1) DEFAULT 1 COMMENT '1=show website.2=not show website',
+  `acc_coa_id` bigint(20) UNSIGNED DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1 COMMENT '1=active 0=inactive',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `cs_payment_methods`
+--
+
+INSERT INTO `cs_payment_methods` (`id`, `title`, `is_web`, `acc_coa_id`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'Bkash', 1, 10000, 1, '2025-06-24 11:29:57', '2025-06-24 11:29:57');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_payment_setups`
+--
+
+CREATE TABLE `cs_payment_setups` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `payment_method_id` int(11) NOT NULL,
+  `marchant_id` varchar(255) DEFAULT NULL,
+  `password` varchar(120) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `currency_id` int(11) DEFAULT 0,
+  `is_live` int(11) NOT NULL,
+  `api_code` varchar(25) DEFAULT NULL,
+  `api_key` varchar(300) DEFAULT NULL,
+  `api_endpoint` varchar(200) DEFAULT NULL,
+  `api_user_scret` varchar(300) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1 COMMENT '1=active 0=inactive',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+--
+-- Dumping data for table `cs_payment_setups`
+--
+
+INSERT INTO `cs_payment_setups` (`id`, `payment_method_id`, `marchant_id`, `password`, `email`, `currency_id`, `is_live`, `api_code`, `api_key`, `api_endpoint`, `api_user_scret`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 1, NULL, '54556', 'm@gmail.com', 54656, 1, '64556', '65456', '546', '335', 1, '2025-06-24 11:40:32', '2025-06-24 11:40:32');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_settings`
+--
+
+CREATE TABLE `cs_settings` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `site_title` varchar(255) DEFAULT NULL,
+  `store_name` varchar(100) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `phone` varchar(200) DEFAULT NULL,
+  `logo` text DEFAULT NULL,
+  `splash_logo` varchar(255) DEFAULT NULL,
+  `favicon` text DEFAULT NULL,
+  `vat` int(11) DEFAULT 0,
+  `show_vat_number` tinyint(1) DEFAULT 0,
+  `vat_number` varchar(30) DEFAULT NULL,
+  `service_charge` int(11) DEFAULT 0,
+  `discount_type` tinyint(4) DEFAULT 0 COMMENT '0 = amount, 1 = percent',
+  `service_charge_type` tinyint(4) DEFAULT 0 COMMENT '0 = amount, 1 = percent',
+  `discount_rate` decimal(19,3) DEFAULT 0.000,
+  `country` varchar(100) DEFAULT NULL,
+  `google_map_embed_link` text DEFAULT NULL,
+  `latitude` varchar(10) DEFAULT NULL,
+  `longitude` varchar(10) DEFAULT NULL,
+  `currency_id` int(11) DEFAULT 0,
+  `language` varchar(100) DEFAULT NULL,
+  `timezone` varchar(150) DEFAULT NULL,
+  `date_format` text DEFAULT NULL,
+  `site_alignment` varchar(50) DEFAULT NULL,
+  `powered_by_text` text DEFAULT NULL,
+  `footer_text` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `linkedin` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `youtube` varchar(255) DEFAULT NULL,
+  `tiktok` varchar(255) DEFAULT NULL,
+  `refund_restriction` tinyint(1) DEFAULT 0 COMMENT '0 = refund allowed',
+  `refund_auto_approve` tinyint(1) DEFAULT 1 COMMENT '1 = auto-approve refunds',
+  `refund_deduction_percent` decimal(10,2) DEFAULT 0.00,
+  `inventory_type` tinyint(4) DEFAULT 1 COMMENT '1 = Periodic, 2 = Perpetual',
+  `invoice_company` varchar(155) DEFAULT NULL,
+  `invoice_email` varchar(155) DEFAULT NULL,
+  `invoice_logo` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_sms_configs`
+--
+
+CREATE TABLE `cs_sms_configs` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `provider` varchar(100) NOT NULL,
+  `username` varchar(155) NOT NULL COMMENT 'API Key',
+  `password` varchar(155) NOT NULL COMMENT 'API Secret',
+  `phone` varchar(20) DEFAULT NULL,
+  `sender_name` varchar(155) DEFAULT NULL,
+  `is_invoice` tinyint(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_purchase` tinyint(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_receive` tinyint(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_payment` tinyint(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_active` tinyint(1) DEFAULT 1 COMMENT '1 = active, 0 = No',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `customers`
 --
 
@@ -988,7 +1165,8 @@ INSERT INTO `customers` (`id`, `name`, `phone`, `email`, `address`, `images`, `p
 (81, 'MD FERDAUS', '01720085127', 'fardaushossain594@gmail.com', NULL, NULL, '$2y$10$DH8Y1khIkfzh956GhA5rQ.Nk6shbvI1GvZihkWoXeLNa6Yolu0EXy', NULL, NULL, NULL, 'NULL', '0', 'Active', '2025-05-31 17:44:37', '2025-05-31 17:44:37'),
 (82, 'fedous', '015178544', 'fedous511@gmail.com', NULL, NULL, '$2y$10$BHHPFHe7zscnO4MvSDr3duWnx8.pTwYtW2rZsDciyhCeebCsY428a', NULL, NULL, NULL, 'NULL', '0', 'Active', '2025-05-31 18:21:26', '2025-05-31 18:21:26'),
 (83, 'Hasan', '01832191722', 'Az@gmail.com', NULL, NULL, '$2y$10$lXeY3NoeoQauC8H01C4YUeKakD.8Tz7EVk5tRyjpm87UeeGepJBpK', NULL, NULL, NULL, 'NULL', '0', 'Active', '2025-05-31 20:23:38', '2025-05-31 20:23:38'),
-(84, 'Laboni', '01304304346', NULL, 'Anam Editor', NULL, '$2y$10$6XYd4TLzjfpCMM1ODVvqHOclGh2p7pmdav/Ky2z.EPPACE7v1OzVC', NULL, NULL, NULL, NULL, '0', 'Active', '2025-06-01 11:23:23', '2025-06-01 11:23:23');
+(84, 'Laboni', '01304304346', NULL, 'Anam Editor', NULL, '$2y$10$6XYd4TLzjfpCMM1ODVvqHOclGh2p7pmdav/Ky2z.EPPACE7v1OzVC', NULL, NULL, NULL, NULL, '0', 'Active', '2025-06-01 11:23:23', '2025-06-01 11:23:23'),
+(85, 'Tes', '017', NULL, '4⁴in', NULL, '$2y$10$l1wjxqfGJ6Ui7gvwgpF7.OxG3en/3graiRFvaP/X6rOZ0KP5Hso8y', NULL, NULL, NULL, NULL, '0', 'Active', '2025-06-18 04:33:32', '2025-06-18 04:33:32');
 
 -- --------------------------------------------------------
 
@@ -1248,54 +1426,59 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`, `orders`, `icon`, `status`, `created_at`, `updated_at`) VALUES
-(1, 'Authentication', 0, '#', 1, 'fas fa-user-cog', 'Active', '2023-08-23 19:19:11', '2025-05-25 05:47:37'),
-(2, 'Sales', 0, '#', 2, 'fas fa-cart-plus', 'Active', '2023-08-23 19:19:33', '2025-05-25 05:48:04'),
-(3, 'Catelog', 0, '#', 3, 'fas fa-hospital', 'Active', '2023-08-23 19:19:53', '2025-05-25 05:48:19'),
-(4, 'Customer', 0, '#', 4, 'fas fa-users', 'Active', '2023-08-23 19:20:12', '2025-05-25 05:48:37'),
-(5, 'Inventory', 0, '#', 5, 'fas fa-university', 'Active', '2023-08-23 19:20:33', '2025-05-25 05:48:30'),
-(6, 'Marketing', 0, '#', 6, 'fas fa-bullhorn', 'Active', '2023-08-23 19:21:07', '2025-05-25 05:48:46'),
-(7, 'Home', 0, '#', 7, 'fas fa-home', 'Active', '2023-08-23 19:21:24', '2025-05-25 05:49:10'),
-(8, 'Content', 0, '#', 7, 'fas fa-book', 'Active', '2023-08-23 19:21:41', '2025-05-25 05:49:03'),
-(9, 'Reports', 0, '#', 9, 'fa fa-calculator', 'Active', '2023-08-23 19:22:04', '2023-08-23 19:22:04'),
-(10, 'Settings', 0, '#', 10, 'fas fa-cogs', 'Active', '2023-08-23 19:22:23', '2023-08-23 19:22:23'),
-(11, 'Admin Menu', 1, 'madmin.adminmenu.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 19:34:00', '2023-08-23 19:34:00'),
-(12, 'Admin User', 1, 'madmin.adminuser.index', 2, 'fas fa-angle-right', 'Active', '2023-08-23 19:34:28', '2023-08-23 19:34:28'),
-(13, 'Pending Order', 2, 'madmin.orders.pending', 1, 'fas fa-angle-right', 'Active', '2023-08-23 19:34:45', '2023-08-23 19:34:45'),
-(14, 'Complete Order', 2, 'madmin.orders.complete', 2, 'fas fa-angle-right', 'Active', '2023-08-23 19:35:03', '2023-08-23 19:37:09'),
-(15, 'Return Order', 2, 'madmin.orderreturn.index', 3, 'fas fa-angle-right', 'Pending', '2023-08-23 19:35:35', '2023-09-25 20:50:24'),
-(16, 'All Order', 2, 'madmin.orderadmin.index', 4, 'fas fa-angle-right', 'Active', '2023-08-23 19:36:20', '2023-08-23 19:36:20'),
-(17, 'Product ', 3, 'madmin.products.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 19:37:53', '2023-08-23 19:37:53'),
-(18, 'Category', 3, 'madmin.categories.index', 2, 'fas fa-angle-right', 'Active', '2023-08-23 19:38:13', '2023-08-23 19:38:13'),
-(19, 'Brand ', 3, 'madmin.brands.index', 3, 'fas fa-angle-right', 'Active', '2023-08-23 19:38:33', '2023-08-23 19:38:33'),
-(20, 'Attribute ', 3, 'madmin.attributes.index', 4, 'fas fa-angle-right', 'Active', '2023-08-23 19:38:56', '2023-08-23 19:38:56'),
-(21, 'Unit ', 3, 'madmin.units.index', 5, 'fas fa-angle-right', 'Active', '2023-08-23 19:39:23', '2023-08-23 19:39:23'),
-(22, 'Tag ', 3, '#', 6, 'fas fa-angle-right', 'Deactive', '2023-08-23 19:42:23', '2023-08-23 19:43:53'),
-(23, 'Add Customer', 4, 'madmin.customeradmin.create', 1, 'fas fa-angle-right', 'Active', '2023-08-23 19:42:57', '2023-08-23 19:42:57'),
-(24, 'All Customer', 4, 'madmin.customeradmin.index', 2, 'fas fa-angle-right', 'Active', '2023-08-23 19:43:20', '2023-08-23 19:43:20'),
-(25, 'Stock ', 5, 'madmin.stock.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 19:44:58', '2023-08-23 19:44:58'),
-(26, 'Low Stock', 5, 'madmin.stock.low', 2, 'fas fa-angle-right', 'Active', '2023-08-23 19:45:30', '2023-08-23 19:45:30'),
-(27, 'Sold ', 5, 'madmin.stock.sold', 3, 'fas fa-angle-right', 'Deactive', '2023-08-23 19:45:49', '2023-08-23 19:45:49'),
-(28, 'Adjustment', 5, 'madmin.stock.adjustment', 4, 'fas fa-angle-right', 'Pending', '2023-08-23 19:46:17', '2023-09-25 20:47:55'),
-(29, 'SMS Marketing', 6, 'madmin.smscampaign.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 19:47:01', '2023-09-13 23:17:31'),
-(30, 'Slide ', 7, 'madmin.slides.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 19:47:36', '2023-08-23 19:47:36'),
-(31, 'Banner ', 7, 'madmin.banners.index', 2, 'fas fa-angle-right', 'Active', '2023-08-23 19:47:58', '2023-08-23 19:47:58'),
-(32, 'About Us', 7, 'madmin.aboutadmin.index', 3, 'fas fa-angle-right', 'Active', '2023-08-23 19:48:31', '2023-08-23 19:48:31'),
-(33, 'Page ', 8, 'madmin.pages.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 19:49:01', '2023-08-23 19:49:01'),
-(34, 'Blog ', 8, 'madmin.blogs.index', 2, 'fas fa-angle-right', 'Active', '2023-08-23 19:49:29', '2023-08-23 19:49:29'),
-(35, 'FAQ', 8, 'madmin.faqs.index', 3, 'fas fa-angle-right', 'Active', '2023-08-23 19:50:04', '2023-08-23 19:50:04'),
-(36, 'All Reports', 9, '#', 1, 'fas fa-angle-right', 'Pending', '2023-08-23 19:50:24', '2023-09-25 23:05:05'),
-(37, 'Sales Reports', 9, 'madmin.sales.reports', 2, 'fas fa-angle-right', 'Active', '2023-08-23 19:50:49', '2023-09-25 21:32:50'),
-(38, 'Stock Reports', 9, 'madmin.stock.reports', 3, 'fas fa-angle-right', 'Active', '2023-08-23 19:51:09', '2023-08-23 19:51:09'),
-(39, 'Contact ', 10, 'madmin.contactinfo.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 19:51:32', '2023-08-23 19:51:32'),
-(40, 'Logo & Favicon', 10, 'madmin.logofavs.index', 2, 'fas fa-angle-right', 'Active', '2023-08-23 19:51:46', '2023-08-23 19:51:46'),
-(41, 'Social Media Link', 10, 'madmin.socialmedia.index', 3, 'fas fa-angle-right', 'Active', '2023-08-23 19:52:01', '2023-08-26 01:30:24'),
-(42, 'Payment Getaway', 10, 'madmin.paymentgetway.index', 4, 'fas fa-angle-right', 'Active', '2023-08-23 19:52:22', '2023-09-09 22:17:55'),
-(43, 'SMS Getaway', 10, '#', 5, 'fas fa-angle-right', 'Active', '2023-08-23 19:52:51', '2023-08-23 19:52:51'),
-(44, 'SEO ', 10, 'madmin.seoconfigs.index', 5, 'fas fa-angle-right', 'Active', '2023-08-23 19:53:13', '2023-08-23 19:53:13'),
-(45, 'Login Setup', 10, '#', 8, 'fas fa-angle-right', 'Active', '2023-08-23 19:53:48', '2023-08-23 19:53:48'),
-(46, 'Newsletter', 4, 'madmin.newsletteradmin.index', 3, 'fas fa-angle-right', 'Active', '2023-09-12 18:27:13', '2023-09-12 18:27:13'),
-(47, 'SMS Log', 6, 'madmin.smslog.index', 2, 'fas fa-angle-right', 'Active', '2023-09-14 15:55:34', '2023-09-14 15:55:34'),
-(48, 'Visitors', 9, 'madmin.visitors', 3, 'fas fa-angle-right', 'Active', '2025-06-03 11:15:38', '2025-06-03 11:15:38');
+(1, 'Authentication', 0, '#', 1, 'fas fa-user-cog', 'Active', '2023-08-23 13:19:11', '2025-05-24 23:47:37'),
+(2, 'Sales', 0, '#', 2, 'fas fa-cart-plus', 'Active', '2023-08-23 13:19:33', '2025-05-24 23:48:04'),
+(3, 'Catelog', 0, '#', 3, 'fas fa-hospital', 'Active', '2023-08-23 13:19:53', '2025-05-24 23:48:19'),
+(4, 'Customer', 0, '#', 4, 'fas fa-users', 'Active', '2023-08-23 13:20:12', '2025-05-24 23:48:37'),
+(5, 'Inventory', 0, '#', 5, 'fas fa-university', 'Active', '2023-08-23 13:20:33', '2025-05-24 23:48:30'),
+(6, 'Marketing', 0, '#', 6, 'fas fa-bullhorn', 'Active', '2023-08-23 13:21:07', '2025-05-24 23:48:46'),
+(7, 'Home', 0, '#', 7, 'fas fa-home', 'Active', '2023-08-23 13:21:24', '2025-05-24 23:49:10'),
+(8, 'Content', 0, '#', 7, 'fas fa-book', 'Active', '2023-08-23 13:21:41', '2025-05-24 23:49:03'),
+(9, 'Reports', 0, '#', 9, 'fa fa-calculator', 'Active', '2023-08-23 13:22:04', '2023-08-23 13:22:04'),
+(10, 'Base Settings', 0, '#', 10, 'fas fa-cogs', 'Active', '2023-08-23 13:22:23', '2023-08-23 13:22:23'),
+(11, 'Admin Menu', 1, 'madmin.adminmenu.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 13:34:00', '2023-08-23 13:34:00'),
+(12, 'Admin User', 1, 'madmin.adminuser.index', 2, 'fas fa-angle-right', 'Active', '2023-08-23 13:34:28', '2023-08-23 13:34:28'),
+(13, 'Pending Order', 2, 'madmin.orders.pending', 1, 'fas fa-angle-right', 'Active', '2023-08-23 13:34:45', '2023-08-23 13:34:45'),
+(14, 'Complete Order', 2, 'madmin.orders.complete', 2, 'fas fa-angle-right', 'Active', '2023-08-23 13:35:03', '2023-08-23 13:37:09'),
+(15, 'Return Order', 2, 'madmin.orderreturn.index', 3, 'fas fa-angle-right', 'Pending', '2023-08-23 13:35:35', '2023-09-25 14:50:24'),
+(16, 'All Order', 2, 'madmin.orderadmin.index', 4, 'fas fa-angle-right', 'Active', '2023-08-23 13:36:20', '2023-08-23 13:36:20'),
+(17, 'Product ', 3, 'madmin.products.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 13:37:53', '2023-08-23 13:37:53'),
+(18, 'Category', 3, 'madmin.categories.index', 2, 'fas fa-angle-right', 'Active', '2023-08-23 13:38:13', '2023-08-23 13:38:13'),
+(19, 'Brand ', 3, 'madmin.brands.index', 3, 'fas fa-angle-right', 'Active', '2023-08-23 13:38:33', '2023-08-23 13:38:33'),
+(20, 'Attribute ', 3, 'madmin.attributes.index', 4, 'fas fa-angle-right', 'Active', '2023-08-23 13:38:56', '2023-08-23 13:38:56'),
+(21, 'Unit ', 3, 'madmin.units.index', 5, 'fas fa-angle-right', 'Active', '2023-08-23 13:39:23', '2023-08-23 13:39:23'),
+(22, 'Tag ', 3, '#', 6, 'fas fa-angle-right', 'Deactive', '2023-08-23 13:42:23', '2023-08-23 13:43:53'),
+(23, 'Add Customer', 4, 'madmin.customeradmin.create', 1, 'fas fa-angle-right', 'Active', '2023-08-23 13:42:57', '2023-08-23 13:42:57'),
+(24, 'All Customer', 4, 'madmin.customeradmin.index', 2, 'fas fa-angle-right', 'Active', '2023-08-23 13:43:20', '2023-08-23 13:43:20'),
+(25, 'Stock ', 5, 'madmin.stock.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 13:44:58', '2023-08-23 13:44:58'),
+(26, 'Low Stock', 5, 'madmin.stock.low', 2, 'fas fa-angle-right', 'Active', '2023-08-23 13:45:30', '2023-08-23 13:45:30'),
+(27, 'Sold ', 5, 'madmin.stock.sold', 3, 'fas fa-angle-right', 'Deactive', '2023-08-23 13:45:49', '2023-08-23 13:45:49'),
+(28, 'Adjustment', 5, 'madmin.stock.adjustment', 4, 'fas fa-angle-right', 'Pending', '2023-08-23 13:46:17', '2023-09-25 14:47:55'),
+(29, 'SMS Marketing', 6, 'madmin.smscampaign.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 13:47:01', '2023-09-13 17:17:31'),
+(30, 'Slide ', 7, 'madmin.slides.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 13:47:36', '2023-08-23 13:47:36'),
+(31, 'Banner ', 7, 'madmin.banners.index', 2, 'fas fa-angle-right', 'Active', '2023-08-23 13:47:58', '2023-08-23 13:47:58'),
+(32, 'About Us', 7, 'madmin.aboutadmin.index', 3, 'fas fa-angle-right', 'Active', '2023-08-23 13:48:31', '2023-08-23 13:48:31'),
+(33, 'Page ', 8, 'madmin.pages.index', 1, 'fas fa-angle-right', 'Active', '2023-08-23 13:49:01', '2023-08-23 13:49:01'),
+(34, 'Blog ', 8, 'madmin.blogs.index', 2, 'fas fa-angle-right', 'Active', '2023-08-23 13:49:29', '2023-08-23 13:49:29'),
+(35, 'FAQ', 8, 'madmin.faqs.index', 3, 'fas fa-angle-right', 'Active', '2023-08-23 13:50:04', '2023-08-23 13:50:04'),
+(36, 'All Reports', 9, '#', 1, 'fas fa-angle-right', 'Pending', '2023-08-23 13:50:24', '2023-09-25 17:05:05'),
+(37, 'Sales Reports', 9, 'madmin.sales.reports', 2, 'fas fa-angle-right', 'Active', '2023-08-23 13:50:49', '2023-09-25 15:32:50'),
+(38, 'Stock Reports', 9, 'madmin.stock.reports', 3, 'fas fa-angle-right', 'Active', '2023-08-23 13:51:09', '2023-08-23 13:51:09'),
+(39, 'Contact ', 10, 'madmin.contactinfo.index', 1, 'fas fa-angle-right', 'Pending', '2023-08-23 13:51:32', '2023-08-23 13:51:32'),
+(40, 'App Setting', 10, 'madmin.appsetting.create', 2, 'fas fa-angle-right', 'Active', '2023-08-23 13:51:46', '2023-08-23 13:51:46'),
+(41, 'Social Media Link', 10, 'madmin.socialmedia.index', 3, 'fas fa-angle-right', 'Pending', '2023-08-23 13:52:01', '2023-08-25 19:30:24'),
+(42, 'Payment Getaway', 10, 'madmin.paymentgetway.index', 4, 'fas fa-angle-right', 'Active', '2023-08-23 13:52:22', '2023-09-09 16:17:55'),
+(43, 'SMS Config', 10, 'madmin.smsconfig.create', 5, 'fas fa-angle-right', 'Active', '2023-08-23 13:52:51', '2023-08-23 13:52:51'),
+(44, 'SEO Config', 10, 'madmin.seoconfigs.index', 5, 'fas fa-angle-right', 'Active', '2023-08-23 13:53:13', '2023-08-23 13:53:13'),
+(45, 'Payment Method', 10, 'madmin.paymentmethod.create', 8, 'fas fa-angle-right', 'Active', '2023-08-23 13:53:48', '2023-08-23 13:53:48'),
+(46, 'Newsletter', 4, 'madmin.newsletteradmin.index', 3, 'fas fa-angle-right', 'Active', '2023-09-12 12:27:13', '2023-09-12 12:27:13'),
+(47, 'SMS Log', 6, 'madmin.smslog.index', 2, 'fas fa-angle-right', 'Active', '2023-09-14 09:55:34', '2023-09-14 09:55:34'),
+(48, 'Visitors', 9, 'madmin.visitors', 3, 'fas fa-angle-right', 'Active', '2025-06-03 05:15:38', '2025-06-03 05:15:38'),
+(50, 'Email Config', 10, 'madmin.mailconfig.create', 1, 'fas fa-angle-right', 'Active', '2025-06-03 05:15:38', '2025-06-03 05:15:38'),
+(51, 'Languages', 55, 'madmin.lang.index', 1, 'fas fa-angle-right', 'Active', '2025-06-03 05:15:38', '2025-06-24 10:11:17'),
+(52, 'Payment Setup', 55, 'madmin.paymentsetup.index', 1, 'fas fa-angle-right', 'Active', '2025-06-23 18:00:00', '2025-06-24 11:31:55'),
+(53, 'Currency', 10, 'madmin.currency.index', 1, 'fas fa-angle-right', 'Active', '2025-06-23 18:00:00', '2025-06-24 12:27:07'),
+(55, 'General Settings', 0, '#', 11, 'fas fa-cogs', 'Active', '2023-08-23 13:22:23', '2023-08-23 13:22:23');
 
 -- --------------------------------------------------------
 
@@ -2023,7 +2206,8 @@ INSERT INTO `orders` (`id`, `currency`, `invoice_no`, `callan_no`, `customer_id`
 (12, 'BDT', 'IN1748829560', 'CL1748829560', '84', '400', '0', '0', '0', '400', '{\"customer_id\":84,\"name\":\"Jgjnf\",\"phone\":\"01304304346\",\"city_id\":\"34\",\"area_id\":\"261\",\"city\":\"Bhola\",\"area\":\"Charfesson\",\"address\":\"Hfhffhf\"}', 'COD', 'Pending', 'cupon_id', 'cupon_amount', 'Completed', '2025-06-01 19:59:20', '2025-06-01 23:07:02'),
 (13, 'BDT', 'IN1748842700', 'CL1748842700', '81', '800', '0', '0', '0', '800', '{\"customer_id\":81,\"name\":\"Rana\",\"phone\":\"01720085127\",\"city_id\":\"33\",\"area_id\":\"254\",\"city\":\"Barisal\",\"area\":\"Gournadi\",\"address\":\"Hdigba\"}', 'COD', 'Pending', 'cupon_id', 'cupon_amount', 'Pending', '2025-06-01 23:38:20', '2025-06-01 23:38:20'),
 (14, 'BDT', 'IN1748970648', 'CL1748970648', '80', '300', '0', '0', '130', '430', '{\"customer_id\":80,\"name\":\"Abdullah (test )\",\"phone\":\"01849378511\",\"city_id\":\"5\",\"area_id\":\"45\",\"city\":\"Noakhali\",\"area\":\"Begumganj\",\"address\":\"maindee\"}', 'COD', 'Pending', 'cupon_id', 'cupon_amount', 'Pending', '2025-06-03 11:10:48', '2025-06-03 11:10:48'),
-(15, 'BDT', 'IN1749098870', 'CL1749098870', '81', '999', '0', '0', '80', '1079', '{\"customer_id\":81,\"name\":\"Joynal\",\"phone\":\"01720085127\",\"city_id\":\"47\",\"area_id\":\"493\",\"city\":\"Dhaka\",\"area\":\"Uttar Khan\",\"address\":\"Gigjug jjbsh\"}', 'COD', 'Pending', 'cupon_id', 'cupon_amount', 'Shipped', '2025-06-04 22:47:50', '2025-06-05 06:36:57');
+(15, 'BDT', 'IN1749098870', 'CL1749098870', '81', '999', '0', '0', '80', '1079', '{\"customer_id\":81,\"name\":\"Joynal\",\"phone\":\"01720085127\",\"city_id\":\"47\",\"area_id\":\"493\",\"city\":\"Dhaka\",\"area\":\"Uttar Khan\",\"address\":\"Gigjug jjbsh\"}', 'COD', 'Pending', 'cupon_id', 'cupon_amount', 'Shipped', '2025-06-04 22:47:50', '2025-06-05 06:36:57'),
+(16, 'BDT', 'IN1750242812', 'CL1750242812', '85', '680', '0', '0', '80', '760', '{\"customer_id\":85,\"name\":\"Tes\",\"phone\":\"017\",\"city_id\":\"47\",\"area_id\":\"494\",\"city\":\"Dhaka\",\"area\":\"Uttara\",\"address\":\"4\\u2074in\"}', 'Bkash', 'Pending', 'cupon_id', 'cupon_amount', 'Processing', '2025-06-18 04:33:32', '2025-06-21 06:49:25');
 
 -- --------------------------------------------------------
 
@@ -2067,7 +2251,8 @@ INSERT INTO `order_addresses` (`id`, `order_id`, `customer_id`, `name`, `phone`,
 (12, 12, 84, 'Jgjnf', '01304304346', NULL, 34, 261, 'Bhola', 'Charfesson', 'Hfhffhf', 'No', '2025-06-01 19:59:20', '2025-06-01 19:59:20'),
 (13, 13, 81, 'Rana', '01720085127', NULL, 33, 254, 'Barisal', 'Gournadi', 'Hdigba', 'No', '2025-06-01 23:38:20', '2025-06-01 23:38:20'),
 (14, 14, 80, 'Abdullah (test )', '01849378511', NULL, 5, 45, 'Noakhali', 'Begumganj', 'maindee', 'No', '2025-06-03 11:10:48', '2025-06-03 11:10:48'),
-(15, 15, 81, 'Joynal', '01720085127', NULL, 47, 493, 'Dhaka', 'Uttar Khan', 'Gigjug jjbsh', 'No', '2025-06-04 22:47:50', '2025-06-04 22:47:50');
+(15, 15, 81, 'Joynal', '01720085127', NULL, 47, 493, 'Dhaka', 'Uttar Khan', 'Gigjug jjbsh', 'No', '2025-06-04 22:47:50', '2025-06-04 22:47:50'),
+(16, 16, 85, 'Tes', '017', NULL, 47, 494, 'Dhaka', 'Uttara', '4⁴in', 'No', '2025-06-18 04:33:32', '2025-06-18 04:33:32');
 
 -- --------------------------------------------------------
 
@@ -2108,7 +2293,8 @@ INSERT INTO `order_details` (`id`, `order_id`, `product_id`, `name`, `sized`, `c
 (11, 12, 22, 'Baby Carry Bag', NULL, NULL, NULL, '1', '400', '400', '2025-06-01 19:59:20', '2025-06-01 19:59:20'),
 (12, 13, 29, 'Original Men Anti-Theft Waterproof Crossbody Bag', NULL, NULL, NULL, '1', '800', '800', '2025-06-01 23:38:20', '2025-06-01 23:38:20'),
 (13, 14, 4, 'Mini Cute Handheld Fan', NULL, NULL, NULL, '1', '300', '300', '2025-06-03 11:10:48', '2025-06-03 11:10:48'),
-(14, 15, 81, 'ডিজিটাল ব্লাড প্রেশার মনিটর', NULL, NULL, NULL, '1', '999', '999', '2025-06-04 22:47:50', '2025-06-04 22:47:50');
+(14, 15, 81, 'ডিজিটাল ব্লাড প্রেশার মনিটর', NULL, NULL, NULL, '1', '999', '999', '2025-06-04 22:47:50', '2025-06-04 22:47:50'),
+(15, 16, 33, 'Vaccuum Flask Set Drinking Water Bottle', NULL, NULL, NULL, '1', '680', '680', '2025-06-18 04:33:32', '2025-06-18 04:33:32');
 
 -- --------------------------------------------------------
 
@@ -2146,7 +2332,8 @@ INSERT INTO `order_payments` (`id`, `order_id`, `payment_id`, `transaction_id`, 
 (12, 12, 1, 'COD', '400', 'cash_on_delivery', '2025-06-01 19:59:20', '2025-06-01 19:59:20'),
 (13, 13, 1, 'COD', '800', 'cash_on_delivery', '2025-06-01 23:38:20', '2025-06-01 23:38:20'),
 (14, 14, 1, 'COD', '430', 'cash_on_delivery', '2025-06-03 11:10:48', '2025-06-03 11:10:48'),
-(15, 15, 1, 'COD', '1079', 'cash_on_delivery', '2025-06-04 22:47:50', '2025-06-04 22:47:50');
+(15, 15, 1, 'COD', '1079', 'cash_on_delivery', '2025-06-04 22:47:50', '2025-06-04 22:47:50'),
+(16, 16, 2, NULL, '760', NULL, '2025-06-18 04:33:32', '2025-06-18 04:33:32');
 
 -- --------------------------------------------------------
 
@@ -2379,7 +2566,12 @@ INSERT INTO `products` (`id`, `sku`, `title`, `slug`, `category_id`, `sub_catego
 (89, 'Therapy Machine 140', 'Therapy Machine 140', 'therapy-machine-140', '25', '0', NULL, '0', '0', '1', '<ul style=\"box-sizing: border-box; padding-left: 1rem; font-size: 0.875rem; color: rgb(51, 51, 51); font-family: &quot;Open Sans&quot;, Helvetica, sans-serif;\"><li style=\"box-sizing: border-box; line-height: 1.8;\">Digital signal technology</li><li style=\"box-sizing: border-box; line-height: 1.8;\">Great for stiff neck and shoulders, back aches, cramps and more</li><li style=\"box-sizing: border-box; line-height: 1.8;\">Aids in slimming</li><li style=\"box-sizing: border-box; line-height: 1.8;\">Stimulates using massage, acupressure, cupping and manipulation</li><li style=\"box-sizing: border-box; line-height: 1.8;\">Simple to use</li><li style=\"box-sizing: border-box; line-height: 1.8;\">Large LCD clearly displays intensity, functions and time</li></ul>', NULL, NULL, '20250606122257-thumbnail-180X178.jpg', '20250606122257-photo-300X370.jpg', NULL, '', NULL, '19', '950', '950', 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, '4', 'Therapy Machine 140', 'Therapy Machine 140', 'Therapy Machine 140', NULL, 'Yes', 'Active', '2025-06-06 06:22:57', '2025-06-06 06:22:57'),
 (90, 'Magic Mazuni', 'Magic Mazuni', 'magic-mazuni', '22', '0', NULL, '0', '0', '1', '<p class=\"selectable-text copyable-text x15bjb6t x1n2onr6\" dir=\"ltr\" style=\"box-sizing: border-box; text-shadow: none; line-height: 1.5; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\"><span class=\"selectable-text copyable-text\" style=\"box-sizing: border-box; text-shadow: none;\">ধার আছে: এই ম্যাজিক মাজুনি দিয়ে নতুন আলুর চামড়া ছিলা যায়। সুতরাং বুঝতেই পারছেন তার অনন্য নকশা দ্বারা প্রচুর ময়লা ও গ্রিজ সহজেই দূর করা যাবে এবং এটি আপনার থালা বাসনকে করে তুলবে ঝকঝকে ।</span></p><p class=\"selectable-text copyable-text x15bjb6t x1n2onr6\" dir=\"ltr\" style=\"box-sizing: border-box; text-shadow: none; line-height: 1.5; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\"><span class=\"selectable-text copyable-text\" style=\"box-sizing: border-box; text-shadow: none;\">আঁচড়/স্ক্র্যাচ পড়ে না: ধার থাকলেও পলিয়েস্টারের এই মাজুনি থালা বাসনে কোন স্ক্র্যাচ ফেলে না। কারণ এটি সম্পুর্ণ পলিয়েস্টারের তৈরি। অত্যন্ত টেকসই করে তোলে, যা বারবার ব্যবহারের পরেও তার গঠন ও কার্যকারিতা ধরে রাখে।</span></p><p class=\"selectable-text copyable-text x15bjb6t x1n2onr6\" dir=\"ltr\" style=\"box-sizing: border-box; text-shadow: none; line-height: 1.5; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\"><span class=\"selectable-text copyable-text\" style=\"box-sizing: border-box; text-shadow: none;\">সহজে পরিষ্কার করা যায়: এই মাজুনি সহজে পরিষ্কার করা যায় এবং এর থেকে পানি দ্রুত শুকিয়ে যায়। ফলে এতে ব্যাকটেরিয়া জমার সম্ভাবনা অনেক কম, যা এটিকে প্রচলিত স্পঞ্জের চেয়ে অনেক স্বাস্থ্যকর করে তোলে।</span></p><p class=\"selectable-text copyable-text x15bjb6t x1n2onr6\" dir=\"ltr\" style=\"box-sizing: border-box; text-shadow: none; line-height: 1.5; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\"><span class=\"selectable-text copyable-text\" style=\"box-sizing: border-box; text-shadow: none;\">ইনফেকশনের ভয় নেই: এই ম্যাজিক মাজুনি তে কোন লোহা ব্যবহার না করায় এতে হাত কাঁটার বা ইনফেকশন হওয়ার কোন ভয় নেই।</span></p><p class=\"selectable-text copyable-text x15bjb6t x1n2onr6\" dir=\"ltr\" style=\"box-sizing: border-box; text-shadow: none; line-height: 1.5; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\"><span class=\"selectable-text copyable-text\" style=\"box-sizing: border-box; text-shadow: none;\">মোলায়েম এবং প্রচুর ফেনা হয়: আমাদের ম্যাজিক মাজুনিটি হাতে ধরলেই বুঝতে পারবেন এটি কতটা মোলায়েম। মোলায়েম হওয়ার কারণে এতে প্রচুর ফেনা হয় এবং হাড়ি পাতিলের কোণায় কোণায় এই ফেনা পৌঁছানো যায়।</span></p><p class=\"selectable-text copyable-text x15bjb6t x1n2onr6\" dir=\"ltr\" style=\"box-sizing: border-box; text-shadow: none; line-height: 1.5; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\"><span class=\"selectable-text copyable-text\" style=\"box-sizing: border-box; text-shadow: none;\">সাবান খরচ কমায়: আমাদের এই ম্যাজিক মাজুনিতে অন্য যেকোন মাজুনির তুলনায় ডিশ ওয়াশিং বার বা লিকুইড খরচ কম হবে। কারণ এতে অল্প সাবানেই প্রচুর ফেনা হয়।</span></p><p class=\"selectable-text copyable-text x15bjb6t x1n2onr6\" dir=\"ltr\" style=\"box-sizing: border-box; text-shadow: none; line-height: 1.5; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\"><span class=\"selectable-text copyable-text\" style=\"box-sizing: border-box; text-shadow: none;\">বহুমুখী ব্যবহার: এটি শুধু ডিশ ধোয়ার জন্য নয়, বরং আপনার রান্নাঘরের যেকোনো পৃষ্ঠতে ময়লা ও দাগ দূর করার জন্য আদর্শ।</span></p>', NULL, NULL, '20250606122659-thumbnail-180X178.jpg', '20250606122659-photo-300X370.jpg', NULL, '20250606122659-a4.webp,20250606122659-a3.jpg,20250606122659-a2.jpg,20250606122659-a1.jpg', NULL, '19', '300', '99', 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, '4', 'Magic Mazuni', 'Magic Mazuni', 'Magic Mazuni', NULL, 'Yes', 'Active', '2025-06-06 06:26:59', '2025-06-06 06:26:59'),
 (91, 'Gawa Ghee/গাওয়া ঘি (500 গ্রাম)', 'Gawa Ghee/গাওয়া ঘি (500 গ্রাম)', 'gawa-gheegaooza-ghi-500-gram', '27', '0', NULL, '0', '0', '1', '<h3 basic=\"\" commercial\",=\"\" sans-serif;=\"\" color:=\"\" rgb(0,=\"\" 0,=\"\" 0);=\"\" line-height:=\"\" 1.6;\"=\"\" style=\"box-sizing: border-box; margin: 1em 0px 0.85em; font-family: calibri; font-weight: 600; line-height: 1.2; color: rgb(33, 37, 41); font-size: 1.25em; border: 0px solid rgb(229, 231, 235); --tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-scroll-snap-strictness: proximity; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgba(59,130,246,.5019607843137255); --tw-ring-offset-shadow: 0 0 transparent; --tw-ring-shadow: 0 0 transparent; --tw-shadow: 0 0 transparent; --tw-shadow-colored: 0 0 transparent; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\"><span style=\"box-sizing: border-box; border: 0px solid rgb(229, 231, 235); --tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-scroll-snap-strictness: proximity; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgba(59,130,246,.5019607843137255); --tw-ring-offset-shadow: 0 0 transparent; --tw-ring-shadow: 0 0 transparent; --tw-shadow: 0 0 transparent; --tw-shadow-colored: 0 0 transparent; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); color: currentcolor;\">আমাদের যে কোন পণ্য অর্ডার করতে কল বা WhatsApp করুন:</span></h3><h3 basic=\"\" commercial\",=\"\" sans-serif;=\"\" color:=\"\" rgb(0,=\"\" 0,=\"\" 0);=\"\" line-height:=\"\" 1.6;\"=\"\" style=\"box-sizing: border-box; margin: 1em 0px 0.85em; font-family: calibri; font-weight: 600; line-height: 1.2; color: rgb(33, 37, 41); font-size: 1.25em; border: 0px solid rgb(229, 231, 235); --tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-scroll-snap-strictness: proximity; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgba(59,130,246,.5019607843137255); --tw-ring-offset-shadow: 0 0 transparent; --tw-ring-shadow: 0 0 transparent; --tw-shadow: 0 0 transparent; --tw-shadow-colored: 0 0 transparent; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);\"><span style=\"box-sizing: border-box; border: 0px solid rgb(229, 231, 235); --tw-border-spacing-x: 0; --tw-border-spacing-y: 0; --tw-translate-x: 0; --tw-translate-y: 0; --tw-rotate: 0; --tw-skew-x: 0; --tw-skew-y: 0; --tw-scale-x: 1; --tw-scale-y: 1; --tw-scroll-snap-strictness: proximity; --tw-ring-offset-width: 0px; --tw-ring-offset-color: #fff; --tw-ring-color: rgba(59,130,246,.5019607843137255); --tw-ring-offset-shadow: 0 0 transparent; --tw-ring-shadow: 0 0 transparent; --tw-shadow: 0 0 transparent; --tw-shadow-colored: 0 0 transparent; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); color: currentcolor;\">01832191722</span></h3>', NULL, NULL, '20250606123152-thumbnail-180X178.jpg', '20250606123152-photo-300X370.jpg', NULL, '20250606123152-WhatsApp-Image-2025-06-01-at-9.40.26-PM.jpeg', NULL, '19', '900', '875', 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, '4', 'Gawa Ghee/গাওয়া ঘি (500 গ্রাম)', 'Gawa Ghee/গাওয়া ঘি (500 গ্রাম)', 'Gawa Ghee/গাওয়া ঘি (500 গ্রাম)', NULL, 'Yes', 'Active', '2025-06-06 06:31:52', '2025-06-06 06:31:52'),
-(92, 'Fishing Cage Basket Plastic (7-Hole)', 'Fishing Cage Basket Plastic (7-Hole)', 'fishing-cage-basket-plastic-7-hole', '28', '0', NULL, '0', '0', '1', '<p><span style=\"color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">&nbsp;➡️পুকুর বা যেকোনো জলাশয় থেকে মাছ ধরুন সহজেই, ➡️শুধুমাত্র কেস এর ভিতরে কিছু খাবার দিয়ে দড়ি বেধে জলাশয়ে ফেলে রাখলেই ফিশিং কেস এ আটকে পড়বে অনেক অনেক মাছ, ➡️জালের বিকল্প ফিশিং কেস, ➡️যারা শখ করে মাছ ধরেন কিন্তু পুকুরে জাল ফেলতে পারেন না তাদের জন্য বেষ্ট।</span><br></p>', NULL, NULL, '20250614055018-thumbnail-180X178.webp', '20250614055018-photo-300X370.webp', NULL, '', NULL, '100', '400', '350', 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, '4', 'Fishing Cage Basket Plastic (7-Hole)', 'Fishing Cage Basket Plastic (7-Hole)', 'Fishing Cage Basket Plastic (7-Hole)', NULL, 'Yes', 'Active', '2025-06-13 23:50:19', '2025-06-13 23:50:19');
+(92, 'Fishing Cage Basket Plastic (7-Hole)', 'Fishing Cage Basket Plastic (7-Hole)', 'fishing-cage-basket-plastic-7-hole', '28', '0', NULL, '0', '0', '1', '<p><span style=\"color: rgb(61, 70, 77); font-family: \"Noto Sans Bengali\", Roboto, \"sans-serif\";\"> ➡️পুকুর বা যেকোনো জলাশয় থেকে মাছ ধরুন সহজেই, ➡️শুধুমাত্র কেস এর ভিতরে কিছু খাবার দিয়ে দড়ি বেধে জলাশয়ে ফেলে রাখলেই ফিশিং কেস এ আটকে পড়বে অনেক অনেক মাছ, ➡️জালের বিকল্প ফিশিং কেস, ➡️যারা শখ করে মাছ ধরেন কিন্তু পুকুরে জাল ফেলতে পারেন না তাদের জন্য বেষ্ট।</span><br></p>', NULL, NULL, '20250614055018-thumbnail-180X178.webp', '20250614055018-photo-300X370.webp', NULL, '20250617113955-a4.webp,20250617113955-a3.webp,20250617113955-a2..webp,20250617113955-a1.jpg', NULL, '100', '400', '350', 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, '4', 'Fishing Cage Basket Plastic (7-Hole)', 'Fishing Cage Basket Plastic (7-Hole)', 'Fishing Cage Basket Plastic (7-Hole)', NULL, 'Yes', 'Active', '2025-06-13 23:50:19', '2025-06-17 05:39:55'),
+(93, 'রাহে আমল ( ১ খন্ড)', 'রাহে আমল ( ১ খন্ড)', 'rahe-aml-1-khnd', '31', '0', NULL, '0', '0', '1', '<p>📦 ক্যাশ অন ডেলিভারি সারা দেশে!</p><p>আজই অর্ডার করুন l</p><p>অর্ডার করতে ভিজিট করুন 👉https://10bazar.store/</p><p>01832191722</p>', NULL, NULL, '20250617062012-thumbnail-180X178.jpg', '20250617062012-photo-300X370.jpg', NULL, '20250617062012-WhatsApp-Image-2025-06-17-at-12.08.58-PM-(1).jpeg', NULL, '100', '180', '144', 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, '4', 'রাহে আমল ( ১ খন্ড)', 'রাহে আমল ( ১ খন্ড)', 'রাহে আমল ( ১ খন্ড)', NULL, 'Yes', 'Active', '2025-06-17 00:20:13', '2025-06-17 00:20:13'),
+(95, 'তাফহীমুল কুরআন- ১৯ খন্ড', 'তাফহীমুল কুরআন- ১৯ খন্ড', 'tafheemul-kuran-19-khnd', '31', '0', NULL, '0', '0', '1', '<p>📦 ক্যাশ অন ডেলিভারি সারা দেশে!</p><p>আজই অর্ডার করুন l</p><p>অর্ডার করতে ভিজিট করুন 👉https://10bazar.store/</p>', NULL, NULL, '20250617062500-thumbnail-180X178.jpg', '20250617062500-photo-300X370.jpg', NULL, '20250617062501-WhatsApp-Image-2025-06-17-at-12.08.58-PM.jpeg', NULL, '100', '220', '176', 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, '4', 'তাফহীমুল কুরআন- ১৯ খন্ড', 'তাফহীমুল কুরআন- ১৯ খন্ড', 'তাফহীমুল কুরআন- ১৯ খন্ড', NULL, 'Yes', 'Active', '2025-06-17 00:25:01', '2025-06-17 00:30:36'),
+(96, 'রাসূলুল্লাহর (সা.) মক্কার জীবন', 'রাসূলুল্লাহর (সা.) মক্কার জীবন', 'rasuulullahr-sa-mkkar-jeebn', '31', '0', NULL, '0', '0', '1', '<p>📦 ক্যাশ অন ডেলিভারি সারা দেশে!</p><p>আজই অর্ডার করুন l</p><p>অর্ডার করতে ভিজিট করুন 👉https://10bazar.store/</p>', NULL, NULL, '20250617062732-thumbnail-180X178.jpg', '20250617062732-photo-300X370.jpg', NULL, '20250617062732-WhatsApp-Image-2025-06-17-at-12.08.57-PM.jpeg', NULL, '100', '130', '104', 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, '4', 'রাসূলুল্লাহর (সা.) মক্কার জীবন', 'রাসূলুল্লাহর (সা.) মক্কার জীবন', 'রাসূলুল্লাহর (সা.) মক্কার জীবন', NULL, 'Yes', 'Active', '2025-06-17 00:27:32', '2025-06-17 00:31:01'),
+(99, 'Multi-Purpose Cleaning Solution Combo', 'Multi-Purpose Cleaning Solution Combo', 'multi-purpose-cleaning-solution-combo', '32', '0', NULL, '0', '0', '1', '<p><span style=\"box-sizing: border-box; text-shadow: none; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">👉&nbsp;</span><span data-start=\"117\" data-end=\"141\" style=\"box-sizing: border-box; text-shadow: none; font-weight: bolder; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">ডিম হুলদার</span><span style=\"box-sizing: border-box; text-shadow: none; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">&nbsp;–&nbsp;</span><span style=\"box-sizing: border-box; text-shadow: none; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">ই রোলিং এগ অর্গানাইজারটি 12 থেকে 14টি ডিম যেকোনো আকারের ফ্রিজে রাখার জন্য তৈরি করা হয়।&nbsp;</span><br data-start=\"187\" data-end=\"190\" style=\"box-sizing: border-box; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\"><span style=\"box-sizing: border-box; text-shadow: none; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">👉&nbsp;</span><span data-start=\"193\" data-end=\"218\" style=\"box-sizing: border-box; text-shadow: none; font-weight: bolder; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">মাল্টি-পারপাস ক্লিনার</span><span style=\"box-sizing: border-box; text-shadow: none; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">&nbsp;– ফ্লোর, টাইলস, বাথরুম সবকিছু ঝকঝকে রাখুন।</span><br data-start=\"261\" data-end=\"264\" style=\"box-sizing: border-box; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\"><span style=\"box-sizing: border-box; text-shadow: none; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">👉&nbsp;</span><span data-start=\"267\" data-end=\"288\" style=\"box-sizing: border-box; text-shadow: none; font-weight: bolder; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">বিওওয়্যাক্স পলিশ</span><span style=\"box-sizing: border-box; text-shadow: none; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">&nbsp;– ফার্নিচারকে চকচকে করে তুলুন, বাড়তি কিছু ছাড়াই।</span><br data-start=\"337\" data-end=\"340\" style=\"box-sizing: border-box; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\"><span style=\"box-sizing: border-box; text-shadow: none; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">👉&nbsp;</span><span data-start=\"343\" data-end=\"365\" data-is-only-node=\"\" style=\"box-sizing: border-box; text-shadow: none; font-weight: bolder; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">দরজা সিলিং স্ট্রিপ</span><span style=\"box-sizing: border-box; text-shadow: none; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">&nbsp;– শব্দ, ময়লা ও দুর্গন্ধ থেকে রক্ষা।</span><br data-start=\"401\" data-end=\"404\" style=\"box-sizing: border-box; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\"><span style=\"box-sizing: border-box; text-shadow: none; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">👉&nbsp;</span><span data-start=\"407\" data-end=\"436\" style=\"box-sizing: border-box; text-shadow: none; font-weight: bolder; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">মাল্টি-পারপাস ফোম ক্লিনার</span><span style=\"box-sizing: border-box; text-shadow: none; color: rgb(61, 70, 77); font-family: &quot;Noto Sans Bengali&quot;, Roboto, &quot;sans-serif&quot;;\">&nbsp;– দ্রুত দাগ ও তেল দূর করুন।</span></p>', NULL, NULL, '20250618114223-thumbnail-180X178.jpg', '20250618114223-photo-300X370.jpg', NULL, '20250618114224-z1.jpg', NULL, '10', '990', '840', 'No', NULL, NULL, NULL, NULL, NULL, NULL, '4', 'Multi-Purpose Cleaning Solution Combo', 'Multi-Purpose Cleaning Solution Combo', 'Multi-Purpose Cleaning Solution Combo', NULL, 'Yes', 'Active', '2025-06-18 05:42:24', '2025-06-18 05:42:24'),
+(100, 'Bed Bug', 'Bed Bug', 'bed-bug', '22', '0', NULL, '0', '0', '1', '<p><span style=\"color: rgb(52, 58, 64); font-family: &quot;Open Sans&quot;, sans-serif; font-size: 15px;\">এই দীর্ঘস্থায়ী স্প্রে দিয়ে আপনার বাড়িতে বেড বাগ এবং ডাস্টমাইটের দ্রুত এবং কার্যকরভাবে মোকাবেলা করুন যা অ্যালার্জি প্রতিরোধে সাহায্য করে।</span></p>', NULL, NULL, '20250621145130-thumbnail-180X178.jpg', '20250621145131-photo-300X370.jpg', NULL, '20250621145131-v1.jpg', NULL, '10', '520', '220', 'Yes', NULL, NULL, NULL, NULL, NULL, NULL, '4', 'Bed Bug', 'Bed Bug', 'Bed Bug', NULL, 'Yes', 'Active', '2025-06-21 08:51:31', '2025-06-21 08:51:31');
 
 -- --------------------------------------------------------
 
@@ -2499,7 +2691,12 @@ INSERT INTO `product_stocks` (`id`, `product_id`, `sku`, `sized`, `colored`, `un
 (88, '89', 'Therapy Machine 140', NULL, NULL, '1', '19', NULL, NULL, '950', '950', NULL, '2025-06-06 06:22:57', '2025-06-06 06:22:57'),
 (89, '90', 'Magic Mazuni', NULL, NULL, '1', '19', NULL, NULL, '300', '99', NULL, '2025-06-06 06:26:59', '2025-06-06 06:26:59'),
 (90, '91', 'Gawa Ghee/গাওয়া ঘি (500 গ্রাম)', NULL, NULL, '1', '19', NULL, NULL, '900', '875', NULL, '2025-06-06 06:31:52', '2025-06-06 06:31:52'),
-(91, '92', 'Fishing Cage Basket Plastic (7-Hole)', NULL, NULL, '1', '100', NULL, NULL, '400', '350', NULL, '2025-06-13 23:50:20', '2025-06-13 23:50:20');
+(91, '92', 'Fishing Cage Basket Plastic (7-Hole)', NULL, NULL, '1', '100', NULL, NULL, '400', '350', NULL, '2025-06-13 23:50:20', '2025-06-13 23:50:20'),
+(92, '93', 'রাহে আমল ( ১ খন্ড)', NULL, NULL, '1', '100', NULL, NULL, '180', '144', NULL, '2025-06-17 00:20:13', '2025-06-17 00:20:13'),
+(93, '95', 'তাফহীমুল কুরআন- ১৯ খন্ড', NULL, NULL, '1', '100', NULL, NULL, '220', '176', NULL, '2025-06-17 00:25:01', '2025-06-17 00:30:36'),
+(94, '96', 'রাসূলুল্লাহর (সা.) মক্কার জীবন', NULL, NULL, '1', '100', NULL, NULL, '130', '104', NULL, '2025-06-17 00:27:32', '2025-06-17 00:31:01'),
+(95, '99', 'Multi-Purpose Cleaning Solution Combo', NULL, NULL, '1', '10', NULL, NULL, '990', '840', NULL, '2025-06-18 05:42:24', '2025-06-18 05:42:24'),
+(96, '100', 'Bed Bug', NULL, NULL, '1', '10', NULL, NULL, '520', '220', NULL, '2025-06-21 08:51:31', '2025-06-21 08:51:31');
 
 -- --------------------------------------------------------
 
@@ -2610,8 +2807,13 @@ INSERT INTO `product_tags` (`id`, `product_id`, `tags_id`, `created_at`, `update
 (99, 89, 4, '2025-06-06 06:22:58', '2025-06-06 06:22:58'),
 (100, 90, 4, '2025-06-06 06:26:59', '2025-06-06 06:26:59'),
 (101, 91, 4, '2025-06-06 06:31:52', '2025-06-06 06:31:52'),
-(102, 92, 4, '2025-06-13 23:50:20', '2025-06-13 23:50:20'),
-(103, 64, 8, '2025-06-14 04:23:28', '2025-06-14 04:23:28');
+(103, 64, 8, '2025-06-14 04:23:28', '2025-06-14 04:23:28'),
+(104, 93, 4, '2025-06-17 00:20:13', '2025-06-17 00:20:13'),
+(107, 95, 4, '2025-06-17 00:30:36', '2025-06-17 00:30:36'),
+(108, 96, 4, '2025-06-17 00:31:01', '2025-06-17 00:31:01'),
+(109, 92, 4, '2025-06-17 05:39:55', '2025-06-17 05:39:55'),
+(110, 99, 4, '2025-06-18 05:42:24', '2025-06-18 05:42:24'),
+(111, 100, 4, '2025-06-21 08:51:31', '2025-06-21 08:51:31');
 
 -- --------------------------------------------------------
 
@@ -4609,7 +4811,1065 @@ INSERT INTO `visitors` (`id`, `ip`, `country`, `city`, `browser`, `platform`, `d
 (1599, '202.134.11.226', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-16 04:54:44', '2025-06-16 04:54:44'),
 (1600, '69.171.234.12', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-16 04:55:21', '2025-06-16 04:55:21'),
 (1601, '173.252.95.4', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-16 04:55:28', '2025-06-16 04:55:28'),
-(1602, '173.252.95.6', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-16 04:55:28', '2025-06-16 04:55:28');
+(1602, '173.252.95.6', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-16 04:55:28', '2025-06-16 04:55:28'),
+(1603, '31.13.127.26', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-16 04:56:37', '2025-06-16 04:56:37'),
+(1604, '185.191.171.7', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 05:00:48', '2025-06-16 05:00:48'),
+(1605, '85.208.96.204', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 05:00:50', '2025-06-16 05:00:50'),
+(1606, '103.165.162.213', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-16 05:01:16', '2025-06-16 05:01:16'),
+(1607, '173.252.95.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-16 05:05:15', '2025-06-16 05:05:15'),
+(1608, '85.208.96.201', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 05:07:36', '2025-06-16 05:07:36'),
+(1609, '173.252.83.15', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-16 05:10:48', '2025-06-16 05:10:48'),
+(1610, '85.208.96.194', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 05:11:39', '2025-06-16 05:11:39'),
+(1611, '31.13.103.10', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-16 05:11:40', '2025-06-16 05:11:40'),
+(1612, '185.191.171.5', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 05:13:53', '2025-06-16 05:13:53'),
+(1613, '185.191.171.14', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 05:22:36', '2025-06-16 05:22:36'),
+(1614, '129.211.215.233', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 05:34:57', '2025-06-16 05:34:57'),
+(1615, '43.159.128.155', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 05:45:52', '2025-06-16 05:45:52'),
+(1616, '185.191.171.2', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 05:47:29', '2025-06-16 05:47:29'),
+(1617, '43.166.142.76', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 05:59:39', '2025-06-16 05:59:39'),
+(1618, '43.157.95.131', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 06:09:28', '2025-06-16 06:09:28'),
+(1619, '185.191.171.1', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 06:11:14', '2025-06-16 06:11:14'),
+(1620, '85.208.96.210', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 06:11:23', '2025-06-16 06:11:23'),
+(1621, '43.157.168.43', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 06:18:14', '2025-06-16 06:18:14'),
+(1622, '185.191.171.9', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 06:24:11', '2025-06-16 06:24:11'),
+(1623, '170.106.179.68', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 06:31:18', '2025-06-16 06:31:18'),
+(1624, '85.208.96.207', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 06:48:35', '2025-06-16 06:48:35'),
+(1625, '43.135.142.7', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 06:59:24', '2025-06-16 06:59:24'),
+(1626, '85.208.96.193', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 07:09:15', '2025-06-16 07:09:15'),
+(1627, '173.252.127.16', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-16 07:17:25', '2025-06-16 07:17:25'),
+(1628, '43.153.119.119', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 07:18:48', '2025-06-16 07:18:48'),
+(1629, '85.208.96.212', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 07:24:10', '2025-06-16 07:24:10'),
+(1630, '43.158.91.71', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 07:28:42', '2025-06-16 07:28:42'),
+(1631, '43.157.147.3', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 07:48:21', '2025-06-16 07:48:21'),
+(1632, '185.191.171.4', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 07:51:38', '2025-06-16 07:51:38'),
+(1633, '66.249.79.231', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-16 07:57:44', '2025-06-16 07:57:44'),
+(1634, '43.130.71.237', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 07:59:39', '2025-06-16 07:59:39'),
+(1635, '185.191.171.17', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 08:03:39', '2025-06-16 08:03:39'),
+(1636, '185.191.171.15', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 08:07:43', '2025-06-16 08:07:43'),
+(1637, '185.191.171.19', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 08:19:23', '2025-06-16 08:19:23'),
+(1638, '85.208.96.205', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 08:37:32', '2025-06-16 08:37:32'),
+(1639, '85.208.96.209', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 08:37:58', '2025-06-16 08:37:58'),
+(1640, '182.44.67.97', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 08:41:25', '2025-06-16 08:41:25'),
+(1641, '34.28.245.47', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-16 09:00:19', '2025-06-16 09:00:19'),
+(1642, '54.162.12.209', 'Unknown', 'Unknown', 'Chrome', 'Linux', 'WebKit', NULL, '2025-06-16 09:03:14', '2025-06-16 09:03:14'),
+(1643, '43.159.149.56', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 09:09:33', '2025-06-16 09:09:33'),
+(1644, '85.208.96.206', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 09:41:51', '2025-06-16 09:41:51'),
+(1645, '57.141.2.17', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 09:42:03', '2025-06-16 09:42:03'),
+(1646, '209.38.121.213', 'Unknown', 'Unknown', 'Firefox', 'Linux', '0', NULL, '2025-06-16 09:49:55', '2025-06-16 09:49:55'),
+(1647, '66.249.79.4', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-16 09:52:22', '2025-06-16 09:52:22'),
+(1648, '66.249.79.3', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 09:52:47', '2025-06-16 09:52:47'),
+(1649, '85.208.96.211', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 10:01:47', '2025-06-16 10:01:47'),
+(1650, '170.106.163.48', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 10:05:48', '2025-06-16 10:05:48'),
+(1651, '57.141.2.12', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 10:13:23', '2025-06-16 10:13:23'),
+(1652, '103.148.108.194', 'Unknown', 'Unknown', 'Firefox', 'Windows', '0', NULL, '2025-06-16 10:13:33', '2025-06-16 10:13:33'),
+(1653, '43.166.245.120', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 10:30:05', '2025-06-16 10:30:05'),
+(1654, '43.157.153.236', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 10:38:59', '2025-06-16 10:38:59'),
+(1655, '170.106.180.153', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 10:47:36', '2025-06-16 10:47:36'),
+(1656, '135.181.213.220', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 10:56:15', '2025-06-16 10:56:15'),
+(1657, '43.133.253.253', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 11:20:41', '2025-06-16 11:20:41'),
+(1658, '43.135.138.128', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 11:35:11', '2025-06-16 11:35:11'),
+(1659, '57.141.2.24', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 11:39:17', '2025-06-16 11:39:17'),
+(1660, '43.159.128.247', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 11:41:14', '2025-06-16 11:41:14'),
+(1661, '43.130.228.73', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 11:50:51', '2025-06-16 11:50:51'),
+(1662, '106.227.49.113', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 11:53:48', '2025-06-16 11:53:48'),
+(1663, '57.141.2.10', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 11:54:22', '2025-06-16 11:54:22'),
+(1664, '49.51.36.179', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 12:00:18', '2025-06-16 12:00:18'),
+(1665, '185.247.137.27', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-16 12:03:42', '2025-06-16 12:03:42'),
+(1666, '43.133.220.37', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 12:06:26', '2025-06-16 12:06:26'),
+(1667, '43.130.67.33', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 12:26:04', '2025-06-16 12:26:04'),
+(1668, '173.252.95.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-16 12:27:01', '2025-06-16 12:27:01'),
+(1669, '192.9.247.99', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-16 12:33:22', '2025-06-16 12:33:22');
+INSERT INTO `visitors` (`id`, `ip`, `country`, `city`, `browser`, `platform`, `device`, `referer`, `created_at`, `updated_at`) VALUES
+(1670, '170.106.73.216', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 12:35:19', '2025-06-16 12:35:19'),
+(1671, '43.166.136.202', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 12:42:33', '2025-06-16 12:42:33'),
+(1672, '43.155.129.131', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 12:49:42', '2025-06-16 12:49:42'),
+(1673, '57.141.2.13', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 12:58:30', '2025-06-16 12:58:30'),
+(1674, '129.226.93.214', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 13:00:35', '2025-06-16 13:00:35'),
+(1675, '185.191.171.12', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 13:28:44', '2025-06-16 13:28:44'),
+(1676, '85.208.96.198', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 13:30:21', '2025-06-16 13:30:21'),
+(1677, '185.191.171.3', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 14:27:29', '2025-06-16 14:27:29'),
+(1678, '114.96.103.33', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 14:49:43', '2025-06-16 14:49:43'),
+(1679, '43.157.158.178', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 14:51:08', '2025-06-16 14:51:08'),
+(1680, '43.130.14.245', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 15:06:04', '2025-06-16 15:06:04'),
+(1681, '57.141.2.4', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 15:22:54', '2025-06-16 15:22:54'),
+(1682, '43.135.145.117', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 15:36:00', '2025-06-16 15:36:00'),
+(1683, '43.166.244.251', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 15:57:47', '2025-06-16 15:57:47'),
+(1684, '57.141.2.19', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 15:59:39', '2025-06-16 15:59:39'),
+(1685, '43.166.239.145', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 16:11:23', '2025-06-16 16:11:23'),
+(1686, '101.33.55.204', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 16:17:08', '2025-06-16 16:17:08'),
+(1687, '51.75.119.168', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 16:18:47', '2025-06-16 16:18:47'),
+(1688, '66.249.79.6', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-16 16:20:10', '2025-06-16 16:20:10'),
+(1689, '170.106.181.163', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 16:28:36', '2025-06-16 16:28:36'),
+(1690, '43.130.139.177', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 16:36:39', '2025-06-16 16:36:39'),
+(1691, '43.157.38.131', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 16:47:28', '2025-06-16 16:47:28'),
+(1692, '43.153.102.138', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 16:57:10', '2025-06-16 16:57:10'),
+(1693, '43.135.130.202', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 17:05:06', '2025-06-16 17:05:06'),
+(1694, '43.157.148.38', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 17:14:21', '2025-06-16 17:14:21'),
+(1695, '43.157.22.57', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 17:27:42', '2025-06-16 17:27:42'),
+(1696, '57.141.2.6', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 17:28:09', '2025-06-16 17:28:09'),
+(1697, '124.156.225.181', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 17:36:57', '2025-06-16 17:36:57'),
+(1698, '140.143.98.18', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 17:50:19', '2025-06-16 17:50:19'),
+(1699, '185.191.171.17', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 18:07:39', '2025-06-16 18:07:39'),
+(1700, '49.51.245.241', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 18:14:55', '2025-06-16 18:14:55'),
+(1701, '85.208.96.194', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 18:24:16', '2025-06-16 18:24:16'),
+(1702, '185.191.171.1', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 18:29:57', '2025-06-16 18:29:57'),
+(1703, '57.141.2.16', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 18:30:50', '2025-06-16 18:30:50'),
+(1704, '84.32.41.136', 'Unknown', 'Unknown', 'Firefox', 'Ubuntu', '0', NULL, '2025-06-16 20:43:27', '2025-06-16 20:43:27'),
+(1705, '114.117.233.112', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 20:45:49', '2025-06-16 20:45:49'),
+(1706, '57.141.2.27', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 21:34:37', '2025-06-16 21:34:37'),
+(1707, '47.79.121.65', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 21:35:17', '2025-06-16 21:35:17'),
+(1708, '79.137.65.139', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-16 21:40:24', '2025-06-16 21:40:24'),
+(1709, '57.141.2.5', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 22:03:08', '2025-06-16 22:03:08'),
+(1710, '66.249.79.6', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-16 22:11:32', '2025-06-16 22:11:32'),
+(1711, '57.141.2.24', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 22:37:44', '2025-06-16 22:37:44'),
+(1712, '103.165.162.213', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-16 22:50:17', '2025-06-16 22:50:17'),
+(1713, '203.202.247.121', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-16 22:53:11', '2025-06-16 22:53:11'),
+(1714, '43.153.107.22', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 23:29:04', '2025-06-16 23:29:04'),
+(1715, '57.141.2.14', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-16 23:42:22', '2025-06-16 23:42:22'),
+(1716, '43.159.152.187', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 23:42:33', '2025-06-16 23:42:33'),
+(1717, '182.44.8.254', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 23:52:31', '2025-06-16 23:52:31'),
+(1718, '43.165.65.180', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-16 23:56:58', '2025-06-16 23:56:58'),
+(1719, '43.131.36.84', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 00:06:12', '2025-06-17 00:06:12'),
+(1720, '43.153.73.200', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 00:19:15', '2025-06-17 00:19:15'),
+(1721, '43.133.14.237', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 00:28:11', '2025-06-17 00:28:11'),
+(1722, '57.141.2.8', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 00:34:12', '2025-06-17 00:34:12'),
+(1723, '43.156.109.53', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 00:36:58', '2025-06-17 00:36:58'),
+(1724, '43.135.172.89', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 00:47:45', '2025-06-17 00:47:45'),
+(1725, '43.133.91.48', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 00:56:02', '2025-06-17 00:56:02'),
+(1726, '57.141.2.10', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 01:24:52', '2025-06-17 01:24:52'),
+(1727, '43.135.182.95', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 02:03:32', '2025-06-17 02:03:32'),
+(1728, '43.135.135.57', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 02:17:34', '2025-06-17 02:17:34'),
+(1729, '52.164.120.48', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 02:23:50', '2025-06-17 02:23:50'),
+(1730, '124.156.157.91', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 02:27:29', '2025-06-17 02:27:29'),
+(1731, '43.130.67.33', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 02:39:14', '2025-06-17 02:39:14'),
+(1732, '170.106.165.186', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 02:49:12', '2025-06-17 02:49:12'),
+(1733, '129.28.14.231', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 02:57:36', '2025-06-17 02:57:36'),
+(1734, '43.130.47.33', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 02:57:51', '2025-06-17 02:57:51'),
+(1735, '129.226.93.214', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 03:06:53', '2025-06-17 03:06:53'),
+(1736, '43.157.156.190', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 03:15:52', '2025-06-17 03:15:52'),
+(1737, '43.156.168.214', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 03:27:44', '2025-06-17 03:27:44'),
+(1738, '43.153.48.240', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 03:38:22', '2025-06-17 03:38:22'),
+(1739, '43.166.255.102', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 03:48:36', '2025-06-17 03:48:36'),
+(1740, '43.159.149.216', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 03:58:09', '2025-06-17 03:58:09'),
+(1741, '43.157.179.227', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 04:06:17', '2025-06-17 04:06:17'),
+(1742, '43.134.141.244', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 04:16:49', '2025-06-17 04:16:49'),
+(1743, '159.203.10.97', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-17 04:33:05', '2025-06-17 04:33:05'),
+(1744, '43.135.130.202', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 04:36:18', '2025-06-17 04:36:18'),
+(1745, '173.252.95.10', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 05:48:32', '2025-06-17 05:48:32'),
+(1746, '223.244.35.77', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 06:05:13', '2025-06-17 06:05:13'),
+(1747, '65.108.110.26', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-17 06:06:25', '2025-06-17 06:06:25'),
+(1748, '173.252.83.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 06:19:55', '2025-06-17 06:19:55'),
+(1749, '69.171.251.9', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-17 06:20:21', '2025-06-17 06:20:21'),
+(1750, '57.141.2.21', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 06:33:32', '2025-06-17 06:33:32'),
+(1751, '43.130.32.245', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 07:09:52', '2025-06-17 07:09:52'),
+(1752, '5.166.228.25', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-17 07:17:09', '2025-06-17 07:17:09'),
+(1753, '198.235.24.41', 'Unknown', 'Unknown', '0', 'ChromeOS', '0', NULL, '2025-06-17 07:43:55', '2025-06-17 07:43:55'),
+(1754, '124.156.226.179', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 09:08:29', '2025-06-17 09:08:29'),
+(1755, '103.158.2.98', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-17 09:10:15', '2025-06-17 09:10:15'),
+(1756, '180.110.203.108', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 09:12:56', '2025-06-17 09:12:56'),
+(1757, '43.156.204.134', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 09:21:51', '2025-06-17 09:21:51'),
+(1758, '20.171.207.128', 'Unknown', 'Unknown', 'Mozilla', '0', 'WebKit', NULL, '2025-06-17 09:29:45', '2025-06-17 09:29:45'),
+(1759, '51.75.119.152', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-17 11:43:07', '2025-06-17 11:43:07'),
+(1760, '43.135.186.135', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 12:06:03', '2025-06-17 12:06:03'),
+(1761, '129.211.215.233', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 12:22:25', '2025-06-17 12:22:25'),
+(1762, '89.252.185.95', 'Unknown', 'Unknown', 'Chrome', 'OS X', 'Macintosh', 'https://www.google.com.au', '2025-06-17 12:49:45', '2025-06-17 12:49:45'),
+(1763, '78.153.140.222', 'Unknown', 'Unknown', 'Opera', 'Linux', 'WebKit', NULL, '2025-06-17 14:00:12', '2025-06-17 14:00:12'),
+(1764, '57.141.2.25', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 15:01:48', '2025-06-17 15:01:48'),
+(1765, '31.171.152.106', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', 'http://10bazar.store/', '2025-06-17 15:02:34', '2025-06-17 15:02:34'),
+(1766, '101.42.117.179', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 15:16:22', '2025-06-17 15:16:22'),
+(1767, '57.141.2.9', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 15:19:19', '2025-06-17 15:19:19'),
+(1768, '57.141.2.11', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 15:45:00', '2025-06-17 15:45:00'),
+(1769, '57.141.2.26', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 15:47:17', '2025-06-17 15:47:17'),
+(1770, '150.109.230.210', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 16:04:15', '2025-06-17 16:04:15'),
+(1771, '43.131.39.179', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 16:35:32', '2025-06-17 16:35:32'),
+(1772, '43.153.96.79', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 16:45:03', '2025-06-17 16:45:03'),
+(1773, '57.141.2.2', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 16:51:12', '2025-06-17 16:51:12'),
+(1774, '43.157.149.188', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 16:54:02', '2025-06-17 16:54:02'),
+(1775, '57.141.2.19', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 17:00:04', '2025-06-17 17:00:04'),
+(1776, '43.157.38.228', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 17:04:18', '2025-06-17 17:04:18'),
+(1777, '43.157.53.115', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 17:35:56', '2025-06-17 17:35:56'),
+(1778, '85.208.96.198', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-17 17:49:14', '2025-06-17 17:49:14'),
+(1779, '43.165.69.68', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 17:55:27', '2025-06-17 17:55:27'),
+(1780, '192.99.3.137', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-17 18:00:47', '2025-06-17 18:00:47'),
+(1781, '43.166.245.250', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 18:09:38', '2025-06-17 18:09:38'),
+(1782, '43.133.69.37', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 18:14:12', '2025-06-17 18:14:12'),
+(1783, '43.167.236.228', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 18:17:47', '2025-06-17 18:17:47'),
+(1784, '43.153.15.51', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 18:26:43', '2025-06-17 18:26:43'),
+(1785, '43.135.135.57', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 18:35:56', '2025-06-17 18:35:56'),
+(1786, '57.141.2.5', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 18:36:24', '2025-06-17 18:36:24'),
+(1787, '43.135.145.117', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 18:36:52', '2025-06-17 18:36:52'),
+(1788, '43.152.72.247', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 18:49:46', '2025-06-17 18:49:46'),
+(1789, '43.130.78.203', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 19:00:01', '2025-06-17 19:00:01'),
+(1790, '43.157.53.115', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 19:08:37', '2025-06-17 19:08:37'),
+(1791, '57.141.2.28', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 19:13:19', '2025-06-17 19:13:19'),
+(1792, '124.156.179.141', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 19:18:38', '2025-06-17 19:18:38'),
+(1793, '43.153.104.196', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 19:30:23', '2025-06-17 19:30:23'),
+(1794, '57.141.2.19', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 19:48:53', '2025-06-17 19:48:53'),
+(1795, '43.130.71.237', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 19:51:52', '2025-06-17 19:51:52'),
+(1796, '173.252.79.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 19:53:40', '2025-06-17 19:53:40'),
+(1797, '57.141.2.20', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 20:06:17', '2025-06-17 20:06:17'),
+(1798, '49.51.183.75', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 20:08:34', '2025-06-17 20:08:34'),
+(1799, '43.131.253.14', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 20:09:33', '2025-06-17 20:09:33'),
+(1800, '216.73.172.77', 'Unknown', 'Unknown', 'Chrome', 'OS X', 'Macintosh', NULL, '2025-06-17 20:19:22', '2025-06-17 20:19:22'),
+(1801, '43.153.135.208', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 20:19:24', '2025-06-17 20:19:24'),
+(1802, '43.135.142.7', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 20:31:08', '2025-06-17 20:31:08'),
+(1803, '43.156.228.27', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 20:39:04', '2025-06-17 20:39:04'),
+(1804, '170.106.82.209', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 20:50:47', '2025-06-17 20:50:47'),
+(1805, '43.166.253.94', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 21:00:14', '2025-06-17 21:00:14'),
+(1806, '103.158.2.98', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-17 21:05:58', '2025-06-17 21:05:58'),
+(1807, '192.178.8.32', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-17 21:06:01', '2025-06-17 21:06:01'),
+(1808, '74.125.212.4', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-17 21:06:02', '2025-06-17 21:06:02'),
+(1809, '49.51.38.193', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 21:09:02', '2025-06-17 21:09:02'),
+(1810, '114.117.233.112', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 21:11:41', '2025-06-17 21:11:41'),
+(1811, '57.141.2.16', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 21:14:34', '2025-06-17 21:14:34'),
+(1812, '43.131.39.179', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-17 21:19:54', '2025-06-17 21:19:54'),
+(1813, '173.252.83.13', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 21:29:16', '2025-06-17 21:29:16'),
+(1814, '173.252.83.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 21:29:38', '2025-06-17 21:29:38'),
+(1815, '173.252.83.4', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 21:29:38', '2025-06-17 21:29:38'),
+(1816, '31.13.103.3', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 21:29:45', '2025-06-17 21:29:45'),
+(1817, '31.13.103.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 21:29:45', '2025-06-17 21:29:45'),
+(1818, '66.249.79.3', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 21:29:53', '2025-06-17 21:29:53'),
+(1819, '69.171.251.7', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-17 21:30:14', '2025-06-17 21:30:14'),
+(1820, '173.252.83.15', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 21:33:51', '2025-06-17 21:33:51'),
+(1821, '31.13.115.6', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 21:33:51', '2025-06-17 21:33:51'),
+(1822, '173.252.107.6', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 21:33:53', '2025-06-17 21:33:53'),
+(1823, '173.252.107.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 21:33:53', '2025-06-17 21:33:53'),
+(1824, '173.252.83.23', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 21:33:53', '2025-06-17 21:33:53'),
+(1825, '69.63.189.45', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 21:33:55', '2025-06-17 21:33:55'),
+(1826, '66.220.149.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 22:31:41', '2025-06-17 22:31:41'),
+(1827, '66.220.149.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-17 22:31:41', '2025-06-17 22:31:41'),
+(1828, '57.141.2.14', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-17 22:34:54', '2025-06-17 22:34:54'),
+(1829, '103.165.162.213', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-17 23:21:55', '2025-06-17 23:21:55'),
+(1830, '217.113.194.199', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-18 00:09:41', '2025-06-18 00:09:41'),
+(1831, '217.113.194.192', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-18 00:09:57', '2025-06-18 00:09:57'),
+(1832, '217.113.194.195', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-18 00:11:33', '2025-06-18 00:11:33'),
+(1833, '217.113.194.194', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-18 00:11:49', '2025-06-18 00:11:49'),
+(1834, '217.113.194.198', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-18 00:12:05', '2025-06-18 00:12:05'),
+(1835, '217.113.194.200', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-18 00:12:21', '2025-06-18 00:12:21'),
+(1836, '205.210.31.28', 'Unknown', 'Unknown', '0', 'ChromeOS', '0', NULL, '2025-06-18 00:12:28', '2025-06-18 00:12:28'),
+(1837, '154.54.249.214', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-18 00:13:41', '2025-06-18 00:13:41'),
+(1838, '217.113.194.196', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-18 00:14:49', '2025-06-18 00:14:49'),
+(1839, '217.113.194.197', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-18 00:15:21', '2025-06-18 00:15:21'),
+(1840, '217.113.194.201', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-18 00:16:10', '2025-06-18 00:16:10'),
+(1841, '182.42.105.144', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 00:16:55', '2025-06-18 00:16:55'),
+(1842, '217.113.194.193', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-18 00:22:52', '2025-06-18 00:22:52'),
+(1843, '43.166.255.122', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 00:47:52', '2025-06-18 00:47:52'),
+(1844, '57.141.2.21', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-18 00:59:37', '2025-06-18 00:59:37'),
+(1845, '57.141.2.18', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-18 01:54:32', '2025-06-18 01:54:32'),
+(1846, '93.158.71.185', 'Unknown', 'Unknown', 'Safari', 'OS X', 'Macintosh', NULL, '2025-06-18 02:22:51', '2025-06-18 02:22:51'),
+(1847, '36.41.75.167', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 03:17:27', '2025-06-18 03:17:27'),
+(1848, '43.130.106.18', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 03:18:43', '2025-06-18 03:18:43'),
+(1849, '173.252.83.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 05:51:27', '2025-06-18 05:51:27'),
+(1850, '173.252.83.114', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 05:51:27', '2025-06-18 05:51:27'),
+(1851, '173.252.107.115', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 05:51:29', '2025-06-18 05:51:29'),
+(1852, '69.171.231.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 05:51:29', '2025-06-18 05:51:29'),
+(1853, '69.171.231.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 05:51:29', '2025-06-18 05:51:29'),
+(1854, '31.13.115.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 05:51:29', '2025-06-18 05:51:29'),
+(1855, '31.13.115.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 05:51:30', '2025-06-18 05:51:30'),
+(1856, '66.220.149.115', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-18 05:53:22', '2025-06-18 05:53:22'),
+(1857, '173.252.83.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 06:06:32', '2025-06-18 06:06:32'),
+(1858, '31.13.103.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 06:06:33', '2025-06-18 06:06:33'),
+(1859, '31.13.127.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 06:06:34', '2025-06-18 06:06:34'),
+(1860, '31.13.127.4', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 06:06:34', '2025-06-18 06:06:34'),
+(1861, '31.13.127.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 06:06:35', '2025-06-18 06:06:35'),
+(1862, '173.252.83.10', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 06:20:06', '2025-06-18 06:20:06'),
+(1863, '173.252.83.9', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 06:20:09', '2025-06-18 06:20:09'),
+(1864, '69.171.249.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 06:20:20', '2025-06-18 06:20:20'),
+(1865, '43.166.250.187', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 07:53:47', '2025-06-18 07:53:47'),
+(1866, '84.17.60.251', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-18 08:08:05', '2025-06-18 08:08:05'),
+(1867, '43.135.138.128', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 08:08:11', '2025-06-18 08:08:11'),
+(1868, '170.106.113.159', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 08:21:49', '2025-06-18 08:21:49'),
+(1869, '52.167.144.141', 'Unknown', 'Unknown', 'Chrome', '0', 'Bot', NULL, '2025-06-18 08:27:41', '2025-06-18 08:27:41'),
+(1870, '180.163.220.52', 'Unknown', 'Unknown', 'Edge', 'OS X', 'Macintosh', NULL, '2025-06-18 08:28:19', '2025-06-18 08:28:19'),
+(1871, '180.163.220.41', 'Unknown', 'Unknown', 'Edge', 'OS X', 'Macintosh', NULL, '2025-06-18 08:28:19', '2025-06-18 08:28:19'),
+(1872, '43.155.195.141', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 08:34:52', '2025-06-18 08:34:52'),
+(1873, '43.157.156.190', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 08:44:35', '2025-06-18 08:44:35'),
+(1874, '180.102.134.69', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 09:41:36', '2025-06-18 09:41:36'),
+(1875, '43.135.183.82', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 10:09:53', '2025-06-18 10:09:53'),
+(1876, '43.128.67.187', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 10:22:37', '2025-06-18 10:22:37'),
+(1877, '43.153.12.58', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 10:45:08', '2025-06-18 10:45:08'),
+(1878, '202.134.9.137', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-18 10:57:29', '2025-06-18 10:57:29'),
+(1879, '170.106.113.235', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 11:04:03', '2025-06-18 11:04:03'),
+(1880, '57.141.2.9', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-18 11:20:49', '2025-06-18 11:20:49'),
+(1881, '162.62.132.25', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 11:23:02', '2025-06-18 11:23:02'),
+(1882, '43.173.1.57', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 11:32:22', '2025-06-18 11:32:22'),
+(1883, '128.199.20.94', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-18 11:38:24', '2025-06-18 11:38:24'),
+(1884, '103.129.212.160', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-18 11:50:48', '2025-06-18 11:50:48'),
+(1885, '129.226.174.80', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 11:51:19', '2025-06-18 11:51:19'),
+(1886, '43.165.65.180', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 11:53:47', '2025-06-18 11:53:47'),
+(1887, '57.141.0.3', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-18 11:57:35', '2025-06-18 11:57:35'),
+(1888, '43.135.186.135', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 12:04:46', '2025-06-18 12:04:46'),
+(1889, '57.141.2.12', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-18 12:06:11', '2025-06-18 12:06:11'),
+(1890, '57.141.2.3', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-18 12:08:11', '2025-06-18 12:08:11'),
+(1891, '43.134.141.244', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 12:33:39', '2025-06-18 12:33:39'),
+(1892, '49.51.72.236', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 12:44:08', '2025-06-18 12:44:08'),
+(1893, '118.195.153.213', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 12:49:41', '2025-06-18 12:49:41'),
+(1894, '43.166.237.57', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 12:53:41', '2025-06-18 12:53:41'),
+(1895, '40.77.167.158', 'Unknown', 'Unknown', 'Chrome', '0', 'Bot', NULL, '2025-06-18 12:57:17', '2025-06-18 12:57:17'),
+(1896, '150.109.230.210', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 13:02:45', '2025-06-18 13:02:45'),
+(1897, '57.141.2.2', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-18 13:07:20', '2025-06-18 13:07:20'),
+(1898, '43.157.142.101', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 15:22:52', '2025-06-18 15:22:52'),
+(1899, '43.166.128.187', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 15:38:17', '2025-06-18 15:38:17'),
+(1900, '43.159.138.217', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 16:05:26', '2025-06-18 16:05:26'),
+(1901, '66.249.79.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 16:28:44', '2025-06-18 16:28:44'),
+(1902, '66.249.79.6', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 16:40:39', '2025-06-18 16:40:39'),
+(1903, '43.153.54.14', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 16:58:30', '2025-06-18 16:58:30'),
+(1904, '43.157.158.178', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 17:15:36', '2025-06-18 17:15:36'),
+(1905, '43.159.128.155', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 17:28:45', '2025-06-18 17:28:45'),
+(1906, '124.156.157.91', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 17:36:12', '2025-06-18 17:36:12'),
+(1907, '43.166.255.102', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 17:36:19', '2025-06-18 17:36:19'),
+(1908, '69.171.249.3', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 17:41:15', '2025-06-18 17:41:15'),
+(1909, '69.171.249.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 17:41:16', '2025-06-18 17:41:16'),
+(1910, '43.131.36.84', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 17:45:56', '2025-06-18 17:45:56'),
+(1911, '43.159.139.164', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 17:57:06', '2025-06-18 17:57:06'),
+(1912, '49.51.33.159', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 18:13:21', '2025-06-18 18:13:21'),
+(1913, '213.35.110.81', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-18 20:00:31', '2025-06-18 20:00:31'),
+(1914, '43.135.142.37', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 20:04:02', '2025-06-18 20:04:02'),
+(1915, '220.167.179.76', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-18 20:25:14', '2025-06-18 20:25:14'),
+(1916, '103.158.2.98', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-18 21:25:21', '2025-06-18 21:25:21'),
+(1917, '103.150.69.57', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://www.google.com/', '2025-06-18 21:43:19', '2025-06-18 21:43:19'),
+(1918, '173.252.83.4', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 22:31:15', '2025-06-18 22:31:15'),
+(1919, '43.153.62.161', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-18 22:53:41', '2025-06-18 22:53:41'),
+(1920, '52.167.144.188', 'Unknown', 'Unknown', 'Chrome', '0', 'Bot', NULL, '2025-06-18 23:31:15', '2025-06-18 23:31:15'),
+(1921, '173.252.83.114', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 23:37:50', '2025-06-18 23:37:50'),
+(1922, '173.252.83.24', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-18 23:37:50', '2025-06-18 23:37:50'),
+(1923, '57.141.2.13', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 00:31:46', '2025-06-19 00:31:46'),
+(1924, '43.159.140.236', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 01:01:54', '2025-06-19 01:01:54'),
+(1925, '202.134.11.244', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 01:06:58', '2025-06-19 01:06:58'),
+(1926, '103.240.5.197', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-19 01:08:04', '2025-06-19 01:08:04'),
+(1927, '203.202.247.121', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-19 01:28:55', '2025-06-19 01:28:55'),
+(1928, '173.252.83.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:08:13', '2025-06-19 02:08:13'),
+(1929, '31.13.127.9', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:08:51', '2025-06-19 02:08:51'),
+(1930, '173.252.107.6', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:09:39', '2025-06-19 02:09:39'),
+(1931, '173.252.127.10', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 02:18:27', '2025-06-19 02:18:27'),
+(1932, '173.252.127.114', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://10bazar.store/?fbclid=IwZXh0bgNhZW0CMTEAAR7HSakNyS4mVzqTKtm1n7yPSsh4As0egUY446UGxB8UopRIkcnqhlxFKgNiow_aem_ahAfWYlD6HzXhTESEGDjng', '2025-06-19 02:18:43', '2025-06-19 02:18:43'),
+(1933, '173.252.69.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:18:52', '2025-06-19 02:18:52'),
+(1934, '173.252.69.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:18:52', '2025-06-19 02:18:52'),
+(1935, '31.13.127.116', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 02:19:48', '2025-06-19 02:19:48'),
+(1936, '31.13.115.113', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-19 02:19:50', '2025-06-19 02:19:50'),
+(1937, '173.252.107.8', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-19 02:20:32', '2025-06-19 02:20:32'),
+(1938, '66.220.149.4', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 02:21:31', '2025-06-19 02:21:31'),
+(1939, '69.171.251.1', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-19 02:22:07', '2025-06-19 02:22:07'),
+(1940, '69.171.231.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:25:17', '2025-06-19 02:25:17'),
+(1941, '173.252.107.4', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:25:17', '2025-06-19 02:25:17'),
+(1942, '31.13.127.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:25:19', '2025-06-19 02:25:19'),
+(1943, '173.252.87.15', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:25:22', '2025-06-19 02:25:22'),
+(1944, '69.171.231.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:26:01', '2025-06-19 02:26:01'),
+(1945, '69.171.234.15', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:40:18', '2025-06-19 02:40:18'),
+(1946, '69.171.234.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:40:19', '2025-06-19 02:40:19'),
+(1947, '31.13.103.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:40:22', '2025-06-19 02:40:22'),
+(1948, '173.252.95.35', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:40:22', '2025-06-19 02:40:22'),
+(1949, '69.171.234.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:40:23', '2025-06-19 02:40:23'),
+(1950, '31.13.127.115', 'Unknown', 'Unknown', 'Edge', 'Windows', 'WebKit', NULL, '2025-06-19 02:41:20', '2025-06-19 02:41:20'),
+(1951, '31.13.103.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:42:10', '2025-06-19 02:42:10'),
+(1952, '31.13.103.3', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:42:11', '2025-06-19 02:42:11'),
+(1953, '66.220.149.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:42:14', '2025-06-19 02:42:14'),
+(1954, '173.252.87.113', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 02:43:33', '2025-06-19 02:43:33'),
+(1955, '31.13.127.3', 'Unknown', 'Unknown', 'Edge', 'Windows', 'WebKit', NULL, '2025-06-19 02:43:53', '2025-06-19 02:43:53'),
+(1956, '173.252.127.6', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 02:44:06', '2025-06-19 02:44:06'),
+(1957, '69.63.184.116', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-19 02:44:06', '2025-06-19 02:44:06'),
+(1958, '66.220.149.16', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:44:07', '2025-06-19 02:44:07'),
+(1959, '31.13.103.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:44:42', '2025-06-19 02:44:42'),
+(1960, '69.63.184.3', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-19 02:44:43', '2025-06-19 02:44:43'),
+(1961, '173.252.83.12', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:44:43', '2025-06-19 02:44:43'),
+(1962, '173.252.107.10', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-19 02:44:46', '2025-06-19 02:44:46'),
+(1963, '173.252.95.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:44:48', '2025-06-19 02:44:48'),
+(1964, '69.171.234.17', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:44:56', '2025-06-19 02:44:56'),
+(1965, '173.252.83.3', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:44:57', '2025-06-19 02:44:57'),
+(1966, '66.220.149.7', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://10bazar.store/product/baby-bouncer-with-toys?fbclid=IwZXh0bgNhZW0CMTEAAR7KvHyKowH2y_F5rkUsnq3aI0zRfbZi_-i-MSADsWPzoWbAk_G0TGUgfvz6nA_aem_ZTkCx58zveXvgRj0DItMAQ', '2025-06-19 02:45:05', '2025-06-19 02:45:05'),
+(1967, '173.252.95.14', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:33', '2025-06-19 02:46:33'),
+(1968, '69.171.231.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:34', '2025-06-19 02:46:34'),
+(1969, '66.220.149.114', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:35', '2025-06-19 02:46:35'),
+(1970, '69.171.249.6', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:36', '2025-06-19 02:46:36'),
+(1971, '69.171.231.3', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:38', '2025-06-19 02:46:38'),
+(1972, '69.171.230.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:52', '2025-06-19 02:46:52'),
+(1973, '173.252.87.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:53', '2025-06-19 02:46:53'),
+(1974, '69.171.230.9', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:53', '2025-06-19 02:46:53'),
+(1975, '173.252.107.9', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:54', '2025-06-19 02:46:54'),
+(1976, '69.171.230.4', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:55', '2025-06-19 02:46:55'),
+(1977, '69.171.230.16', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:55', '2025-06-19 02:46:55'),
+(1978, '173.252.87.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:55', '2025-06-19 02:46:55'),
+(1979, '173.252.107.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:46:56', '2025-06-19 02:46:56'),
+(1980, '173.252.79.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 02:47:00', '2025-06-19 02:47:00'),
+(1981, '66.220.149.8', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-19 02:47:46', '2025-06-19 02:47:46'),
+(1982, '173.252.83.10', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:02:22', '2025-06-19 03:02:22'),
+(1983, '66.220.149.3', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:02:25', '2025-06-19 03:02:25'),
+(1984, '69.171.249.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:02:25', '2025-06-19 03:02:25'),
+(1985, '173.252.83.115', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:02:25', '2025-06-19 03:02:25'),
+(1986, '173.252.107.115', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:02:33', '2025-06-19 03:02:33'),
+(1987, '173.252.87.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:03:10', '2025-06-19 03:03:10'),
+(1988, '85.208.96.193', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 03:19:20', '2025-06-19 03:19:20'),
+(1989, '173.252.83.6', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:19:27', '2025-06-19 03:19:27'),
+(1990, '69.171.231.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:19:49', '2025-06-19 03:19:49'),
+(1991, '69.171.231.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:19:49', '2025-06-19 03:19:49'),
+(1992, '185.170.167.18', 'Unknown', 'Unknown', 'Mozilla', '0', '0', NULL, '2025-06-19 03:29:41', '2025-06-19 03:29:41'),
+(1993, '85.208.96.198', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 03:31:19', '2025-06-19 03:31:19'),
+(1994, '173.252.87.6', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:33:22', '2025-06-19 03:33:22'),
+(1995, '194.5.48.213', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-19 03:42:06', '2025-06-19 03:42:06'),
+(1996, '31.13.127.1', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 03:51:12', '2025-06-19 03:51:12'),
+(1997, '173.252.95.11', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-19 03:51:29', '2025-06-19 03:51:29'),
+(1998, '31.13.127.114', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 03:51:33', '2025-06-19 03:51:33'),
+(1999, '66.220.149.2', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 03:51:52', '2025-06-19 03:51:52'),
+(2000, '69.63.184.28', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-19 03:52:08', '2025-06-19 03:52:08'),
+(2001, '69.171.249.3', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-19 03:52:11', '2025-06-19 03:52:11'),
+(2002, '69.171.251.116', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-19 03:52:47', '2025-06-19 03:52:47'),
+(2003, '85.208.96.201', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 03:53:11', '2025-06-19 03:53:11'),
+(2004, '173.252.87.17', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:54:13', '2025-06-19 03:54:13'),
+(2005, '173.252.83.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:54:14', '2025-06-19 03:54:14'),
+(2006, '69.171.230.13', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 03:54:23', '2025-06-19 03:54:23'),
+(2007, '85.208.96.195', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 03:55:39', '2025-06-19 03:55:39'),
+(2008, '185.191.171.19', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 03:56:55', '2025-06-19 03:56:55'),
+(2009, '85.208.96.202', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 04:00:53', '2025-06-19 04:00:53'),
+(2010, '185.191.171.3', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 04:04:47', '2025-06-19 04:04:47'),
+(2011, '202.134.11.241', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 04:08:50', '2025-06-19 04:08:50'),
+(2012, '69.171.230.10', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:11:13', '2025-06-19 04:11:13'),
+(2013, '180.102.134.69', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 04:11:47', '2025-06-19 04:11:47'),
+(2014, '173.252.95.21', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:13:54', '2025-06-19 04:13:54'),
+(2015, '69.171.231.114', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:14:57', '2025-06-19 04:14:57'),
+(2016, '173.252.87.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:14:57', '2025-06-19 04:14:57'),
+(2017, '66.220.149.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:14:58', '2025-06-19 04:14:58'),
+(2018, '173.252.107.114', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:14:59', '2025-06-19 04:14:59'),
+(2019, '173.252.79.10', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:15:01', '2025-06-19 04:15:01'),
+(2020, '103.165.162.213', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 04:16:59', '2025-06-19 04:16:59'),
+(2021, '185.191.171.11', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 04:17:40', '2025-06-19 04:17:40'),
+(2022, '37.111.212.37', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 04:18:22', '2025-06-19 04:18:22'),
+(2023, '85.208.96.209', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 04:22:02', '2025-06-19 04:22:02'),
+(2024, '185.191.171.17', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 04:22:05', '2025-06-19 04:22:05'),
+(2025, '185.191.171.7', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 04:22:13', '2025-06-19 04:22:13'),
+(2026, '173.252.87.3', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:29:31', '2025-06-19 04:29:31'),
+(2027, '173.252.95.16', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:33:09', '2025-06-19 04:33:09'),
+(2028, '185.191.171.1', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 04:33:12', '2025-06-19 04:33:12'),
+(2029, '173.252.83.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:39:16', '2025-06-19 04:39:16'),
+(2030, '173.252.127.0', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:44:56', '2025-06-19 04:44:56'),
+(2031, '173.252.79.114', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:44:57', '2025-06-19 04:44:57'),
+(2032, '173.252.95.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 04:46:32', '2025-06-19 04:46:32'),
+(2033, '103.100.232.0', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 04:46:36', '2025-06-19 04:46:36'),
+(2034, '85.208.96.206', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 04:52:55', '2025-06-19 04:52:55'),
+(2035, '185.191.171.15', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 04:59:15', '2025-06-19 04:59:15'),
+(2036, '31.13.127.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 05:02:28', '2025-06-19 05:02:28'),
+(2037, '31.13.127.17', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 05:02:28', '2025-06-19 05:02:28'),
+(2038, '69.171.249.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 05:02:29', '2025-06-19 05:02:29'),
+(2039, '69.171.249.115', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 05:02:29', '2025-06-19 05:02:29'),
+(2040, '173.252.83.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 05:02:30', '2025-06-19 05:02:30'),
+(2041, '173.252.107.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 05:02:32', '2025-06-19 05:02:32'),
+(2042, '173.252.107.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 05:02:32', '2025-06-19 05:02:32'),
+(2043, '31.13.127.11', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-19 05:04:26', '2025-06-19 05:04:26'),
+(2044, '31.13.115.9', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 05:05:04', '2025-06-19 05:05:04'),
+(2045, '142.93.129.234', 'Unknown', 'Unknown', 'Firefox', 'Linux', '0', NULL, '2025-06-19 05:09:04', '2025-06-19 05:09:04'),
+(2046, '185.191.171.16', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 05:09:25', '2025-06-19 05:09:25'),
+(2047, '103.150.26.241', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'http://m.facebook.com/', '2025-06-19 05:13:46', '2025-06-19 05:13:46'),
+(2048, '185.191.171.10', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 05:19:28', '2025-06-19 05:19:28'),
+(2049, '69.171.251.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 05:21:26', '2025-06-19 05:21:26'),
+(2050, '54.36.148.107', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 05:22:59', '2025-06-19 05:22:59'),
+(2051, '43.153.49.151', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 05:27:36', '2025-06-19 05:27:36'),
+(2052, '202.134.14.235', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://lm.facebook.com/', '2025-06-19 05:30:41', '2025-06-19 05:30:41'),
+(2053, '37.111.229.173', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 05:37:27', '2025-06-19 05:37:27'),
+(2054, '103.170.231.120', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 05:40:36', '2025-06-19 05:40:36'),
+(2055, '185.191.171.18', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 05:46:35', '2025-06-19 05:46:35'),
+(2056, '103.41.115.101', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://10bazar.store/', '2025-06-19 05:59:58', '2025-06-19 05:59:58'),
+(2057, '173.252.79.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 06:09:44', '2025-06-19 06:09:44'),
+(2058, '43.245.120.59', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'http://m.facebook.com/', '2025-06-19 06:21:22', '2025-06-19 06:21:22'),
+(2059, '85.208.96.210', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 06:24:19', '2025-06-19 06:24:19'),
+(2060, '52.167.144.173', 'Unknown', 'Unknown', 'Chrome', '0', 'Bot', NULL, '2025-06-19 06:27:34', '2025-06-19 06:27:34'),
+(2061, '103.165.162.212', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 07:04:43', '2025-06-19 07:04:43'),
+(2062, '85.208.96.207', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 07:12:54', '2025-06-19 07:12:54'),
+(2063, '66.249.79.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 07:13:58', '2025-06-19 07:13:58'),
+(2064, '85.208.96.205', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 07:20:46', '2025-06-19 07:20:46'),
+(2065, '117.33.163.216', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 07:21:28', '2025-06-19 07:21:28'),
+(2066, '173.252.83.20', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 07:21:54', '2025-06-19 07:21:54'),
+(2067, '58.145.186.131', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 07:23:18', '2025-06-19 07:23:18'),
+(2068, '43.157.168.43', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 07:24:21', '2025-06-19 07:24:21'),
+(2069, '185.191.171.8', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 07:24:22', '2025-06-19 07:24:22'),
+(2070, '59.152.111.50', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'http://m.facebook.com/', '2025-06-19 07:35:15', '2025-06-19 07:35:15'),
+(2071, '37.111.203.107', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 08:10:56', '2025-06-19 08:10:56'),
+(2072, '185.191.171.13', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 08:15:46', '2025-06-19 08:15:46'),
+(2073, '66.220.149.10', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 08:17:48', '2025-06-19 08:17:48'),
+(2074, '173.252.87.12', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 08:17:51', '2025-06-19 08:17:51'),
+(2075, '31.13.115.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 08:17:55', '2025-06-19 08:17:55'),
+(2076, '185.191.171.12', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 08:20:07', '2025-06-19 08:20:07'),
+(2077, '185.191.171.4', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 08:21:15', '2025-06-19 08:21:15'),
+(2078, '85.208.96.197', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 08:23:59', '2025-06-19 08:23:59'),
+(2079, '85.208.96.196', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 08:27:01', '2025-06-19 08:27:01'),
+(2080, '69.171.230.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 08:27:48', '2025-06-19 08:27:48');
+INSERT INTO `visitors` (`id`, `ip`, `country`, `city`, `browser`, `platform`, `device`, `referer`, `created_at`, `updated_at`) VALUES
+(2081, '103.134.124.20', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'http://m.facebook.com/', '2025-06-19 08:32:30', '2025-06-19 08:32:30'),
+(2082, '69.171.231.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 08:32:40', '2025-06-19 08:32:40'),
+(2083, '185.191.171.9', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 08:33:44', '2025-06-19 08:33:44'),
+(2084, '173.252.79.9', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 08:45:36', '2025-06-19 08:45:36'),
+(2085, '124.156.226.179', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 09:09:23', '2025-06-19 09:09:23'),
+(2086, '173.252.87.26', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 09:12:05', '2025-06-19 09:12:05'),
+(2087, '185.191.171.14', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 09:27:02', '2025-06-19 09:27:02'),
+(2088, '103.115.24.239', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://l.facebook.com/', '2025-06-19 09:29:22', '2025-06-19 09:29:22'),
+(2089, '69.171.230.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 09:43:33', '2025-06-19 09:43:33'),
+(2090, '103.129.212.160', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', 'https://10bazar.store/myadminpanel/dashboard', '2025-06-19 10:16:47', '2025-06-19 10:16:47'),
+(2091, '103.140.83.67', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'http://m.facebook.com/', '2025-06-19 10:21:02', '2025-06-19 10:21:02'),
+(2092, '31.13.115.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 10:21:08', '2025-06-19 10:21:08'),
+(2093, '202.134.10.136', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 10:22:25', '2025-06-19 10:22:25'),
+(2094, '182.44.10.67', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 10:32:05', '2025-06-19 10:32:05'),
+(2095, '69.171.249.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 10:36:22', '2025-06-19 10:36:22'),
+(2096, '31.13.103.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 10:36:26', '2025-06-19 10:36:26'),
+(2097, '31.13.103.115', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 10:36:29', '2025-06-19 10:36:29'),
+(2098, '103.155.151.177', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 10:40:41', '2025-06-19 10:40:41'),
+(2099, '103.103.88.221', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 10:44:48', '2025-06-19 10:44:48'),
+(2100, '173.252.87.22', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 10:46:24', '2025-06-19 10:46:24'),
+(2101, '27.54.149.24', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 11:01:51', '2025-06-19 11:01:51'),
+(2102, '31.13.127.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 11:10:18', '2025-06-19 11:10:18'),
+(2103, '69.171.249.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 11:10:22', '2025-06-19 11:10:22'),
+(2104, '216.244.66.232', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 11:12:24', '2025-06-19 11:12:24'),
+(2105, '103.237.76.166', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 11:20:41', '2025-06-19 11:20:41'),
+(2106, '173.252.95.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 11:26:24', '2025-06-19 11:26:24'),
+(2107, '57.141.2.7', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 11:52:45', '2025-06-19 11:52:45'),
+(2108, '173.252.79.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 12:02:15', '2025-06-19 12:02:15'),
+(2109, '173.252.79.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 12:02:16', '2025-06-19 12:02:16'),
+(2110, '128.199.195.35', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-19 12:06:13', '2025-06-19 12:06:13'),
+(2111, '85.208.96.208', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 12:08:38', '2025-06-19 12:08:38'),
+(2112, '170.106.84.136', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 12:08:40', '2025-06-19 12:08:40'),
+(2113, '85.208.96.194', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 12:08:41', '2025-06-19 12:08:41'),
+(2114, '173.252.127.19', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 12:28:31', '2025-06-19 12:28:31'),
+(2115, '103.84.37.14', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'http://m.facebook.com/', '2025-06-19 12:43:31', '2025-06-19 12:43:31'),
+(2116, '119.28.89.249', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 12:52:59', '2025-06-19 12:52:59'),
+(2117, '103.70.141.33', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Xiaomi', 'http://m.facebook.com/', '2025-06-19 13:03:34', '2025-06-19 13:03:34'),
+(2118, '103.138.212.81', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'http://m.facebook.com/', '2025-06-19 13:05:17', '2025-06-19 13:05:17'),
+(2119, '43.166.129.247', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 13:16:08', '2025-06-19 13:16:08'),
+(2120, '43.166.240.231', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 13:23:23', '2025-06-19 13:23:23'),
+(2121, '57.141.2.27', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 13:23:25', '2025-06-19 13:23:25'),
+(2122, '43.167.245.18', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 13:30:08', '2025-06-19 13:30:08'),
+(2123, '139.155.139.22', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 13:38:43', '2025-06-19 13:38:43'),
+(2124, '43.157.156.190', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 13:41:25', '2025-06-19 13:41:25'),
+(2125, '170.106.11.141', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 13:54:02', '2025-06-19 13:54:02'),
+(2126, '49.51.72.76', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 14:03:06', '2025-06-19 14:03:06'),
+(2127, '185.191.171.5', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 14:14:32', '2025-06-19 14:14:32'),
+(2128, '170.106.11.6', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 14:15:22', '2025-06-19 14:15:22'),
+(2129, '85.208.96.211', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 14:16:36', '2025-06-19 14:16:36'),
+(2130, '4.43.184.114', 'Unknown', 'Unknown', 'IE', 'Windows', '0', NULL, '2025-06-19 14:18:14', '2025-06-19 14:18:14'),
+(2131, '85.208.96.200', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 14:21:03', '2025-06-19 14:21:03'),
+(2132, '170.106.160.90', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 14:33:32', '2025-06-19 14:33:32'),
+(2133, '43.130.60.195', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 14:42:35', '2025-06-19 14:42:35'),
+(2134, '119.28.177.175', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 14:50:29', '2025-06-19 14:50:29'),
+(2135, '173.252.83.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 15:01:45', '2025-06-19 15:01:45'),
+(2136, '43.157.158.178', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 15:09:38', '2025-06-19 15:09:38'),
+(2137, '162.62.213.187', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 15:20:49', '2025-06-19 15:20:49'),
+(2138, '43.159.141.150', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 15:41:44', '2025-06-19 15:41:44'),
+(2139, '85.208.96.203', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 15:45:50', '2025-06-19 15:45:50'),
+(2140, '170.106.110.146', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 16:02:27', '2025-06-19 16:02:27'),
+(2141, '57.141.2.10', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 16:06:48', '2025-06-19 16:06:48'),
+(2142, '185.177.72.205', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-19 16:25:15', '2025-06-19 16:25:15'),
+(2143, '125.75.66.97', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 16:34:01', '2025-06-19 16:34:01'),
+(2144, '43.166.238.12', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 16:48:27', '2025-06-19 16:48:27'),
+(2145, '43.130.14.245', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 16:56:04', '2025-06-19 16:56:04'),
+(2146, '43.167.232.38', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 17:05:45', '2025-06-19 17:05:45'),
+(2147, '43.156.156.96', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 17:16:24', '2025-06-19 17:16:24'),
+(2148, '43.130.37.243', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 17:27:11', '2025-06-19 17:27:11'),
+(2149, '43.166.245.120', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 17:37:52', '2025-06-19 17:37:52'),
+(2150, '43.157.147.3', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 17:45:19', '2025-06-19 17:45:19'),
+(2151, '43.130.39.254', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 18:14:03', '2025-06-19 18:14:03'),
+(2152, '54.36.148.12', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 18:19:42', '2025-06-19 18:19:42'),
+(2153, '43.166.251.233', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 18:20:57', '2025-06-19 18:20:57'),
+(2154, '124.156.179.141', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 18:28:43', '2025-06-19 18:28:43'),
+(2155, '49.51.252.146', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 18:37:09', '2025-06-19 18:37:09'),
+(2156, '57.141.2.16', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 18:38:57', '2025-06-19 18:38:57'),
+(2157, '57.141.2.9', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 18:59:09', '2025-06-19 18:59:09'),
+(2158, '69.171.231.9', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 19:04:23', '2025-06-19 19:04:23'),
+(2159, '57.141.2.5', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 19:32:33', '2025-06-19 19:32:33'),
+(2160, '57.141.2.14', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 19:58:30', '2025-06-19 19:58:30'),
+(2161, '43.153.96.79', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 20:06:54', '2025-06-19 20:06:54'),
+(2162, '202.134.10.136', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 20:46:00', '2025-06-19 20:46:00'),
+(2163, '74.125.212.4', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 20:46:03', '2025-06-19 20:46:03'),
+(2164, '74.125.212.5', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-19 20:46:03', '2025-06-19 20:46:03'),
+(2165, '57.141.2.7', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 21:13:41', '2025-06-19 21:13:41'),
+(2166, '69.171.249.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 21:37:35', '2025-06-19 21:37:35'),
+(2167, '31.13.115.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 21:37:36', '2025-06-19 21:37:36'),
+(2168, '173.252.79.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 21:37:38', '2025-06-19 21:37:38'),
+(2169, '43.157.38.131', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 21:42:52', '2025-06-19 21:42:52'),
+(2170, '43.159.128.155', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 21:57:20', '2025-06-19 21:57:20'),
+(2171, '216.244.66.232', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 22:03:16', '2025-06-19 22:03:16'),
+(2172, '185.191.171.6', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 22:12:39', '2025-06-19 22:12:39'),
+(2173, '180.110.203.108', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 22:35:46', '2025-06-19 22:35:46'),
+(2174, '217.142.187.61', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-19 22:44:19', '2025-06-19 22:44:19'),
+(2175, '173.252.95.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 22:48:21', '2025-06-19 22:48:21'),
+(2176, '173.252.95.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 22:48:22', '2025-06-19 22:48:22'),
+(2177, '85.208.96.200', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-19 23:13:58', '2025-06-19 23:13:58'),
+(2178, '57.141.2.23', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 23:16:16', '2025-06-19 23:16:16'),
+(2179, '57.141.2.12', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 23:21:14', '2025-06-19 23:21:14'),
+(2180, '57.141.2.27', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-19 23:32:11', '2025-06-19 23:32:11'),
+(2181, '66.220.149.9', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 23:44:34', '2025-06-19 23:44:34'),
+(2182, '103.158.2.98', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://lm.facebook.com/', '2025-06-19 23:44:47', '2025-06-19 23:44:47'),
+(2183, '31.13.127.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-19 23:55:52', '2025-06-19 23:55:52'),
+(2184, '43.135.140.225', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-19 23:59:24', '2025-06-19 23:59:24'),
+(2185, '57.141.2.30', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 00:49:10', '2025-06-20 00:49:10'),
+(2186, '173.252.127.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 00:53:32', '2025-06-20 00:53:32'),
+(2187, '69.171.249.9', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 00:55:17', '2025-06-20 00:55:17'),
+(2188, '31.13.103.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 00:55:18', '2025-06-20 00:55:18'),
+(2189, '198.235.24.41', 'Unknown', 'Unknown', '0', 'ChromeOS', '0', NULL, '2025-06-20 01:04:16', '2025-06-20 01:04:16'),
+(2190, '69.171.230.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 01:05:13', '2025-06-20 01:05:13'),
+(2191, '85.208.96.201', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-20 01:15:30', '2025-06-20 01:15:30'),
+(2192, '57.141.2.22', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 01:25:09', '2025-06-20 01:25:09'),
+(2193, '173.252.79.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 01:26:54', '2025-06-20 01:26:54'),
+(2194, '82.156.68.74', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 01:46:56', '2025-06-20 01:46:56'),
+(2195, '69.171.234.21', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 02:15:58', '2025-06-20 02:15:58'),
+(2196, '45.125.220.49', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://l.facebook.com/', '2025-06-20 02:23:52', '2025-06-20 02:23:52'),
+(2197, '59.152.2.79', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'http://m.facebook.com/', '2025-06-20 02:27:35', '2025-06-20 02:27:35'),
+(2198, '103.159.127.101', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://lm.facebook.com/', '2025-06-20 02:35:21', '2025-06-20 02:35:21'),
+(2199, '44.199.242.55', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-20 02:45:21', '2025-06-20 02:45:21'),
+(2200, '173.252.95.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 02:58:13', '2025-06-20 02:58:13'),
+(2201, '118.179.19.102', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-20 03:00:04', '2025-06-20 03:00:04'),
+(2202, '31.13.127.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 03:27:08', '2025-06-20 03:27:08'),
+(2203, '69.171.231.4', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 04:01:32', '2025-06-20 04:01:32'),
+(2204, '37.111.193.231', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://l.facebook.com/', '2025-06-20 04:08:35', '2025-06-20 04:08:35'),
+(2205, '43.157.82.252', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 04:12:25', '2025-06-20 04:12:25'),
+(2206, '103.165.162.213', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-20 04:14:43', '2025-06-20 04:14:43'),
+(2207, '85.208.96.207', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-20 04:22:16', '2025-06-20 04:22:16'),
+(2208, '31.13.103.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 04:31:27', '2025-06-20 04:31:27'),
+(2209, '173.252.87.12', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 04:39:14', '2025-06-20 04:39:14'),
+(2210, '185.191.171.4', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-20 05:37:59', '2025-06-20 05:37:59'),
+(2211, '173.252.127.26', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 05:39:55', '2025-06-20 05:39:55'),
+(2212, '173.252.87.115', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 05:42:45', '2025-06-20 05:42:45'),
+(2213, '193.186.4.159', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://www.google.com/', '2025-06-20 05:45:50', '2025-06-20 05:45:50'),
+(2214, '103.129.212.160', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-20 05:51:41', '2025-06-20 05:51:41'),
+(2215, '85.208.96.197', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-20 05:57:34', '2025-06-20 05:57:34'),
+(2216, '173.252.87.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 05:57:49', '2025-06-20 05:57:49'),
+(2217, '49.51.178.45', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 06:14:06', '2025-06-20 06:14:06'),
+(2218, '69.171.251.7', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-20 06:24:57', '2025-06-20 06:24:57'),
+(2219, '31.13.127.16', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 06:26:07', '2025-06-20 06:26:07'),
+(2220, '59.152.5.198', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'http://m.facebook.com/', '2025-06-20 06:51:14', '2025-06-20 06:51:14'),
+(2221, '37.111.212.45', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'http://m.facebook.com/', '2025-06-20 06:54:44', '2025-06-20 06:54:44'),
+(2222, '173.252.127.39', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 06:58:34', '2025-06-20 06:58:34'),
+(2223, '173.252.83.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 06:58:37', '2025-06-20 06:58:37'),
+(2224, '185.191.171.18', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-20 07:20:07', '2025-06-20 07:20:07'),
+(2225, '103.179.125.68', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-20 07:35:04', '2025-06-20 07:35:04'),
+(2226, '103.156.124.35', 'Unknown', 'Unknown', 'Opera', 'AndroidOS', 'WebKit', NULL, '2025-06-20 07:38:25', '2025-06-20 07:38:25'),
+(2227, '69.171.251.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 07:57:01', '2025-06-20 07:57:01'),
+(2228, '175.6.217.4', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 08:08:14', '2025-06-20 08:08:14'),
+(2229, '31.13.103.10', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 08:09:00', '2025-06-20 08:09:00'),
+(2230, '45.118.247.74', 'Unknown', 'Unknown', 'Mozilla', 'iOS', 'iPhone', 'http://m.facebook.com', '2025-06-20 08:23:42', '2025-06-20 08:23:42'),
+(2231, '173.252.87.4', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 08:23:54', '2025-06-20 08:23:54'),
+(2232, '173.252.87.3', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 08:23:54', '2025-06-20 08:23:54'),
+(2233, '173.252.87.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 08:23:56', '2025-06-20 08:23:56'),
+(2234, '173.252.83.26', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 08:48:42', '2025-06-20 08:48:42'),
+(2235, '43.157.150.69', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 09:08:06', '2025-06-20 09:08:06'),
+(2236, '59.152.5.90', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Xiaomi', 'https://l.facebook.com/', '2025-06-20 09:33:43', '2025-06-20 09:33:43'),
+(2237, '69.171.234.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 09:42:45', '2025-06-20 09:42:45'),
+(2238, '69.171.231.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 09:54:10', '2025-06-20 09:54:10'),
+(2239, '69.171.231.3', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 09:54:10', '2025-06-20 09:54:10'),
+(2240, '103.131.80.144', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'http://m.facebook.com/', '2025-06-20 09:55:13', '2025-06-20 09:55:13'),
+(2241, '103.41.115.101', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://10bazar.store/', '2025-06-20 10:06:18', '2025-06-20 10:06:18'),
+(2242, '103.67.156.210', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-20 10:14:18', '2025-06-20 10:14:18'),
+(2243, '43.159.149.56', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 10:21:29', '2025-06-20 10:21:29'),
+(2244, '43.133.187.11', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 10:34:39', '2025-06-20 10:34:39'),
+(2245, '57.141.2.21', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 10:35:40', '2025-06-20 10:35:40'),
+(2246, '57.141.2.19', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 10:42:05', '2025-06-20 10:42:05'),
+(2247, '180.149.232.147', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://l.facebook.com/', '2025-06-20 10:44:30', '2025-06-20 10:44:30'),
+(2248, '31.13.115.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 10:45:21', '2025-06-20 10:45:21'),
+(2249, '43.157.22.57', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 10:45:44', '2025-06-20 10:45:44'),
+(2250, '104.152.52.132', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 10:46:01', '2025-06-20 10:46:01'),
+(2251, '162.62.213.165', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 10:54:19', '2025-06-20 10:54:19'),
+(2252, '59.152.97.188', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-20 11:01:25', '2025-06-20 11:01:25'),
+(2253, '66.249.79.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 11:02:25', '2025-06-20 11:02:25'),
+(2254, '43.130.72.177', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 11:04:42', '2025-06-20 11:04:42'),
+(2255, '43.166.7.113', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 11:15:08', '2025-06-20 11:15:08'),
+(2256, '113.219.218.197', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 11:22:24', '2025-06-20 11:22:24'),
+(2257, '43.153.7.191', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 11:35:30', '2025-06-20 11:35:30'),
+(2258, '57.141.2.20', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 11:44:51', '2025-06-20 11:44:51'),
+(2259, '43.166.136.153', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 11:47:02', '2025-06-20 11:47:02'),
+(2260, '170.106.107.87', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 11:57:46', '2025-06-20 11:57:46'),
+(2261, '170.106.160.90', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 12:07:55', '2025-06-20 12:07:55'),
+(2262, '43.159.152.4', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 12:08:46', '2025-06-20 12:08:46'),
+(2263, '69.171.230.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 12:09:34', '2025-06-20 12:09:34'),
+(2264, '69.171.231.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 12:09:37', '2025-06-20 12:09:37'),
+(2265, '173.252.107.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 12:09:38', '2025-06-20 12:09:38'),
+(2266, '43.165.69.68', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 12:15:07', '2025-06-20 12:15:07'),
+(2267, '69.171.231.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 12:19:35', '2025-06-20 12:19:35'),
+(2268, '43.130.74.193', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 12:27:48', '2025-06-20 12:27:48'),
+(2269, '43.166.247.155', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 12:39:08', '2025-06-20 12:39:08'),
+(2270, '43.157.149.188', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 12:44:29', '2025-06-20 12:44:29'),
+(2271, '43.166.131.228', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 13:10:06', '2025-06-20 13:10:06'),
+(2272, '43.130.3.122', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 13:10:54', '2025-06-20 13:10:54'),
+(2273, '43.153.87.54', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 13:15:36', '2025-06-20 13:15:36'),
+(2274, '43.159.140.236', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 13:26:57', '2025-06-20 13:26:57'),
+(2275, '143.198.81.145', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-20 13:28:09', '2025-06-20 13:28:09'),
+(2276, '43.166.247.82', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 14:08:08', '2025-06-20 14:08:08'),
+(2277, '43.165.65.75', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 14:25:20', '2025-06-20 14:25:20'),
+(2278, '113.141.91.58', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 14:30:33', '2025-06-20 14:30:33'),
+(2279, '43.155.195.141', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 14:35:00', '2025-06-20 14:35:00'),
+(2280, '43.166.134.114', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 14:46:13', '2025-06-20 14:46:13'),
+(2281, '170.106.180.139', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 15:05:45', '2025-06-20 15:05:45'),
+(2282, '31.13.127.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 15:12:33', '2025-06-20 15:12:33'),
+(2283, '173.252.107.10', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 15:12:35', '2025-06-20 15:12:35'),
+(2284, '173.252.87.15', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 15:22:33', '2025-06-20 15:22:33'),
+(2285, '49.51.38.193', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 15:25:24', '2025-06-20 15:25:24'),
+(2286, '57.141.2.3', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 15:33:15', '2025-06-20 15:33:15'),
+(2287, '66.220.149.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 15:43:17', '2025-06-20 15:43:17'),
+(2288, '57.141.2.26', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 16:48:39', '2025-06-20 16:48:39'),
+(2289, '124.222.142.44', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 17:28:58', '2025-06-20 17:28:58'),
+(2290, '40.77.167.74', 'Unknown', 'Unknown', 'Chrome', '0', 'Bot', NULL, '2025-06-20 17:56:28', '2025-06-20 17:56:28'),
+(2291, '49.51.52.250', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 18:13:49', '2025-06-20 18:13:49'),
+(2292, '170.106.11.141', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 18:56:40', '2025-06-20 18:56:40'),
+(2293, '216.244.66.232', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-20 18:57:52', '2025-06-20 18:57:52'),
+(2294, '85.208.96.212', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-20 19:25:43', '2025-06-20 19:25:43'),
+(2295, '129.226.174.80', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 19:26:00', '2025-06-20 19:26:00'),
+(2296, '43.135.145.117', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 19:30:13', '2025-06-20 19:30:13'),
+(2297, '43.167.232.38', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 19:39:36', '2025-06-20 19:39:36'),
+(2298, '185.191.171.10', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-20 19:52:29', '2025-06-20 19:52:29'),
+(2299, '170.106.73.216', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 20:08:09', '2025-06-20 20:08:09'),
+(2300, '43.157.170.126', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 20:09:39', '2025-06-20 20:09:39'),
+(2301, '43.173.1.57', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 20:19:31', '2025-06-20 20:19:31'),
+(2302, '43.167.157.80', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 20:29:22', '2025-06-20 20:29:22'),
+(2303, '113.219.218.197', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 20:36:10', '2025-06-20 20:36:10'),
+(2304, '170.106.163.48', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 20:40:25', '2025-06-20 20:40:25'),
+(2305, '49.51.183.220', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 20:49:46', '2025-06-20 20:49:46'),
+(2306, '49.51.132.100', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 21:03:16', '2025-06-20 21:03:16'),
+(2307, '57.141.2.27', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 21:08:35', '2025-06-20 21:08:35'),
+(2308, '170.106.180.153', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 21:09:18', '2025-06-20 21:09:18'),
+(2309, '57.141.2.22', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 21:16:38', '2025-06-20 21:16:38'),
+(2310, '43.153.54.14', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 21:21:24', '2025-06-20 21:21:24'),
+(2311, '101.32.208.70', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 21:28:15', '2025-06-20 21:28:15'),
+(2312, '198.235.24.120', 'Unknown', 'Unknown', '0', 'ChromeOS', '0', NULL, '2025-06-20 21:35:53', '2025-06-20 21:35:53'),
+(2313, '43.157.50.58', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 21:39:51', '2025-06-20 21:39:51'),
+(2314, '43.135.134.127', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 21:50:52', '2025-06-20 21:50:52'),
+(2315, '31.13.115.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 21:54:05', '2025-06-20 21:54:05'),
+(2316, '43.159.128.247', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 22:10:47', '2025-06-20 22:10:47'),
+(2317, '173.252.87.4', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 22:12:25', '2025-06-20 22:12:25'),
+(2318, '43.135.185.59', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 22:21:38', '2025-06-20 22:21:38'),
+(2319, '49.51.233.46', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 22:31:35', '2025-06-20 22:31:35'),
+(2320, '43.157.149.188', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 22:39:02', '2025-06-20 22:39:02'),
+(2321, '43.135.138.128', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 22:50:54', '2025-06-20 22:50:54'),
+(2322, '194.124.158.34', 'Unknown', 'Unknown', 'Opera', 'Windows', 'WebKit', NULL, '2025-06-20 22:52:27', '2025-06-20 22:52:27'),
+(2323, '43.159.136.201', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 22:59:55', '2025-06-20 22:59:55'),
+(2324, '57.141.2.26', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 23:00:59', '2025-06-20 23:00:59'),
+(2325, '57.141.2.19', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 23:08:38', '2025-06-20 23:08:38'),
+(2326, '43.166.136.202', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 23:21:17', '2025-06-20 23:21:17'),
+(2327, '43.153.119.119', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 23:29:25', '2025-06-20 23:29:25'),
+(2328, '57.141.2.25', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-20 23:34:36', '2025-06-20 23:34:36'),
+(2329, '173.252.87.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 23:35:43', '2025-06-20 23:35:43'),
+(2330, '221.229.106.25', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 23:46:29', '2025-06-20 23:46:29'),
+(2331, '170.106.165.76', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-20 23:51:05', '2025-06-20 23:51:05'),
+(2332, '66.220.149.12', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 23:51:21', '2025-06-20 23:51:21'),
+(2333, '31.13.103.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-20 23:51:21', '2025-06-20 23:51:21'),
+(2334, '49.51.180.2', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 00:00:31', '2025-06-21 00:00:31'),
+(2335, '43.133.220.37', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 00:09:19', '2025-06-21 00:09:19'),
+(2336, '202.134.11.240', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-21 00:55:39', '2025-06-21 00:55:39'),
+(2337, '213.35.99.97', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-21 00:58:29', '2025-06-21 00:58:29'),
+(2338, '198.235.24.44', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 01:00:37', '2025-06-21 01:00:37'),
+(2339, '173.252.95.9', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 01:07:28', '2025-06-21 01:07:28'),
+(2340, '64.227.168.7', 'Unknown', 'Unknown', 'Chrome', 'Linux', 'WebKit', NULL, '2025-06-21 01:16:02', '2025-06-21 01:16:02'),
+(2341, '192.36.207.10', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-21 01:30:08', '2025-06-21 01:30:08'),
+(2342, '43.153.96.79', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 01:55:25', '2025-06-21 01:55:25'),
+(2343, '43.166.253.94', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 02:09:31', '2025-06-21 02:09:31'),
+(2344, '57.141.2.24', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 02:11:48', '2025-06-21 02:11:48'),
+(2345, '66.249.79.232', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-21 02:17:19', '2025-06-21 02:17:19'),
+(2346, '43.155.140.157', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 02:22:14', '2025-06-21 02:22:14'),
+(2347, '66.249.79.230', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-21 02:22:54', '2025-06-21 02:22:54'),
+(2348, '43.166.1.243', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 02:32:51', '2025-06-21 02:32:51'),
+(2349, '175.6.217.4', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 02:56:06', '2025-06-21 02:56:06'),
+(2350, '170.106.167.214', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 03:15:59', '2025-06-21 03:15:59'),
+(2351, '43.166.237.57', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 03:24:24', '2025-06-21 03:24:24'),
+(2352, '43.133.14.237', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 03:36:13', '2025-06-21 03:36:13'),
+(2353, '52.167.144.213', 'Unknown', 'Unknown', 'Chrome', '0', 'Bot', NULL, '2025-06-21 03:40:25', '2025-06-21 03:40:25'),
+(2354, '69.171.231.114', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 03:47:33', '2025-06-21 03:47:33'),
+(2355, '69.171.249.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 03:47:33', '2025-06-21 03:47:33'),
+(2356, '69.171.249.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 03:47:36', '2025-06-21 03:47:36'),
+(2357, '173.252.107.114', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 03:47:38', '2025-06-21 03:47:38'),
+(2358, '66.249.79.231', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-21 03:51:39', '2025-06-21 03:51:39'),
+(2359, '128.140.101.35', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-21 03:54:44', '2025-06-21 03:54:44'),
+(2360, '66.249.79.233', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 03:55:48', '2025-06-21 03:55:48'),
+(2361, '173.252.83.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 03:57:32', '2025-06-21 03:57:32'),
+(2362, '43.156.228.27', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 04:03:11', '2025-06-21 04:03:11'),
+(2363, '43.130.228.73', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 04:15:36', '2025-06-21 04:15:36'),
+(2364, '43.135.172.89', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 04:26:26', '2025-06-21 04:26:26'),
+(2365, '43.165.65.75', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 04:36:48', '2025-06-21 04:36:48'),
+(2366, '103.114.166.101', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'https://lm.facebook.com/', '2025-06-21 04:47:58', '2025-06-21 04:47:58'),
+(2367, '31.13.103.6', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 04:49:59', '2025-06-21 04:49:59'),
+(2368, '31.13.103.3', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 04:49:59', '2025-06-21 04:49:59'),
+(2369, '31.13.103.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 04:50:01', '2025-06-21 04:50:01'),
+(2370, '49.51.233.95', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 04:56:42', '2025-06-21 04:56:42'),
+(2371, '43.159.135.203', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 05:16:31', '2025-06-21 05:16:31'),
+(2372, '49.51.243.156', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 05:27:34', '2025-06-21 05:27:34'),
+(2373, '132.232.144.200', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 06:06:11', '2025-06-21 06:06:11'),
+(2374, '103.165.162.213', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-21 06:16:37', '2025-06-21 06:16:37'),
+(2375, '119.30.41.166', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', 'android-app://com.google.android.googlequicksearchbox/', '2025-06-21 06:52:02', '2025-06-21 06:52:02'),
+(2376, '57.141.2.9', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 07:02:08', '2025-06-21 07:02:08'),
+(2377, '34.221.42.171', 'Unknown', 'Unknown', 'Chrome', 'Linux', 'WebKit', NULL, '2025-06-21 07:10:33', '2025-06-21 07:10:33'),
+(2378, '185.191.171.7', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 07:44:27', '2025-06-21 07:44:27'),
+(2379, '45.88.97.172', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', 'http://10bazar.store/', '2025-06-21 07:46:38', '2025-06-21 07:46:38'),
+(2380, '57.141.2.20', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 07:49:26', '2025-06-21 07:49:26'),
+(2381, '57.141.2.12', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 07:50:49', '2025-06-21 07:50:49'),
+(2382, '43.159.144.16', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 08:06:19', '2025-06-21 08:06:19'),
+(2383, '66.249.79.3', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-21 08:29:53', '2025-06-21 08:29:53'),
+(2384, '66.220.149.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 08:31:52', '2025-06-21 08:31:52'),
+(2385, '31.13.127.116', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 08:32:25', '2025-06-21 08:32:25'),
+(2386, '31.13.127.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 08:44:32', '2025-06-21 08:44:32'),
+(2387, '57.141.2.6', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 09:08:45', '2025-06-21 09:08:45'),
+(2388, '43.133.187.11', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 09:08:46', '2025-06-21 09:08:46'),
+(2389, '114.117.233.112', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 09:20:59', '2025-06-21 09:20:59'),
+(2390, '43.153.74.75', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 10:05:41', '2025-06-21 10:05:41'),
+(2391, '49.51.195.195', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 10:20:36', '2025-06-21 10:20:36'),
+(2392, '43.157.95.239', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 10:29:36', '2025-06-21 10:29:36'),
+(2393, '128.199.214.40', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-21 10:33:08', '2025-06-21 10:33:08'),
+(2394, '170.106.35.153', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 10:40:59', '2025-06-21 10:40:59'),
+(2395, '43.166.240.231', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 10:54:10', '2025-06-21 10:54:10'),
+(2396, '57.141.2.29', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 11:03:47', '2025-06-21 11:03:47'),
+(2397, '43.166.247.82', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 11:21:21', '2025-06-21 11:21:21'),
+(2398, '43.167.245.18', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 11:38:58', '2025-06-21 11:38:58'),
+(2399, '57.141.2.8', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 11:57:30', '2025-06-21 11:57:30'),
+(2400, '43.157.153.236', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 12:00:21', '2025-06-21 12:00:21'),
+(2401, '43.157.22.57', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 12:09:50', '2025-06-21 12:09:50'),
+(2402, '43.153.12.58', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 12:14:37', '2025-06-21 12:14:37'),
+(2403, '43.153.71.132', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 12:22:27', '2025-06-21 12:22:27'),
+(2404, '43.156.168.214', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 12:52:32', '2025-06-21 12:52:32'),
+(2405, '57.141.2.16', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 13:29:55', '2025-06-21 13:29:55'),
+(2406, '57.141.2.28', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 15:09:13', '2025-06-21 15:09:13'),
+(2407, '114.96.103.33', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 15:27:00', '2025-06-21 15:27:00'),
+(2408, '57.141.2.4', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 15:29:02', '2025-06-21 15:29:02'),
+(2409, '57.141.2.3', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 18:07:16', '2025-06-21 18:07:16'),
+(2410, '43.167.245.18', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 18:14:48', '2025-06-21 18:14:48'),
+(2411, '129.211.215.233', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 18:21:05', '2025-06-21 18:21:05'),
+(2412, '216.244.66.232', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 18:23:38', '2025-06-21 18:23:38'),
+(2413, '103.42.58.99', 'Unknown', 'Unknown', 'Firefox', 'Windows', '0', NULL, '2025-06-21 19:04:47', '2025-06-21 19:04:47'),
+(2414, '43.167.157.80', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 19:14:31', '2025-06-21 19:14:31'),
+(2415, '43.166.131.228', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 19:27:01', '2025-06-21 19:27:01'),
+(2416, '129.226.93.214', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 19:38:33', '2025-06-21 19:38:33'),
+(2417, '85.208.96.202', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 19:41:29', '2025-06-21 19:41:29'),
+(2418, '170.106.140.110', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 19:50:06', '2025-06-21 19:50:06'),
+(2419, '43.159.141.150', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 20:07:12', '2025-06-21 20:07:12'),
+(2420, '43.157.172.39', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 20:07:46', '2025-06-21 20:07:46'),
+(2421, '213.35.99.97', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-21 20:10:23', '2025-06-21 20:10:23'),
+(2422, '43.159.138.217', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 20:21:03', '2025-06-21 20:21:03'),
+(2423, '43.157.180.116', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 20:28:41', '2025-06-21 20:28:41'),
+(2424, '196.242.114.112', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-21 20:35:09', '2025-06-21 20:35:09'),
+(2425, '43.153.36.110', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 20:36:33', '2025-06-21 20:36:33'),
+(2426, '85.208.96.212', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 20:47:53', '2025-06-21 20:47:53'),
+(2427, '43.173.1.57', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 20:48:30', '2025-06-21 20:48:30'),
+(2428, '57.141.2.17', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 20:57:02', '2025-06-21 20:57:02'),
+(2429, '52.167.144.19', 'Unknown', 'Unknown', 'Chrome', '0', 'Bot', NULL, '2025-06-21 20:57:11', '2025-06-21 20:57:11'),
+(2430, '185.191.171.6', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 20:58:01', '2025-06-21 20:58:01'),
+(2431, '185.191.171.18', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 21:08:09', '2025-06-21 21:08:09'),
+(2432, '85.208.96.200', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 21:16:37', '2025-06-21 21:16:37'),
+(2433, '43.153.54.138', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 21:18:51', '2025-06-21 21:18:51'),
+(2434, '185.191.171.12', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 21:23:58', '2025-06-21 21:23:58'),
+(2435, '14.215.163.132', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 21:25:38', '2025-06-21 21:25:38'),
+(2436, '85.208.96.193', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 21:28:54', '2025-06-21 21:28:54'),
+(2437, '170.106.179.68', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 21:31:35', '2025-06-21 21:31:35'),
+(2438, '85.208.96.203', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 21:41:36', '2025-06-21 21:41:36'),
+(2439, '43.153.79.218', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 21:42:32', '2025-06-21 21:42:32'),
+(2440, '57.141.2.18', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 21:44:32', '2025-06-21 21:44:32'),
+(2441, '185.191.171.16', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 21:47:31', '2025-06-21 21:47:31'),
+(2442, '49.51.204.74', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 21:51:27', '2025-06-21 21:51:27'),
+(2443, '85.208.96.198', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 21:58:00', '2025-06-21 21:58:00'),
+(2444, '85.208.96.206', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 22:02:49', '2025-06-21 22:02:49'),
+(2445, '85.208.96.205', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 22:03:03', '2025-06-21 22:03:03'),
+(2446, '85.208.96.195', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 22:04:40', '2025-06-21 22:04:40'),
+(2447, '103.158.2.18', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-21 22:20:01', '2025-06-21 22:20:01'),
+(2448, '43.135.140.225', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 22:20:17', '2025-06-21 22:20:17'),
+(2449, '85.208.96.197', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 22:26:10', '2025-06-21 22:26:10'),
+(2450, '85.208.96.199', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 22:30:06', '2025-06-21 22:30:06'),
+(2451, '85.208.96.201', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 22:31:35', '2025-06-21 22:31:35'),
+(2452, '185.191.171.19', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 22:32:42', '2025-06-21 22:32:42'),
+(2453, '185.191.171.3', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 22:38:30', '2025-06-21 22:38:30'),
+(2454, '185.191.171.9', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 22:38:47', '2025-06-21 22:38:47'),
+(2455, '57.141.2.13', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 22:39:05', '2025-06-21 22:39:05'),
+(2456, '173.252.107.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 22:54:58', '2025-06-21 22:54:58'),
+(2457, '173.252.107.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-21 22:54:59', '2025-06-21 22:54:59'),
+(2458, '85.208.96.209', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 23:05:28', '2025-06-21 23:05:28'),
+(2459, '57.141.2.27', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 23:09:28', '2025-06-21 23:09:28'),
+(2460, '57.141.2.14', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-21 23:09:52', '2025-06-21 23:09:52'),
+(2461, '185.191.171.7', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 23:13:33', '2025-06-21 23:13:33'),
+(2462, '185.191.171.11', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 23:17:54', '2025-06-21 23:17:54'),
+(2463, '185.191.171.4', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 23:19:30', '2025-06-21 23:19:30'),
+(2464, '85.208.96.204', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-21 23:27:24', '2025-06-21 23:27:24'),
+(2465, '43.157.142.101', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-21 23:28:36', '2025-06-21 23:28:36'),
+(2466, '185.191.171.2', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 00:02:02', '2025-06-22 00:02:02'),
+(2467, '185.191.171.14', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 00:07:53', '2025-06-22 00:07:53'),
+(2468, '85.208.96.207', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 00:11:02', '2025-06-22 00:11:02'),
+(2469, '185.191.171.10', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 00:12:20', '2025-06-22 00:12:20'),
+(2470, '185.191.171.8', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 00:12:50', '2025-06-22 00:12:50'),
+(2471, '85.208.96.211', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 00:17:18', '2025-06-22 00:17:18'),
+(2472, '140.143.98.18', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 00:26:27', '2025-06-22 00:26:27'),
+(2473, '85.208.96.210', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 00:29:35', '2025-06-22 00:29:35'),
+(2474, '185.191.171.17', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 00:30:40', '2025-06-22 00:30:40'),
+(2475, '57.141.2.5', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 00:44:41', '2025-06-22 00:44:41'),
+(2476, '69.171.230.113', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-22 01:28:33', '2025-06-22 01:28:33'),
+(2477, '69.171.230.2', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-22 01:28:34', '2025-06-22 01:28:34'),
+(2478, '185.191.171.13', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 01:30:24', '2025-06-22 01:30:24'),
+(2479, '173.252.83.10', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-22 02:34:18', '2025-06-22 02:34:18'),
+(2480, '173.252.83.13', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-22 02:34:18', '2025-06-22 02:34:18'),
+(2481, '173.252.83.24', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-22 02:34:19', '2025-06-22 02:34:19'),
+(2482, '185.191.171.5', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 02:40:47', '2025-06-22 02:40:47'),
+(2483, '85.208.96.194', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 02:46:17', '2025-06-22 02:46:17'),
+(2484, '182.43.70.143', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 03:41:23', '2025-06-22 03:41:23'),
+(2485, '185.191.171.1', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 03:59:16', '2025-06-22 03:59:16'),
+(2486, '103.165.162.213', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-22 04:29:27', '2025-06-22 04:29:27'),
+(2487, '217.142.187.61', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-22 04:45:03', '2025-06-22 04:45:03'),
+(2488, '185.191.171.15', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 05:08:37', '2025-06-22 05:08:37');
+INSERT INTO `visitors` (`id`, `ip`, `country`, `city`, `browser`, `platform`, `device`, `referer`, `created_at`, `updated_at`) VALUES
+(2489, '85.208.96.196', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 05:27:24', '2025-06-22 05:27:24'),
+(2490, '203.33.203.148', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 06:44:09', '2025-06-22 06:44:09'),
+(2491, '162.62.213.165', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 07:08:26', '2025-06-22 07:08:26'),
+(2492, '57.141.2.20', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 07:10:00', '2025-06-22 07:10:00'),
+(2493, '109.199.118.129', 'Unknown', 'Unknown', 'Edge', 'Windows', 'WebKit', NULL, '2025-06-22 07:23:10', '2025-06-22 07:23:10'),
+(2494, '57.141.2.16', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 07:50:57', '2025-06-22 07:50:57'),
+(2495, '52.169.46.16', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 07:54:40', '2025-06-22 07:54:40'),
+(2496, '57.141.2.19', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 08:29:59', '2025-06-22 08:29:59'),
+(2497, '52.167.144.231', 'Unknown', 'Unknown', 'Chrome', '0', 'Bot', NULL, '2025-06-22 08:33:50', '2025-06-22 08:33:50'),
+(2498, '85.208.96.208', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 08:42:59', '2025-06-22 08:42:59'),
+(2499, '31.13.127.8', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-22 08:49:57', '2025-06-22 08:49:57'),
+(2500, '57.141.2.28', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 08:57:46', '2025-06-22 08:57:46'),
+(2501, '57.141.2.15', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 08:57:47', '2025-06-22 08:57:47'),
+(2502, '157.230.81.217', 'Unknown', 'Unknown', 'Firefox', 'Linux', '0', NULL, '2025-06-22 09:06:07', '2025-06-22 09:06:07'),
+(2503, '103.129.212.160', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-22 09:08:59', '2025-06-22 09:08:59'),
+(2504, '57.141.2.2', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 09:29:40', '2025-06-22 09:29:40'),
+(2505, '57.141.2.11', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 09:55:24', '2025-06-22 09:55:24'),
+(2506, '182.44.8.254', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 10:03:51', '2025-06-22 10:03:51'),
+(2507, '57.141.2.12', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 10:31:39', '2025-06-22 10:31:39'),
+(2508, '173.252.127.4', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-22 11:16:19', '2025-06-22 11:16:19'),
+(2509, '128.199.207.22', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-22 11:18:37', '2025-06-22 11:18:37'),
+(2510, '119.28.177.175', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 11:47:40', '2025-06-22 11:47:40'),
+(2511, '49.51.243.95', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 12:01:35', '2025-06-22 12:01:35'),
+(2512, '43.153.48.240', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 12:07:21', '2025-06-22 12:07:21'),
+(2513, '57.141.2.26', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 12:11:49', '2025-06-22 12:11:49'),
+(2514, '43.157.50.58', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 12:21:44', '2025-06-22 12:21:44'),
+(2515, '43.153.19.83', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 13:02:15', '2025-06-22 13:02:15'),
+(2516, '125.75.66.97', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 13:08:37', '2025-06-22 13:08:37'),
+(2517, '43.165.65.180', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 13:12:11', '2025-06-22 13:12:11'),
+(2518, '43.152.72.247', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 13:21:36', '2025-06-22 13:21:36'),
+(2519, '43.153.26.165', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 13:39:33', '2025-06-22 13:39:33'),
+(2520, '43.130.106.18', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 13:43:18', '2025-06-22 13:43:18'),
+(2521, '57.141.2.25', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 13:44:00', '2025-06-22 13:44:00'),
+(2522, '43.159.145.153', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 13:54:26', '2025-06-22 13:54:26'),
+(2523, '43.128.67.187', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 14:21:18', '2025-06-22 14:21:18'),
+(2524, '43.135.185.59', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 14:34:33', '2025-06-22 14:34:33'),
+(2525, '43.152.72.244', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 14:42:59', '2025-06-22 14:42:59'),
+(2526, '43.156.202.34', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 15:15:10', '2025-06-22 15:15:10'),
+(2527, '43.153.86.78', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 15:30:33', '2025-06-22 15:30:33'),
+(2528, '43.153.119.119', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 15:37:32', '2025-06-22 15:37:32'),
+(2529, '43.153.122.30', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 15:48:53', '2025-06-22 15:48:53'),
+(2530, '43.153.10.13', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 15:58:03', '2025-06-22 15:58:03'),
+(2531, '43.159.143.139', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 16:09:48', '2025-06-22 16:09:48'),
+(2532, '49.7.227.204', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 16:12:36', '2025-06-22 16:12:36'),
+(2533, '43.156.228.27', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 16:18:54', '2025-06-22 16:18:54'),
+(2534, '43.157.38.228', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 16:28:52', '2025-06-22 16:28:52'),
+(2535, '43.166.244.251', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 16:41:37', '2025-06-22 16:41:37'),
+(2536, '43.133.14.237', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 16:49:00', '2025-06-22 16:49:00'),
+(2537, '43.165.135.242', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 17:05:36', '2025-06-22 17:05:36'),
+(2538, '49.51.203.164', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 17:08:13', '2025-06-22 17:08:13'),
+(2539, '43.133.187.11', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 17:19:03', '2025-06-22 17:19:03'),
+(2540, '43.130.47.33', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 17:30:11', '2025-06-22 17:30:11'),
+(2541, '43.153.12.58', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 17:40:06', '2025-06-22 17:40:06'),
+(2542, '43.153.73.200', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 17:51:58', '2025-06-22 17:51:58'),
+(2543, '43.132.214.228', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 18:05:07', '2025-06-22 18:05:07'),
+(2544, '43.135.130.202', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 18:14:24', '2025-06-22 18:14:24'),
+(2545, '43.166.239.145', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 18:15:10', '2025-06-22 18:15:10'),
+(2546, '57.141.2.24', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 18:21:16', '2025-06-22 18:21:16'),
+(2547, '43.153.35.128', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 18:21:33', '2025-06-22 18:21:33'),
+(2548, '57.141.2.1', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 18:30:03', '2025-06-22 18:30:03'),
+(2549, '216.244.66.232', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 18:55:08', '2025-06-22 18:55:08'),
+(2550, '57.141.2.22', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 19:49:17', '2025-06-22 19:49:17'),
+(2551, '173.252.83.3', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-22 19:55:06', '2025-06-22 19:55:06'),
+(2552, '43.130.32.245', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 20:07:14', '2025-06-22 20:07:14'),
+(2553, '57.141.2.12', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 20:42:04', '2025-06-22 20:42:04'),
+(2554, '43.155.129.131', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 21:26:16', '2025-06-22 21:26:16'),
+(2555, '43.153.135.208', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-22 21:49:56', '2025-06-22 21:49:56'),
+(2556, '57.141.2.19', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 21:55:11', '2025-06-22 21:55:11'),
+(2557, '31.13.115.1', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-22 22:46:23', '2025-06-22 22:46:23'),
+(2558, '57.141.2.3', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-22 22:58:06', '2025-06-22 22:58:06'),
+(2559, '185.191.171.10', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-22 23:09:12', '2025-06-22 23:09:12'),
+(2560, '43.157.188.74', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 00:08:12', '2025-06-23 00:08:12'),
+(2561, '167.172.39.188', 'Unknown', 'Unknown', 'Chrome', 'Linux', 'WebKit', NULL, '2025-06-23 00:27:22', '2025-06-23 00:27:22'),
+(2562, '68.183.129.11', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 01:03:07', '2025-06-23 01:03:07'),
+(2563, '68.183.84.95', 'Unknown', 'Unknown', 'Chrome', 'Linux', 'WebKit', NULL, '2025-06-23 01:15:58', '2025-06-23 01:15:58'),
+(2564, '124.226.222.66', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 01:17:22', '2025-06-23 01:17:22'),
+(2565, '173.252.95.14', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-23 01:18:41', '2025-06-23 01:18:41'),
+(2566, '217.142.187.61', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-23 01:25:22', '2025-06-23 01:25:22'),
+(2567, '103.158.2.24', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-23 01:34:23', '2025-06-23 01:34:23'),
+(2568, '192.178.8.32', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-23 01:34:26', '2025-06-23 01:34:26'),
+(2569, '74.125.212.4', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-23 01:34:26', '2025-06-23 01:34:26'),
+(2570, '66.220.149.12', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-23 01:44:46', '2025-06-23 01:44:46'),
+(2571, '18.197.32.195', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-23 02:19:41', '2025-06-23 02:19:41'),
+(2572, '173.252.83.10', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-23 02:39:27', '2025-06-23 02:39:27'),
+(2573, '103.230.106.44', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-23 02:39:44', '2025-06-23 02:39:44'),
+(2574, '82.102.18.188', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-23 04:05:47', '2025-06-23 04:05:47'),
+(2575, '44.248.209.253', 'Unknown', 'Unknown', 'Chrome', 'OS X', 'Macintosh', NULL, '2025-06-23 04:07:22', '2025-06-23 04:07:22'),
+(2576, '101.32.208.70', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 05:00:21', '2025-06-23 05:00:21'),
+(2577, '103.165.162.213', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-23 06:13:50', '2025-06-23 06:13:50'),
+(2578, '52.178.177.211', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 06:18:08', '2025-06-23 06:18:08'),
+(2579, '57.141.2.2', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 06:43:18', '2025-06-23 06:43:18'),
+(2580, '146.70.194.254', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-23 06:45:57', '2025-06-23 06:45:57'),
+(2581, '43.128.67.187', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 07:09:23', '2025-06-23 07:09:23'),
+(2582, '119.96.24.54', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 07:38:58', '2025-06-23 07:38:58'),
+(2583, '185.191.171.18', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-23 07:52:21', '2025-06-23 07:52:21'),
+(2584, '43.130.12.43', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 09:10:14', '2025-06-23 09:10:14'),
+(2585, '152.53.23.6', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-23 10:31:33', '2025-06-23 10:31:33'),
+(2586, '121.229.185.160', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 10:59:16', '2025-06-23 10:59:16'),
+(2587, '57.141.2.30', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 11:02:02', '2025-06-23 11:02:02'),
+(2588, '103.136.159.200', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-23 11:03:54', '2025-06-23 11:03:54'),
+(2589, '31.13.127.13', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-23 11:07:45', '2025-06-23 11:07:45'),
+(2590, '57.141.2.11', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 11:15:09', '2025-06-23 11:15:09'),
+(2591, '57.141.2.9', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 11:19:15', '2025-06-23 11:19:15'),
+(2592, '170.106.72.93', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 11:42:18', '2025-06-23 11:42:18'),
+(2593, '57.141.2.20', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 11:46:52', '2025-06-23 11:46:52'),
+(2594, '124.156.179.141', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 12:15:29', '2025-06-23 12:15:29'),
+(2595, '43.156.204.134', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 12:15:53', '2025-06-23 12:15:53'),
+(2596, '43.135.145.117', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 12:25:40', '2025-06-23 12:25:40'),
+(2597, '103.129.212.160', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-23 13:11:27', '2025-06-23 13:11:27'),
+(2598, '57.141.2.18', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 13:27:45', '2025-06-23 13:27:45'),
+(2599, '57.141.2.14', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 13:42:12', '2025-06-23 13:42:12'),
+(2600, '43.157.172.39', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 14:28:48', '2025-06-23 14:28:48'),
+(2601, '170.106.180.139', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 14:42:16', '2025-06-23 14:42:16'),
+(2602, '43.167.236.228', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 14:51:42', '2025-06-23 14:51:42'),
+(2603, '57.141.4.13', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 15:08:57', '2025-06-23 15:08:57'),
+(2604, '170.106.192.3', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 15:22:57', '2025-06-23 15:22:57'),
+(2605, '43.157.149.188', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 15:31:29', '2025-06-23 15:31:29'),
+(2606, '43.135.142.37', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 15:42:05', '2025-06-23 15:42:05'),
+(2607, '57.141.2.21', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 15:43:06', '2025-06-23 15:43:06'),
+(2608, '57.141.2.15', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 15:43:12', '2025-06-23 15:43:12'),
+(2609, '43.153.12.58', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 16:03:34', '2025-06-23 16:03:34'),
+(2610, '183.134.59.130', 'Unknown', 'Unknown', 'Firefox', 'Windows', '0', NULL, '2025-06-23 16:13:14', '2025-06-23 16:13:14'),
+(2611, '111.224.220.157', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 16:15:09', '2025-06-23 16:15:09'),
+(2612, '43.131.36.84', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 16:32:10', '2025-06-23 16:32:10'),
+(2613, '43.157.53.115', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 16:41:54', '2025-06-23 16:41:54'),
+(2614, '57.141.2.17', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 16:45:31', '2025-06-23 16:45:31'),
+(2615, '124.156.226.179', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 16:52:32', '2025-06-23 16:52:32'),
+(2616, '162.62.231.139', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 17:01:46', '2025-06-23 17:01:46'),
+(2617, '43.166.131.228', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 17:12:25', '2025-06-23 17:12:25'),
+(2618, '43.157.95.131', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 17:21:46', '2025-06-23 17:21:46'),
+(2619, '43.135.172.89', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 17:32:41', '2025-06-23 17:32:41'),
+(2620, '54.221.38.229', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-23 17:42:59', '2025-06-23 17:42:59'),
+(2621, '52.167.144.21', 'Unknown', 'Unknown', 'Chrome', '0', 'Bot', NULL, '2025-06-23 18:11:12', '2025-06-23 18:11:12'),
+(2622, '43.153.15.51', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 18:14:53', '2025-06-23 18:14:53'),
+(2623, '216.244.66.232', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-23 18:35:36', '2025-06-23 18:35:36'),
+(2624, '173.252.83.112', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-23 18:50:24', '2025-06-23 18:50:24'),
+(2625, '173.252.83.4', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-23 18:50:25', '2025-06-23 18:50:25'),
+(2626, '43.163.206.70', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 19:24:19', '2025-06-23 19:24:19'),
+(2627, '91.84.109.103', 'Unknown', 'Unknown', 'IE', 'Windows', '0', NULL, '2025-06-23 19:35:49', '2025-06-23 19:35:49'),
+(2628, '57.141.2.11', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 19:38:42', '2025-06-23 19:38:42'),
+(2629, '57.141.2.10', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 19:41:54', '2025-06-23 19:41:54'),
+(2630, '57.141.2.23', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 19:52:09', '2025-06-23 19:52:09'),
+(2631, '124.221.245.78', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 19:53:43', '2025-06-23 19:53:43'),
+(2632, '43.157.188.74', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 20:06:16', '2025-06-23 20:06:16'),
+(2633, '103.186.30.230', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-23 20:15:02', '2025-06-23 20:15:02'),
+(2634, '178.33.107.250', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 20:54:33', '2025-06-23 20:54:33'),
+(2635, '57.141.2.24', 'Unknown', 'Unknown', '0', '0', '0', NULL, '2025-06-23 21:25:25', '2025-06-23 21:25:25'),
+(2636, '198.235.24.79', 'Unknown', 'Unknown', '0', 'ChromeOS', '0', NULL, '2025-06-23 21:27:06', '2025-06-23 21:27:06'),
+(2637, '170.106.193.108', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 21:58:21', '2025-06-23 21:58:21'),
+(2638, '182.43.70.143', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-23 23:04:31', '2025-06-23 23:04:31'),
+(2639, '31.13.115.9', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-23 23:19:14', '2025-06-23 23:19:14'),
+(2640, '66.249.79.7', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-24 01:36:47', '2025-06-24 01:36:47'),
+(2641, '45.148.10.249', 'Unknown', 'Unknown', 'Firefox', 'Windows', '0', NULL, '2025-06-24 01:59:51', '2025-06-24 01:59:51'),
+(2642, '43.130.72.177', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-24 02:45:57', '2025-06-24 02:45:57'),
+(2643, '173.252.87.5', 'Unknown', 'Unknown', '0', '0', 'Bot', NULL, '2025-06-24 03:05:26', '2025-06-24 03:05:26'),
+(2644, '185.191.171.9', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-24 04:26:58', '2025-06-24 04:26:58'),
+(2645, '43.153.123.4', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-24 04:44:33', '2025-06-24 04:44:33'),
+(2646, '66.249.79.5', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'Nexus', NULL, '2025-06-24 04:58:06', '2025-06-24 04:58:06'),
+(2647, '103.165.162.213', 'Unknown', 'Unknown', 'Chrome', 'AndroidOS', 'WebKit', NULL, '2025-06-24 05:14:38', '2025-06-24 05:14:38'),
+(2648, '217.142.187.61', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-24 07:02:04', '2025-06-24 07:02:04'),
+(2649, '85.208.96.197', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-24 07:11:50', '2025-06-24 07:11:50'),
+(2650, '85.208.96.206', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-24 07:19:12', '2025-06-24 07:19:12'),
+(2651, '85.208.96.212', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-24 07:43:03', '2025-06-24 07:43:03'),
+(2652, '85.208.96.198', 'Unknown', 'Unknown', 'Mozilla', '0', 'Bot', NULL, '2025-06-24 08:30:31', '2025-06-24 08:30:31'),
+(2653, '119.45.20.16', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-24 08:33:27', '2025-06-24 08:33:27'),
+(2654, '43.135.145.77', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-24 09:01:20', '2025-06-24 09:01:20'),
+(2655, '124.156.226.179', 'Unknown', 'Unknown', 'Safari', 'iOS', 'iPhone', NULL, '2025-06-24 09:09:36', '2025-06-24 09:09:36'),
+(2656, '103.129.212.160', 'Unknown', 'Unknown', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-24 09:22:52', '2025-06-24 09:22:52'),
+(2657, '::1', 'Localhost', 'Localhost', 'Chrome', 'Windows', 'WebKit', NULL, '2025-06-24 09:31:20', '2025-06-24 09:31:20');
 
 -- --------------------------------------------------------
 
@@ -4777,6 +6037,36 @@ ALTER TABLE `contacts`
 -- Indexes for table `contact_infos`
 --
 ALTER TABLE `contact_infos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cs_currencies`
+--
+ALTER TABLE `cs_currencies`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cs_mail_configs`
+--
+ALTER TABLE `cs_mail_configs`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cs_payment_methods`
+--
+ALTER TABLE `cs_payment_methods`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cs_payment_setups`
+--
+ALTER TABLE `cs_payment_setups`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `cs_sms_configs`
+--
+ALTER TABLE `cs_sms_configs`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -5098,7 +6388,7 @@ ALTER TABLE `brands`
 -- AUTO_INCREMENT for table `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT for table `cities`
@@ -5131,10 +6421,40 @@ ALTER TABLE `contact_infos`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
+-- AUTO_INCREMENT for table `cs_currencies`
+--
+ALTER TABLE `cs_currencies`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- AUTO_INCREMENT for table `cs_mail_configs`
+--
+ALTER TABLE `cs_mail_configs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `cs_payment_methods`
+--
+ALTER TABLE `cs_payment_methods`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `cs_payment_setups`
+--
+ALTER TABLE `cs_payment_setups`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `cs_sms_configs`
+--
+ALTER TABLE `cs_sms_configs`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=85;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=86;
 
 --
 -- AUTO_INCREMENT for table `discounts`
@@ -5182,7 +6502,7 @@ ALTER TABLE `madmins`
 -- AUTO_INCREMENT for table `menus`
 --
 ALTER TABLE `menus`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `migrations`
@@ -5206,25 +6526,25 @@ ALTER TABLE `orderhistries`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `order_addresses`
 --
 ALTER TABLE `order_addresses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `order_details`
 --
 ALTER TABLE `order_details`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `order_payments`
 --
 ALTER TABLE `order_payments`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `pages`
@@ -5242,19 +6562,19 @@ ALTER TABLE `payment_getways`
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=93;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
 
 --
 -- AUTO_INCREMENT for table `product_stocks`
 --
 ALTER TABLE `product_stocks`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=92;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=97;
 
 --
 -- AUTO_INCREMENT for table `product_tags`
 --
 ALTER TABLE `product_tags`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=104;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=112;
 
 --
 -- AUTO_INCREMENT for table `requests`
@@ -5362,7 +6682,7 @@ ALTER TABLE `vendors`
 -- AUTO_INCREMENT for table `visitors`
 --
 ALTER TABLE `visitors`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1603;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2658;
 
 --
 -- AUTO_INCREMENT for table `vouchers`
