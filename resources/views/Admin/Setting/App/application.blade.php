@@ -15,7 +15,7 @@
 
                 {!! Form::open([
                     'method' => 'POST',
-                    'route' => 'madmin.app-store',
+                    'route' => 'madmin.appsetting.store',
                     'files' => true,
                     'class' => 'form-horizontal'
                 ]) !!}

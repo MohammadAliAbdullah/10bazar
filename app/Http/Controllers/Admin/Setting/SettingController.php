@@ -84,7 +84,7 @@ class SettingController extends Controller
     public function createCurrency()
     {
         $data['currencies'] = Currency::latest()->get();
-        return view('Admin.Setting.Currency.index', $data);
+        return view('Admin.Setting.Currency.addEdit', $data);
     }
 
     public function storeCurrency(Request $request)
@@ -98,8 +98,15 @@ class SettingController extends Controller
         // dd($validated);
 
         Currency::create($validated); // This must include title, icon, position, rate
+        Session::flash('status', 'Currency added successfully!');
+        return redirect()->route('madmin.currency.index')->with('success', 'Currency added successfully!');
+    }
 
-        return redirect()->back()->with('success', 'Currency added successfully!');
+    public function indexCurrency()
+    {
+        $currencies = Currency::latest()->get();
+
+        return view('Admin.Setting.Currency.index', compact('currencies'));
     }
 
     public function editCurrency($id)
@@ -107,7 +114,7 @@ class SettingController extends Controller
         $currency = Currency::findOrFail($id);
         $currencies = Currency::latest()->get();
 
-        return view('Admin.Setting.Currency.index', compact('currency', 'currencies'));
+        return view('Admin.Setting.Currency.addEdit', compact('currency', 'currencies'));
     }
 
     public function updateCurrency(Request $request, $id)
@@ -121,14 +128,15 @@ class SettingController extends Controller
 
         $currency = Currency::findOrFail($id);
         $currency->update($validated);
-
-        return redirect()->route('madmin.currency.create')->with('success', 'Currency updated successfully!');
+        Session::flash('status', 'Currency updated successfully!');
+        return redirect()->route('madmin.currency.index')->with('success', 'Currency updated successfully!');
     }
 
     public function destroyCurrency($id)
     {
         Currency::findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'Currency deleted successfully.');
+        Session::flash('status', 'Currency deleted successfully!');
+        return redirect()->back();
     }
 
     public function createPaymentMethod()
@@ -147,35 +155,43 @@ class SettingController extends Controller
 
         PaymentMethod::create($request->all());
 
-        return redirect()->back()->with('success', 'Payment method added successfully.');
+        Session::flash('status', 'Payment method added successfully.');
+        return redirect()->back();
     }
 
-    public function createPaymentSetup()
+    public function indexPaymentSetup()
     {
         $setups = PaymentSetup::with('paymentMethod')->latest()->get();
         $methods = PaymentMethod::where('is_active', 1)->get();
         return view('Admin.Setting.Payment.setup', compact('setups', 'methods'));
     }
+    public function createPaymentSetup()
+    {
+        $setups = PaymentSetup::with('paymentMethod')->latest()->get();
+        $methods = PaymentMethod::where('is_active', 1)->get();
+        return view('Admin.Setting.Payment.addEditPaymentSetup', compact('setups', 'methods'));
+    }
 
     public function storePaymentSetup(Request $request)
     {
+        // dd($request->all());
         $request->validate([
-            'payment_method_id'        => 'required|exists:payment_methods,id',
-            'marchantid'       => 'nullable|string|max:255',
-            'password'         => 'required|string|max:120',
-            'email'            => 'required|email|max:100',
-            'currency_id'      => 'nullable|numeric',
-            'is_live'          => 'required|in:0,1',
-            'api_code'         => 'nullable|string|max:25',
-            'api_key'          => 'nullable|string|max:300',
-            'api_endpoint'     => 'nullable|string|max:200',
-            'api_user_scret'   => 'nullable|string|max:300',
-            'is_active'        => 'required|in:1,2',
+            'payment_method_id' => 'required|exists:cs_payment_methods,id',
+            'marchant_id'       => 'nullable|string|max:255',
+            'password'          => 'required|string|max:120',
+            'email'             => 'required|email|max:100',
+            'currency_id'       => 'nullable|numeric',
+            'is_live'           => 'required|in:0,1',
+            'api_code'          => 'nullable|string|max:25',
+            'api_key'           => 'nullable|string|max:300',
+            'api_endpoint'      => 'nullable|string|max:200',
+            'api_user_scret'    => 'nullable|string|max:300',
+            'is_active'         => 'required|in:1,2',
         ]);
 
         PaymentSetup::create($request->all());
-
-        return redirect()->back()->with('success', 'Payment setup saved successfully.');
+        Session::flash('status', 'Payment setup saved successfully!');
+        return redirect()->back();
     }
 
     public function editPaymentMethod($id)
@@ -195,13 +211,15 @@ class SettingController extends Controller
         ]);
 
         PaymentMethod::findOrFail($id)->update($request->all());
-        return redirect()->route('madmin.paymentmethod.create')->with('success', 'Payment method updated.');
+        Session::flash('status', 'Payment method updated successfully!');
+        return redirect()->route('madmin.paymentmethod.create');
     }
 
     public function destroyPaymentMethod($id)
     {
         PaymentMethod::findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'Payment method deleted.');
+        Session::flash('status', 'Payment method deleted successfully!');
+        return redirect()->back();
     }
 
     public function editPaymentSetup($id)
@@ -209,7 +227,7 @@ class SettingController extends Controller
         $edit = PaymentSetup::findOrFail($id);
         $setups = PaymentSetup::with('paymentMethod')->latest()->get();
         $methods = PaymentMethod::where('is_active', 1)->get();
-        return view('Admin.Setting.Payment.setup', compact('setups', 'methods', 'edit'));
+        return view('Admin.Setting.Payment.addEditPaymentSetup', compact('setups', 'methods', 'edit'));
     }
 
     public function updatePaymentSetup(Request $request, $id)
@@ -229,13 +247,15 @@ class SettingController extends Controller
         ]);
 
         PaymentSetup::findOrFail($id)->update($request->all());
+        Session::flash('status', 'Payment setup updated successfully!');
         return redirect()->route('madmin.paymentsetup.create')->with('success', 'Payment setup updated.');
     }
 
     public function destroyPaymentSetup($id)
     {
         PaymentSetup::findOrFail($id)->delete();
-        return redirect()->back()->with('success', 'Payment setup deleted.');
+        Session::flash('status', 'Payment setup deleted successfully!');
+        return redirect()->back();
     }
 
     public function smsConfig()
@@ -284,7 +304,7 @@ class SettingController extends Controller
         ]);
 
         DB::table('cs_mail_configs')->updateOrInsert(['id' => 1], $validated);
-
-        return back()->with('success', 'Mail configuration updated successfully.');
+        Session::flash('status', 'Mail configuration updated successfully!');
+        return back();
     }
 }

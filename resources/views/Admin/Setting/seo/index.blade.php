@@ -23,7 +23,6 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-
                 <div class="card-body">
                     @include('Admin.include.message')
 
@@ -77,8 +76,6 @@
                             {{ $configs->links() }}
                         </div>
                     </div>
-
-                    
                 </div>
             </div>
         </div>

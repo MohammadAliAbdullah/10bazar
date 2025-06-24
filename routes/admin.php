@@ -67,10 +67,12 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         Route::post('get_discount_product_id', [App\Http\Controllers\Admin\DiscountsController::class, 'get_discount_product_id'])->name('get_discount_product_id');
         Route::resource('/testimonials', '\App\Http\Controllers\Admin\TestimonialsController');
         Route::resource('/couriers', '\App\Http\Controllers\Admin\CouriersController');
-        //Setting
-        Route::get('/app-setting', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'create'])->name('app-setting');
-        Route::post('/app-store', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'store'])->name('app-store');
-        Route::get('currency', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createCurrency'])->name('currency.create');
+        //App Setting
+        Route::get('/app-setting', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'create'])->name('appsetting.create');
+        Route::post('/app-setting', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'store'])->name('appsetting.store');
+        // Currency
+        Route::get('currency', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'indexCurrency'])->name('currency.index');
+        Route::get('currency/create', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createCurrency'])->name('currency.create');
         Route::post('currency', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storeCurrency'])->name('currency.store');
         Route::get('currency/edit/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'editCurrency'])->name('currency.edit');
         Route::post('currency/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updateCurrency'])->name('currency.update');
@@ -82,16 +84,17 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         Route::post('payment-method/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updatePaymentMethod'])->name('paymentmethod.update');
         Route::delete('payment-method/delete/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'destroyPaymentMethod'])->name('paymentmethod.destroy');
         // Payment Setup
+        Route::get('payment-setup', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'indexPaymentSetup'])->name('paymentsetup.index');
+        Route::get('payment-setup/create', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createPaymentSetup'])->name('paymentsetup.create');
+        Route::post('payment-setup', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storePaymentSetup'])->name('paymentsetup.store');
         Route::get('payment-setup/edit/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'editPaymentSetup'])->name('paymentsetup.edit');
         Route::post('payment-setup/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updatePaymentSetup'])->name('paymentsetup.update');
         Route::delete('payment-setup/delete/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'destroyPaymentSetup'])->name('paymentsetup.destroy');
-        Route::get('payment-setup', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createPaymentSetup'])->name('paymentsetup.create');
-        Route::post('payment-setup', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storePaymentSetup'])->name('paymentsetup.store');
 
         // sms setting
         Route::get('sms-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'smsConfig'])->name('smsconfig.create');
         Route::post('sms-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'smsConfigStore'])->name('smsconfig.store');
-        
+
         // mail setting
         Route::get('mail-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'mailConfig'])->name('mailconfig.create');
         Route::post('mail-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'mailConfigStore'])->name('mailconfig.store');
