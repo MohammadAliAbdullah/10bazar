@@ -54,7 +54,7 @@ INSERT INTO `visitors` (`ip`, `country`, `city`, `browser`, `platform`, `device`
 ('198.51.100.25', 'Spain', 'Madrid', 'Edge', 'Windows', 'Tablet', 'https://elpais.com', '2025-06-07 10:50:00', '2025-06-07 10:50:00');
 
 -- 22-06-2025
-CREATE TABLE `settings` (
+CREATE TABLE `cs_settings` (
   `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
 
   -- General Info
@@ -111,8 +111,8 @@ CREATE TABLE `settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 23-06-2025
-DROP TABLE IF EXISTS `currencies`;
-CREATE TABLE `currencies` (
+DROP TABLE IF EXISTS `cs_currencies`;
+CREATE TABLE `cs_currencies` (
   `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(50) NOT NULL,
   `icon` VARCHAR(50) NOT NULL,
@@ -124,7 +124,7 @@ CREATE TABLE `currencies` (
   `updated_at` TIMESTAMP NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
-INSERT INTO `currencies` (`title`, `icon`, `position`, `rate`, `created_at`, `updated_at`) VALUES
+INSERT INTO `cs_currencies` (`title`, `icon`, `position`, `rate`, `created_at`, `updated_at`) VALUES
 ('USD', '$', 1, 1.00, NOW(), NOW()),
 ('EUR', '€', 1, 0.85, NOW(), NOW()),
 ('GBP', '£', 1, 0.75, NOW(), NOW()),
@@ -132,7 +132,7 @@ INSERT INTO `currencies` (`title`, `icon`, `position`, `rate`, `created_at`, `up
 ('JPY', '¥', 1, 110.00, NOW(), NOW());
 
 -- payment methods
-CREATE TABLE `payment_methods` (
+CREATE TABLE `cs_payment_methods` (
   `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(100) NOT NULL,
   `icon` VARCHAR(100) DEFAULT NULL,
@@ -144,14 +144,32 @@ CREATE TABLE `payment_methods` (
   `updated_at` TIMESTAMP NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
-INSERT INTO `payment_methods` (`title`, `icon`, `description`, `is_active`, `created_at`, `updated_at`) VALUES
+INSERT INTO `cs_payment_methods` (`title`, `icon`, `description`, `is_active`, `created_at`, `updated_at`) VALUES
 ('Cash on Delivery', 'cash-icon.png', 'Pay with cash upon delivery.', 1, NOW(), NOW()),
 ('Credit Card', 'credit-card-icon.png', 'Pay using your credit card.', 1, NOW(), NOW()),
 ('PayPal', 'paypal-icon.png', 'Secure online payment via PayPal.', 1, NOW(), NOW()),
 ('Bank Transfer', 'bank-transfer-icon.png', 'Direct bank transfer for payments.', 1, NOW(), NOW());
 
+-- 24-06-2025
+CREATE TABLE `cs_payment_setups` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `payment_method_id` int(11) NOT NULL,
+  `marchantid` varchar(255) DEFAULT NULL,
+  `password` varchar(120) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `currency_id` int(11) DEFAULT 0,
+  `is_live` int(11) NOT NULL,
+  `api_code` varchar(25) DEFAULT NULL,
+  `api_key` varchar(300) DEFAULT NULL,
+  `api_endpoint` varchar(200) DEFAULT NULL,
+  `api_user_secret` varchar(300) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1 COMMENT '1=active 0=inactive',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 -- 24-06-2025--
-ALTER TABLE `settings`
+ALTER TABLE `cs_settings`
 ADD COLUMN `facebook` VARCHAR(255) DEFAULT NULL AFTER `footer_text`,
 ADD COLUMN `twitter` VARCHAR(255) DEFAULT NULL AFTER `facebook`,
 ADD COLUMN `linkedin` VARCHAR(255) DEFAULT NULL AFTER `twitter`,
@@ -162,3 +180,135 @@ ADD COLUMN `tiktok` VARCHAR(255) DEFAULT NULL AFTER `youtube`;
 -- 24-06-2025
 DROP TABLE `contacts`, `socialmedia`;
 -- 24-06-2025
+
+DROP TABLE IF EXISTS `sms_configs`;
+CREATE TABLE `cs_sms_configs` (
+  `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `provider` VARCHAR(100) NOT NULL,
+  `username` VARCHAR(155) NOT NULL COMMENT 'API Key',
+  `password` VARCHAR(155) NOT NULL COMMENT 'API Secret',
+  `phone` VARCHAR(20) DEFAULT NULL,
+  `sender_name` VARCHAR(155) DEFAULT NULL,
+  `is_invoice` TINYINT(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_purchase` TINYINT(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_receive` TINYINT(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_payment` TINYINT(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_active` TINYINT(1) DEFAULT 1 COMMENT '1 = active, 0 = No',
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+DROP TABLE IF EXISTS `mail_configs`;
+CREATE TABLE `cs_mail_configs` (
+  `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `protocol` varchar(100) NOT NULL,
+  `smtp_host` varchar(100) NOT NULL,
+  `smtp_port` varchar(100) NOT NULL,
+  `smtp_user` varchar(100) NOT NULL,
+  `smtp_pass` varchar(100) NOT NULL,
+  `mail_type` varchar(100) NOT NULL,
+  `is_invoice` TINYINT(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_purchase` TINYINT(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_receive` TINYINT(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_payment` TINYINT(1) DEFAULT 0 COMMENT '1 = Yes, 0 = No',
+  `is_active` TINYINT(1) DEFAULT 1 COMMENT '1 = active, 0 = No',
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `settings`;
+CREATE TABLE `cs_settings` (
+  `id` bigint(20) unsigned NOT NULL,
+  `site_title` varchar(255) DEFAULT NULL,
+  `store_name` varchar(100) DEFAULT NULL,
+  `address` text DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  `phone` varchar(200) DEFAULT NULL,
+  `logo` text DEFAULT NULL,
+  `splash_logo` varchar(255) DEFAULT NULL,
+  `favicon` text DEFAULT NULL,
+  `vat` int(11) DEFAULT 0,
+  `show_vat_number` tinyint(1) DEFAULT 0,
+  `vat_number` varchar(30) DEFAULT NULL,
+  `service_charge` int(11) DEFAULT 0,
+  `discount_type` tinyint(4) DEFAULT 0 COMMENT '0 = amount, 1 = percent',
+  `service_charge_type` tinyint(4) DEFAULT 0 COMMENT '0 = amount, 1 = percent',
+  `discount_rate` decimal(19,3) DEFAULT 0.000,
+  `country` varchar(100) DEFAULT NULL,
+  `google_map_embed_link` text DEFAULT NULL,
+  `latitude` varchar(10) DEFAULT NULL,
+  `longitude` varchar(10) DEFAULT NULL,
+  `currency_id` int(11) DEFAULT 0,
+  `language` varchar(100) DEFAULT NULL,
+  `timezone` varchar(150) DEFAULT NULL,
+  `date_format` text DEFAULT NULL,
+  `site_alignment` varchar(50) DEFAULT NULL,
+  `powered_by_text` text DEFAULT NULL,
+  `footer_text` varchar(255) DEFAULT NULL,
+  `facebook` varchar(255) DEFAULT NULL,
+  `twitter` varchar(255) DEFAULT NULL,
+  `linkedin` varchar(255) DEFAULT NULL,
+  `instagram` varchar(255) DEFAULT NULL,
+  `youtube` varchar(255) DEFAULT NULL,
+  `tiktok` varchar(255) DEFAULT NULL,
+  `refund_restriction` tinyint(1) DEFAULT 0 COMMENT '0 = refund allowed',
+  `refund_auto_approve` tinyint(1) DEFAULT 1 COMMENT '1 = auto-approve refunds',
+  `refund_deduction_percent` decimal(10,2) DEFAULT 0.00,
+  `inventory_type` tinyint(4) DEFAULT 1 COMMENT '1 = Periodic, 2 = Perpetual',
+  `invoice_company` varchar(155) DEFAULT NULL,
+  `invoice_email` varchar(155) DEFAULT NULL,
+  `invoice_logo` text DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS `payment_methods`;
+CREATE TABLE `cs_payment_methods` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `is_web` int(1) DEFAULT 1 COMMENT '1=show website.2=not show website',
+  `acc_coa_id` bigint(20) unsigned DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1 COMMENT '1=active 0=inactive',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+DROP TABLE IF EXISTS `payment_setups`;
+CREATE TABLE `cs_payment_setups` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `payment_method_id` int(11) NOT NULL,
+  `marchantid` varchar(255) DEFAULT NULL,
+  `password` varchar(120) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `currency_id` int(11) DEFAULT 0,
+  `is_live` int(11) NOT NULL,
+  `api_code` varchar(25) DEFAULT NULL,
+  `api_key` varchar(300) DEFAULT NULL,
+  `api_endpoint` varchar(200) DEFAULT NULL,
+  `api_user_scret` varchar(300) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1 COMMENT '1=active 0=inactive',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+DROP TABLE IF EXISTS `currencies`;
+CREATE TABLE `cs_currencies` (
+  `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  `title` VARCHAR(50) NOT NULL,
+  `icon` VARCHAR(50) NOT NULL,
+  `position` INT(11) NOT NULL DEFAULT 1 COMMENT '1=left.2=right',
+  `rate` DECIMAL(10,2) DEFAULT NULL,
+
+  -- Timestamps
+  `created_at` TIMESTAMP NULL DEFAULT NULL,
+  `updated_at` TIMESTAMP NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+INSERT INTO `cs_currencies` (`title`, `icon`, `position`, `rate`, `created_at`, `updated_at`) VALUES
+('USD', '$', 1, 1.00, NOW(), NOW()),
+('EUR', '€', 1, 0.85, NOW(), NOW()),
+('GBP', '£', 1, 0.75, NOW(), NOW()),
+('INR', '₹', 1, 73.00, NOW(), NOW()),
+('JPY', '¥', 1, 110.00, NOW(), NOW());
