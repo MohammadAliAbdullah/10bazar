@@ -141,7 +141,7 @@ Route::get('language/{locale}', function ($locale) {
     return redirect()->back();
 });
 
-Route::get('/lang', function () {
+Route::get('/lang_test', function () {
     $today = \Carbon\Carbon::now()
         ->settings(
             [

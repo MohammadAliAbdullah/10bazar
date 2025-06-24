@@ -88,6 +88,12 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         Route::get('payment-setup', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createPaymentSetup'])->name('paymentsetup.create');
         Route::post('payment-setup', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storePaymentSetup'])->name('paymentsetup.store');
 
+        // Language
+        Route::get('/lang', [App\Http\Controllers\Admin\Setting\LangController::class, 'index'])->name('lang.index');
+        Route::get('/lang/edit/{locale}', [App\Http\Controllers\Admin\Setting\LangController::class, 'edit'])->name('lang.edit');
+        Route::post('/lang/update/{locale}', [App\Http\Controllers\Admin\Setting\LangController::class, 'update'])->name('lang.update');
+
+
         Route::resource('/paymentgetway', '\App\Http\Controllers\Admin\Setting\PaymentController');
         Route::resource('/contactinfo', '\App\Http\Controllers\Admin\Setting\ContactInfoController');
         Route::resource('/logofavs', '\App\Http\Controllers\Admin\Setting\LogoFavsController');
