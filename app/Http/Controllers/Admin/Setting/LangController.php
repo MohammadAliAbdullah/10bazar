@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Setting;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Session;
 
 class LangController extends Controller
 {
@@ -45,6 +46,8 @@ class LangController extends Controller
         $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         File::put(resource_path("lang/{$locale}.json"), $json);
+          Session::flash('status','Language updated successfully!');
+        //   return redirect()->back()->with('success', 'Language updated successfully!');
         return redirect()->route('madmin.lang.index')->with('success', 'Language updated successfully.');
     }
 }
