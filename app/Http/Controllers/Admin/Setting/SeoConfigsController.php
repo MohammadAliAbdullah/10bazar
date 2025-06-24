@@ -16,8 +16,8 @@ class SeoConfigsController extends Controller
      */
     public function index()
     {
-        $configs = SeoConfig::paginate(10);
-        return view("Admin.SeoConfigs.index", compact('configs'));
+        $data['configs'] = SeoConfig::paginate(10);
+        return view("Admin.Setting.seo.index", $data);
     }
 
     /**
@@ -27,7 +27,7 @@ class SeoConfigsController extends Controller
      */
     public function create()
     {
-        return view("Admin.SeoConfigs.add");
+        return view("Admin.Setting.seo.add");
     }
 
     /**
@@ -64,7 +64,7 @@ class SeoConfigsController extends Controller
     public function edit($id)
     {
         $config = SeoConfig::findOrFail($id);
-        return view("Admin.SeoConfigs.edit", compact("config"));
+        return view("Admin.Setting.seo.edit", compact("config"));
     }
 
     /**

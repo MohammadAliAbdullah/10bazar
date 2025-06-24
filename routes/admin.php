@@ -70,15 +70,15 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         //Setting
         Route::get('/app-setting', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'create'])->name('app-setting');
         Route::post('/app-store', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'store'])->name('app-store');
-        Route::get('/seoconfigs', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'seoIndex'])->name('seoconfigs.index');
-        Route::get('/seoconfigs/edit', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'seoIndex'])->name('seoconfigs.edit');
-        Route::get('/seoconfigs/destroy', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'seoIndex'])->name('seoconfigs.destroy');
+        Route::get('/seo-configs', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'seoIndex'])->name('seo-configs.index');
+        Route::get('/seo-configs/edit', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'seoIndex'])->name('seo-configs.edit');
+        Route::get('/seo-configs/destroy', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'seoIndex'])->name('seo-configs.destroy');
 
         Route::resource('/paymentgetway', '\App\Http\Controllers\Admin\Setting\PaymentController');
         Route::resource('/contactinfo', '\App\Http\Controllers\Admin\Setting\ContactInfoController');
         Route::resource('/logofavs', '\App\Http\Controllers\Admin\Setting\LogoFavsController');
         Route::resource('/contacts', '\App\Http\Controllers\Admin\Setting\ContactInfoController');
-        Route::resource('/seoconfigs_old', '\App\Http\Controllers\Admin\Setting\SeoConfigsController');
+        Route::resource('/seoconfigs', '\App\Http\Controllers\Admin\Setting\SeoConfigsController');
         Route::resource('/socialmedia', '\App\Http\Controllers\Admin\Setting\SocialMediaController');
         Route::resource('/aboutadmin', '\App\Http\Controllers\Admin\AboutController');
         Route::resource('/customeradmin', '\App\Http\Controllers\Admin\CustomerController');

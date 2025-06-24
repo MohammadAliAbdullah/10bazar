@@ -61,7 +61,6 @@ class SettingController extends Controller
             'inventory_type'           => 'nullable|string|max:50',
             'invoice_company'          => 'nullable|string|max:255',
             'invoice_email'            => 'nullable|email|max:255',
-            'invoice_logo'             => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             // Add more validation rules as needed
         ]);
 
