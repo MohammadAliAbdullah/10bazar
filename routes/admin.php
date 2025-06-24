@@ -91,13 +91,17 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         // sms setting
         Route::get('sms-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'smsConfig'])->name('smsconfig.create');
         Route::post('sms-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'smsConfigStore'])->name('smsconfig.store');
+        
+        // mail setting
+        Route::get('mail-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'mailConfig'])->name('mailconfig.create');
+        Route::post('mail-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'mailConfigStore'])->name('mailconfig.store');
 
         // Language
         Route::get('/lang', [App\Http\Controllers\Admin\Setting\LangController::class, 'index'])->name('lang.index');
         Route::get('/lang/edit/{locale}', [App\Http\Controllers\Admin\Setting\LangController::class, 'edit'])->name('lang.edit');
         Route::post('/lang/update/{locale}', [App\Http\Controllers\Admin\Setting\LangController::class, 'update'])->name('lang.update');
 
-
+        // Payment Methods
         Route::resource('/paymentgetway', '\App\Http\Controllers\Admin\Setting\PaymentController');
         Route::resource('/contactinfo', '\App\Http\Controllers\Admin\Setting\ContactInfoController');
         Route::resource('/logofavs', '\App\Http\Controllers\Admin\Setting\LogoFavsController');

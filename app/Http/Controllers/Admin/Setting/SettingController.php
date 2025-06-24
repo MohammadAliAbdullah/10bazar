@@ -260,4 +260,31 @@ class SettingController extends Controller
         Session::flash('status', 'SMS configuration updated successfully!');
         return back()->with('success', 'SMS configuration updated successfully!');
     }
+
+    public function mailConfig()
+    {
+        $mail = DB::table('cs_mail_configs')->first();
+        return view('Admin.Setting.mail.index', compact('mail'));
+    }
+
+    public function mailConfigStore(Request $request)
+    {
+        $validated = $request->validate([
+            'protocol'     => 'required|string|max:100',
+            'smtp_host'    => 'required|string|max:100',
+            'smtp_port'    => 'required|string|max:100',
+            'smtp_user'    => 'required|string|max:100',
+            'smtp_pass'    => 'required|string|max:100',
+            'mail_type'    => 'required|string|max:100',
+            'is_invoice'   => 'nullable|in:0,1',
+            'is_purchase'  => 'nullable|in:0,1',
+            'is_receive'   => 'nullable|in:0,1',
+            'is_payment'   => 'nullable|in:0,1',
+            'is_active'    => 'nullable|in:0,1',
+        ]);
+
+        DB::table('cs_mail_configs')->updateOrInsert(['id' => 1], $validated);
+
+        return back()->with('success', 'Mail configuration updated successfully.');
+    }
 }
