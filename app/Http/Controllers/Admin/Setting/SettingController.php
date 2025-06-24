@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin\Setting;
 use App\Http\Controllers\Controller;
 use App\Models\AppSetting;
 use App\Models\Currency;
+use App\Models\PaymentMethod;
+use App\Models\PaymentSetup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -125,5 +127,112 @@ class SettingController extends Controller
     {
         Currency::findOrFail($id)->delete();
         return redirect()->back()->with('success', 'Currency deleted successfully.');
+    }
+
+    public function createPaymentMethod()
+    {
+        $methods = PaymentMethod::latest()->get();
+        return view('Admin.Setting.Payment.method', compact('methods'));
+    }
+    public function storePaymentMethod(Request $request)
+    {
+        $request->validate([
+            'title'     => 'required|string|max:100',
+            'is_web'    => 'required|in:1,2',
+            'acc_coa_id' => 'nullable|numeric',
+            'is_active' => 'required|in:1,2',
+        ]);
+
+        PaymentMethod::create($request->all());
+
+        return redirect()->back()->with('success', 'Payment method added successfully.');
+    }
+
+    public function createPaymentSetup()
+    {
+        $setups = PaymentSetup::with('paymentMethod')->latest()->get();
+        $methods = PaymentMethod::where('is_active', 1)->get();
+        return view('Admin.Setting.Payment.setup', compact('setups', 'methods'));
+    }
+
+    public function storePaymentSetup(Request $request)
+    {
+        $request->validate([
+            'payment_method_id'        => 'required|exists:payment_methods,id',
+            'marchantid'       => 'nullable|string|max:255',
+            'password'         => 'required|string|max:120',
+            'email'            => 'required|email|max:100',
+            'currency_id'      => 'nullable|numeric',
+            'is_live'          => 'required|in:0,1',
+            'api_code'         => 'nullable|string|max:25',
+            'api_key'          => 'nullable|string|max:300',
+            'api_endpoint'     => 'nullable|string|max:200',
+            'api_user_scret'   => 'nullable|string|max:300',
+            'is_active'        => 'required|in:1,2',
+        ]);
+
+        PaymentSetup::create($request->all());
+
+        return redirect()->back()->with('success', 'Payment setup saved successfully.');
+    }
+
+    public function editPaymentMethod($id)
+    {
+        $edit = PaymentMethod::findOrFail($id);
+        $methods = PaymentMethod::latest()->get();
+        return view('Admin.Setting.Payment.method', compact('methods', 'edit'));
+    }
+
+    public function updatePaymentMethod(Request $request, $id)
+    {
+        $request->validate([
+            'title'     => 'required|string|max:100',
+            'is_web'    => 'required|in:1,2',
+            'acc_coa_id' => 'nullable|numeric',
+            'is_active' => 'required|in:1,2',
+        ]);
+
+        PaymentMethod::findOrFail($id)->update($request->all());
+        return redirect()->route('madmin.paymentmethod.create')->with('success', 'Payment method updated.');
+    }
+
+    public function destroyPaymentMethod($id)
+    {
+        PaymentMethod::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'Payment method deleted.');
+    }
+
+    public function editPaymentSetup($id)
+    {
+        $edit = PaymentSetup::findOrFail($id);
+        $setups = PaymentSetup::with('paymentMethod')->latest()->get();
+        $methods = PaymentMethod::where('is_active', 1)->get();
+        return view('Admin.Setting.Payment.setup', compact('setups', 'methods', 'edit'));
+    }
+
+    public function updatePaymentSetup(Request $request, $id)
+    {
+        $request->validate([
+            'payment_method_id'        => 'required|exists:payment_methods,id',
+            'marchantid'       => 'nullable|string|max:255',
+            'password'         => 'required|string|max:120',
+            'email'            => 'required|email|max:100',
+            'currency_id'      => 'nullable|numeric',
+            'is_live'          => 'required|in:0,1',
+            'api_code'         => 'nullable|string|max:25',
+            'api_key'          => 'nullable|string|max:300',
+            'api_endpoint'     => 'nullable|string|max:200',
+            'api_user_scret'   => 'nullable|string|max:300',
+            'is_active'        => 'required|in:1,2',
+        ]);
+
+        PaymentSetup::findOrFail($id)->update($request->all());
+        return redirect()->route('madmin.paymentsetup.create')->with('success', 'Payment setup updated.');
+    }
+
+    public function destroyPaymentSetup($id)
+    {
+        PaymentSetup::findOrFail($id)->delete();
+        return redirect()->back()->with('success', 'Payment setup deleted.');
     }
 }

@@ -75,7 +75,18 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         Route::get('currency/edit/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'editCurrency'])->name('currency.edit');
         Route::post('currency/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updateCurrency'])->name('currency.update');
         Route::delete('currency/delete/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'destroyCurrency'])->name('currency.destroy');
-
+        // Payment Method
+        Route::get('payment-method', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createPaymentMethod'])->name('paymentmethod.create');
+        Route::post('payment-method', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storePaymentMethod'])->name('paymentmethod.store');
+        Route::get('payment-method/edit/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'editPaymentMethod'])->name('paymentmethod.edit');
+        Route::post('payment-method/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updatePaymentMethod'])->name('paymentmethod.update');
+        Route::delete('payment-method/delete/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'destroyPaymentMethod'])->name('paymentmethod.destroy');
+        // Payment Setup
+        Route::get('payment-setup/edit/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'editPaymentSetup'])->name('paymentsetup.edit');
+        Route::post('payment-setup/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updatePaymentSetup'])->name('paymentsetup.update');
+        Route::delete('payment-setup/delete/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'destroyPaymentSetup'])->name('paymentsetup.destroy');
+        Route::get('payment-setup', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createPaymentSetup'])->name('paymentsetup.create');
+        Route::post('payment-setup', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storePaymentSetup'])->name('paymentsetup.store');
 
         Route::resource('/paymentgetway', '\App\Http\Controllers\Admin\Setting\PaymentController');
         Route::resource('/contactinfo', '\App\Http\Controllers\Admin\Setting\ContactInfoController');
