@@ -111,13 +111,14 @@ CREATE TABLE `settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- 23-06-2025
+DROP TABLE IF EXISTS `currencies`;
 CREATE TABLE `currencies` (
   `id` BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
   `title` VARCHAR(50) NOT NULL,
   `icon` VARCHAR(50) NOT NULL,
   `position` INT(11) NOT NULL DEFAULT 1 COMMENT '1=left.2=right',
-  `rate` DECIMAL(10,2) NOT NULL DEFAULT 0.00,
-   
+  `rate` DECIMAL(10,2) DEFAULT NULL,
+
   -- Timestamps
   `created_at` TIMESTAMP NULL DEFAULT NULL,
   `updated_at` TIMESTAMP NULL DEFAULT NULL

@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Setting;
 
 use App\Http\Controllers\Controller;
 use App\Models\AppSetting;
-use App\Models\SeoConfig;
+use App\Models\Currency;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -77,10 +77,24 @@ class SettingController extends Controller
 
         return redirect()->back()->with('success', 'Settings saved successfully!');
     }
-
-    public function seoIndex()
+    public function createCurrency()
     {
-        $configs = SeoConfig::paginate(10);
-        return view("Admin.Setting.seo.index", compact('configs'));
+        $data['currencies'] = Currency::latest()->get();
+        return view('Admin.Setting.Currency.index', $data);
+    }
+
+    public function storeCurrency(Request $request)
+    {
+        $validated = $request->validate([
+            'title'    => 'required|string|max:50',
+            'icon'     => 'required|string|max:10',
+            'position' => 'required|in:1,2',
+            'rate'     => 'required|numeric|min:0',
+        ]);
+        // dd($validated);
+
+        Currency::create($validated); // This must include title, icon, position, rate
+
+        return redirect()->back()->with('success', 'Currency added successfully!');
     }
 }

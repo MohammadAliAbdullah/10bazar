@@ -70,10 +70,9 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         //Setting
         Route::get('/app-setting', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'create'])->name('app-setting');
         Route::post('/app-store', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'store'])->name('app-store');
-        Route::get('/seo-configs', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'seoIndex'])->name('seo-configs.index');
-        Route::get('/seo-configs/edit', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'seoIndex'])->name('seo-configs.edit');
-        Route::get('/seo-configs/destroy', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'seoIndex'])->name('seo-configs.destroy');
-
+        Route::get('currency', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createCurrency'])->name('currency.create');
+        Route::post('currency', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storeCurrency'])->name('currency.store');
+        
         Route::resource('/paymentgetway', '\App\Http\Controllers\Admin\Setting\PaymentController');
         Route::resource('/contactinfo', '\App\Http\Controllers\Admin\Setting\ContactInfoController');
         Route::resource('/logofavs', '\App\Http\Controllers\Admin\Setting\LogoFavsController');
