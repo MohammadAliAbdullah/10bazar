@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin\Setting;
 
 use Illuminate\Http\Request;
@@ -39,14 +40,38 @@ class LangController extends Controller
         return view('Admin.Setting.Language.edit', compact('locale', 'translations'));
     }
 
-    public function update(Request $request, $locale)
+    public function update_42(Request $request, $locale)
     {
         $data = $request->input('translations', []);
         ksort($data); // Sort keys alphabetically
         $json = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
         File::put(resource_path("lang/{$locale}.json"), $json);
-        Session::flash('status','Language updated successfully!');
+        Session::flash('status', 'Language updated successfully!');
+        //   return redirect()->back()->with('success', 'Language updated successfully!');
+        return redirect()->route('madmin.lang.index')->with('success', 'Language updated successfully.');
+    }
+
+    public function update(Request $request, $locale)
+    {
+        $existing = $request->input('translations', []);
+        $newKeys = $request->input('keys_new', []);
+        $newValues = $request->input('values_new', []);
+
+        $translations = $existing;
+
+        // Add new fields
+        foreach ($newKeys as $index => $newKey) {
+            $newKey = trim($newKey);
+            if ($newKey !== '' && !isset($translations[$newKey])) {
+                $translations[$newKey] = $newValues[$index] ?? '';
+            }
+        }
+
+        ksort($translations);
+        File::put(resource_path("lang/{$locale}.json"), json_encode($translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+
+        Session::flash('status', 'Language updated successfully!');
         //   return redirect()->back()->with('success', 'Language updated successfully!');
         return redirect()->route('madmin.lang.index')->with('success', 'Language updated successfully.');
     }
