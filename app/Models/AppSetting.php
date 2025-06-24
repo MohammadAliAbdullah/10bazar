@@ -9,7 +9,7 @@ class AppSetting extends Model
 {
     use HasFactory;
     // table name
-    protected $table = 'settings';
+    protected $table = 'cs_settings';
 
     protected $fillable = [
         'site_title',

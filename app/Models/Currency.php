@@ -9,7 +9,7 @@ class Currency extends Model
 {
     use HasFactory;
     // table name
-    protected $table = 'currencies';
+    protected $table = 'cs_currencies';
    protected $fillable = ['title', 'icon', 'position', 'rate'];
 
 }
