@@ -7,6 +7,7 @@ use App\Models\Area;
 use App\Models\City;
 use App\Models\Division;
 use App\Models\PaymentGetway;
+use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
 use Auth;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
@@ -14,7 +15,6 @@ use App\Models\Customer;
 use App\Models\Voucher;
 use App\Models\Coupon;
 use Illuminate\Support\Facades\Session;
-
 
 class Checkoutscontroller extends Controller
 {
@@ -33,11 +33,11 @@ class Checkoutscontroller extends Controller
     public function checkout()
     {
         // if (Auth::guard('mypanel')->user()) {
-            $customer = Auth::guard('mypanel')->user();
-            $cartCollection = Cart::getContent();
-            $districts = Division::orderBy('name', 'ASC')->get()->pluck('name', 'id')->toArray();
-            $payments = PaymentGetway::orderBy('id', 'ASC')->where('status', 'Active')->get();
-            return view("Frontend.Page.checkout", compact('customer', 'cartCollection', 'districts', 'payments'));
+            $data['customer'] = Auth::guard('mypanel')->user();
+            $data['cartCollection'] = Cart::getContent();
+            $data['districts'] = Division::orderBy('name', 'ASC')->get()->pluck('name', 'id')->toArray();
+            $data['paymentMethods'] = PaymentMethod::orderBy('id', 'ASC')->where([['is_active', '1'], 'is_web', 1])->get();
+            return view("Frontend.Page.checkout", $data);
         // } else {
             // session(['link' => url()->previous()]);
             // return redirect()->route('login');

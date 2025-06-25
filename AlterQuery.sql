@@ -312,3 +312,24 @@ INSERT INTO `cs_currencies` (`title`, `icon`, `position`, `rate`, `created_at`, 
 ('GBP', '£', 1, 0.75, NOW(), NOW()),
 ('INR', '₹', 1, 73.00, NOW(), NOW()),
 ('JPY', '¥', 1, 110.00, NOW(), NOW());
+
+ALTER TABLE hotel_csl.cs_payment_methods
+ADD COLUMN code VARCHAR(50) DEFAULT NULL COMMENT 'unique code for payment' AFTER title,
+ADD UNIQUE INDEX idx_code_unique (code);
+
+
+UPDATE cs_payment_methods SET code = 'CS-COH' WHERE id = 1;
+UPDATE cs_payment_methods SET code = 'CS-COD' WHERE id = 2;
+UPDATE cs_payment_methods SET code = 'CS-SSLCOM' WHERE id = 3;
+UPDATE cs_payment_methods SET code = 'CS-BKASH' WHERE id = 4;
+UPDATE cs_payment_methods SET code = 'CS-NAGAD' WHERE id = 5;
+UPDATE cs_payment_methods SET code = 'CS-RAZORPAY' WHERE id = 6;
+UPDATE cs_payment_methods SET code = 'CS-PAYTM' WHERE id = 7;
+UPDATE cs_payment_methods SET code = 'CS-GPAY' WHERE id = 8;
+UPDATE cs_payment_methods SET code = 'CS-ALIPAY' WHERE id = 9;
+UPDATE cs_payment_methods SET code = 'CS-WEBMONEY' WHERE id = 10;
+UPDATE cs_payment_methods SET code = 'CS-SHOPEEPAY' WHERE id = 11;
+UPDATE cs_payment_methods SET code = 'CS-STRIPE' WHERE id = 12;
+UPDATE cs_payment_methods SET code = 'CS-SQUARE' WHERE id = 13;
+UPDATE cs_payment_methods SET code = 'CS-AMAZONPAY' WHERE id = 14;
+UPDATE cs_payment_methods SET code = 'CS-PAYPAL' WHERE id = 15;

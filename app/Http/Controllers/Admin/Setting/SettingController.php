@@ -139,10 +139,15 @@ class SettingController extends Controller
         return redirect()->back();
     }
 
-    public function createPaymentMethod()
+    public function indexPaymentMethod()
     {
         $methods = PaymentMethod::latest()->get();
         return view('Admin.Setting.Payment.method', compact('methods'));
+    }
+    public function createPaymentMethod()
+    {
+        $methods = PaymentMethod::latest()->get();
+        return view('Admin.Setting.Payment.addEdit', compact('methods'));
     }
     public function storePaymentMethod(Request $request)
     {
@@ -159,6 +164,27 @@ class SettingController extends Controller
         return redirect()->back();
     }
 
+    public function editPaymentMethod($id)
+    {
+        $edit = PaymentMethod::findOrFail($id);
+        $methods = PaymentMethod::latest()->get();
+        return view('Admin.Setting.Payment.addEdit', compact('methods', 'edit'));
+    }
+
+    public function updatePaymentMethod(Request $request, $id)
+    {
+        $request->validate([
+            'title'     => 'required|string|max:100',
+            'is_web'    => 'required|in:1,2',
+            'acc_coa_id' => 'nullable|numeric',
+            'is_active' => 'required|in:1,2',
+        ]);
+
+        PaymentMethod::findOrFail($id)->update($request->all());
+        Session::flash('status', 'Payment method updated successfully!');
+        return redirect()->route('madmin.paymentmethod.create');
+    }
+
     public function indexPaymentSetup()
     {
         $setups = PaymentSetup::with('paymentMethod')->latest()->get();
@@ -169,7 +195,7 @@ class SettingController extends Controller
     {
         $setups = PaymentSetup::with('paymentMethod')->latest()->get();
         $methods = PaymentMethod::where('is_active', 1)->get();
-        return view('Admin.Setting.Payment.addEditPaymentSetup', compact('setups', 'methods'));
+        return view('Admin.Setting.Payment.addEditSetup', compact('setups', 'methods'));
     }
 
     public function storePaymentSetup(Request $request)
@@ -194,27 +220,6 @@ class SettingController extends Controller
         return redirect()->back();
     }
 
-    public function editPaymentMethod($id)
-    {
-        $edit = PaymentMethod::findOrFail($id);
-        $methods = PaymentMethod::latest()->get();
-        return view('Admin.Setting.Payment.method', compact('methods', 'edit'));
-    }
-
-    public function updatePaymentMethod(Request $request, $id)
-    {
-        $request->validate([
-            'title'     => 'required|string|max:100',
-            'is_web'    => 'required|in:1,2',
-            'acc_coa_id' => 'nullable|numeric',
-            'is_active' => 'required|in:1,2',
-        ]);
-
-        PaymentMethod::findOrFail($id)->update($request->all());
-        Session::flash('status', 'Payment method updated successfully!');
-        return redirect()->route('madmin.paymentmethod.create');
-    }
-
     public function destroyPaymentMethod($id)
     {
         PaymentMethod::findOrFail($id)->delete();
@@ -227,23 +232,23 @@ class SettingController extends Controller
         $edit = PaymentSetup::findOrFail($id);
         $setups = PaymentSetup::with('paymentMethod')->latest()->get();
         $methods = PaymentMethod::where('is_active', 1)->get();
-        return view('Admin.Setting.Payment.addEditPaymentSetup', compact('setups', 'methods', 'edit'));
+        return view('Admin.Setting.Payment.addEditSetup', compact('setups', 'methods', 'edit'));
     }
 
     public function updatePaymentSetup(Request $request, $id)
     {
         $request->validate([
-            'payment_method_id'        => 'required|exists:payment_methods,id',
-            'marchantid'       => 'nullable|string|max:255',
-            'password'         => 'required|string|max:120',
-            'email'            => 'required|email|max:100',
-            'currency_id'      => 'nullable|numeric',
-            'is_live'          => 'required|in:0,1',
-            'api_code'         => 'nullable|string|max:25',
-            'api_key'          => 'nullable|string|max:300',
-            'api_endpoint'     => 'nullable|string|max:200',
-            'api_user_scret'   => 'nullable|string|max:300',
-            'is_active'        => 'required|in:1,2',
+            'payment_method_id' => 'required|exists:payment_methods,id',
+            'marchantid'        => 'nullable|string|max:255',
+            'password'          => 'required|string|max:120',
+            'email'             => 'required|email|max:100',
+            'currency_id'       => 'nullable|numeric',
+            'is_live'           => 'required|in:0,1',
+            'api_code'          => 'nullable|string|max:25',
+            'api_key'           => 'nullable|string|max:300',
+            'api_endpoint'      => 'nullable|string|max:200',
+            'api_user_scret'    => 'nullable|string|max:300',
+            'is_active'         => 'required|in:1,2',
         ]);
 
         PaymentSetup::findOrFail($id)->update($request->all());

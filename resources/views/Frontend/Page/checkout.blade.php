@@ -109,6 +109,7 @@
                             </table>
                             <div class="payment-methods">
                                 <ul class="payment-methods__list">
+                                    
                                     <li class="payment-methods__item payment-methods__item--active">
                                         <label class="payment-methods__item-header">
                                             <span class="payment-methods__item-radio input-radio">
@@ -125,22 +126,6 @@
                                                 delivery.</div>
                                         </div>
                                     </li>
-                                    {{-- <li class="payment-methods__item">
-                                        <label class="payment-methods__item-header">
-                                            <span class="payment-methods__item-radio input-radio">
-                                                <span class="input-radio__body">
-                                                    <input class="input-radio__input" name="payment_method" type="radio"
-                                                        value="ssl">
-                                                    <span class="input-radio__circle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="payment-methods__item-title">Online Payment</span>
-                                        </label>
-                                        <div class="payment-methods__item-container">
-                                            <div class="payment-methods__item-description text-muted">Pay via SSLCommerz.
-                                            </div>
-                                        </div>
-                                    </li> --}}
                                     <li class="payment-methods__item">
                                         <label class="payment-methods__item-header">
                                             <span class="payment-methods__item-radio input-radio">
@@ -156,21 +141,8 @@
                                             <div class="payment-methods__item-description text-muted">Pay via Bkash.</div>
                                         </div>
                                     </li>
-                                    {{-- <li class="payment-methods__item">
-                                        <label class="payment-methods__item-header">
-                                            <span class="payment-methods__item-radio input-radio">
-                                                <span class="input-radio__body">
-                                                    <input class="input-radio__input" name="payment_method" type="radio"
-                                                        value="Rocket">
-                                                    <span class="input-radio__circle"></span>
-                                                </span>
-                                            </span>
-                                            <span class="payment-methods__item-title">Rocket</span>
-                                        </label>
-                                        <div class="payment-methods__item-container">
-                                            <div class="payment-methods__item-description text-muted">Pay via Rocket.</div>
-                                        </div>
-                                    </li> --}}
+
+
                                 </ul>
                             </div>
                             <div class="checkout__agree form-group">

@@ -3,7 +3,17 @@
 @section('content')
     <div class="content-header">
         <div class="container-fluid">
-            <h1 class="m-0 text-dark">Payment Methods</h1>
+            <div class="row ">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Payment Methods</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <a href="{{ route('madmin.paymentmethod.index') }}" class="btn btn-primary btn-sm mr-2">
+                            <i class="fa fa-bars"></i> List Payment Method</a>
+                    </ol>
+                </div>
+            </div>
         </div>
     </div>
 

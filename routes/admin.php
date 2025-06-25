@@ -78,7 +78,8 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         Route::post('currency/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updateCurrency'])->name('currency.update');
         Route::delete('currency/delete/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'destroyCurrency'])->name('currency.destroy');
         // Payment Method
-        Route::get('payment-method', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createPaymentMethod'])->name('paymentmethod.create');
+        Route::get('payment-method', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'indexPaymentMethod'])->name('paymentmethod.index');
+        Route::get('payment-method/create', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createPaymentMethod'])->name('paymentmethod.create');
         Route::post('payment-method', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storePaymentMethod'])->name('paymentmethod.store');
         Route::get('payment-method/edit/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'editPaymentMethod'])->name('paymentmethod.edit');
         Route::post('payment-method/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updatePaymentMethod'])->name('paymentmethod.update');
