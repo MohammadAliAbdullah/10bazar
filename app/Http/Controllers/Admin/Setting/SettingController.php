@@ -19,6 +19,7 @@ class SettingController extends Controller
     {
         // dd(sslcommerz_config()['isSandbox']);
         $data['setting'] = AppSetting::first();
+        $data['currencies'] = Currency::all();
         return view("Admin.Setting.App.application", $data);
     }
 
@@ -194,9 +195,10 @@ class SettingController extends Controller
     }
     public function createPaymentSetup()
     {
-        $setups = PaymentSetup::with('paymentMethod')->latest()->get();
-        $methods = PaymentMethod::where('is_active', 1)->get();
-        return view('Admin.Setting.Payment.addEditSetup', compact('setups', 'methods'));
+        $data['setups'] = PaymentSetup::with('paymentMethod')->latest()->get();
+        $data['methods'] = PaymentMethod::where('is_active', 1)->get();
+        $data['currencies'] = Currency::all();
+        return view('Admin.Setting.Payment.addEditSetup', $data);
     }
 
     public function storePaymentSetup(Request $request)
@@ -231,9 +233,10 @@ class SettingController extends Controller
     public function editPaymentSetup($id)
     {
         $edit = PaymentSetup::findOrFail($id);
-        $setups = PaymentSetup::with('paymentMethod')->latest()->get();
-        $methods = PaymentMethod::where('is_active', 1)->get();
-        return view('Admin.Setting.Payment.addEditSetup', compact('setups', 'methods', 'edit'));
+        $data['setups'] = PaymentSetup::with('paymentMethod')->latest()->get();
+        $data['methods'] = PaymentMethod::where('is_active', 1)->get();
+        $data['currencies'] = Currency::all();
+        return view('Admin.Setting.Payment.addEditSetup', $data);
     }
 
     public function updatePaymentSetup(Request $request, $id)

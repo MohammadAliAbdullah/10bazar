@@ -63,8 +63,14 @@
 
                         <div class="form-group">
                             <label>Currency ID</label>
-                            <input type="number" name="currency_id" class="form-control"
-                                value="{{ old('currency_id', $edit->currency_id ?? '') }}">
+                            <select name="currency_id" class="form-control">
+                                <option value="">Select Currency</option>
+                                @foreach ($currencies as $currency)
+                                    <option value="{{ $currency->id }}" {{ (old('currency_id', $edit->currency_id ?? '') == $currency->id) ? 'selected' : '' }}>
+                                        {{ $currency->title }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
 
                         <div class="form-group">

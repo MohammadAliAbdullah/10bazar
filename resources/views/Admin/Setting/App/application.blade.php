@@ -120,7 +120,7 @@
                             'country' => 'Country',
                             'latitude' => 'Latitude',
                             'longitude' => 'Longitude',
-                            'currency_id' => 'Currency ID',
+                            // 'currency_id' => 'Currency ID',
                             'language' => 'Language',
                             'timezone' => 'Timezone',
                         ] as $name => $label)
@@ -131,7 +131,18 @@
                                 </div>
                             </div>
                         @endforeach
-
+                        <div class="form-group row">
+                            {!! Form::label('currency_id', 'Currency', ['class' => 'col-sm-3 col-form-label']) !!}
+                            <div class="col-sm-9">
+                                <select name="currency_id" id="currency_id" class="form-control">
+                                    @foreach ($currencies as $currency)
+                                        <option value="{{ $currency->id }}" {{ (old('currency_id', $setting->currency_id ?? '') == $currency->id) ? 'selected' : '' }}>
+                                            {{ $currency->title }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group row">
                             {!! Form::label('google_map_embed_link', 'Google Map Embed Link', ['class' => 'col-sm-3 col-form-label']) !!}
                             <div class="col-sm-9">
