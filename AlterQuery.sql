@@ -317,19 +317,34 @@ ALTER TABLE hotel_csl.cs_payment_methods
 ADD COLUMN code VARCHAR(50) DEFAULT NULL COMMENT 'unique code for payment' AFTER title,
 ADD UNIQUE INDEX idx_code_unique (code);
 
+-- 25-06-2025
+CREATE TABLE `cs_payment_methods` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `code` varchar(50) DEFAULT NULL COMMENT 'unique code for payment',
+  `is_web` int(1) DEFAULT 1 COMMENT '1=show website.2=not show website',
+  `acc_coa_id` bigint(20) unsigned DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1 COMMENT '1=active 0=inactive',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `idx_code_unique` (`code`)
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-UPDATE cs_payment_methods SET code = 'CS-COH' WHERE id = 1;
-UPDATE cs_payment_methods SET code = 'CS-COD' WHERE id = 2;
-UPDATE cs_payment_methods SET code = 'CS-SSLCOM' WHERE id = 3;
-UPDATE cs_payment_methods SET code = 'CS-BKASH' WHERE id = 4;
-UPDATE cs_payment_methods SET code = 'CS-NAGAD' WHERE id = 5;
-UPDATE cs_payment_methods SET code = 'CS-RAZORPAY' WHERE id = 6;
-UPDATE cs_payment_methods SET code = 'CS-PAYTM' WHERE id = 7;
-UPDATE cs_payment_methods SET code = 'CS-GPAY' WHERE id = 8;
-UPDATE cs_payment_methods SET code = 'CS-ALIPAY' WHERE id = 9;
-UPDATE cs_payment_methods SET code = 'CS-WEBMONEY' WHERE id = 10;
-UPDATE cs_payment_methods SET code = 'CS-SHOPEEPAY' WHERE id = 11;
-UPDATE cs_payment_methods SET code = 'CS-STRIPE' WHERE id = 12;
-UPDATE cs_payment_methods SET code = 'CS-SQUARE' WHERE id = 13;
-UPDATE cs_payment_methods SET code = 'CS-AMAZONPAY' WHERE id = 14;
-UPDATE cs_payment_methods SET code = 'CS-PAYPAL' WHERE id = 15;
+INSERT INTO `cs_payment_methods` (`id`, `title`, `code`, `is_web`, `acc_coa_id`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'Cash on Hand', 'CS-COH', 0, 10000, 1, '2025-06-24 11:29:57', '2025-06-24 11:29:57'),
+(2, 'Cash on Delivery', 'CS-COD', 1, 400, 1, '2025-06-24 18:00:00', '2025-06-24 18:00:00'),
+(3, 'SSLCommerz ', 'CS-SSLCOM', 1, NULL, 1, '2025-06-24 18:00:00', '2025-06-24 18:00:00'),
+(4, 'bKash ', 'CS-BKASH', 1, NULL, 1, '2025-06-24 18:00:00', '2025-06-24 18:00:00'),
+(5, 'Nagad', 'CS-NAGAD', 0, NULL, 1, '2025-06-24 18:00:00', NULL),
+(6, 'Razorpay', 'CS-RAZORPAY', 0, NULL, 1, '2025-06-24 18:00:00', NULL),
+(7, 'Paytm', 'CS-PAYTM', 0, NULL, 1, '2025-06-24 18:00:00', NULL),
+(8, 'Google Pay', 'CS-GPAY', 0, NULL, 1, '2025-06-24 18:00:00', NULL),
+(9, 'Alipay', 'CS-ALIPAY', 0, NULL, 1, '2025-06-24 18:00:00', NULL),
+(10, 'WebMoney', 'CS-WEBMONEY', 0, NULL, 1, '2025-06-24 18:00:00', NULL),
+(11, 'ShopeePay', 'CS-SHOPEEPAY', 0, NULL, 1, '2025-06-24 18:00:00', NULL),
+(12, 'Stripe', 'CS-STRIPE', 0, NULL, 1, '2025-06-24 18:00:00', NULL),
+(13, 'Square', 'CS-SQUARE', 0, NULL, 1, '2025-06-24 18:00:00', NULL),
+(14, 'Amazon Pay', 'CS-AMAZONPAY', 1, NULL, 1, '2025-06-24 18:00:00', '2025-06-25 00:20:37'),
+(15, 'PayPal', 'CS-PAYPAL', 0, NULL, 1, '2025-06-24 18:00:00', NULL),
+(16, 'Rocket', 'CS-ROCKET', 0, NULL, 1, '2025-06-24 18:00:00', NULL);
