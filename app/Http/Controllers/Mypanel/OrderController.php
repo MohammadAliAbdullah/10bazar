@@ -50,6 +50,170 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        $method = explode('@', $request->payment_method);
+        // cs-bkash@1
+        $paymentMethod = $method[0] ?? '';
+        $paymentId = $method[1] ?? '';
+        // dd($request->all());
+        if (!Auth::guard('mypanel')->check()) {
+            $user = Customer::firstOrCreate(
+                ['phone' => $request->phone],
+                [
+                    'name'     => $request->name,
+                    'address'  => $request->address,
+                    'status'   => 'Active',
+                    'password' => bcrypt(12345678),
+                ]
+            );
+
+            Auth::guard('mypanel')->login($user);
+        }
+
+        $customer = Auth::guard('mypanel')->user()->id;
+        $city     = Division::where('id', $request->city)->first();
+        $area     = City::where('id', $request->area)->first();
+        //Shipping Address
+        $shipping['customer_id'] = $customer;
+        $shipping['name']        = $request->name;
+        $shipping['phone']       = $request->phone;
+        $shipping['city_id']     = $request->city;
+        $shipping['area_id']     = $request->area;
+        $shipping['city']        = $city->name;
+        $shipping['area']        = $area->name;
+        $shipping['address']     = $request->address;
+        $shipping_address        = json_encode($shipping);
+        $delivery_fee             = $request->city == 47 ? 80 : 130;
+
+        //Order
+        $order = array();
+        $order['currency'] = "BDT";
+        $order['invoice_no'] = "IN" . time();
+        $order['callan_no'] = "CL" . time();
+        $order['customer_id'] = $customer;
+        $order['subtotal'] = Cart::getSubTotal();
+        $order['discount'] = 0;
+        $order['vat'] = 0;
+        $order['delivary_charge'] = $delivery_fee;
+        $order['total'] = Cart::getTotal() - $order['discount'] + $order['delivary_charge'] + ($order['vat'] * $order['subtotal'] / 100); # You cant not pay less than 10
+        $order['shipping_address'] = $shipping_address;
+        if ($paymentMethod == 'CS-COD') {
+            $order['payment_type'] = "CS-COD";
+            $order['payment_status'] = "Pending";
+        } elseif ($paymentMethod == 'CS-BKASH') {
+            $order['payment_type'] = "CS-BKASH";
+            $order['payment_status'] = "Pending";
+        } elseif ($paymentMethod == 'CS-ROCKET') {
+            $order['payment_type'] = "CS-ROCKET";
+            $order['payment_status'] = "Pending";
+        } elseif ($paymentMethod == 'CS-SSLCOM') {
+            $order['payment_type'] = "CS-SSLCOM";
+            $order['payment_status'] = "Pending";
+        }
+        //$order['payment_details'] = "details";
+        $order['cupon_id'] = "cupon_id";
+        $order['cupon_amount'] = "cupon_amount";
+        $order['status'] = "Pending";
+        $orderId = Order::create($order)->id;
+
+        //Shipping Insert
+        $shipping['order_id'] = $orderId;
+        $shipping_id = OrderAddress::create($shipping);
+
+        //order details table
+        $cartCollection = Cart::getContent();
+        foreach ($cartCollection as $key => $value) {
+            $order_details['order_id'] = $orderId;
+            $order_details['product_id'] = $key;
+            $order_details['name'] = $value->name;
+            //$order_details['sized'] = $value->attributes->sized;
+            //$order_details['colored'] = $value->attributes->colored;
+            $order_details['qty'] = $value->quantity;
+            $order_details['price'] = $value->price;
+            $order_details['total'] = $value->price * $value->quantity;
+            OrderDetails::create($order_details);
+        }
+
+        //Payment Insert
+        $paymentt['order_id'] = $orderId;
+        if ($paymentMethod == 'CS-COD') {
+            $paymentt['payment_id'] = $paymentId;
+            $paymentt['transaction_id'] = 'COD';
+            $paymentt['full_info'] = 'CS-COD';
+            $paymentt['amount'] =  $order['total'];
+            $pay = OrderPayment::create($paymentt);
+        } elseif ($paymentMethod == 'CS-BKASH') {
+            $paymentt['payment_id'] = $paymentId;
+            $paymentt['transaction_id'] = $request->transaction;
+            $paymentt['full_info'] = $request->bkashnumber;
+            $paymentt['amount'] =  $order['total'];
+            $pay = OrderPayment::create($paymentt);
+        } elseif ($paymentMethod == 'CS-ROCKET') {
+            $paymentt['payment_id'] = $paymentId;
+            $paymentt['transaction_id'] = $request->rocket_transaction;
+            $paymentt['full_info'] = $request->rocket_number;
+            $paymentt['amount'] =  $order['total'];
+            $pay = OrderPayment::create($paymentt);
+        }
+
+        //dd($pay);
+        if ($paymentMethod == 'CS-COD') {
+            Cart::clear();
+            return redirect()->route('mypanel.morder.index')->with('status', 'Order has is Successful! placed!');
+        } elseif ($paymentMethod == 'CS-NAGAD' or $paymentMethod == 'CS-BKASH') {
+            Cart::clear();
+            return redirect()->route('mypanel.morder.index')->with('status', 'Order has is Successful! placed!');
+        } else {
+            // default code is bellow.
+            $customers = Customer::where('id', $customer)->first();
+            $post_data = array();
+            $post_data['total_amount'] = $order['total']; # You cant not pay less than 10
+            $post_data['currency'] = "BDT";
+            $post_data['tran_id'] = $order['invoice_no']; // tran_id must be unique
+
+            # CUSTOMER INFORMATION
+            $post_data['cus_name'] = $customers->name;
+            $post_data['cus_email'] = $customers->email;
+            $post_data['cus_add1'] = $shipping['address'];
+            $post_data['cus_add2'] = "";
+            $post_data['cus_city'] = "";
+            $post_data['cus_state'] = "";
+            $post_data['cus_postcode'] = "";
+            $post_data['cus_country'] = "Bangladesh";
+            $post_data['cus_phone'] = $customers->phone;
+            $post_data['cus_fax'] = "";
+
+            # SHIPMENT INFORMATION
+            $post_data['ship_name'] = $shipping['name'];
+            $post_data['ship_add1'] = $shipping['address'];
+            $post_data['ship_add2'] = "";
+            $post_data['ship_city'] = $shipping['city'];
+            $post_data['ship_state'] = $shipping['area'];
+            $post_data['ship_postcode'] = "1000";
+            $post_data['ship_phone'] = $shipping['phone'];
+            $post_data['ship_country'] = "Bangladesh";
+            $post_data['shipping_method'] = "NO";
+            $post_data['product_name'] = "Electronics";
+            $post_data['product_category'] = "Goods";
+            $post_data['product_profile'] = "physical-goods";
+
+            $config = sslcommerz_config();
+            // $sslc = new SslCommerzNotification($config);
+            $sslc = new SslCommerzNotification();
+            # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
+            //$payment_options = $sslc->makePayment($post_data, 'hosted');
+            //$sslc = new SSLCommerz();
+            # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
+            $payment_options = $sslc->makePayment($post_data, 'hosted');
+
+            if (!is_array($payment_options)) {
+                print_r($payment_options);
+                $payment_options = array();
+            }
+        }
+    }
+
+    public function store_old_25062025(Request $request)
+    {
         // dd($request->all());
         if (!Auth::guard('mypanel')->check()) {
             $user = Customer::firstOrCreate(
@@ -206,6 +370,7 @@ class OrderController extends Controller
             }
         }
     }
+
 
     /**
      * Display the specified resource.

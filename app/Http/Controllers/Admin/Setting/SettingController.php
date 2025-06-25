@@ -17,6 +17,7 @@ class SettingController extends Controller
 {
     public function create()
     {
+        // dd(sslcommerz_config()['isSandbox']);
         $data['setting'] = AppSetting::first();
         return view("Admin.Setting.App.application", $data);
     }

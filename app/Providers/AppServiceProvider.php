@@ -44,7 +44,7 @@ class AppServiceProvider extends ServiceProvider
     protected function boot_old()
     {
         // Use Bootstrap for pagination
-        Paginator::useBootstrap();
+        // Paginator::useBootstrap();
 
         // Shared globally with all views
         View::share([
