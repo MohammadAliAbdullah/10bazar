@@ -196,7 +196,7 @@ class OrderController extends Controller
             $post_data['product_category'] = "Goods";
             $post_data['product_profile'] = "physical-goods";
 
-            $config = sslcommerz_config();
+            // $config = sslcommerz_config();
             // $sslc = new SslCommerzNotification($config);
             $sslc = new SslCommerzNotification();
             # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )

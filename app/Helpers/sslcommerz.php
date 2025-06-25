@@ -18,18 +18,19 @@ if (!function_exists('sslcommerz')) {
         if (!$setup) {
             throw new \Exception('SSLCommerz setup not found or inactive.');
         }
-
+        $v = $setup->is_live == 0 ? 'v3' : 'v4';
         return [
             'projectPath' => base_path() ?? env('PROJECT_PATH'),
             // For Sandbox, use "https://sandbox.sslcommerz.com"
             // For Live, use "https://securepay.sslcommerz.com"
             'apiDomain' => $setup->is_live ? "https://securepay.sslcommerz.com" : "https://sandbox.sslcommerz.com",
             'apiCredentials' => [
-                'store_id' => $setup->marchant_id,
+                'store_id' => $setup->merchant_id,
                 'store_password' => $setup->password,
             ],
             'apiUrl' => [
-                'make_payment' => "/gwprocess/v4/api.php",
+                'make_payment' => "/gwprocess/{$v}/api.php",
+                // 'make_payment' => "/gwprocess/v4/api.php", // live version
                 'transaction_status' => "/validator/api/merchantTransIDvalidationAPI.php",
                 'order_validate' => "/validator/api/validationserverAPI.php",
                 'refund_payment' => "/validator/api/merchantTransIDvalidationAPI.php",

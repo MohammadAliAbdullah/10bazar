@@ -960,7 +960,7 @@ INSERT INTO `cs_payment_methods` (`id`, `title`, `is_web`, `acc_coa_id`, `is_act
 CREATE TABLE `cs_payment_setups` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `payment_method_id` int(11) NOT NULL,
-  `marchant_id` varchar(255) DEFAULT NULL,
+  `merchant_id` varchar(255) DEFAULT NULL,
   `password` varchar(120) NOT NULL,
   `email` varchar(100) NOT NULL,
   `currency_id` int(11) DEFAULT 0,
@@ -978,7 +978,7 @@ CREATE TABLE `cs_payment_setups` (
 -- Dumping data for table `cs_payment_setups`
 --
 
-INSERT INTO `cs_payment_setups` (`id`, `payment_method_id`, `marchant_id`, `password`, `email`, `currency_id`, `is_live`, `api_code`, `api_key`, `api_endpoint`, `api_user_scret`, `is_active`, `created_at`, `updated_at`) VALUES
+INSERT INTO `cs_payment_setups` (`id`, `payment_method_id`, `merchant_id`, `password`, `email`, `currency_id`, `is_live`, `api_code`, `api_key`, `api_endpoint`, `api_user_scret`, `is_active`, `created_at`, `updated_at`) VALUES
 (1, 1, NULL, '54556', 'm@gmail.com', 54656, 1, '64556', '65456', '546', '335', 1, '2025-06-24 11:40:32', '2025-06-24 11:40:32');
 
 -- --------------------------------------------------------

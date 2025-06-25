@@ -18,7 +18,7 @@ class MypanelMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (false == Auth::guard('mypanel')->check()) {
-            return redirect()->route('elogin');
+            return redirect()->route('login');
         }
         return $next($request);
     }

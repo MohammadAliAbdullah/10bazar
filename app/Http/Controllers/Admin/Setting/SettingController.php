@@ -206,7 +206,7 @@ class SettingController extends Controller
         // dd($request->all());
         $request->validate([
             'payment_method_id' => 'required|exists:cs_payment_methods,id',
-            'marchant_id'       => 'nullable|string|max:255',
+            'merchant_id'       => 'nullable|string|max:255',
             'password'          => 'required|string|max:120',
             'email'             => 'required|email|max:100',
             'currency_id'       => 'nullable|numeric',

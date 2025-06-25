@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Library\SslCommerz;
 
 class SslCommerzNotification extends AbstractSslCommerz
@@ -19,6 +20,7 @@ class SslCommerzNotification extends AbstractSslCommerz
         // $this->config = config('sslcommerz'); // Load the configuration from the config file
         // or you can use the sslcommerz helper function to get the configuration
         $this->config = sslcommerz();
+        // $this->setApiUrl($this->config['apiDomain'] . $this->config['apiUrl']['order_validate']);
 
         $this->setStoreId($this->config['apiCredentials']['store_id']);
         $this->setStorePassword($this->config['apiCredentials']['store_password']);
@@ -62,13 +64,13 @@ class SslCommerzNotification extends AbstractSslCommerz
                 curl_setopt($handle, CURLOPT_URL, $requested_url);
                 curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
 
-                 if ($this->config['connect_from_localhost']) {
-                     curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 0);
-                     curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, 0);
-                 } else {
-                     curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 2);
-                     curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, 2);
-                 }
+                if ($this->config['connect_from_localhost']) {
+                    curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 0);
+                    curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, 0);
+                } else {
+                    curl_setopt($handle, CURLOPT_SSL_VERIFYHOST, 2);
+                    curl_setopt($handle, CURLOPT_SSL_VERIFYPEER, 2);
+                }
 
 
                 $result = curl_exec($handle);
@@ -161,9 +163,9 @@ class SslCommerzNotification extends AbstractSslCommerz
             $new_data = array();
             if (!empty($pre_define_key)) {
                 foreach ($pre_define_key as $value) {
-//                    if (isset($post_data[$value])) {
-                        $new_data[$value] = ($post_data[$value]);
-//                    }
+                    //                    if (isset($post_data[$value])) {
+                    $new_data[$value] = ($post_data[$value]);
+                    //                    }
                 }
             }
             # ADD MD5 OF STORE PASSWORD
@@ -181,7 +183,6 @@ class SslCommerzNotification extends AbstractSslCommerz
             if (md5($hash_string) == $post_data['verify_sign']) {
 
                 return true;
-
             } else {
                 $this->error = "Verification signature not matched";
                 return false;
@@ -361,8 +362,8 @@ class SslCommerzNotification extends AbstractSslCommerz
         $this->data['emi_option'] = (isset($info['emi_option'])) ? $info['emi_option'] : null; // integer (1)	Mandatory - This is mandatory if transaction is EMI enabled and Value must be 1/0. Here, 1 means customer will get EMI facility for this transaction
         $this->data['emi_max_inst_option'] = (isset($info['emi_max_inst_option'])) ? $info['emi_max_inst_option'] : null; // integer (2)	Max instalment Option, Here customer will get 3,6, 9 instalment at gateway page
         $this->data['emi_selected_inst'] = (isset($info['emi_selected_inst'])) ? $info['emi_selected_inst'] : null; // integer (2)	Customer has selected from your Site, So no instalment option will be displayed at gateway page
-        $this->data['emi_allow_only'] = (isset($info['emi_allow_only'])) ? $info['emi_allow_only'] : 0; 
-        
+        $this->data['emi_allow_only'] = (isset($info['emi_allow_only'])) ? $info['emi_allow_only'] : 0;
+
         return $this->data;
     }
 

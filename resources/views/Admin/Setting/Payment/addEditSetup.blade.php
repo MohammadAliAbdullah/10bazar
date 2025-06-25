@@ -45,8 +45,8 @@
 
                         <div class="form-group">
                             <label>Merchant ID</label>
-                            <input type="text" name="marchant_id" class="form-control"
-                                value="{{ old('marchant_id', $edit->marchant_id ?? '') }}">
+                            <input type="text" name="merchant_id" class="form-control"
+                                value="{{ old('merchant_id', $edit->merchant_id ?? '') }}">
                         </div>
 
                         <div class="form-group">

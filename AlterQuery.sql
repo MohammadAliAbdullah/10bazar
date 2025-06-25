@@ -318,6 +318,7 @@ ADD COLUMN code VARCHAR(50) DEFAULT NULL COMMENT 'unique code for payment' AFTER
 ADD UNIQUE INDEX idx_code_unique (code);
 
 -- 25-06-2025
+DROP TABLE IF EXISTS `cs_payment_methods`;
 CREATE TABLE `cs_payment_methods` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
