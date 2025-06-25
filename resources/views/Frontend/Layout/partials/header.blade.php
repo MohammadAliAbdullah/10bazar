@@ -20,10 +20,9 @@
                     <div class="topbar__spring"></div>
                     <div class="topbar__item">
                         <div class="topbar-dropdown">
-                            <button class="topbar-dropdown__btn" type="button">{{ __('Currency') }}: <span
-                                    class="topbar__item-value">BDT</span> <svg width="7px" height="5px">
-                                    <use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use>
-                                </svg></button>
+                            <button class="topbar-dropdown__btn" type="button">{{ __('Currency') }}:
+                                <span class="topbar__item-value">BDT</span>
+                            </button>
                         </div>
                     </div>
                     <div class="topbar__item">
@@ -47,9 +46,6 @@
                             <button class="topbar-dropdown__btn" type="button">
                                 {{ __('Language') }}:
                                 <span class="topbar__item-value">{{ strtoupper(app()->getLocale()) }}</span>
-                                <svg width="7px" height="5px">
-                                    <use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use>
-                                </svg>
                             </button>
 
                             <div class="topbar-dropdown__body">
@@ -116,14 +112,7 @@
                                             @if (is_array($categoryBrandData) && count($categoryBrandData) > 0)
                                                 @foreach ($categoryBrandData as $category)
                                                     <li class="departments__item">
-                                                        <a
-                                                            href="{{ url('category') }}/{{ $category['category_slug'] }}">{{ $category['category_name'] }}<svg
-                                                                class="departments__link-arrow" width="6px"
-                                                                height="9px">
-                                                                <use
-                                                                    xlink:href="images/sprite.svg#arrow-rounded-right-6x9">
-                                                                </use>
-                                                            </svg></a>
+                                                        <a href="{{ url('category') }}/{{ $category['category_slug'] }}">{{ $category['category_name'] }}</a>
                                                         <div class="departments__megamenu departments__megamenu--xl">
                                                             <div class="megamenu megamenu--departments"
                                                                 style="background-image: url('images/megamenu/megamenu-1.jpg');">
