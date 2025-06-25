@@ -36,7 +36,7 @@ class Checkoutscontroller extends Controller
             $data['customer'] = Auth::guard('mypanel')->user();
             $data['cartCollection'] = Cart::getContent();
             $data['districts'] = Division::orderBy('name', 'ASC')->get()->pluck('name', 'id')->toArray();
-            $data['paymentMethods'] = PaymentMethod::orderBy('id', 'ASC')->where([['is_active', '1'], 'is_web', 1])->get();
+            $data['paymentMethods'] = PaymentMethod::orderBy('id', 'ASC')->where([['is_active', '1'], ['is_web', 1]])->get();
             return view("Frontend.Page.checkout", $data);
         // } else {
             // session(['link' => url()->previous()]);

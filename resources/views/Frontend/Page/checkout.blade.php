@@ -109,8 +109,25 @@
                             </table>
                             <div class="payment-methods">
                                 <ul class="payment-methods__list">
+                                    @foreach ($paymentMethods as $method)
+                                        <li class="payment-methods__item">
+                                            <label class="payment-methods__item-header">
+                                                <span class="payment-methods__item-radio input-radio">
+                                                    <span class="input-radio__body">
+                                                        <input class="input-radio__input" name="payment_method" type="radio"
+                                                            value="{{ $method->id }}">
+                                                        <span class="input-radio__circle"></span>
+                                                    </span>
+                                                </span>
+                                                <span class="payment-methods__item-title">{{ $method->title }}</span>
+                                            </label>
+                                            <div class="payment-methods__item-container">
+                                                <div class="payment-methods__item-description text-muted">Pay with {{ $method->title }}</div>
+                                            </div>
+                                        </li>
+                                    @endforeach
                                     
-                                    <li class="payment-methods__item payment-methods__item--active">
+                                    {{-- <li class="payment-methods__item payment-methods__item--active">
                                         <label class="payment-methods__item-header">
                                             <span class="payment-methods__item-radio input-radio">
                                                 <span class="input-radio__body">
@@ -140,7 +157,7 @@
                                         <div class="payment-methods__item-container">
                                             <div class="payment-methods__item-description text-muted">Pay via Bkash.</div>
                                         </div>
-                                    </li>
+                                    </li> --}}
 
 
                                 </ul>
