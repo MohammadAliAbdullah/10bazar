@@ -85,7 +85,7 @@ class BrandsController extends Controller
             $img=preg_replace('/\s+/', '-page','.'. $file1->extension());
             $names1=time().$img;
             //$destinationPath = '/public/images';
-            $destinationPath = public_path('uploads/images/brand');
+            $destinationPath = public_path('uploads/images/brands');
             //dd($destinationPath.$names);
             $img = Image::make($file1->path());
             $img->resize(800, 800, function ($constraint) {

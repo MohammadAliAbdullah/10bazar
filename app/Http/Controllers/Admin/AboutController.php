@@ -40,51 +40,52 @@ class AboutController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        if ($file = $request->file('image')) {
-            $img = preg_replace('/\s+/', '-', 'thumb.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('uploads/images/categories/');
-            $img = Image::make($file->path());
-            $img->resize(200, 200, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $category['thumb'] = 'public/uploads/images/categories/' . $names;
+        $destinationPath = public_path('uploads/images/categories/');
+        if (!file_exists($destinationPath)) {
+            mkdir($destinationPath, 0755, true);
         }
+
         if ($file = $request->file('image')) {
-            $img = preg_replace('/\s+/', '-', 'images.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('uploads/images/categories/');
-            $img = Image::make($file->path());
-            $img->resize(400, 400, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $category['images'] = 'public/uploads/images/categories/' . $names;
+            // Thumb
+            $thumbName = time() . '-thumb.' . $file->extension();
+            Image::make($file->path())
+                ->resize(200, 200, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destinationPath . '/' . $thumbName);
+            $category['thumb'] = 'public/uploads/images/categories/' . $thumbName;
+
+            // Main image
+            $imageName = time() . '-image.' . $file->extension();
+            Image::make($file->path())
+                ->resize(400, 400, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destinationPath . '/' . $imageName);
+            $category['images'] = 'public/uploads/images/categories/' . $imageName;
         }
+
         if ($file = $request->file('banner')) {
-            $img = preg_replace('/\s+/', '-', 'banner.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('uploads/images/categories/');
-            $img = Image::make($file->path());
-            $img->resize(1000, 400, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $category['banner'] = 'public/uploads/images/categories/' . $names;
+            $bannerName = time() . '-banner.' . $file->extension();
+            Image::make($file->path())
+                ->resize(1000, 400, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($destinationPath . '/' . $bannerName);
+            $category['banner'] = 'public/uploads/images/categories/' . $bannerName;
         }
+
         $category['title'] = $data['title'];
         $category['slug'] = $this->createSlug($data['title']);
         $category['status'] = $data['status'];
         $category['parent_id'] = $data['parent_id'];
-        //dd($category);
         $category['meta_title'] = $data['meta_title'];
         $category['meta_keyword'] = $data['meta_keyword'];
         $category['meta_description'] = $data['meta_description'];
+
         Category::create($category);
-        Session::flash('status', 'Your Category has been sucessfully add');
+
+        Session::flash('status', 'Your Category has been successfully added');
         return redirect()->route('madmin.categories.index');
     }
+
 
     /**
      * Display the specified resource.
