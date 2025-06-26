@@ -9,7 +9,7 @@
                     <div class="widget-filters__item">
                         <div class="filter filter--opened" data-collapse-item>
                             <button type="button" class="filter__title" data-collapse-trigger>
-                                Brand
+                                {{ __('Brand') }}
                                 <svg class="filter__arrow" width="12px" height="7px">
                                     <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
                                 </svg>

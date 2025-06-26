@@ -36,14 +36,14 @@
     <div class="block block-sidebar">
         <div class="block-sidebar__item">
             <div class="widget-filters widget" data-collapse data-collapse-opened-class="filter--opened">
-                <h4 class="widget__title">Filters</h4>
+                <h4 class="widget__title">{{ __('Filters') }}</h4>
                 <div class="widget-filters__list">
                     {{-- Brand Filter --}}
                     @if (count($brands) > 0)
                         <div class="widget-filters__item">
                             <div class="filter filter--opened" data-collapse-item>
                                 <button type="button" class="filter__title" data-collapse-trigger>
-                                    Brand
+                                    {{ __('Brand') }}
                                     <svg class="filter__arrow" width="12px" height="7px">
                                         <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
                                     </svg>
@@ -83,7 +83,7 @@
                         <div class="widget-filters__item">
                             <div class="filter filter--opened" data-collapse-item>
                                 <button type="button" class="filter__title" data-collapse-trigger>
-                                    Type
+                                    {{ __('Type') }}
                                     <svg class="filter__arrow" width="12px" height="7px">
                                         <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
                                     </svg>
@@ -121,7 +121,7 @@
                         <div class="widget-filters__item">
                             <div class="filter filter--opened" data-collapse-item>
                                 <button type="button" class="filter__title" data-collapse-trigger>
-                                    Color
+                                    {{ __('Color') }}
                                     <svg class="filter__arrow" width="12px" height="7px">
                                         <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
                                     </svg>
@@ -162,7 +162,7 @@
                         <div class="widget-filters__item">
                             <div class="filter filter--opened" data-collapse-item>
                                 <button type="button" class="filter__title" data-collapse-trigger>
-                                    Size
+                                    {{ __('Size') }}
                                     <svg class="filter__arrow" width="12px" height="7px">
                                         <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
                                     </svg>
@@ -211,7 +211,7 @@
                     <div class="widget-filters__item">
                         <div class="filter filter--opened" data-collapse-item>
                             <button type="button" class="filter__title" data-collapse-trigger>
-                                Price
+                                {{ __('Price') }}
                                 <svg class="filter__arrow" width="12px" height="7px">
                                     <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
                                 </svg>

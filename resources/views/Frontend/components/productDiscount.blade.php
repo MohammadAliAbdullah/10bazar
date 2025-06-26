@@ -5,5 +5,5 @@
 @endphp
 
 @if ($discount)
-    <div class="discount-tag"> -{{ $discount }}% OFF</div>
+    <div class="discount-tag"> -{{ $discount }}% {{ __('OFF')}}</div>
 @endif

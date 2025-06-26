@@ -8,8 +8,9 @@
                     @if (count($brands) > 0)
                         <div class="widget-filters__item">
                             <div class="filter filter--opened" data-collapse-item>
-                                <button type="button" class="filter__title" data-collapse-trigger>Brand <svg
-                                        class="filter__arrow" width="12px" height="7px">
+                                <button type="button" class="filter__title" data-collapse-trigger>
+                                    {{ __(key: 'Brand') }}
+                                    <svg class="filter__arrow" width="12px" height="7px">
                                         <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7">
                                         </use>
                                     </svg>
@@ -49,7 +50,7 @@
                     @if (count($subcats) > 0)
                         <div class="widget-filters__item">
                             <div class="filter filter--opened" data-collapse-item>
-                                <button type="button" class="filter__title" data-collapse-trigger>Sub Category <svg
+                                <button type="button" class="filter__title" data-collapse-trigger> {{ __('Sub Category') }} <svg
                                         class="filter__arrow" width="12px" height="7px">
                                         <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7">
                                         </use>
@@ -138,7 +139,7 @@
                     @if (count($sizess) > 0)
                         <div class="widget-filters__item">
                             <div class="filter filter--opened" data-collapse-item>
-                                <button type="button" class="filter__title" data-collapse-trigger>Size <svg
+                                <button type="button" class="filter__title" data-collapse-trigger>{{ __('Size') }} <svg
                                         class="filter__arrow" width="12px" height="7px">
                                         <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7">
                                         </use>

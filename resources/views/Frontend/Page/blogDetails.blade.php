@@ -2,32 +2,32 @@
 
 @section('content')
     <!-- Breadcrumb Start -->
-    @include('Frontend.components.breadcrumb', ['page' => 'Blog', 'subPage' => 'Blog'])
+    @include('Frontend.components.breadcrumb', ['page' => __('Blog'), 'subPage' => __('Blog')])
     <!-- Breadcrumb End -->
 
-
-    <!-- Cart Start -->
+    <!-- Blog Detail Section Start -->
     <section class="cartbg">
         <div class="container blogbg">
             <div class="row">
                 <div class="col-lg-9">
                     <div class="blogdetails pb-3">
                         <h2>{{ $value->title }}</h2>
-                        <img src="{{ asset('public/images/blogs/' . $value->images) }}" class="img-fluid">
+                        <img src="{{ asset('public/images/blogs/' . $value->images) }}" class="img-fluid" alt="{{ $value->title }}">
                         <p class="text-justify">{!! $value->content !!}</p>
                     </div>
                 </div>
+
                 <div class="col-lg-3">
                     <div class="block-sidebar__item">
                         <div class="widget-posts widget">
-                            <h4 class="widget__title">Latest Posts</h4>
+                            <h4 class="widget__title">{{ __('Latest Posts') }}</h4>
                             <div class="widget-posts__list">
                                 @foreach ($recents as $recent)
                                     <div class="widget-posts__item">
                                         <div class="widget-posts__image">
                                             <a href="{{ url('blogs/' . $recent->slug) }}">
                                                 <img src="{{ asset('public/images/blogs/' . $recent->images) }}"
-                                                    alt="{{ $recent->title }}">
+                                                     alt="{{ $recent->title }}">
                                             </a>
                                         </div>
                                         <div class="widget-posts__info">
@@ -47,12 +47,14 @@
                     </div>
                 </div>
 
-                <!-- paymnt -->
+                <!-- You can add payment or CTA section here if needed -->
+
             </div>
         </div>
     </section>
-    <!-- Cart End -->
+    <!-- Blog Detail Section End -->
 @endsection
+
 @section('style')
-    <link href="{{ asset('public') }}/asset/css/blog.css" rel="stylesheet">
+    <link href="{{ asset('public/asset/css/blog.css') }}" rel="stylesheet">
 @endsection
