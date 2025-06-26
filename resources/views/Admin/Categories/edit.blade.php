@@ -138,7 +138,7 @@
                                 </div>
                                 <div class="col-sm-12">
                                     {!! Form::file('image', ['class'=>'','id'=>'receiver']) !!}
-                                    <img src="{{ asset('public/coot_assets/images/categories/') }}/{{ $category->thumb ?? '' }} " class="img-fluid" alt="">
+                                    <img src="{{ asset( $category->thumb ?? '') }}" class="img-fluid" alt="">
                                 </div>
                             </div>
 
@@ -158,7 +158,7 @@
                                 </div>
                                 <div class="col-sm-12">
                                     {!! Form::file('banner', ['class'=>'','id'=>'receiver']) !!}
-                                    <img src="{{ asset('public/coot_assets/images/categories/') }}/{{ $category->banner ?? ''  }}" class="img-fluid" alt="">
+                                    <img src="{{ asset($category->banner ?? '') }}" class="img-fluid" alt="">
                                 </div>
                             </div>
 

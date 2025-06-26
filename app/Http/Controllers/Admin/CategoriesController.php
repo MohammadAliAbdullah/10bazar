@@ -9,7 +9,8 @@ use App\Models\Product;
 use App\Models\ProductStock;
 use App\Models\SeoMeta;
 use Illuminate\Support\Facades\Session;
-use Image;
+use Intervention\Image\Facades\Image; // Ensure you have this line to use the Image facade
+// use Image;
 use Illuminate\Support\Str;
 
 class CategoriesController extends Controller
@@ -57,56 +58,62 @@ class CategoriesController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        if ($file = $request->file('image')) {
-            $img = preg_replace('/\s+/', '-', 'thumb.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('coot_assets/images/categories/');
-            $img = Image::make($file->path());
-            $img->resize(200, 200, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $category['thumb'] = $names;
+        $category = [];
+
+        $path = public_path('uploads/images/categories/');
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
         }
+
         if ($file = $request->file('image')) {
-            $img = preg_replace('/\s+/', '-', 'images.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('coot_assets/images/categories/');
-            $img = Image::make($file->path());
-            $img->resize(400, 400, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $category['images'] = $names;
+            $timestamp = time();
+
+            // Thumb
+            $thumbName = $timestamp . '-thumb.' . $file->extension();
+            Image::make($file->path())
+                ->resize(200, 200, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($path . $thumbName);
+            $category['thumb'] = 'public/uploads/images/categories/' . $thumbName;
+
+            // Main image
+            $imageName = $timestamp . '-image.' . $file->extension();
+            Image::make($file->path())
+                ->resize(400, 400, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($path . $imageName);
+            $category['images'] = 'public/uploads/images/categories/' . $imageName;
         }
+
         if ($file = $request->file('banner')) {
-            $img = preg_replace('/\s+/', '-', 'banner.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('coot_assets/images/categories/');
-            $img = Image::make($file->path());
-            $img->resize(1000, 400, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $category['banner'] = $names;
+            $bannerName = time() . '-banner.' . $file->extension();
+            Image::make($file->path())
+                ->resize(1000, 400, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($path . $bannerName);
+            $category['banner'] = 'public/uploads/images/categories/' . $bannerName;
         }
+
         if ($file = $request->file('background')) {
-            $img = preg_replace('/\s+/', '-', 'background.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('images/');
-            $img = Image::make($file->path());
-            $img->resize(1300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $category['background'] = $names;
+            $bgPath = public_path('uploads/images/');
+            if (!file_exists($bgPath)) {
+                mkdir($bgPath, 0755, true);
+            }
+
+            $backgroundName = time() . '-background.' . $file->extension();
+            Image::make($file->path())
+                ->resize(1300, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($bgPath . $backgroundName);
+            $category['background'] = 'public/uploads/images/' . $backgroundName;
         }
+
+        // Assign other fields
         $category['title'] = $data['title'];
         $category['slug'] = $this->createSlug($data['title']);
         $category['type'] = $data['type'];
         $category['status'] = $data['status'];
         $category['parent_id'] = $data['parent_id'];
-        //dd($category);
         $category['img_alt'] = $data['img_alt'];
         $category['smm_title'] = $data['smm_title'];
         $category['smm_content'] = $data['smm_content'];
@@ -115,10 +122,13 @@ class CategoriesController extends Controller
         $category['meta_keyword'] = $data['meta_keyword'];
         $category['schema'] = $data['schema'];
         $category['follow'] = $data['follow'];
+
         Category::create($category);
-        Session::flash('status', 'Your Category has been sucessfully add');
+
+        Session::flash('status', 'Your Category has been successfully added');
         return redirect()->route('madmin.categories.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -156,65 +166,79 @@ class CategoriesController extends Controller
     {
         $data = $request->all();
         $category_edit = Category::findOrFail($id);
+        $category = [];
+
+        $path = public_path('uploads/images/categories/');
+        $bgPath = public_path('uploads/images/');
+
+        if (!file_exists($path)) mkdir($path, 0755, true);
+        if (!file_exists($bgPath)) mkdir($bgPath, 0755, true);
+
+        // image (thumb + main)
         if ($file = $request->file('image')) {
-            //            if(file_exists(public_path("/coot_assets/images/categories/" . $category_edit->thumb))) {
-            //                unlink(public_path() . "/coot_assets/images/categories/" . $category_edit->thumb);
-            //            }
-            $img = preg_replace('/\s+/', '-', 'thumb.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('coot_assets/images/categories/');
-            $img = Image::make($file->path());
-            $img->resize(200, 200, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $category['thumb'] = $names;
+            $timestamp = time();
+
+            // delete old thumb if exists
+            if (!empty($category_edit->thumb) && file_exists(public_path(str_replace('public/', '', $category_edit->thumb)))) {
+                unlink(public_path(str_replace('public/', '', $category_edit->thumb)));
+            }
+
+            // delete old image if exists
+            if (!empty($category_edit->images) && file_exists(public_path(str_replace('public/', '', $category_edit->images)))) {
+                unlink(public_path(str_replace('public/', '', $category_edit->images)));
+            }
+
+            // Save new thumb
+            $thumbName = $timestamp . '-thumb.' . $file->extension();
+            Image::make($file->path())
+                ->resize(200, 200, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($path . $thumbName);
+            $category['thumb'] = 'public/uploads/images/categories/' . $thumbName;
+
+            // Save new main image
+            $imageName = $timestamp . '-image.' . $file->extension();
+            Image::make($file->path())
+                ->resize(400, 400, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($path . $imageName);
+            $category['images'] = 'public/uploads/images/categories/' . $imageName;
         }
-        if ($file = $request->file('image')) {
-            //            if(file_exists(public_path() . "/coot_assets/images/categories/" . $category_edit->images)) {
-            //                unlink(public_path() . "/coot_assets/images/categories/" . $category_edit->images);
-            //            }
-            $img = preg_replace('/\s+/', '-', 'images.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('coot_assets/images/categories/');
-            $img = Image::make($file->path());
-            $img->resize(400, 400, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $category['images'] = $names;
-        }
+
+        // banner
         if ($file = $request->file('banner')) {
-            //            if(file_exists(public_path("/coot_assets/images/categories/" . $category_edit->banner))) {
-            //                unlink(public_path() . "/coot_assets/images/categories/" . $category_edit->banner);
-            //            }
-            $img = preg_replace('/\s+/', '-', 'banner.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('coot_assets/images/categories/');
-            $img = Image::make($file->path());
-            $img->resize(500, 800, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $category['banner'] = $names;
+            if (!empty($category_edit->banner) && file_exists(public_path(str_replace('public/', '', $category_edit->banner)))) {
+                unlink(public_path(str_replace('public/', '', $category_edit->banner)));
+            }
+
+            $bannerName = time() . '-banner.' . $file->extension();
+            Image::make($file->path())
+                ->resize(500, 800, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($path . $bannerName);
+            $category['banner'] = 'public/uploads/images/categories/' . $bannerName;
         }
+
+        // background
         if ($file = $request->file('background')) {
-            $img = preg_replace('/\s+/', '-', 'background.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('images/');
-            $img = Image::make($file->path());
-            $img->resize(1300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $category['background'] = $names;
+            if (!empty($category_edit->background) && file_exists(public_path(str_replace('public/', '', $category_edit->background)))) {
+                unlink(public_path(str_replace('public/', '', $category_edit->background)));
+            }
+
+            $backgroundName = time() . '-background.' . $file->extension();
+            Image::make($file->path())
+                ->resize(1300, 300, function ($constraint) {
+                    $constraint->aspectRatio();
+                })->save($bgPath . $backgroundName);
+            $category['background'] = 'public/uploads/images/' . $backgroundName;
         }
+
+        // other fields
         $category['title'] = $data['title'];
-        if ($data['title'] == $category_edit->title) {
-            $category['slug'] = $category_edit->slug;
-        } else {
-            $category['slug'] = $this->createSlug($data['title']);
-        }
+        $category['slug'] = ($data['title'] == $category_edit->title)
+            ? $category_edit->slug
+            : $this->createSlug($data['title']);
+
         $category['type'] = $data['type'];
         $category['content'] = $data['content'];
         $category['parent_id'] = $data['parent_id'];
@@ -227,8 +251,10 @@ class CategoriesController extends Controller
         $category['meta_keyword'] = $data['meta_keyword'];
         $category['schema'] = $data['schema'];
         $category['follow'] = $data['follow'];
+
         $category_edit->update($category);
-        Session::flash('status', 'Your Category has been sucessfully Updated!');
+
+        Session::flash('status', 'Your Category has been successfully updated!');
         return redirect()->route('madmin.categories.index');
     }
 
@@ -241,14 +267,14 @@ class CategoriesController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        //        if(file_exists(public_path() . "/coot_assets/images/categories/" . $category->banner)) {
-        //            unlink(public_path() . "/coot_assets/images/categories/" . $category->banner);
+        //        if(file_exists(public_path() . "/uploads/images/categories/" . $category->banner)) {
+        //            unlink(public_path() . "/uploads/images/categories/" . $category->banner);
         //        }
-        //        if(file_exists(public_path() . "/coot_assets/images/categories/" . $category->images)) {
-        //            unlink(public_path() . "/coot_assets/images/categories/" . $category->images);
+        //        if(file_exists(public_path() . "/uploads/images/categories/" . $category->images)) {
+        //            unlink(public_path() . "/uploads/images/categories/" . $category->images);
         //        }
-        //        if(file_exists(public_path() . "/coot_assets/images/categories/" . $category->thumb)) {
-        //            unlink(public_path() . "/coot_assets/images/categories/" . $category->thumb);
+        //        if(file_exists(public_path() . "/uploads/images/categories/" . $category->thumb)) {
+        //            unlink(public_path() . "/uploads/images/categories/" . $category->thumb);
         //        }
         //        $products = $category->products;
         //        foreach ($products as $product) {

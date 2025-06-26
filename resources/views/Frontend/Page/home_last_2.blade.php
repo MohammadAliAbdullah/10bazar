@@ -77,7 +77,7 @@
                                     ])
                                     <div class="product-card__image">
                                         <a href="#">
-                                            <img src="{{ asset('public/coot_assets/images/products/' . $product->thumb) }}"
+                                            <img src="{{ asset('public/assets/images/products/' . $product->thumb) }}"
                                                 alt="{{ $product->img_alt ?? 'Product Image' }}">
                                         </a>
                                     </div>
@@ -148,10 +148,10 @@
                             <div class="product-card__image">
                                 <a>
                                     @if ($bestSeller && $bestSeller->thumb)
-                                        <img src="{{ asset('public/coot_assets/images/products/' . $bestSeller->thumb) }}"
+                                        <img src="{{ asset('public/assets/images/products/' . $bestSeller->thumb) }}"
                                             alt="{{ $product->img_alt ?? 'Product Image' }}">
                                     @else
-                                        <img src="{{ asset('public/coot_assets/images/products/default-thumb.jpg') }}"
+                                        <img src="{{ asset('public/assets/images/products/default-thumb.jpg') }}"
                                             alt="Default Product Image">
                                     @endif
                                 </a>
@@ -197,7 +197,7 @@
                                     <div class="product-card__image">
                                         @if ($product)
                                             <a href="#">
-                                                <img src="{{ asset('public/coot_assets/images/products/' . $product->thumb) }}"
+                                                <img src="{{ asset('public/assets/images/products/' . $product->thumb) }}"
                                                     alt="{{ $product->img_alt ?? 'Product Image' }}">
                                             </a>
                                         @endif
@@ -251,7 +251,7 @@
                         <div class="category-card__body">
                             <div class="category-card__image">
                                 <a href="#">
-                                    <img src="{{ asset('public/coot_assets/images/categories/' . $category->images) }}"
+                                    <img src="{{ asset('public/assets/images/categories/' . $category->images) }}"
                                         alt="{{ $category->title }}">
                                 </a>
                             </div>
@@ -304,7 +304,7 @@
                                     <div class="product-card__image">
 
                                         <a href="{{ url('product/' . $newArrival->slug) }}">
-                                            <img src="{{ asset('public/coot_assets/images/products/' . $newArrival->thumb) }}"
+                                            <img src="{{ asset('public/assets/images/products/' . $newArrival->thumb) }}"
                                                 alt="{{ $product->img_alt ?? 'Product Image' }}">
                                         </a>
                                     </div>

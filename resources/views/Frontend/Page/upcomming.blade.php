@@ -75,7 +75,7 @@
                                             </div>
                                             <div class="product-card__image">
                                                 <a href="{{ route('product_details', ['id' => $product->slug]) }}">
-                                                    <img src="{{ asset('public/coot_assets/images/products/' . $product->thumb) }}"
+                                                    <img src="{{ asset( $product->thumb) }}"
                                                         alt="{{ $product->img_alt ?? __('product_image') }}">
                                                 </a>
                                             </div>

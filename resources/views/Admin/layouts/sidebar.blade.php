@@ -1,7 +1,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4" style="background-color: navy">
     <!-- Brand Logo -->
     <a href="{{ url('/myadminpanel/dashboard') }}" class="brand-link">
-        <img src="{{ asset('public') }}/coot_assets/10_bazar_logo.jpg" width="60" height="50">
+        <img src="{{ asset('public') }}/assets/10_bazar_logo.jpg" width="60" height="50">
         <span class="brand-text font-weight-light">10 Bazar</span>
     </a>
 

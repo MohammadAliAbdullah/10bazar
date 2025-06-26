@@ -26,15 +26,15 @@
         <div class="col-lg-6">
             <div class="position-relative">
                 <img class="xzoom w-100 rounded border" id="xzoom-default"
-                    src="{{ asset('public/coot_assets/images/products/' . $product->images) }}"
-                    xoriginal="{{ asset('public/coot_assets/images/products/' . $product->images) }}" />
+                    src="{{ asset('public/assets/images/products/' . $product->images) }}"
+                    xoriginal="{{ asset('public/assets/images/products/' . $product->images) }}" />
 
                 <div class="d-flex mt-3">
                     @if (!empty($gallery[0]))
                         @foreach ($gallery as $img)
                             <a class="me-2">
                                 <img class="xzoom-gallery rounded border" width="60"
-                                    src="{{ asset('public/coot_assets/images/products/' . $img) }}">
+                                    src="{{ asset('public/assets/images/products/' . $img) }}">
                             </a>
                         @endforeach
                     @endif

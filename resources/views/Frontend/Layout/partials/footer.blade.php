@@ -92,7 +92,7 @@
                     <a target="_blank" href="https://cootsoft.vercel.app">COOTSOFT</a>
                 </div>
                 <div class="site-footer__payments">
-                    <img src="{{ asset('public/coot_assets/images/payments.png') }}" alt="">
+                    <img src="{{ asset('public/assets/images/payments.png') }}" alt="">
                 </div>
             </div>
         </div>

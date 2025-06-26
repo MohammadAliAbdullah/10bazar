@@ -19,7 +19,7 @@
                                     @if (!empty($gallery) && count($gallery) > 0)
                                         @foreach ($gallery as $key => $img)
                                             <a href="#">
-                                                <img src="{{ asset('public/coot_assets/images/products/' . $img) }}"
+                                                <img src="{{ asset( $img) }}"
                                                     alt="{{ $product->title }} image {{ $key + 1 }}">
                                             </a>
                                         @endforeach
@@ -32,7 +32,7 @@
                                         @foreach ($gallery as $key => $img)
                                             <a href="#" class="product-gallery__carousel-item">
                                                 <img class="product-gallery__carousel-image"
-                                                    src="{{ asset('public/coot_assets/images/products/' . $img) }}"
+                                                    src="{{ asset( $img) }}"
                                                     alt="{{ $product->title }} thumbnail {{ $key + 1 }}">
                                             </a>
                                         @endforeach
@@ -246,7 +246,7 @@
 
                                     <div class="product-card__image">
                                         <a href="{{ route('product_details', ['id' => $related->slug]) }}">
-                                            <img src="{{ asset('public/coot_assets/images/products/' . $related->thumb) }}" 
+                                            <img src="{{ asset($related->thumb) }}" 
                                                 alt="{{ $related->img_alt ?? $related->title }}">
                                         </a>
                                     </div>

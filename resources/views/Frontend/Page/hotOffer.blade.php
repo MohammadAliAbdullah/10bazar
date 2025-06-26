@@ -49,7 +49,7 @@
                             <div class="products-list__body">
                                 @if ($products->isEmpty())
                                     <div class="products-list__empty text-center py-5">
-                                        <img src="{{ asset('public/coot_assets/no_product_found.png') }}" alt="" class="img-fluid">
+                                        <img src="{{ asset('public/assets/no_product_found.png') }}" alt="" class="img-fluid">
                                     </div>
                                 @endif
                                 {{-- Product Items --}}

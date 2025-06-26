@@ -49,7 +49,7 @@
                                         <td>{{ $value->title }}</td>
                                         <td>{{ $value->slug }}</td>
                                         <td>
-                                            <img src="{{ asset('public/coot_assets/images/brands/'.$value->thumb) }}" width="50" height="30">
+                                            <img src="{{ asset($value->thumb) }}" width="50" height="30">
                                         </td>
                                         <td>{{ $value->status }}</td>
                                         <td>{{ $value->created_at->diffForHumans() }}</td>

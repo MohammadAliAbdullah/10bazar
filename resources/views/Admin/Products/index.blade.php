@@ -51,5 +51,5 @@
     </section>
 @endsection
 @section('script')
-    <script src="{{ asset('public') }}/coot_assets/js/customJs/productDataTable.js?v={{ time() }}"></script>
+    <script src="{{ asset('public') }}/assets/js/customJs/productDataTable.js?v={{ time() }}"></script>
 @endsection

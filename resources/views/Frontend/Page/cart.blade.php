@@ -24,7 +24,7 @@
                     <tr class="cart-table__row" data-id="{{ $item->id }}">
                         <td class="cart-table__column cart-table__column--image">
                             <a href="#">
-                                <img src="{{ asset('public/coot_assets/images/products/' . $item->attributes['image']) }}"
+                                <img src="{{ asset( $item->attributes['image']) }}"
                                      alt="">
                             </a>
                         </td>

@@ -79,8 +79,8 @@
                                         <li>
                                             <a href="{{ route('lang.switch', ['lang' => $key]) }}">
                                                 <div class="menu__icon">
-                                                    <img srcset="{{ asset('public/coot_assets/icons/' . $lang['icon'] . '.png') }} 1x, {{ asset('public/coot_assets/icons/' . $lang['icon'] . '@2x.png') }} 2x"
-                                                        src="{{ asset('public/coot_assets/icons/' . $lang['icon'] . '.png') }}"
+                                                    <img srcset="{{ asset('public/assets/icons/' . $lang['icon'] . '.png') }} 1x, {{ asset('public/assets/icons/' . $lang['icon'] . '@2x.png') }} 2x"
+                                                        src="{{ asset('public/assets/icons/' . $lang['icon'] . '.png') }}"
                                                         alt="{{ $lang['name'] }}" width="20" height="20">
                                                 </div>
                                                 {{ $lang['name'] }}

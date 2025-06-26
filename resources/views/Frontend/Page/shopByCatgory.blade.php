@@ -78,7 +78,7 @@
                             <div class="products-list__body">
                                 @if ($cat_products->isEmpty())
                                     <div class="products-list__empty text-center py-5">
-                                        <img src="{{ asset('public/coot_assets/no_product_found.png') }}" alt="{{ __('No products found') }}" class="img-fluid">
+                                        <img src="{{ asset('public/assets/no_product_found.png') }}" alt="{{ __('No products found') }}" class="img-fluid">
                                     </div>
                                 @endif
 

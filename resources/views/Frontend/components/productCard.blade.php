@@ -6,13 +6,13 @@
             @if ($product)
                 <a href="#">
                     @if (isset($product->thumb) && $product->thumb)
-                        <img src="{{ asset('public/coot_assets/images/products/' . $product->thumb) }}"
+                        <img src="{{ asset( $product->thumb) }}"
                             alt="{{ $product->img_alt ?? 'Product Image' }}">
                     @else
-                        <img src="{{ asset('public/coot_assets/no_image.png') }}"
+                        <img src="{{ asset('public/assets/no_image.png') }}"
                             alt="{{ $product->img_alt ?? 'Product Image' }}">
                     @endif
-                    {{-- <img src="{{ asset('public/coot_assets/no_image.png') }}"
+                    {{-- <img src="{{ asset('public/assets/no_image.png') }}"
                         alt="{{ $product->img_alt ?? 'Product Image' }}"> --}}
                 </a>
             @endif

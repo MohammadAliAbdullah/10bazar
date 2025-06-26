@@ -98,7 +98,7 @@
                                     <td>{{ $value->id }}</td>
                                     <td>{{ $value->product->title ?? 'N/A' }}</td>
                                     <td>
-                                        <img src="{{ asset('public/coot_assets/images/products/' . ($value->product->thumb ?? 'default.jpg')) }}" width="60" height="40">
+                                        <img src="{{ asset('public/assets/images/products/' . ($value->product->thumb ?? 'default.jpg')) }}" width="60" height="40">
                                     </td>
                                     <td>{{ $value->product->category->title ?? 'N/A' }}</td>
                                     <td>{{ $value->product->brand->title ?? 'N/A' }}</td>

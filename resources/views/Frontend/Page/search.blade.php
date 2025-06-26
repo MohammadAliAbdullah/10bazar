@@ -84,7 +84,7 @@
 
                                     @if ($cat_products->isEmpty())
                                         <div class="products-list__empty text-center py-5">
-                                            <img src="{{ asset('public/coot_assets/no_product_found.png') }}" alt=""
+                                            <img src="{{ asset('public/assets/no_product_found.png') }}" alt=""
                                                 class="img-fluid">
                                             <p class="mt-3">{{ __('No products found.') }}</p>
                                         </div>

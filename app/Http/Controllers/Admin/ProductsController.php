@@ -18,7 +18,8 @@ use App\Models\Brand;
 use App\Models\Unit;
 use App\Models\SeoMeta;
 use Illuminate\Support\Facades\Session;
-use Image;
+// use Image;
+use Intervention\Image\Facades\Image; // Ensure you have this line to use the Image facade
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 use Yajra\DataTables\Facades\DataTables;
@@ -51,7 +52,7 @@ class ProductsController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->editColumn('thumb', function ($row) {
-                    return '<img src="' . asset('coot_assets/images/products/' . $row->thumb) . '" height="40">';
+                    return '<img src="' . asset($row->thumb) . '" height="40">';
                 })
                 ->editColumn('category', function ($row) {
                     return $row->category->title ?? 'N/A';
@@ -94,7 +95,7 @@ class ProductsController extends Controller
                 // })
 
                 ->editColumn('thumb', function ($row) {
-                    return '<img src="' . asset('uploads/products/' . $row->thumb) . '" height="40">';
+                    return '<img src="' . asset($row->thumb) . '" height="40">';
                 })
                 ->editColumn('category', function ($row) {
                     return $row->category->name ?? 'N/A';
@@ -162,80 +163,62 @@ class ProductsController extends Controller
     public function store(ProductRequest $request)
     {
         $data = $request->all();
-        $var = explode(',', $data['tag']);
-        $arra = [];
-        foreach ($var as $vars) {
-            $tag['title'] = $vars;
-            $slug = str_slug($vars);
-            $tagss = Tag::where('slug', $slug)->first();
-            if ($tagss) {
-                $arra[] = $tagss->id;
-            } else {
-                $tag['slug'] = $slug;
-                $tags = Tag::create($tag);
-                $arra[] = $tags->id;
+        $product = [];
+
+        // Process Tags
+        $tagIds = [];
+        foreach (explode(',', $data['tag']) as $tagText) {
+            $slug = str_slug($tagText);
+            $tag = Tag::firstOrCreate(['slug' => $slug], ['title' => $tagText]);
+            $tagIds[] = $tag->id;
+        }
+
+        $path = public_path('uploads/images/products/');
+        if (!file_exists($path)) {
+            mkdir($path, 0755, true);
+        }
+
+        // Handle main image upload (thumb + large)
+        if ($file = $request->file('images')) {
+            $timestamp = now()->format('YmdHis');
+
+            // Thumb
+            $thumbName = $timestamp . '-thumbnail-180x178.' . $file->extension();
+            Image::make($file->path())
+                ->resize(250, 250, function ($c) {
+                    $c->aspectRatio();
+                })->save($path . $thumbName);
+            $product['thumb'] = 'public/uploads/images/products/' . $thumbName;
+
+            // Main image
+            $imageName = $timestamp . '-photo-300x370.' . $file->extension();
+            Image::make($file->path())
+                ->resize(2000, 2000, function ($c) {
+                    $c->aspectRatio();
+                })->save($path . $imageName);
+            $product['images'] = 'public/uploads/images/products/' . $imageName;
+        }
+
+        // Handle gallery images
+        $galleryNames = [];
+        if ($request->hasFile('gallery')) {
+            foreach ($request->file('gallery') as $galleryFile) {
+                $name = now()->format('YmdHis') . '-' . preg_replace('/\s+/', '-', $galleryFile->getClientOriginalName());
+                $galleryFile->move($path, $name);
+                $galleryNames[] = 'public/uploads/images/products/' . $name;
             }
         }
-        //thumb
-        if ($file = $request->file('images')) {
-            $var = date_create();
-            $time = date_format($var, 'YmdHis');
-            $img = preg_replace('/\s+/', '-', $time . '-thumbnail-180X178.' . $file->extension());
-            $names = $img;
-            $destinationPath = public_path('coot_assets/images/products');
-            $img = Image::make($file->path());
-            $img->resize(250, 250, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $product['thumb'] = $names;
-        }
-        //Images
-        if ($file = $request->file('images')) {
-            $var = date_create();
-            $time = date_format($var, 'YmdHis');
-            $img1 = preg_replace('/\s+/', '-', $time . '-photo-300X370.' . $file->extension());
-            $names1 = $img1;
-            $destinationPath = public_path('coot_assets/images/products');
-            $img1 = Image::make($file->path());
-            $img1->resize(2000, 2000, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names1);
-            $product['images'] = $names1;
-        }
-        //Gallery Images Upload
-        if ($request->hasFile('gallery')) {
-            $images = $request->file('gallery');
-            //dd($images);
-            foreach ($images as $item):
-                $var = date_create();
-                $time = date_format($var, 'YmdHis');
-                $fileName = preg_replace('/\s+/', '-', $item->getClientOriginalName());
-                $imageName = $time . '-' . $fileName;
-                $item->move(public_path() . '/coot_assets/images/products/', $imageName);
-                $arr1[] = $imageName;
-            endforeach;
-            $image = implode(",", $arr1);
-            $product['gallery'] = $image;
-        } else {
-            $image = '';
-            $product['gallery'] = $image;
-        }
+        $product['gallery'] = implode(',', $galleryNames);
+
+        // Basic fields
         $product['sku'] = $data['sku'];
         $product['regular_price'] = $data['regular_price'];
         $product['sales_price'] = $data['sales_price'];
         $product['title'] = $data['title'];
         $product['slug'] = $this->createSlug($data['title']);
         $product['category_id'] = $data['category_id'];
-        if (!empty($data['sub_category_id'])) {
-            $product['sub_category_id'] = $data['sub_category_id'];
-        } else {
-            $product['sub_category_id'] = 0;
-        }
-        if (!empty($data['brand_id'])) {
-            $product['brand_id'] = $data['brand_id'];
-        } else {
-            $product['brand_id'] = 0;
-        }
+        $product['sub_category_id'] = $data['sub_category_id'] ?? 0;
+        $product['brand_id'] = $data['brand_id'] ?? 0;
         $product['spacialcat_id'] = $data['spacialcat_id'] ?? 0;
         $product['qty'] = $data['qty'];
         $product['unit_id'] = $data['unit_id'];
@@ -244,48 +227,46 @@ class ProductsController extends Controller
         $product['specification'] = $data['specification'];
         $product['warrenty'] = $data['warrenty'];
         $product['status'] = $data['status'];
-        if (!empty($data['color'])) {
-            $product['color'] = implode(',', $data['color']);
-        }
-        if (!empty($data['size'])) {
-            $product['size'] = implode(',', $data['size']);
-        }
-        if (!empty($data['blade'])) {
-            $product['blade'] = implode(',', $data['blade']);
-        }
-        //dd($product);
-        //Seo meta table insert
-        $product['meta_tags'] = implode(',', $arra);
+
+        // Multi-option fields
+        $product['color'] = isset($data['color']) ? implode(',', $data['color']) : null;
+        $product['size'] = isset($data['size']) ? implode(',', $data['size']) : null;
+        $product['blade'] = isset($data['blade']) ? implode(',', $data['blade']) : null;
+
+        // SEO
+        $product['meta_tags'] = implode(',', $tagIds);
         $product['meta_title'] = $data['meta_title'];
         $product['meta_keyword'] = $data['meta_keyword'];
         $product['meta_description'] = $data['meta_description'];
-        //dd($product);
+
+        // Create product
         $prod = Product::create($product);
 
-        // product stock insert if needed
-        $stock['product_id'] = $prod->id;
-        $stock['sku'] = $data['sku'];
-        $stock['unit_id'] = $data['unit_id'];
-        $stock['stock_qty'] = $data['qty'];
-        $stock['ragular_price'] = $data['regular_price'];
-        $stock['sales_price'] = $data['sales_price'];
-        if (!empty($data['color'])) {
-            $stock['colored'] = implode(',', $data['color']);
-        }
-        if (!empty($data['size'])) {
-            $stock['sized'] = implode(',', $data['size']);
-        }
+        // Product stock
+        $stock = [
+            'product_id' => $prod->id,
+            'sku' => $data['sku'],
+            'unit_id' => $data['unit_id'],
+            'stock_qty' => $data['qty'],
+            'ragular_price' => $data['regular_price'],
+            'sales_price' => $data['sales_price'],
+            'colored' => $product['color'] ?? '',
+            'sized' => $product['size'] ?? '',
+        ];
         ProductStock::create($stock);
 
-        $ptags = $arra;
-        foreach ($ptags as $ptag) {
-            $pdtag['product_id'] = $prod->id;
-            $pdtag['tags_id'] = $ptag;
-            ProductTag::create($pdtag);
+        // Save product-tag relation
+        foreach ($tagIds as $tagId) {
+            ProductTag::create([
+                'product_id' => $prod->id,
+                'tags_id' => $tagId,
+            ]);
         }
-        Session::flash('status', 'Your product has been sucessfully add');
+
+        Session::flash('status', 'Your product has been successfully added');
         return redirect()->route('madmin.products.index');
     }
+
 
     public function change_sub_category(Request $request)
     {
@@ -352,91 +333,67 @@ class ProductsController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $var = explode(',', $data['tag']);
-        $arra = [];
-        foreach ($var as $vars) {
-            $tag['title'] = $vars;
-            $slug = str_slug($vars);
-            $tagss = Tag::where('slug', $slug)->first();
-            if ($tagss) {
-                $arra[] = $tagss->id;
-            } else {
-                $tag['slug'] = $slug;
-                $tags = Tag::create($tag);
-                $arra[] = $tags->id;
-            }
-        }
         $product_edit = Product::findOrFail($id);
-        //dd($stock_edit);
-        if ($file = $request->file('images')) {
-            if (file_exists(public_path() . "/coot_assets/images/products/" . $product_edit->thumb)) {
-                unlink(public_path() . "/coot_assets/images/products/" . $product_edit->thumb);
-            }
-            $var = date_create();
-            $time = date_format($var, 'YmdHis');
-            $img = preg_replace('/\s+/', '-', $time . '-thumbnail-180X178.' . $file->extension());
-            $names = $img;
-            $destinationPath = public_path('coot_assets/images/products');
-            $img = Image::make($file->path());
-            $img->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $product['thumb'] = $names;
+        $product = [];
+
+        // Tags Processing
+        $tagIds = [];
+        foreach (explode(',', $data['tag']) as $text) {
+            $slug = str_slug($text);
+            $tag = Tag::firstOrCreate(['slug' => $slug], ['title' => $text]);
+            $tagIds[] = $tag->id;
         }
-        //Images
+
+        $path = public_path('uploads/images/products/');
+        if (!file_exists($path)) mkdir($path, 0755, true);
+
+        // Handle main image (single input used for both thumb and full)
         if ($file = $request->file('images')) {
-            if (file_exists(public_path() . "/coot_assets/images/products/" . $product_edit->images)) {
-                unlink(public_path() . "/coot_assets/images/products/" . $product_edit->images);
+            // Remove old files
+            if ($product_edit->thumb && file_exists($path . $product_edit->thumb)) {
+                unlink($path . $product_edit->thumb);
             }
-            $var = date_create();
-            $time = date_format($var, 'YmdHis');
-            $img1 = preg_replace('/\s+/', '-', $time . '-photo-300X370.' . $file->extension());
-            $names1 = $img1;
-            $destinationPath = public_path('coot_assets/images/products');
-            $img1 = Image::make($file->path());
-            $img1->resize(2000, 2000, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names1);
-            $product['images'] = $names1;
+            if ($product_edit->images && file_exists($path . $product_edit->images)) {
+                unlink($path . $product_edit->images);
+            }
+
+            $timestamp = now()->format('YmdHis');
+
+            // Thumb
+            $thumbName = $timestamp . '-thumbnail-180X178.' . $file->extension();
+            Image::make($file->path())
+                ->resize(300, 300, fn($c) => $c->aspectRatio())
+                ->save($path . $thumbName);
+            $product['thumb'] = 'public/uploads/images/products/' . $thumbName;
+
+            // Full image
+            $imageName = $timestamp . '-photo-300X370.' . $file->extension();
+            Image::make($file->path())
+                ->resize(2000, 2000, fn($c) => $c->aspectRatio())
+                ->save($path . $imageName);
+            $product['images'] = 'public/uploads/images/products/' . $imageName;
         }
-        //Gallery Images Upload
+
+        // Gallery Upload
         if ($request->hasFile('gallery')) {
-            $images = $request->file('gallery');
-            //dd($images);
-            foreach ($images as $item):
-                $var = date_create();
-                $time = date_format($var, 'YmdHis');
-                $fileName = preg_replace('/\s+/', '-', $item->getClientOriginalName());
-                $imageName = $time . '-' . $fileName;
-                $item->move(public_path() . '/coot_assets/images/products/', $imageName);
-                $arr[] = $imageName;
-            endforeach;
-            $image = implode(",", $arr);
-            $product['gallery'] = $image;
-        } else {
-            $image = '';
-            //$product['gallery']=$image;
+            $galleryNames = [];
+            foreach ($request->file('gallery') as $galleryFile) {
+                $name = now()->format('YmdHis') . '-' . preg_replace('/\s+/', '-', $galleryFile->getClientOriginalName());
+                $galleryFile->move($path, $name);
+                $galleryNames[] = 'public/uploads/images/products/' . $name;
+            }
+            $product['gallery'] = implode(',', $galleryNames);
         }
+
+        // Other Fields
         $product['sku'] = $data['sku'];
         $product['regular_price'] = $data['regular_price'];
         $product['sales_price'] = $data['sales_price'];
         $product['title'] = $data['title'];
-        if ($data['title'] == $product_edit->title) {
-            $product['slug'] = $product_edit->slug;
-        } else {
-            $product['slug'] = $this->createSlug($data['title']);
-        }
+        $product['slug'] = ($data['title'] == $product_edit->title) ? $product_edit->slug : $this->createSlug($data['title']);
         $product['category_id'] = $data['category_id'];
-        if (!empty($data['sub_category_id'])) {
-            $product['sub_category_id'] = $data['sub_category_id'];
-        } else {
-            $product['sub_category_id'] = 0;
-        }
-        if (!empty($data['brand_id'])) {
-            $product['brand_id'] = $data['brand_id'];
-        } else {
-            $product['brand_id'] = 0;
-        }
+        $product['sub_category_id'] = $data['sub_category_id'] ?? 0;
+        $product['brand_id'] = $data['brand_id'] ?? 0;
         $product['spacialcat_id'] = $data['spacialcat_id'] ?? 0;
         $product['qty'] = $data['qty'];
         $product['unit_id'] = $data['unit_id'];
@@ -445,68 +402,42 @@ class ProductsController extends Controller
         $product['specification'] = $data['specification'];
         $product['warrenty'] = $data['warrenty'];
         $product['status'] = $data['status'];
-        if (!empty($data['colord'])) {
-            $product['color'] = implode(',', $data['colord']);
-        }
-        if (!empty($data['sized'])) {
-            $product['size'] = implode(',', $data['sized']);
-        }
-        if (!empty($data['bladed'])) {
-            $product['blade'] = implode(',', $data['bladed']);
-        }
-        //dd($product);
-        //Seo meta table insert
-        $product['meta_tags'] = implode(',', $arra);
+        $product['color'] = !empty($data['colord']) ? implode(',', $data['colord']) : null;
+        $product['size'] = !empty($data['sized']) ? implode(',', $data['sized']) : null;
+        $product['blade'] = !empty($data['bladed']) ? implode(',', $data['bladed']) : null;
+
+        // SEO
+        $product['meta_tags'] = implode(',', $tagIds);
         $product['meta_title'] = $data['meta_title'];
         $product['meta_keyword'] = $data['meta_keyword'];
         $product['meta_description'] = $data['meta_description'];
+
         $product_edit->update($product);
 
-        //Product_stock insert
-        $stocks = ProductStock::where('product_id', $product_edit->id)->first();
-        if ($stocks == NULL) {
-            $stock['product_id'] = $product_edit->id;
-            $stock['sku'] = $data['sku'];
-            $stock['unit_id'] = $data['unit_id'];
-            $stock['stock_qty'] = $data['qty'];
-            $stock['ragular_price'] = $data['regular_price'];
-            $stock['sales_price'] = $data['sales_price'];
-            if (!empty($data['colord'])) {
-                $stock['color'] = implode(',', $data['colord']);
-            }
-            if (!empty($data['sized'])) {
-                $stock['size'] = implode(',', $data['sized']);
-            }
-            ProductStock::create($stock);
-        } else {
-            $stock['sku'] = $data['sku'];
-            $stock['unit_id'] = $data['unit_id'];
-            $stock['stock_qty'] = $data['qty'];
-            $stock['ragular_price'] = $data['regular_price'];
-            $stock['sales_price'] = $data['sales_price'];
-            if (!empty($data['colord'])) {
-                $stock['color'] = implode(',', $data['colord']);
-            }
-            if (!empty($data['sized'])) {
-                $stock['size'] = implode(',', $data['sized']);
-            }
-            $stocks->update($stock);
+        // Update or create Product Stock
+        $stock = ProductStock::firstOrNew(['product_id' => $product_edit->id]);
+        $stock->sku = $data['sku'];
+        $stock->unit_id = $data['unit_id'];
+        $stock->stock_qty = $data['qty'];
+        $stock->ragular_price = $data['regular_price'];
+        $stock->sales_price = $data['sales_price'];
+        $stock->colored = !empty($data['colord']) ? implode(',', $data['colord']) : null;
+        $stock->sized = !empty($data['sized']) ? implode(',', $data['sized']) : null;
+        $stock->save();
+
+        // Update Product Tags
+        ProductTag::where('product_id', $product_edit->id)->delete();
+        foreach ($tagIds as $tagId) {
+            ProductTag::create([
+                'product_id' => $product_edit->id,
+                'tags_id' => $tagId,
+            ]);
         }
 
-        foreach (ProductTag::where('product_id', $product_edit->id)->get() as $ptag) {
-            $ptagss = ProductTag::where('id', $ptag->id)->first();
-            $ptagss->delete();
-        }
-        $ptags = $arra;
-        foreach ($ptags as $ptag) {
-            $pdtag['product_id'] = $product_edit->id;
-            $pdtag['tags_id'] = $ptag;
-            ProductTag::create($pdtag);
-        }
-        //$stock_edit->update($stock);
-        Session::flash('status', 'Your product has been sucessfully Updated!');
+        Session::flash('status', 'Your product has been successfully updated!');
         return redirect()->route('madmin.products.index');
     }
+
 
     /**
      * Remove the specified resource from storage.

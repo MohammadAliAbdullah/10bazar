@@ -188,7 +188,7 @@
         <table>
             <tr>
                 <td style="border: none; width: 59%">
-                    <img src="{{ public_path('coot_assets/invoice_logo.png') }}" alt="Company Logo">
+                    <img src="{{ public_path('assets/invoice_logo.png') }}" alt="Company Logo">
                     <h1 style="color: #5ce1e6; margin-top: 10px!important">INVOICE</h1>
                     Invoice Number:# <span style="font-size: 12px; font-weight: semi-bold">
                         {{ $data->invoice_no }}</span>
@@ -197,14 +197,14 @@
                     <h2><span style="color: black; padding-bottom: 5px">10 BAZAR</span></h2>
                     <br>
                     <p>
-                        <img src="{{ public_path('coot_assets/icons/phone.png') }}" width="14"
+                        <img src="{{ public_path('assets/icons/phone.png') }}" width="14"
                             style="vertical-align: middle;" /> +880 17 200 85127<br>
-                        <img src="{{ public_path('coot_assets/icons/email.png') }}" width="14"
+                        <img src="{{ public_path('assets/icons/email.png') }}" width="14"
                             style="vertical-align: middle;" /> 10bazar.store@gmail.com<br>
-                        <img src="{{ public_path('coot_assets/icons/map.png') }}" width="14"
+                        <img src="{{ public_path('assets/icons/map.png') }}" width="14"
                             style="vertical-align: middle;" />
                         Road-1/A, Sector-7, Uttara <br>
-                        <img src="{{ public_path('coot_assets/icons/web.png') }}" width="14"
+                        <img src="{{ public_path('assets/icons/web.png') }}" width="14"
                             style="vertical-align: middle;" />
                         www.10bazar.store
                     </p>

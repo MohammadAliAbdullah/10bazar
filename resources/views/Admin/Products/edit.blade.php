@@ -176,7 +176,7 @@
                                                 <div class="row">
                                                     @foreach($vars as $val)
                                                         <div class="col-sm-2">
-                                                            <img src="{{ asset('public/coot_assets/images/products/'.$val) }}" alt="" class="img-thumbnail">
+                                                            <img src="{{ asset($val) }}" alt="" class="img-thumbnail">
                                                         </div>
                                                     @endforeach
                                                 </div>
@@ -368,9 +368,9 @@
                             <div class="form-group row">
                                 <div class="col-sm-12">
                                     @if($product->images)
-                                        <img id="preview-image-before-upload" src="{{ asset('public') }}/coot_assets/images/products/{{ $product->images }}"  style="width: 100%" class="img-thumbnail">
+                                        <img id="preview-image-before-upload" src="{{ asset($product->images) }}"  style="width: 100%" class="img-thumbnail">
                                     @else
-                                        <img id="preview-image-before-upload" src="{{ asset('public') }}/admin/notfindproduct.png"  style="width: 100%" class="img-thumbnail">
+                                        <img id="preview-image-before-upload" src="{{ asset($product->images) }}"  style="width: 100%" class="img-thumbnail">
                                     @endif
                                         {!! Form::file('images', ['class'=>'form-control-file','id'=>'image']) !!}
                                 </div>

@@ -28,8 +28,7 @@
     <script src="{{ asset('public') }}/assets/js/main.js"></script>
     <!-- font - fontawesome -->
     <link rel="stylesheet" href="{{ asset('public') }}/assets/vendor/fontawesome-5.6.1/css/all.min.css">
-    <!-- font - coot_assets -->
-    <link rel="stylesheet" href="{{ asset('public') }}/coot_assets/fonts/coot_assets/coot_assets.css">
+    <!-- font - assets -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-6"></script>
     {{-- sweetalert.js --}}
     <script src="{{ asset('public') }}/assets/vendor/sweetalert/sweetalert.js"></script>

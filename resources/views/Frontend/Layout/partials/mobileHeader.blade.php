@@ -7,7 +7,7 @@
                         <i class="fa fa-bars" aria-hidden="true"></i>
                     </button>
                     <a class="mobile-header__logo" href="{{ url('/') }}">
-                        <img src="{{ asset('public') }}/coot_assets/10_bazar_logo.jpg" alt="logo">
+                        <img src="{{ asset('public') }}/assets/10_bazar_logo.jpg" alt="logo">
                     </a>
                     <div class="mobile-header__search">
                         <form class="mobile-header__search-form" action="#">
