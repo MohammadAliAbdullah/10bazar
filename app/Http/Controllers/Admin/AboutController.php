@@ -17,7 +17,7 @@ class AboutController extends Controller
     public function index()
     {
         $categories = AboutUs::paginate(10);
-        return view('Admin.About.index',compact('categories'));
+        return view('Admin.About.index', compact('categories'));
     }
 
     /**
@@ -27,7 +27,7 @@ class AboutController extends Controller
      */
     public function create()
     {
-        $parents = Category::where('parent_id', 0)->get()->pluck('title','id')->toArray();
+        $parents = Category::where('parent_id', 0)->get()->pluck('title', 'id')->toArray();
         return view('Admin.Categories.add', compact('parents'));
     }
 
@@ -40,49 +40,49 @@ class AboutController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
-        if($file=$request->file('image')){
-            $img=preg_replace('/\s+/', '-','thumb.'. $file->extension());
-            $names=time().$img;
+        if ($file = $request->file('image')) {
+            $img = preg_replace('/\s+/', '-', 'thumb.' . $file->extension());
+            $names = time() . $img;
             //$names=$img;
-            $destinationPath = public_path('coot_assets/images/categories/');
+            $destinationPath = public_path('uploads/images/categories/');
             $img = Image::make($file->path());
             $img->resize(200, 200, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $names);
-            $category['thumb']=$names;
+            $category['thumb'] = 'public/uploads/images/categories/' . $names;
         }
-        if($file=$request->file('image')){
-            $img=preg_replace('/\s+/', '-','images.'. $file->extension());
-            $names=time().$img;
+        if ($file = $request->file('image')) {
+            $img = preg_replace('/\s+/', '-', 'images.' . $file->extension());
+            $names = time() . $img;
             //$names=$img;
-            $destinationPath = public_path('coot_assets/images/categories/');
+            $destinationPath = public_path('uploads/images/categories/');
             $img = Image::make($file->path());
             $img->resize(400, 400, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $names);
-            $category['images']=$names;
+            $category['images'] = 'public/uploads/images/categories/' . $names;
         }
-        if($file=$request->file('banner')){
-            $img=preg_replace('/\s+/', '-','banner.'. $file->extension());
-            $names=time().$img;
+        if ($file = $request->file('banner')) {
+            $img = preg_replace('/\s+/', '-', 'banner.' . $file->extension());
+            $names = time() . $img;
             //$names=$img;
-            $destinationPath = public_path('coot_assets/images/categories/');
+            $destinationPath = public_path('uploads/images/categories/');
             $img = Image::make($file->path());
             $img->resize(1000, 400, function ($constraint) {
                 $constraint->aspectRatio();
             })->save($destinationPath . '/' . $names);
-            $category['banner']=$names;
+            $category['banner'] = 'public/uploads/images/categories/' . $names;
         }
         $category['title'] = $data['title'];
-        $category['slug']=$this->createSlug($data['title']);
+        $category['slug'] = $this->createSlug($data['title']);
         $category['status'] = $data['status'];
         $category['parent_id'] = $data['parent_id'];
-//dd($category);
+        //dd($category);
         $category['meta_title'] = $data['meta_title'];
         $category['meta_keyword'] = $data['meta_keyword'];
         $category['meta_description'] = $data['meta_description'];
         Category::create($category);
-        Session::flash('status','Your Category has been sucessfully add');
+        Session::flash('status', 'Your Category has been sucessfully add');
         return redirect()->route('madmin.categories.index');
     }
 
@@ -126,7 +126,7 @@ class AboutController extends Controller
         $category['vision'] = $data['vision'];
         $category['establistmet'] = $data['establistmet'];
         $category_edit->update($category);
-        Session::flash('status','Your About Us has been sucessfully Updated!');
+        Session::flash('status', 'Your About Us has been sucessfully Updated!');
         return redirect()->route('madmin.aboutadmin.index');
     }
 
@@ -139,14 +139,14 @@ class AboutController extends Controller
     public function destroy($id)
     {
         $category = Category::findOrFail($id);
-        if(file_exists(public_path() . "/coot_assets/images/categories/" . $category->banner)) {
-            unlink(public_path() . "/coot_assets/images/categories/" . $category->banner);
+        if (file_exists(public_path() . "/uploads/images/categories/" . $category->banner)) {
+            unlink(public_path() . "/uploads/images/categories/" . $category->banner);
         }
-        if(file_exists(public_path() . "/coot_assets/images/categories/" . $category->images)) {
-            unlink(public_path() . "/coot_assets/images/categories/" . $category->images);
+        if (file_exists(public_path() . "/uploads/images/categories/" . $category->images)) {
+            unlink(public_path() . "/uploads/images/categories/" . $category->images);
         }
-        if(file_exists(public_path() . "/coot_assets/images/categories/" . $category->thumb)) {
-            unlink(public_path() . "/coot_assets/images/categories/" . $category->thumb);
+        if (file_exists(public_path() . "/uploads/images/categories/" . $category->thumb)) {
+            unlink(public_path() . "/uploads/images/categories/" . $category->thumb);
         }
         $products = $category->products;
         foreach ($products as $product) {
@@ -157,7 +157,7 @@ class AboutController extends Controller
 
         //SeoMeta::where('id', $category->meta_id)->delete();
         $category->delete();
-        Session::flash('status','Your Category has been sucessfully deleted with child products!');
+        Session::flash('status', 'Your Category has been sucessfully deleted with child products!');
         return redirect()->route('madmin.categories.index');
     }
 }
