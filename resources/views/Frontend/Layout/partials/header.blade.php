@@ -26,6 +26,31 @@
                         </div>
                     </div>
                     <div class="topbar__item">
+                        <div class="topbar-dropdown">
+                            <button class="topbar-dropdown__btn" type="button">{{ __('Currency') }}: <span
+                                    class="topbar__item-value">USD</span> <svg width="7px" height="5px">
+                                    <use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use>
+                                </svg></button>
+                            <div class="topbar-dropdown__body">
+                                <ul class="menu menu--layout--topbar">
+                                    @foreach ($currencies as $key => $currency)
+                                        <li>
+                                            <a href="{{ route('currency.switch', ['currency' => $key]) }}">
+                                                {{ $currency['title'] }}
+                                                <span class="topbar__item-value">{{ $currency['icon'] }}</span>
+                                            </a>
+                                        </li>
+                                    
+                                    @endforeach
+                                    <li><a href="#">€ Euro</a></li>
+                                    <li><a href="#">£ Pound Sterling</a></li>
+                                    <li><a href="#">$ US Dollar</a></li>
+                                    <li><a href="#">₽ Russian Ruble</a></li>
+                                </ul><!-- .menu / end -->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="topbar__item">
                         @php
                             $languages = [
                                 'en' => ['name' => 'English', 'icon' => 'flag-1'],
@@ -112,7 +137,8 @@
                                             @if (is_array($categoryBrandData) && count($categoryBrandData) > 0)
                                                 @foreach ($categoryBrandData as $category)
                                                     <li class="departments__item">
-                                                        <a href="{{ url('category') }}/{{ $category['category_slug'] }}">{{ $category['category_name'] }}</a>
+                                                        <a
+                                                            href="{{ url('category') }}/{{ $category['category_slug'] }}">{{ $category['category_name'] }}</a>
                                                         <div class="departments__megamenu departments__megamenu--xl">
                                                             <div class="megamenu megamenu--departments"
                                                                 style="background-image: url('images/megamenu/megamenu-1.jpg');">

@@ -349,3 +349,7 @@ INSERT INTO `cs_payment_methods` (`id`, `title`, `code`, `is_web`, `acc_coa_id`,
 (14, 'Amazon Pay', 'CS-AMAZONPAY', 1, NULL, 1, '2025-06-24 18:00:00', '2025-06-25 00:20:37'),
 (15, 'PayPal', 'CS-PAYPAL', 0, NULL, 1, '2025-06-24 18:00:00', NULL),
 (16, 'Rocket', 'CS-ROCKET', 0, NULL, 1, '2025-06-24 18:00:00', NULL);
+
+-- 26-06-2025
+ALTER TABLE hotel_csl.cs_currencies
+ADD is_active TINYINT(1) DEFAULT '1' COMMENT 'active = 1, inactive = 0' AFTER rate;

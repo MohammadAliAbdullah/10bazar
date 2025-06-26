@@ -163,6 +163,12 @@ Route::get('/lang-switch', function (\Illuminate\Http\Request $request) {
     return back();
 })->name('lang.switch');
 
+// currency.switch
+Route::get('/currency-switch', function (\Illuminate\Http\Request $request) {
+    session(['currency' => $request->currency]);
+    return back();
+})->name('currency.switch');
+
 // Route::get('/lang', function () {
 //     return view('language');
 // });
