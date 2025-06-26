@@ -3,6 +3,7 @@
     $cleanHotline = preg_replace('/\D/', '', $hotline);
     $whatsappNumber = '880' . ltrim($cleanHotline, '0');
     $categoryBrandData = Cache::get('category_brand_data', []);
+    $currencies = currencies();
 @endphp
 <header class="site__header d-lg-block d-none">
     <div class="site-header">
@@ -20,33 +21,19 @@
                     <div class="topbar__spring"></div>
                     <div class="topbar__item">
                         <div class="topbar-dropdown">
-                            <button class="topbar-dropdown__btn" type="button">{{ __('Currency') }}:
-                                <span class="topbar__item-value">BDT</span>
+                            <button class="topbar-dropdown__btn" type="button">{{ __('Currency') }}: 
+                                <span class="topbar__item-value">USD</span>
                             </button>
-                        </div>
-                    </div>
-                    <div class="topbar__item">
-                        <div class="topbar-dropdown">
-                            <button class="topbar-dropdown__btn" type="button">{{ __('Currency') }}: <span
-                                    class="topbar__item-value">USD</span> <svg width="7px" height="5px">
-                                    <use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use>
-                                </svg></button>
                             <div class="topbar-dropdown__body">
                                 <ul class="menu menu--layout--topbar">
                                     @foreach ($currencies as $key => $currency)
                                         <li>
-                                            <a href="{{ route('currency.switch', ['currency' => $key]) }}">
-                                                {{ $currency['title'] }}
-                                                <span class="topbar__item-value">{{ $currency['icon'] }}</span>
+                                            <a href="{{ route('currency.switch', ['currency' => $currency['title']]) }}">
+                                                {{ $currency['icon'] }} {{ $currency['title'] }}
                                             </a>
                                         </li>
-                                    
                                     @endforeach
-                                    <li><a href="#">€ Euro</a></li>
-                                    <li><a href="#">£ Pound Sterling</a></li>
-                                    <li><a href="#">$ US Dollar</a></li>
-                                    <li><a href="#">₽ Russian Ruble</a></li>
-                                </ul><!-- .menu / end -->
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -90,12 +77,6 @@
                                 </ul>
                             </div>
                         </div>
-
-                        {{-- <div class="topbar-dropdown">
-                            <button class="topbar-dropdown__btn" type="button">{{ __('Language') }}:
-                                 <span class="topbar__item-value">{{ strtoupper(app()->getLocale()) }}</span> <svg width="7px" height="5px"><use xlink:href="images/sprite.svg#arrow-rounded-down-7x5"></use></svg>
-                                </button>
-                        </div> --}}
                     </div>
                 </div>
             </div>
