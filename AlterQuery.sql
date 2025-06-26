@@ -353,3 +353,20 @@ INSERT INTO `cs_payment_methods` (`id`, `title`, `code`, `is_web`, `acc_coa_id`,
 -- 26-06-2025
 ALTER TABLE hotel_csl.cs_currencies
 ADD is_active TINYINT(1) DEFAULT '1' COMMENT 'active = 1, inactive = 0' AFTER rate;
+-- 27-06-2025
+UPDATE products
+SET
+  thumb = IF(thumb NOT LIKE 'public/uploads/images/products/%',
+             CONCAT('public/uploads/images/products/', thumb),
+             thumb),
+  images = IF(images NOT LIKE 'public/uploads/images/products/%',
+              CONCAT('public/uploads/images/products/', images),
+              images),
+  gallery = CASE
+    WHEN gallery IS NOT NULL AND gallery != '' AND gallery NOT LIKE 'public/uploads/images/products/%'
+    THEN CONCAT('public/uploads/images/products/', 
+                REPLACE(gallery, ',', ',public/uploads/images/products/')
+         )
+    ELSE gallery
+  END;
+
