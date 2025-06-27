@@ -370,3 +370,21 @@ SET
     ELSE gallery
   END;
 
+ -- 28-06-2025
+  CREATE TABLE `cs_currencies` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(50) NOT NULL,
+  `icon` varchar(50) NOT NULL,
+  `position` int(11) NOT NULL DEFAULT 1 COMMENT '1=left.2=right',
+  `rate` decimal(10,5) DEFAULT NULL,
+  `is_active` tinyint(1) DEFAULT 1 COMMENT 'active = 1, inactive = 0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+INSERT INTO `cs_currencies` (`id`, `title`, `icon`, `position`, `rate`, `is_active`, `created_at`, `updated_at`) VALUES
+(1, 'USD', '$', 1, 1.00000, 1, NOW(), NOW()),
+(2, 'EUR', '€', 1, 0.85000, 1, NOW(), NOW()),
+(3, 'GBP', '£', 1, 0.75000, 1, NOW(), NOW()),
+(4, 'INR', '₹', 1, 73.00000, 1, NOW(), NOW());
