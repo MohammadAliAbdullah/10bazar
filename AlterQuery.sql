@@ -384,7 +384,8 @@ SET
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
 INSERT INTO `cs_currencies` (`id`, `title`, `icon`, `position`, `rate`, `is_active`, `created_at`, `updated_at`) VALUES
-(1, 'USD', '$', 1, 1.00000, 1, NOW(), NOW()),
-(2, 'EUR', '€', 1, 0.85000, 1, NOW(), NOW()),
-(3, 'GBP', '£', 1, 0.75000, 1, NOW(), NOW()),
-(4, 'INR', '₹', 1, 73.00000, 1, NOW(), NOW());
+(1, 'BDT', '৳', 1, 1.00, 1, NOW(), NOW()),   -- base currency
+(2, 'USD', '$', 1, 0.0091, 1, NOW(), NOW()),
+(3, 'EUR', '€', 1, 0.0083, 1, NOW(), NOW()),
+(4, 'GBP', '£', 1, 0.75000, 1, NOW(), NOW()),
+(5, 'INR', '₹', 1, 0.76, 1, NOW(), NOW());
