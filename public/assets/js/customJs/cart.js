@@ -5,11 +5,6 @@ $(document).ready(function () {
         }
     });
 
-    // Add to cart function
-    // function addToCart(product_id) {
-    //     alert(product_id);
-    // }
-
     $(document).on('click', '.itemAddToCart', function (e) {
         e.preventDefault();
         var productId = $(this).data('id');
@@ -185,7 +180,7 @@ $(document).ready(function () {
                 </ul>
                 <div class="dropcart__product-meta">
                     <span class="dropcart__product-quantity">${item.quantity}</span> x 
-                    <span class="dropcart__product-price">$${(item.price).toLocaleString()}</span>
+                    <span class="dropcart__product-price">${(item.price).toLocaleString()}</span>
                 </div>
             </div>
             <button type="button"
@@ -203,19 +198,19 @@ $(document).ready(function () {
         <table>
             <tr>
                 <th>Subtotal</th>
-                <td class="itemSubTotal">$${res.subtotal}</td>
+                <td class="itemSubTotal">${res.subtotal}</td>
             </tr>
             <tr>
                 <th>Shipping</th>
-                <td>$0.00</td>
+                <td>0.00</td>
             </tr>
             <tr>
                 <th>Tax</th>
-                <td>$0.00</td>
+                <td>0.00</td>
             </tr>
             <tr>
                 <th>Total</th>
-                <td class="itemTotal">$${res.subtotal}</td>
+                <td class="itemTotal">${res.subtotal}</td>
             </tr>
         </table>
     </div>`;

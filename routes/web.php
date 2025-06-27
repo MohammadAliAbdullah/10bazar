@@ -3,6 +3,7 @@
 use App\Http\Controllers\BkashController;
 use App\Http\Controllers\BkashRefundController;
 use App\Http\Controllers\BkashPaymentController;
+use Darryldecode\Cart\Facades\CartFacade as Cart;
 
 use Illuminate\Support\Facades\Route;
 
@@ -133,20 +134,6 @@ Route::get('/bkash/callback', function () {
 Route::post('/bkash/create', [BkashPaymentController::class, 'create'])->name('bkash.create');
 Route::post('/bkash/execute', [BkashPaymentController::class, 'execute']);
 
-// language change
-// Route::get('/lang_test', function () {
-//     $today = \Carbon\Carbon::now()
-//         ->settings(
-//             [
-//                 'locale' => app()->getLocale(),
-//             ]
-//         );
-//     $dateMessage = $today->isoFormat('dddd, LL');
-//     return view('language', [
-//         'date_message' => $dateMessage
-//     ]);
-// });
-
 Route::get('/lang-switch', function (\Illuminate\Http\Request $request) {
     session(['locale' => $request->lang]);
     app()->setLocale($request->lang);
@@ -155,8 +142,8 @@ Route::get('/lang-switch', function (\Illuminate\Http\Request $request) {
 
 // currency.switch
 Route::get('/currency-switch', function (\Illuminate\Http\Request $request) {
-    session(['currency' => $request->currency]);
-    // app()->setCurrency($request->currency);
+    session(['currency_id' => $request->currency]);
+             Cart::clear();
     return back();
 })->name('currency.switch');
 

@@ -39,6 +39,7 @@ class Kernel extends HttpKernel
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \App\Http\Middleware\LogVisitor::class, // Custom middleware for logging visitors
             \App\Http\Middleware\Localization::class, // Custom middleware for localization
+            \App\Http\Middleware\SetCurrency::class,
         ],
 
         'api' => [

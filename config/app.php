@@ -127,6 +127,7 @@ return [
     */
 
     'faker_locale' => 'en_US',
+    'currency' => 'BDT', // Default currency, can be overridden by SetCurrency middleware
 
     /*
     |--------------------------------------------------------------------------

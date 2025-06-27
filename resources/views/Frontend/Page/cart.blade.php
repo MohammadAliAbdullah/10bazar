@@ -24,26 +24,26 @@
                     <tr class="cart-table__row" data-id="{{ $item->id }}">
                         <td class="cart-table__column cart-table__column--image">
                             <a href="#">
-                                <img src="{{ asset( $item->attributes['image']) }}"
-                                     alt="">
+                                <img src="{{ asset($item->attributes['image']) }}" alt="">
                             </a>
                         </td>
                         <td class="cart-table__column cart-table__column--product">
                             <a href="#" class="cart-table__product-name">{{ $item->name }}</a>
                         </td>
                         <td class="cart-table__column cart-table__column--price" data-title="{{ __('Price') }}">
-                            {{ $item->price ?? 0 }}
+                            {{ formatPrice($item->price ?? 0, true, true) }}
                         </td>
                         <td class="cart-table__column cart-table__column--quantity" data-title="{{ __('Quantity') }}">
                             <div class="input-number">
                                 <input class="form-control input-number__input quantity" type="number" min="1"
-                                       value="{{ $item->quantity }}">
+                                    value="{{ $item->quantity }}">
                                 <div class="input-number__add increment"></div>
                                 <div class="input-number__sub decrement"></div>
                             </div>
                         </td>
-                        <td class="cart-table__column cart-table__column--total itemTotalPrice" data-title="{{ __('Total') }}">
-                            {{ number_format($item->getPriceSum(), 2) }}
+                        <td class="cart-table__column cart-table__column--total itemTotalPrice"
+                            data-title="{{ __('Total') }}">
+                            {{ formatPrice($item->getPriceSum(), true, true) }}
                         </td>
                         <td class="cart-table__column cart-table__column--remove">
                             <a href="#" class="btn btn-sm btn-danger itemRemove" title="{{ __('Remove') }}">
@@ -72,33 +72,33 @@
                             <thead class="cart__totals-header">
                                 <tr>
                                     <th>{{ __('Subtotal') }}</th>
-                                    <td class="itemSubTotal">{{ Cart::getSubTotal() }}</td>
+                                    <td class="itemSubTotal">{{ formatPrice(Cart::getSubTotal() ?? 0, true, true) }}</td>
                                 </tr>
                             </thead>
                             <tbody class="cart__totals-body">
                                 <tr>
                                     <th>{{ __('Shipping') }}</th>
-                                    <td>0.00<div class="cart__calc-shipping"></div></td>
+                                    <td>{{ formatPrice(0, true, true) }}<div class="cart__calc-shipping"></div>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <th>{{ __('Discount') }}</th>
-                                    <td>0.00</td>
+                                    <td>{{ formatPrice(0, true, true) }}</td>
                                 </tr>
                                 <tr>
                                     <th>{{ __('Tax') }}</th>
-                                    <td>0.00</td>
+                                    <td>{{ formatPrice(0, true, true) }}</td>
                                 </tr>
                             </tbody>
                             <tfoot class="cart__totals-footer">
                                 <tr>
                                     <th>{{ __('Total') }}</th>
-                                    <td class="itemTotal">{{ Cart::getTotal() }}</td>
+                                    <td class="itemTotal">{{ formatPrice(Cart::getTotal(), true, true) }}</td>
                                 </tr>
                             </tfoot>
                         </table>
 
-                        <a class="btn btn-primary btn-xl btn-block cart__checkout-button"
-                           href="{{ route('checkout') }}">
+                        <a class="btn btn-primary btn-xl btn-block cart__checkout-button" href="{{ route('checkout') }}">
                             {{ __('Proceed to checkout') }}
                         </a>
                     </div>

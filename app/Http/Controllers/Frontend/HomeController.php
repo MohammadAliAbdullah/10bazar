@@ -19,33 +19,25 @@ use Illuminate\Support\Facades\Session;
 
 class HomeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index_new()
-    {
-        return view("Frontend.Page.home");
-    }
-
     public function index()
     {
-        // dd(55);
+        // dd(formatPrice(122, true)); // Example usage of formatPrice function
         $slides = cache()->remember('slide', 60 * 60 * 24, function () {
             return Slide::where('status', 'Active')->get();
         });
+
         $categories = cache()->remember('categories-home', 60 * 60 * 24, function () {
             return Category::orderBy('orders', 'ASC')->where('type', 'Regular')->where('parent_id', 0)->limit(6)->get();
         });
-        // $categories = Category::all();
+
         $spacials = cache()->remember('spacials-home', 60 * 60 * 24, function () {
             return Category::where('type', 'Special')->where('parent_id', 0)->limit(8)->get();
         });
+
         $brands = cache()->remember('brands-home', 60 * 60 * 24, function () {
             return Brand::limit(12)->get();
         });
-        // return $categories;
+
         $featureds = cache()->remember('featureds-home', 60 * 60 * 24, function () {
             return Product::select(
                 'id',
@@ -62,10 +54,10 @@ class HomeController extends Controller
                 'sales_price',
                 'featured'
             )
-                ->where('featured', 'Yes')
-                ->orderBy('id', 'ASC')
-                ->limit(10)
-                ->get();
+            ->where('featured', 'Yes')
+            ->orderBy('id', 'ASC')
+            ->limit(10)
+            ->get();
         });
 
         $newArrivals = Product::select(
@@ -83,48 +75,42 @@ class HomeController extends Controller
             'sales_price',
             'featured'
         )
-            ->orderBy('id', 'desc')
-            ->limit(10)
-            ->get();
+        ->orderBy('id', 'desc')
+        ->limit(10)
+        ->get();
 
-        $spacials = cache()->remember('spacials-home', 60 * 60 * 24, function () {
-            return Category::where('type', 'Special')->where('parent_id', 0)->limit(8)->get();
-        });
         $home1 = cache()->remember('home1-home', 60 * 60 * 24, function () {
             return Banner::where('position', 'Home1')->first();
         });
+
         $home2 = cache()->remember('home2-home', 60 * 60 * 24, function () {
             return Banner::where('position', 'Home2')->first();
         });
+
         $home3 = cache()->remember('home3-home', 60 * 60 * 24, function () {
             return Banner::where('position', 'Home3')->first();
         });
+
         $spproducts = cache()->remember('spproducts-home', 60 * 60 * 24, function () {
             return Product::orderBy('id', 'DESC')->where('spacialcat_id', '!=', 0)->limit(6)->get();
         });
+
         $blogs = cache()->remember('blogs-home', 60 * 60 * 24, function () {
             return Blog::orderBy('id', 'DESC')->where('status', 'Active')->limit(3)->get();
         });
-        //$slides = Slide::where('status','Active')->get();
-        //$categories = Category::orderBy('orders','ASC')->where('type', 'Regular')->where('parent_id',0)->limit(6)->get();
-        //$spacials = Category::where('type', 'Special')->where('parent_id',0)->limit(8)->get();
-        //        $home1 = Banner::where('position','Home1')->first();
-        //        $home2 = Banner::where('position','Home2')->first();
-        //        $home3 = Banner::where('position','Home3')->first();
-        //$spproducts = Product::orderBy('id','DESC')->where('spacialcat_id','!=',0)->limit(6)->get();
-        //$blogs=Blog::orderBy('id','DESC')->where('status','Active')->limit(3)->get();
+
         return view("Frontend.Page.home", compact('slides', 'categories', 'featureds', 'home1', 'home2', 'home3', 'spproducts', 'spacials', 'blogs', 'newArrivals', 'brands'));
     }
+
     public function search(Request $request)
     {
         $query = $request->search;
         $cat_products = Product::where('title', 'LIKE', "%$query%")
-            //->orWhere('specification', 'LIKE',"%$query%")
-            //->orWhere('warrenty', 'LIKE',"%$query%")
             ->paginate(24);
-        //dd($products);
+
         return view("Frontend.Page.search", compact('cat_products'));
     }
+
     public function today_offer()
     {
         $todate = Carbon::now()->toDateString();
@@ -132,11 +118,7 @@ class HomeController extends Controller
         $products = Product::limit(20)->get();
         return view("Frontend.Page.today_offer", compact('discounts', 'products'));
     }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function home_page_1()
     {
         return view("Frontend.home_page_1");
@@ -147,14 +129,6 @@ class HomeController extends Controller
         return view("Frontend.home_page_2");
     }
 
-
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function login()
     {
         return view("Frontend.login");
@@ -167,97 +141,40 @@ class HomeController extends Controller
 
     public function shop_by_category($slug)
     {
-        //        $category=cache()->remember('cat-categoyr', 60*60*24, function() use($slug){
-        //            return Category::where('slug', $slug)->first();
-        //        });
-        //        $catid=$category->id;
-        //        $cat_products=cache()->remember('cat_products-categoyr', 60*60*24, function() use($catid){
-        //            return Product::where('category_id',$catid)->orWhere('sub_category_id',$catid)->paginate(20);
-        //        });
-        //        $subcats=cache()->remember('subcats-categoyr', 60*60*24, function() use($catid){
-        //            return Product::groupBy('sub_category_id')->select('sub_category_id')->where('category_id',$catid)->where('sub_category_id','!=',0)->get();
-        //        });
-        //        $brands=cache()->remember('brands-categoyr', 60*60*24, function() use($catid){
-        //            return Product::groupBy('brand_id')->select('brand_id')->where('category_id',$catid)->where('brand_id','!=',0)->get();
-        //        });
-        //        $categories=cache()->remember('categories-categoyr', 60*60*24, function() use($catid){
-        //            return Category::where('type', 'Regular')->where('parent_id',$catid)->get();
-        //        });
-        //        $colorss=cache()->remember('colorss-categoyr', 60*60*24, function() use($catid){
-        //            return Product::select('color')->where('category_id',$catid)->where('color','!=',NULL)->get();
-        //        });
-        //        $sizess=cache()->remember('sizess-categoyr', 60*60*24, function() use($catid){
-        //            return Product::select('size')->where('category_id',$catid)->where('size','!=',NULL)->get();
-        //        });
         $category = Category::where('slug', $slug)->first();
-        // return $category;
         $cat_products = Product::where('category_id', $category->id)->orWhere('sub_category_id', $category->id)->paginate(20);
         $subcats = Product::groupBy('sub_category_id')->select('sub_category_id')->where('category_id', $category->id)->where('sub_category_id', '!=', 0)->get();
         $brands = Product::groupBy('brand_id')->select('brand_id')->where('category_id', $category->id)->where('brand_id', '!=', 0)->get();
         $categories = Category::where('type', 'Regular')->where('parent_id', $category->id)->get();
         $colorss = Product::select('color')->where('category_id', $category->id)->where('color', '!=', NULL)->get();
         $sizess = Product::select('size')->where('category_id', $category->id)->where('size', '!=', NULL)->get();
+
         return view("Frontend.Page.shopByCatgory", compact('cat_products', 'brands', 'category', 'categories', 'subcats', 'colorss', 'sizess'));
     }
 
     public function shop_by_brand($slug)
     {
-        //        $brand=cache()->remember('brand-brand', 60*60*24, function() use($slug){
-        //            return Brand::where('slug', $slug)->first();
-        //        });
-        //        $catid=$brand->id;
-        //        $cat_products=cache()->remember('categ-brand', 60*60*24, function() use($catid){
-        //            return Product::where('brand_id',$catid)->orWhere('sub_category_id',$catid)->paginate(20);
-        //        });
-        //        $all_partners=cache()->remember('allpa-brand', 60*60*24, function(){
-        //            return Brand::all()->toArray();
-        //        });
-
         $brand = Brand::where('slug', $slug)->first();
-        // return $brand;
-        // $subcats = Category::where('parent_id', $category->id)->get();
         $cat_products = Product::where('brand_id', $brand->id)->orWhere('sub_category_id', $brand->id)->paginate(20);
         $all_partners = Brand::all()->toArray();
         return view("Frontend.Page.shopByBrand", compact('cat_products', 'brand', 'all_partners'));
     }
+
     public function shop_by_shop($category, $brand)
     {
-        //        $brand=cache()->remember('brand-shoby', 60*60*24, function() use($brand){
-        //            return Brand::where('slug', $brand)->first();
-        //        });
-        //        $brandid=$brand->id;
-        //        $category=cache()->remember('category-shoby', 60*60*24, function() use($category){
-        //            return Category::where('slug', $category)->first();
-        //        });
-        //        $catid=$category->id;
-        //        $cat_products=cache()->remember('cat_products-shoby', 60*60*24, function() use($catid,$brandid){
-        //            return Product::where('brand_id',$brandid)->where('category_id',$catid)->orWhere('sub_category_id',$catid)->paginate(20);
-        //        });
-        //
-        //        $all_partners=cache()->remember('allpa-shoby', 60*60*24, function(){
-        //            return Brand::all()->toArray();
-        //        });
         $brand = Brand::where('slug', $brand)->first();
-        //dd($brand);
         $category = Category::where('slug', $category)->first();
         $cat_products = Product::where('brand_id', $brand->id)->where('category_id', $category->id)->orWhere('sub_category_id', $category->id)->paginate(20);
         $all_partners = Brand::all()->toArray();
-        //dd($cat_products);
         return view("Frontend.Page.shopInShop", compact('cat_products', 'brand', 'all_partners', 'category'));
     }
 
     public function shopfilters(Request $request)
     {
-        //        $prices=explode("-",implode(",", $request->price));
-        //return json_encode($request->category);
-        //exit();
-
         if (isset($request->brand) or isset($request->category) or isset($request->size) or isset($request->color) or isset($request->price)) {
             $products = DB::table('products as p')
-                //->join('product_attributes as pa','p.id','=','pa.product_id')
                 ->select('p.*')
                 ->where('p.status', 'Active');
-            //->groupBy('p.id');
 
             if (isset($request->price)) {
                 $price = explode("-", implode(",", $request->price));
@@ -289,13 +206,12 @@ class HomeController extends Controller
             $categories = Category::where('type', 'Regular')->where('parent_id', 0)->get();
             return view("Frontend.ajax", compact('cat_products', 'brands', 'categories'));
         } else {
-            $subcats = \App\Models\Product::groupBy('sub_category_id')->select('sub_category_id')->where('category_id', $category->id)->where('sub_category_id', '!=', 0)->get();
-            //$brands=\App\Models\Product::groupBy('brand_id')->select('brand_id')->where('category_id',$category->id)->where('brand_id','!=',0)->get();
-            $colorss = \App\Models\Product::select('color')->where('category_id', $category->id)->where('color', '!=', NULL)->get();
-            $sizess = \App\Models\Product::select('size')->where('category_id', $category->id)->where('size', '!=', NULL)->get();
-            $bladess = \App\Models\Product::select('blade')->where('category_id', $category->id)->where('blade', '!=', NULL)->get();
-
             $category = Category::where('slug', $request->action)->first();
+            $subcats = Product::groupBy('sub_category_id')->select('sub_category_id')->where('category_id', $category->id)->where('sub_category_id', '!=', 0)->get();
+            $colorss = Product::select('color')->where('category_id', $category->id)->where('color', '!=', NULL)->get();
+            $sizess = Product::select('size')->where('category_id', $category->id)->where('size', '!=', NULL)->get();
+            $bladess = Product::select('blade')->where('category_id', $category->id)->where('blade', '!=', NULL)->get();
+
             $cat_products = Product::where('category_id', $category->id)->orWhere('sub_category_id', $category->id)->paginate(20);
             $brands = Brand::all();
             $categories = Category::where('type', 'Regular')->where('parent_id', 0)->get();
@@ -306,45 +222,36 @@ class HomeController extends Controller
     public function filterProducts(Request $request)
     {
         $query = Product::query();
-
-        // Only active products
         $query->where('status', 'Active');
 
-        // Filter by brands
         if ($request->has('brands')) {
             $query->whereIn('brand_id', $request->brands);
         }
 
-        // Filter by parent categories
         if ($request->has('categories')) {
             $query->whereIn('category_id', $request->categories);
         }
 
-        // Filter by subcategories
         if ($request->has('subCategories')) {
             $query->whereIn('sub_category_id', $request->subCategories);
         }
 
-        // Filter by colors
         if ($request->has('colors')) {
             $query->whereIn('color', $request->colors);
         }
 
-        // Filter by sizes
         if ($request->has('sizes')) {
             $query->whereIn('size', $request->sizes);
         }
 
-        // Filter by price range
         if ($request->has('prices')) {
-            // Assuming price range format is like: ["100-300"]
             $priceRange = explode('-', $request->prices[0]);
             $minPrice = $priceRange[0] ?? 0;
             $maxPrice = $priceRange[1] ?? 1000000;
 
             $query->where(function ($q) use ($minPrice, $maxPrice) {
                 $q->whereBetween('regular_price', [$minPrice, $maxPrice])
-                    ->orWhereBetween('sales_price', [$minPrice, $maxPrice]);
+                  ->orWhereBetween('sales_price', [$minPrice, $maxPrice]);
             });
         }
 
@@ -355,14 +262,11 @@ class HomeController extends Controller
         ]);
     }
 
-
     public function collection($category, $value)
     {
-
-        //$cat_slide = Category::all();
         $atribute = Atribute::where('slug', $value)->first();
-        //dd($atribute->attribute_parent->name);
         $category = Category::where('slug', $category)->first();
+
         if ($atribute->attribute_parent->slug == 'color') {
             $cat_products = Product::where('category_id', $category->id)->whereRaw("find_in_set('" . $atribute->id . "',products.color)")->paginate(20);
         } elseif ($atribute->attribute_parent->slug == 'size') {
@@ -370,66 +274,40 @@ class HomeController extends Controller
         } elseif ($atribute->attribute_parent->slug == 'blade') {
             $cat_products = Product::where('category_id', $category->id)->whereRaw("find_in_set('" . $atribute->id . "',products.blade)")->paginate(20);
         }
+
         $all_partners = Brand::all()->toArray();
         return view("Frontend.shopinshop", compact('cat_products', 'all_partners', 'category'));
     }
+
     public function price($category, $slug)
     {
-
         $amount = explode('-', $slug);
-        //dd($amount[1]);
         $category = Category::where('slug', $category)->first();
         $cat_products = Product::where('category_id', $category->id)
             ->orWhere('sub_category_id', $category->id)
             ->whereBetween('regular_price', [$amount[0], $amount[1]])
             ->orWhereBetween('sales_price', [$amount[0], $amount[1]])
             ->paginate(20);
+
         $all_partners = Brand::all()->toArray();
-        //dd($cat_products);
         return view("Frontend.shopinshop", compact('cat_products', 'all_partners', 'category'));
     }
 
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy($id)
     {
         //

@@ -21,14 +21,14 @@
                     <div class="topbar__spring"></div>
                     <div class="topbar__item">
                         <div class="topbar-dropdown">
-                            <button class="topbar-dropdown__btn" type="button">{{ __('Currency') }}: 
-                                <span class="topbar__item-value">USD</span>
+                            <button class="topbar-dropdown__btn" type="button">{{ __('Currency') }}:
+                                <span class="topbar__item-value">{{ config('app.currency')->title }}</span>
                             </button>
                             <div class="topbar-dropdown__body">
                                 <ul class="menu menu--layout--topbar">
                                     @foreach ($currencies as $key => $currency)
                                         <li>
-                                            <a href="{{ route('currency.switch', ['currency' => $currency['title']]) }}">
+                                            <a href="{{ route('currency.switch', ['currency' => $currency['id']]) }}">
                                                 {{ $currency['icon'] }} {{ $currency['title'] }}
                                             </a>
                                         </li>

@@ -36,17 +36,12 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
         // Pre-cache some data when the application boots
         $this->cacheCategoryBrandData();
-
         // add by abdullah
-        $this->boot_old();
+        $this->shareViews();
     }
 
-    protected function boot_old()
+    protected function shareViews()
     {
-        // Use Bootstrap for pagination
-        // Paginator::useBootstrap();
-
-        // Shared globally with all views
         View::share([
             'category_menus' => Category::where('id', '!=', 12)->where('parent_id', 0)->get(),
             'apps'           => AppSetting::find(1),

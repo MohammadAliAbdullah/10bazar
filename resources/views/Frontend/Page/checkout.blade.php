@@ -22,17 +22,20 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label for="checkout-first-name">{{ __('Name') }} <span class="text-danger">*</span></label>
+                                    <label for="checkout-first-name">{{ __('Name') }} <span
+                                            class="text-danger">*</span></label>
                                     {!! Form::text('name', null, ['class' => 'form-control', 'required', 'id' => 'checkout-first-name']) !!}
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label for="checkout-last-name">{{ __('Phone') }} <span class="text-danger">*</span></label>
+                                    <label for="checkout-last-name">{{ __('Phone') }} <span
+                                            class="text-danger">*</span></label>
                                     {!! Form::number('phone', null, ['class' => 'form-control', 'required', 'id' => 'checkout-last-name']) !!}
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="checkout-country">{{ __('District') }} <span class="text-danger">*</span></label>
+                                <label for="checkout-country">{{ __('District') }} <span
+                                        class="text-danger">*</span></label>
                                 {!! Form::select('city', ['' => __('Select District')] + $districts, null, [
                                     'class' => 'form-control',
                                     'id' => 'district',
@@ -42,25 +45,34 @@
 
                             <div class="form-group border p-3">
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="location" id="inDhaka" value="inDhaka" required>
+                                    <input class="form-check-input" type="radio" name="location" id="inDhaka"
+                                        value="inDhaka" required>
                                     <label class="form-check-label" for="inDhaka">{{ __('In Dhaka') }}</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="location" id="outDhaka" value="outDhaka">
+                                    <input class="form-check-input" type="radio" name="location" id="outDhaka"
+                                        value="outDhaka">
                                     <label class="form-check-label" for="outDhaka">{{ __('Out of Dhaka') }}</label>
                                 </div>
                             </div>
 
                             <div class="form-group">
-                                <label for="checkout-company-name">{{ __('Area') }} <span class="text-danger">*</span></label>
+                                <label for="checkout-company-name">{{ __('Area') }} <span
+                                        class="text-danger">*</span></label>
                                 <select name="area" id="sub_cat" class="form-control input-sm" required>
                                     <option value="">{{ __('Select Area') }}</option>
                                 </select>
                             </div>
 
                             <div class="form-group">
-                                <label for="checkout-street-address">{{ __('Address') }} <span class="text-danger">*</span></label>
-                                {!! Form::textarea('address', null, ['class' => 'form-control', 'id' => 'checkout-street-address', 'rows' => 3, 'required']) !!}
+                                <label for="checkout-street-address">{{ __('Address') }} <span
+                                        class="text-danger">*</span></label>
+                                {!! Form::textarea('address', null, [
+                                    'class' => 'form-control',
+                                    'id' => 'checkout-street-address',
+                                    'rows' => 3,
+                                    'required',
+                                ]) !!}
                             </div>
                         </div>
                         <div class="card-divider"></div>
@@ -82,7 +94,7 @@
                                     @forelse ($cartCollection as $item)
                                         <tr>
                                             <td>{{ $item->name ?? __('N/A') }}</td>
-                                            <td>{{ $item->getPriceSum() ?? '0' }}</td>
+                                            <td>{{ formatPrice($item->getPriceSum() ?? 0, true, true) }}</td>
                                         </tr>
                                     @empty
                                         <tr>
@@ -93,7 +105,7 @@
                                 <tbody class="checkout__totals-subtotals">
                                     <tr>
                                         <th>{{ __('Subtotal') }}</th>
-                                        <td><span id="subTotal">{{ Cart::getSubTotal() ?? '0' }}</span></td>
+                                        <td><span id="subTotal">{{ Cart::getSubTotal() ?? 0 }}</span></td>
                                     </tr>
                                     <tr>
                                         <th>{{ __('Shipping Fee') }}</th>
@@ -113,7 +125,8 @@
                                             <label class="payment-methods__item-header">
                                                 <span class="payment-methods__item-radio input-radio">
                                                     <span class="input-radio__body">
-                                                        <input class="input-radio__input" name="payment_method" type="radio" value="{{ $method->code . '@' . $method->id }}">
+                                                        <input class="input-radio__input" name="payment_method"
+                                                            type="radio" value="{{ $method->code . '@' . $method->id }}">
                                                         <span class="input-radio__circle"></span>
                                                     </span>
                                                 </span>
@@ -142,12 +155,14 @@
                                     </span>
                                     <label class="form-check-label" for="checkout-terms">
                                         {{ __('I have read and agree to the website') }}
-                                        <a target="_blank" href="terms-and-conditions.html">{{ __('terms and conditions') }}</a>*
+                                        <a target="_blank"
+                                            href="terms-and-conditions.html">{{ __('terms and conditions') }}</a>*
                                     </label>
                                 </div>
                             </div>
 
-                            <button type="submit" class="btn btn-primary btn-xl btn-block">{{ __('Place Order') }}</button>
+                            <button type="submit"
+                                class="btn btn-primary btn-xl btn-block">{{ __('Place Order') }}</button>
                         </div>
                     </div>
                 </div>

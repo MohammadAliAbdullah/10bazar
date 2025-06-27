@@ -11,11 +11,28 @@
             });
         }
     }
-    // function contacth(){
-    //     return $contacths=\App\Models\ContactInfo::where('id',1)->first();
-    //     //declear view
-    //     //contacth()->phone;
-    // }
+    if (!function_exists('formatPrice')) {
+        /**
+         * Format a price according to the application's currency settings.
+         *
+         * @param float $amount The amount to format.
+         * @param bool $include_symbol Whether to include the currency symbol.
+         * @return string The formatted price.
+         */
+        function formatPrice($amount, $icon = true, $isConvert = false)
+        {
+            $currency = config('app.currency'); // <-- this works globally now
+            $converted = $isConvert ? $amount : $amount * ($currency->rate ?? 1);
+            $symbol = $currency->icon ?? '';
+            $position = $currency->position ?? 1;
+
+            $formatted = number_format($converted, 2);
+
+            return $icon
+                ? ($position == 1 ? $symbol . $formatted : $formatted . $symbol)
+                : $formatted;
+        }
+    }
     function categoryh()
     {
         return $categoryh = \App\Models\Category::orderBy('orders', 'ASC')->where('parent_id', 0)->where('type', 'Regular')->where('status', 'Active')->get();
@@ -34,10 +51,6 @@
     {
         return $colorh = \App\Models\Atribute::where('parent_id', 1)->get();
     }
-
-    // function socialh(){
-    //     return $socialh=\App\Models\SocialMedia::where('id',1)->first();
-    // }
 
     function topbrand()
     {

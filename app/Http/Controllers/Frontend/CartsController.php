@@ -24,7 +24,7 @@ class CartsController extends Controller
         Cart::add(array(
             'id'         => $product->id,
             'name'       => $product->title,
-            'price'      => $product->sales_price,
+            'price'      => formatPrice($product->sales_price, false), // Assuming formatPrice is a helper function to format the price
             'quantity'   => 1,
             'attributes' => array(
                 'image'   => $product->thumbnail_img,
