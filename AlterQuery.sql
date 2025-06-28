@@ -371,6 +371,7 @@ SET
   END;
 
  -- 28-06-2025
+ DROP TABLE IF EXISTS `cs_currencies`;
   CREATE TABLE `cs_currencies` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(50) NOT NULL,
@@ -389,3 +390,32 @@ INSERT INTO `cs_currencies` (`id`, `title`, `icon`, `position`, `rate`, `is_acti
 (3, 'EUR', '€', 1, 0.0083, 1, NOW(), NOW()),
 (4, 'GBP', '£', 1, 0.75000, 1, NOW(), NOW()),
 (5, 'INR', '₹', 1, 0.76, 1, NOW(), NOW());
+
+-- 28-06-2025
+CREATE TABLE `cs_coupon_types` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(250) NOT NULL,
+  `is_active` tinyint(1) DEFAULT 1 COMMENT '1=active 0=inactive',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+
+CREATE TABLE `cs_coupons` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `coupon_code` varchar(250) NOT NULL,
+  `discount_percent` decimal(11,0) NOT NULL,
+  `qty` int(11) NOT NULL,
+  `usedQty` int(11) NOT NULL,
+  `date_from` date NOT NULL,
+  `date_to` date NOT NULL,
+  `coupon_type_id` int(11) NOT NULL,
+  `is_active` tinyint(1) DEFAULT 1 COMMENT '1=active 0=inactive',
+  `created_by` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
