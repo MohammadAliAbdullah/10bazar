@@ -3,6 +3,8 @@
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\Setting\CouponController;
+use App\Http\Controllers\Admin\Setting\SettingController;
+use App\Http\Controllers\Admin\Setting\LangController;
 use App\Http\Controllers\Admin\VisitorController;
 
 // test route 
@@ -113,42 +115,42 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
 
         // setting module 
         //App Setting
-        Route::get('/app-setting', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'create'])->name('appsetting.create');
-        Route::post('/app-setting', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'store'])->name('appsetting.store');
+        Route::get('/app-setting', [SettingController::class, 'create'])->name('appsetting.create');
+        Route::post('/app-setting', [SettingController::class, 'store'])->name('appsetting.store');
         // Currency
-        Route::get('currency', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'indexCurrency'])->name('currency.index');
-        Route::get('currency/create', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createCurrency'])->name('currency.create');
-        Route::post('currency', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storeCurrency'])->name('currency.store');
-        Route::get('currency/edit/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'editCurrency'])->name('currency.edit');
-        Route::post('currency/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updateCurrency'])->name('currency.update');
-        Route::delete('currency/delete/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'destroyCurrency'])->name('currency.destroy');
+        Route::get('currency', [SettingController::class, 'indexCurrency'])->name('currency.index');
+        Route::get('currency/create', [SettingController::class, 'createCurrency'])->name('currency.create');
+        Route::post('currency', [SettingController::class, 'storeCurrency'])->name('currency.store');
+        Route::get('currency/edit/{id}', [SettingController::class, 'editCurrency'])->name('currency.edit');
+        Route::post('currency/update/{id}', [SettingController::class, 'updateCurrency'])->name('currency.update');
+        Route::delete('currency/delete/{id}', [SettingController::class, 'destroyCurrency'])->name('currency.destroy');
         // Payment Method
-        Route::get('payment-method', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'indexPaymentMethod'])->name('paymentmethod.index');
-        Route::get('payment-method/create', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createPaymentMethod'])->name('paymentmethod.create');
-        Route::post('payment-method', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storePaymentMethod'])->name('paymentmethod.store');
-        Route::get('payment-method/edit/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'editPaymentMethod'])->name('paymentmethod.edit');
-        Route::post('payment-method/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updatePaymentMethod'])->name('paymentmethod.update');
-        Route::delete('payment-method/delete/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'destroyPaymentMethod'])->name('paymentmethod.destroy');
+        Route::get('payment-method', [SettingController::class, 'indexPaymentMethod'])->name('paymentmethod.index');
+        Route::get('payment-method/create', [SettingController::class, 'createPaymentMethod'])->name('paymentmethod.create');
+        Route::post('payment-method', [SettingController::class, 'storePaymentMethod'])->name('paymentmethod.store');
+        Route::get('payment-method/edit/{id}', [SettingController::class, 'editPaymentMethod'])->name('paymentmethod.edit');
+        Route::post('payment-method/update/{id}', [SettingController::class, 'updatePaymentMethod'])->name('paymentmethod.update');
+        Route::delete('payment-method/delete/{id}', [SettingController::class, 'destroyPaymentMethod'])->name('paymentmethod.destroy');
         // Payment Setup
-        Route::get('payment-setup', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'indexPaymentSetup'])->name('paymentsetup.index');
-        Route::get('payment-setup/create', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'createPaymentSetup'])->name('paymentsetup.create');
-        Route::post('payment-setup', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'storePaymentSetup'])->name('paymentsetup.store');
-        Route::get('payment-setup/edit/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'editPaymentSetup'])->name('paymentsetup.edit');
-        Route::post('payment-setup/update/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'updatePaymentSetup'])->name('paymentsetup.update');
-        Route::delete('payment-setup/delete/{id}', [\App\Http\Controllers\Admin\Setting\SettingController::class, 'destroyPaymentSetup'])->name('paymentsetup.destroy');
+        Route::get('payment-setup', [SettingController::class, 'indexPaymentSetup'])->name('paymentsetup.index');
+        Route::get('payment-setup/create', [SettingController::class, 'createPaymentSetup'])->name('paymentsetup.create');
+        Route::post('payment-setup', [SettingController::class, 'storePaymentSetup'])->name('paymentsetup.store');
+        Route::get('payment-setup/edit/{id}', [SettingController::class, 'editPaymentSetup'])->name('paymentsetup.edit');
+        Route::post('payment-setup/update/{id}', [SettingController::class, 'updatePaymentSetup'])->name('paymentsetup.update');
+        Route::delete('payment-setup/delete/{id}', [SettingController::class, 'destroyPaymentSetup'])->name('paymentsetup.destroy');
 
         // sms setting
-        Route::get('sms-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'smsConfig'])->name('smsconfig.create');
-        Route::post('sms-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'smsConfigStore'])->name('smsconfig.store');
+        Route::get('sms-config', [SettingController::class, 'smsConfig'])->name('smsconfig.create');
+        Route::post('sms-config', [SettingController::class, 'smsConfigStore'])->name('smsconfig.store');
 
         // mail setting
-        Route::get('mail-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'mailConfig'])->name('mailconfig.create');
-        Route::post('mail-config', [App\Http\Controllers\Admin\Setting\SettingController::class, 'mailConfigStore'])->name('mailconfig.store');
+        Route::get('mail-config', [SettingController::class, 'mailConfig'])->name('mailconfig.create');
+        Route::post('mail-config', [SettingController::class, 'mailConfigStore'])->name('mailconfig.store');
 
         // Language
-        Route::get('/lang', [App\Http\Controllers\Admin\Setting\LangController::class, 'index'])->name('lang.index');
-        Route::get('/lang/edit/{locale}', [App\Http\Controllers\Admin\Setting\LangController::class, 'edit'])->name('lang.edit');
-        Route::post('/lang/update/{locale}', [App\Http\Controllers\Admin\Setting\LangController::class, 'update'])->name('lang.update');
+        Route::get('/lang', [LangController::class, 'index'])->name('lang.index');
+        Route::get('/lang/edit/{locale}', [LangController::class, 'edit'])->name('lang.edit');
+        Route::post('/lang/update/{locale}', [LangController::class, 'update'])->name('lang.update');
 
         // Coupon Types
         Route::get('/coupon-types', [CouponController::class, 'couponTypeList'])->name('coupon.type.list');
