@@ -419,3 +419,7 @@ CREATE TABLE `cs_coupons` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
+-- 29-06-2025
+INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`, `orders`, `icon`, `status`, `created_at`, `updated_at`) VALUES
+(56, 'Coupon Type', 10, 'madmin.coupon.type.list', 5, 'fas fa-angle-right', 'Active', '2025-06-28 11:42:27', '2025-06-28 11:42:27'),
+(57, 'Coupon List', 55, 'madmin.coupon.list', 3, 'fas fa-angle-right', 'Active', '2025-06-28 11:43:24', '2025-06-28 11:43:24');
