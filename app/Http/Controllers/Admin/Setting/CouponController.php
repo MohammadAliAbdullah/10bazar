@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
-
+ use Illuminate\Support\Facades\Auth; // make sure to import Auth
+ 
 class CouponController extends Controller
 {
     public function __construct()
@@ -44,21 +45,26 @@ class CouponController extends Controller
         $data['is_active'] = $request->has('is_active') ? 1 : 0;
 
         if ($id) {
+            $data['updated_at'] = now();
+            $data['updated_by'] = auth()->id(); // or use Auth::id()
             DB::table('cs_coupon_types')->where('id', $id)->update($data);
-            Session::flash('success', 'Coupon type updated successfully');
+            Session::flash('status', 'Coupon type updated successfully');
         } else {
+            $data['created_at'] = now();
+            $data['created_by'] = auth()->id(); // or use Auth::id()
             DB::table('cs_coupon_types')->insert($data);
-            Session::flash('success', 'Coupon type created successfully');
+            Session::flash('status', 'Coupon type created successfully');
         }
 
-        return redirect()->route('admin.coupon.type.list');
+        return redirect()->route('madmin.coupon.type.list');
     }
-    
+
+
     public function couponTypeDelete(Request $request)
     {
         $couponTypeId = $request->id;
         DB::table('cs_coupon_types')->where('id', $couponTypeId)->delete();
-        Session::flash('success', 'Coupon type deleted successfully');
+        Session::flash('status', 'Coupon type deleted successfully');
         return redirect()->back();
     }
     public function couponTypeStatus(Request $request)
@@ -66,7 +72,7 @@ class CouponController extends Controller
         $couponTypeId = $request->id;
         $status = $request->status;
         DB::table('cs_coupon_types')->where('id', $couponTypeId)->update(['is_active' => $status]);
-        Session::flash('success', 'Coupon type status updated successfully');
+        Session::flash('status', 'Coupon type status updated successfully');
         return redirect()->back();
     }
 
@@ -108,19 +114,19 @@ class CouponController extends Controller
 
         if ($id) {
             DB::table('cs_coupons')->where('id', $id)->update($data);
-            Session::flash('success', 'Coupon updated successfully');
+            Session::flash('status', 'Coupon updated successfully');
         } else {
             DB::table('cs_coupons')->insert($data);
-            Session::flash('success', 'Coupon created successfully');
+            Session::flash('status', 'Coupon created successfully');
         }
 
-        return redirect()->route('admin.coupon.list');
+        return redirect()->route('madmin.coupon.list');
     }
     public function couponDelete(Request $request)
     {
         $couponId = $request->id;
         DB::table('cs_coupons')->where('id', $couponId)->delete();
-        Session::flash('success', 'Coupon deleted successfully');
+        Session::flash('status', 'Coupon deleted successfully');
         return redirect()->back();
     }
     public function couponStatus(Request $request)
@@ -128,7 +134,7 @@ class CouponController extends Controller
         $couponId = $request->id;
         $status = $request->status;
         DB::table('cs_coupons')->where('id', $couponId)->update(['is_active' => $status]);
-        Session::flash('success', 'Coupon status updated successfully');
+        Session::flash('status', 'Coupon status updated successfully');
         return redirect()->back();
     }
 }
