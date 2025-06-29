@@ -7,14 +7,6 @@ use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Setting\LangController;
 use App\Http\Controllers\Admin\VisitorController;
 
-// test route 
-// Route::get('/test', function () {
-//     $data = Product::with(['category', 'brand'])
-//                 ->orderByDesc('id');
-//     return $data->limit(10)->get();
-// });
-
-
 Route::get('/myadminpanel/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
 //Auth::routes();
 Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(function () {

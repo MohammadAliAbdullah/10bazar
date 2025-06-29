@@ -211,7 +211,7 @@
                                     </a>
                                 </li>
                                 <li class="nav-links__item">
-                                    <a href="{{ route('contact.us') }}">
+                                    <a href="{{ route('contact_us') }}">
                                         <span>{{ __('Contact Us') }}</span>
                                     </a>
                                 </li>

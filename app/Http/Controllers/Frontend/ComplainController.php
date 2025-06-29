@@ -16,7 +16,7 @@ class ComplainController extends Controller
      */
     public function index()
     {
-        return view('Frontend.complain');
+        return view('Frontend.Page.complain');
     }
 
     /**
