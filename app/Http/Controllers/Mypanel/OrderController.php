@@ -86,7 +86,7 @@ class OrderController extends Controller
 
         //Order
         $order = array();
-        $order['currency'] = "BDT";
+        $order['currency'] = config('app.currency')->title ?? 'BDT';
         $order['invoice_no'] = "IN" . time();
         $order['callan_no'] = "CL" . time();
         $order['customer_id'] = $customer;
