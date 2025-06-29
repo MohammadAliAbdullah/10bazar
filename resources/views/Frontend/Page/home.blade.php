@@ -78,6 +78,40 @@
         <button class="btn normal">{{ __('Explore more') }}</button>
     </section>
     <!-- .block-products-carousel -->
+
+    <!-- .block-categories -->
+    <div class="block block--highlighted block-categories block-categories--layout--classic">
+        <div class="container">
+            <div class="block-header">
+                <h3 class="block-header__title">{{ __('Popular Categories') }}</h3>
+                <div class="block-header__divider"></div>
+            </div>
+            <div class="block-categories__list">
+                @foreach ($categories as $category)
+                    <div class="block-categories__item category-card category-card--layout--classic">
+                        <div class="category-card__body">
+                            <div class="category-card__image">
+                                <a href="#">
+                                    <img src="{{ asset($category->images ?? 'public/assets/no_image.png') }}"
+                                        alt="{{ $category->title }}">
+                                </a>
+                            </div>
+                            <div class="category-card__content">
+                                <div class="category-card__name">
+                                    <a href="{{ url('category') }}/{{ $category->slug }}">{{ $category->title }}</a>
+                                </div>
+                                <div class="category-card__all">
+                                    <a href="{{ url('category') }}/{{ $category->slug }}">{{ __('Show All') }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <!-- .block-categories / end -->
+
     <div class="block block-products-carousel" data-layout="horizontal" style="padding-top: 10; padding-bottom: 0">
         <div class="container">
             <div class="block-header">
@@ -156,7 +190,8 @@
                             </div>
                             <div class="post-card__info">
                                 <div class="post-card__category"><a href="#">{{ __('Special Offers') }}</a></div>
-                                <div class="post-card__name"><a href="{{ url('blogs') }}/{{ $blog->slug }}">{!! Str::limit($blog->title, 80, ' ...') !!}</a></div>
+                                <div class="post-card__name"><a
+                                        href="{{ url('blogs') }}/{{ $blog->slug }}">{!! Str::limit($blog->title, 80, ' ...') !!}</a></div>
                                 <div class="post-card__date">October 19, 2019</div>
                                 <div class="post-card__content">{!! Str::limit($blog->title, 80, ' ...') !!}</div>
                                 <div class="post-card__read-more">
