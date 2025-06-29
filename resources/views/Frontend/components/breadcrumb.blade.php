@@ -14,8 +14,5 @@
                 </ol>
             </nav>
         </div>
-        {{-- <div class="page-header__title">
-                        <h1>Screwdrivers</h1>
-                    </div> --}}
     </div>
 </div>

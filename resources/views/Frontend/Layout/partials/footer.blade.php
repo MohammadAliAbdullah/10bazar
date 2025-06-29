@@ -36,10 +36,14 @@
                             <h5 class="footer-links__title">{{ __('My Account') }}</h5>
                             <ul class="footer-links__list">
                                 <li class="footer-links__item"><a href="#" class="footer-links__link">{{ __('Store Location') }}</a></li>
-                                <li class="footer-links__item"><a href="#" class="footer-links__link">{{ __('Order History') }}</a></li>
+                                {{-- <li class="footer-links__item"><a href="#" class="footer-links__link">{{ __('Order History') }}</a></li> --}}
                                 <li class="footer-links__item"><a href="#" class="footer-links__link">{{ __('Wish List') }}</a></li>
                                 <li class="footer-links__item"><a href="#" class="footer-links__link">{{ __('Newsletter') }}</a></li>
                                 <li class="footer-links__item"><a href="#" class="footer-links__link">{{ __('Specials') }}</a></li>
+                                <li class="footer-links__item"><a href="{{route('hotoffer.index')}}" class="footer-links__link">{{ __('Hot Offer') }}</a></li>
+                                <li class="footer-links__item"><a href="{{route('today.offer')}}" class="footer-links__link">{{ __('Today Offer') }}</a></li>
+                                <li class="footer-links__item"><a href="{{route('campaign.index')}}" class="footer-links__link">{{ __('Campaign') }}</a></li>
+                                <li class="footer-links__item"><a href="{{route('complains')}}" class="footer-links__link">{{ __('complains') }}</a></li>
                                 <li class="footer-links__item"><a href="#" class="footer-links__link">{{ __('Gift Certificates') }}</a></li>
                                 <li class="footer-links__item"><a href="#" class="footer-links__link">{{ __('Affiliate') }}</a></li>
                             </ul>

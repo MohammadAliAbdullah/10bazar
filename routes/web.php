@@ -1,151 +1,164 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
+use Darryldecode\Cart\Facades\CartFacade as Cart;
+
 use App\Http\Controllers\BkashController;
 use App\Http\Controllers\BkashRefundController;
 use App\Http\Controllers\BkashPaymentController;
-use Darryldecode\Cart\Facades\CartFacade as Cart;
+use App\Http\Controllers\SslCommerzPaymentController;
 
-use Illuminate\Support\Facades\Route;
-
+// Clear Cache
 Route::get('/clear-cache', function () {
     Artisan::call('route:clear');
     Artisan::call('cache:clear');
     return redirect()->back();
 });
-// Front end routes
-Route::get('/', [App\Http\Controllers\Frontend\HomeController::class, 'index'])->name('home.index'); // -- done
-Route::get('/today-offer', [App\Http\Controllers\Frontend\HomeController::class, 'today_offer'])->name('today.offer'); // -- done
-Route::get('/newarrival', [App\Http\Controllers\Frontend\CampaignController::class, 'newarrival'])->name('new.arrival'); // -- done
-Route::get('/upcomming', [App\Http\Controllers\Frontend\CampaignController::class, 'upcomming'])->name('up.comming'); // -- done
-Route::get('/campaign', [App\Http\Controllers\Frontend\CampaignController::class, 'campaign'])->name('campaign.index');
-Route::get('/campaigns/{slug}', [App\Http\Controllers\Frontend\CampaignController::class, 'campaigns'])->name('campaign.slug');
-Route::get('/hotoffer', [App\Http\Controllers\Frontend\CampaignController::class, 'hotoffer'])->name('hotoffer.index'); // -- done
-//Route::get('/login', [App\Http\Controllers\Frontend\HomeController::class, 'login'])->name('login');
-//Route::get('/register', [App\Http\Controllers\Frontend\HomeController::class, 'register'])->name('register');
-Route::get('/category/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_category'])->name('category'); // -- done
-Route::get('/shops/{category}/{brand}/', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_shop'])->name('shops'); // -- done
-// Route::get('/collection/{category}/{value}/', [App\Http\Controllers\Frontend\HomeController::class, 'collection'])->name('collection'); // commit by abdullah 18-05-2025
-// Route::get('/price/{category}/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'price'])->name('price'); // commit by abdullah 18-05-2025
-Route::get('/brands/{slug}', [App\Http\Controllers\Frontend\HomeController::class, 'shop_by_brand'])->name('brands'); // -- done
 
-// filter product
-Route::get('/filter-products', [App\Http\Controllers\Frontend\HomeController::class, 'filterProducts'])->name('filter.products');
-Route::post('/shopfilters', [App\Http\Controllers\Frontend\HomeController::class, 'shopfilters'])->name('shop.filters');
-Route::get('/shop', [App\Http\Controllers\Frontend\PagesController::class, 'shop'])->name('shop'); // -- done
-Route::post('/shopfilter', [App\Http\Controllers\Frontend\PagesController::class, 'shopfilter'])->name('shop.filter'); // -- done
-//blog
-Route::get('/blog', [App\Http\Controllers\Frontend\BlogController::class, 'index'])->name('blog.index');
-Route::get('/blogs/{slug}', [App\Http\Controllers\Frontend\BlogController::class, 'details'])->name('blog.details');
-// Route::get('/deals', [App\Http\Controllers\Frontend\PagesController::class, 'deals'])->name('deals');
-Route::resource('/complains', 'App\Http\Controllers\Frontend\ComplainController');
-Route::get('/contact-us', [App\Http\Controllers\Frontend\PagesController::class, 'contact_us'])->name('contact_us'); // -- done
-Route::get('/brand', [App\Http\Controllers\Frontend\PagesController::class, 'brand'])->name('brand'); // -- done
-Route::get('/warranty-policy', [App\Http\Controllers\Frontend\PagesController::class, 'warranty_policy'])->name('warranty_policy'); // -- done
-Route::get('/terms-conditions', [App\Http\Controllers\Frontend\PagesController::class, 'trams'])->name('trams');
-Route::get('/privacy-policy', [App\Http\Controllers\Frontend\PagesController::class, 'privacy'])->name('privacy'); // -- done
-Route::get('/product/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'product_details'])->name('product_details'); // -- done
-Route::get('/quick-view-product/{id}', [App\Http\Controllers\Frontend\PagesController::class, 'product_quick_view_details'])->name('product_quick_view_details');
-Route::post('/review', [App\Http\Controllers\Frontend\PagesController::class, 'review_store'])->name('review_store');
-Route::get('/track', [App\Http\Controllers\Frontend\PagesController::class, 'track'])->name('track'); // -- done
-Route::post('/search', [App\Http\Controllers\Frontend\HomeController::class, 'search'])->name('search');
-//VRF
-Route::get('/vrf', [App\Http\Controllers\Frontend\VrfController::class, 'index'])->name('vrf');
-//Checkout
-Route::get('/areas', [App\Http\Controllers\Frontend\Checkoutscontroller::class, 'areas'])->name('areas');
-Route::get('/checkout', [App\Http\Controllers\Frontend\Checkoutscontroller::class, 'checkout'])->name('checkout');
-Route::post('/checkout-Store', [App\Http\Controllers\Frontend\Checkoutscontroller::class, 'checkout_store'])->name('checkout_store');
-Route::post('/transaction_fee', [App\Http\Controllers\Frontend\Checkoutscontroller::class, 'transaction_fee'])->name('transaction_fee');
-Route::post('/coupon', [App\Http\Controllers\Frontend\Checkoutscontroller::class, 'coupon'])->name('coupon');
+// === Frontend Routes ===
+use App\Http\Controllers\Frontend\HomeController;
+use App\Http\Controllers\Frontend\CampaignController;
+use App\Http\Controllers\Frontend\PagesController;
+use App\Http\Controllers\Frontend\BlogController;
+use App\Http\Controllers\Frontend\ComplainController;
+use App\Http\Controllers\Frontend\Checkoutscontroller;
+use App\Http\Controllers\Frontend\CartsController;
+use App\Http\Controllers\Frontend\VrfController;
+use App\Http\Controllers\Frontend\NewsletterController;
+// === Auth Routes ===
+use App\Http\Controllers\Mypanel\Auth\LoginController;
+use App\Http\Controllers\Mypanel\Auth\RegisterController;
+// === Mypanel Group ===
+use App\Http\Controllers\Mypanel\Deshboardcontroller;
+use App\Http\Controllers\Mypanel\OrderController;
+use App\Http\Controllers\Mypanel\ReviewController;
+use App\Http\Controllers\Mypanel\AddressController;
+use App\Http\Controllers\Mypanel\WalletController;
+use App\Http\Controllers\Mypanel\UserController;
+use App\Http\Controllers\Mypanel\PasswordController;
 
-// cart updated by abdullah
-Route::post('/add-to-cart', [App\Http\Controllers\Frontend\CartsController::class, 'addToCart'])->name('cart.add');
-Route::post('/cart/update-quantity', [App\Http\Controllers\Frontend\CartsController::class, 'updateQuantity'])->name('cart.update');
-Route::post('/cart/remove', [App\Http\Controllers\Frontend\CartsController::class, 'removeItem'])->name('cart.remove');
-Route::get('/cart/list', [App\Http\Controllers\Frontend\CartsController::class, 'headerCartList'])->name('headerCart.list');
-// 
-Route::post('/add', [App\Http\Controllers\Frontend\CartsController::class, 'add'])->name('cart.Store');
-Route::get('/cart', [App\Http\Controllers\Frontend\CartsController::class, 'cart'])->name('cart.list');
-Route::post('/update', [App\Http\Controllers\Frontend\CartsController::class, 'update'])->name('update.cart');
-//Route::post('/remove', [App\Http\Controllers\Frontend\CartsController::class, 'remove'])->name('cart.remove');
-Route::post('/clear', [App\Http\Controllers\Frontend\CartsController::class, 'clear'])->name('cart.clear');
-//Route::get('/add-to-cart/{id}', [App\Http\Controllers\Frontend\CartsController::class, 'addtocart'])->name('addtocart');
-//Route::post('/cart-update/', [App\Http\Controllers\Frontend\CartsController::class, 'cart_update'])->name('cart_update');
-//Route::get('/cart', [App\Http\Controllers\Frontend\CartsController::class, 'cart'])->name('cart');
-// Route::get('/remove/{id}', [App\Http\Controllers\Frontend\CartsController::class, 'remove'])->name('cart.remove');
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/today-offer', [HomeController::class, 'today_offer'])->name('today.offer');
+Route::get('/newarrival', [CampaignController::class, 'newarrival'])->name('new.arrival');
+Route::get('/upcomming', [CampaignController::class, 'upcomming'])->name('up.comming');
+Route::get('/campaign', [CampaignController::class, 'campaign'])->name('campaign.index');
+Route::get('/campaigns/{slug}', [CampaignController::class, 'campaigns'])->name('campaign.slug');
+Route::get('/hotoffer', [CampaignController::class, 'hotoffer'])->name('hotoffer.index');
 
-// SSLCOMMERZ Start
-//Route::get('/example1', [App\Http\Controllers\SslCommerzPaymentController::class, 'exampleEasyCheckout']);
-//Route::get('/example2', [App\Http\Controllers\SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+Route::get('/category/{slug}', [HomeController::class, 'shop_by_category'])->name('category');
+Route::get('/shops/{category}/{brand}', [HomeController::class, 'shop_by_shop'])->name('shops');
+Route::get('/brands/{slug}', [HomeController::class, 'shop_by_brand'])->name('brands');
 
-Route::post('/pay', [App\Http\Controllers\Mypanel\OrderController::class, 'store']);
-//Route::post('/pay-via-ajax', [App\Http\Controllers\SslCommerzPaymentController::class, 'payViaAjax']);
+Route::get('/filter-products', [HomeController::class, 'filterProducts'])->name('filter.products');
+Route::post('/shopfilters', [HomeController::class, 'shopfilters'])->name('shop.filters');
 
-Route::post('/success', [App\Http\Controllers\SslCommerzPaymentController::class, 'success']);
-Route::post('/fail', [App\Http\Controllers\SslCommerzPaymentController::class, 'fail']);
-Route::post('/cancel', [App\Http\Controllers\SslCommerzPaymentController::class, 'cancel']);
-Route::post('/ipn', [App\Http\Controllers\SslCommerzPaymentController::class, 'ipn']);
-//Page
-Route::get('/faq', [App\Http\Controllers\Frontend\PagesController::class, 'faq'])->name('faq'); // -- done
-Route::get('/about-us', [App\Http\Controllers\Frontend\PagesController::class, 'about_us'])->name('about.us'); // -- done
-Route::get('/contact-us', [App\Http\Controllers\Frontend\PagesController::class, 'contact_us'])->name('contact.us'); // -- done
-Route::get('/page/{slug}', [App\Http\Controllers\Frontend\PagesController::class, 'page']); // -- done
-Route::resource('/newsletter','\App\Http\Controllers\Frontend\NewsletterController'); // -- done
+Route::get('/shop', [PagesController::class, 'shop'])->name('shop');
+Route::post('/shopfilter', [PagesController::class, 'shopfilter'])->name('shop.filter');
 
-//SSLCOMMERZ END
-Route::get('/login', [App\Http\Controllers\Mypanel\Auth\LoginController::class, 'showLoginForm'])->name('login'); // -- done
-Route::get('/registration', [App\Http\Controllers\Mypanel\Auth\RegisterController::class, 'showLoginForm'])->name('register.user'); // -- done
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blogs/{slug}', [BlogController::class, 'details'])->name('blog.details');
 
-Route::prefix('/mypanel')->name('mypanel.')->namespace('Mypanel')->group(function () {
-    Route::namespace('Auth')->group(function () {
-        //Login Routes
-        //Route::get('/userpanel',[App\Http\Controllers\Mypanel\UserController::class, 'index'])->name('index');
-        Route::post('/login', [App\Http\Controllers\Mypanel\Auth\LoginController::class, 'login'])->name("loginuser");
-        Route::post('/register', [App\Http\Controllers\Mypanel\Auth\RegisterController::class, 'create'])->name('register_user');
-        Route::get('/logout', [App\Http\Controllers\Mypanel\Auth\LoginController::class, 'logout'])->name('elogout');
-    });
-    Route::group(['middleware' => 'mypanel'], function () {
-        Route::get('/', [App\Http\Controllers\Mypanel\Deshboardcontroller::class, 'index'])->name('users');
-        Route::resource('/morder', '\App\Http\Controllers\Mypanel\OrderController');
-        Route::get('/invoice/{invoice_no}', [App\Http\Controllers\Mypanel\OrderController::class, 'invoice'])->name('minvoice.index');
-        Route::resource('/mreview', '\App\Http\Controllers\Mypanel\ReviewController');
-        Route::resource('/maddress', '\App\Http\Controllers\Mypanel\AddressController');
-        Route::resource('/mwallet', '\App\Http\Controllers\Mypanel\WalletController');
-        Route::resource('/profile', '\App\Http\Controllers\Mypanel\UserController');
-        Route::resource('/password', '\App\Http\Controllers\Mypanel\PasswordController');
-    });
-});
+Route::resource('/complains', ComplainController::class);
 
-Route::get('/bkash', function () {
-    return view('bkash');
-});
+Route::get('/contact-us', [PagesController::class, 'contact_us'])->name('contact_us');
+Route::get('/brand', [PagesController::class, 'brand'])->name('brand');
+Route::get('/warranty-policy', [PagesController::class, 'warranty_policy'])->name('warranty_policy');
+Route::get('/terms-conditions', [PagesController::class, 'trams'])->name('trams');
+Route::get('/privacy-policy', [PagesController::class, 'privacy'])->name('privacy');
 
+Route::get('/product/{id}', [PagesController::class, 'product_details'])->name('product_details');
+Route::get('/quick-view-product/{id}', [PagesController::class, 'product_quick_view_details'])->name('product_quick_view_details');
+Route::post('/review', [PagesController::class, 'review_store'])->name('review_store');
+Route::get('/track', [PagesController::class, 'track'])->name('track');
+
+Route::post('/search', [HomeController::class, 'search'])->name('search');
+Route::get('/vrf', [VrfController::class, 'index'])->name('vrf');
+
+// === Checkout ===
+Route::get('/areas', [Checkoutscontroller::class, 'areas'])->name('areas');
+Route::get('/checkout', [Checkoutscontroller::class, 'checkout'])->name('checkout');
+Route::post('/checkout-Store', [Checkoutscontroller::class, 'checkout_store'])->name('checkout_store');
+Route::post('/transaction_fee', [Checkoutscontroller::class, 'transaction_fee'])->name('transaction_fee');
+Route::post('/coupon', [Checkoutscontroller::class, 'coupon'])->name('coupon');
+
+// === Cart ===
+Route::post('/add-to-cart', [CartsController::class, 'addToCart'])->name('cart.add');
+Route::post('/cart/update-quantity', [CartsController::class, 'updateQuantity'])->name('cart.update');
+Route::post('/cart/remove', [CartsController::class, 'removeItem'])->name('cart.remove');
+Route::get('/cart/list', [CartsController::class, 'headerCartList'])->name('headerCart.list');
+
+Route::post('/add', [CartsController::class, 'add'])->name('cart.Store');
+Route::get('/cart', [CartsController::class, 'cart'])->name('cart.list');
+Route::post('/update', [CartsController::class, 'update'])->name('update.cart');
+Route::post('/clear', [CartsController::class, 'clear'])->name('cart.clear');
+
+// === SSLCOMMERZ ===
+Route::get('/example1', [SslCommerzPaymentController::class, 'exampleEasyCheckout']);
+Route::get('/example2', [SslCommerzPaymentController::class, 'exampleHostedCheckout']);
+
+Route::post('/pay', [OrderController::class, 'store']);
+Route::post('/pay-via-ajax', [SslCommerzPaymentController::class, 'payViaAjax']);
+Route::post('/success', [SslCommerzPaymentController::class, 'success']);
+Route::post('/fail', [SslCommerzPaymentController::class, 'fail']);
+Route::post('/cancel', [SslCommerzPaymentController::class, 'cancel']);
+Route::post('/ipn', [SslCommerzPaymentController::class, 'ipn']);
+
+// === Pages ===
+Route::get('/faq', [PagesController::class, 'faq'])->name('faq');
+Route::get('/about-us', [PagesController::class, 'about_us'])->name('about.us');
+Route::get('/page/{slug}', [PagesController::class, 'page']);
+Route::resource('/newsletter', NewsletterController::class);
+
+// === Bkash ===
+Route::get('/bkash', fn() => view('bkash'));
 Route::get('/bkash/callback', function () {
     $paymentId = session('payment_id');
-
     if ($paymentId) {
         $bkashService = new \App\Services\BkashPaymentService();
         $result = $bkashService->executePayment($paymentId);
-        dd($result); // or redirect with a message
+        dd($result);
     }
-
     return redirect('/bkash')->with('error', 'Payment ID not found.');
 });
-
 Route::post('/bkash/create', [BkashPaymentController::class, 'create'])->name('bkash.create');
 Route::post('/bkash/execute', [BkashPaymentController::class, 'execute']);
 
+// === Language & Currency Switch ===
 Route::get('/lang-switch', function (\Illuminate\Http\Request $request) {
     session(['locale' => $request->lang]);
     app()->setLocale($request->lang);
     return back();
 })->name('lang.switch');
 
-// currency.switch
 Route::get('/currency-switch', function (\Illuminate\Http\Request $request) {
     session(['currency_id' => $request->currency]);
-             Cart::clear();
+    Cart::clear();
     return back();
 })->name('currency.switch');
 
-//admin panel
+
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('/registration', [RegisterController::class, 'showLoginForm'])->name('register.user');
+
+Route::prefix('/mypanel')->name('mypanel.')->group(function () {
+    Route::namespace('Auth')->group(function () {
+        Route::post('/login', [LoginController::class, 'login'])->name("loginuser");
+        Route::post('/register', [RegisterController::class, 'create'])->name('register_user');
+        Route::get('/logout', [LoginController::class, 'logout'])->name('elogout');
+    });
+
+    Route::middleware(['mypanel'])->group(function () {
+        Route::get('/', [Deshboardcontroller::class, 'index'])->name('users');
+        Route::resource('/morder', OrderController::class);
+        Route::get('/invoice/{invoice_no}', [OrderController::class, 'invoice'])->name('minvoice.index');
+        Route::resource('/mreview', ReviewController::class);
+        Route::resource('/maddress', AddressController::class);
+        Route::resource('/mwallet', WalletController::class);
+        Route::resource('/profile', UserController::class);
+        Route::resource('/password', PasswordController::class);
+    });
+});
+
+// === Admin Panel Routes ===
 require __DIR__ . '/admin.php';

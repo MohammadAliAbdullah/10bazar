@@ -17,8 +17,7 @@
                                         <div class="post-card post-card--layout--grid post-card--size--nl">
                                             <div class="post-card__image">
                                                 <a href="{{ url('blogs/' . $blog->slug) }}">
-                                                    <img src="{{ asset('public/images/blogs/' . $blog->images) }}"
-                                                         alt="{{ $blog->title }}">
+                                                    <img src="{{ asset('public/images/blogs/' . $blog->images) }}" alt="{{ $blog->title }}">
                                                 </a>
                                             </div>
                                             <div class="post-card__info">

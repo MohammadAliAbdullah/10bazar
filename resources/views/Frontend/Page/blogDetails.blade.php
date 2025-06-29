@@ -12,7 +12,8 @@
                 <div class="col-lg-9">
                     <div class="blogdetails pb-3">
                         <h2>{{ $value->title }}</h2>
-                        <img src="{{ asset('public/images/blogs/' . $value->images) }}" class="img-fluid" alt="{{ $value->title }}">
+                        <img src="{{ asset('public/images/blogs/' . $value->images) }}" class="img-fluid"
+                            alt="{{ $value->title }}">
                         <p class="text-justify">{!! $value->content !!}</p>
                     </div>
                 </div>
@@ -27,7 +28,7 @@
                                         <div class="widget-posts__image">
                                             <a href="{{ url('blogs/' . $recent->slug) }}">
                                                 <img src="{{ asset('public/images/blogs/' . $recent->images) }}"
-                                                     alt="{{ $recent->title }}">
+                                                    alt="{{ $recent->title }}">
                                             </a>
                                         </div>
                                         <div class="widget-posts__info">
@@ -46,9 +47,6 @@
                         </div>
                     </div>
                 </div>
-
-                <!-- You can add payment or CTA section here if needed -->
-
             </div>
         </div>
     </section>

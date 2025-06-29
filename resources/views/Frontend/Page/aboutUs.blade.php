@@ -15,8 +15,7 @@
                             <h2 class="about-us__team-title">{{ __('Meat Our Team') }}</h2>
                             <div class="about-us__team-subtitle text-muted">{{ __('Want to work in our friendly team?') }}'
                                 <br><a href="{{ route('contact.us') }}">{{ __('Contact Us') }}</a>
-                                {{ __('and we will consider your
-                                                                candidacy') }}.
+                                {{ __('and we will consider your candidacy') }}.
                             </div>
                             <div class="about-us__teammates teammates">
                                 <div class="owl-carousel">
