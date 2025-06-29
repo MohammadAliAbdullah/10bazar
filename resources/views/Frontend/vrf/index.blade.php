@@ -24,7 +24,7 @@
                         <a href="{{ route('product_details', ['id' => $valuess->slug]) }}">
                             <div class="each-item-wraper">
                                 <div class="item-image">
-                                    <img src="{{ asset('public') }}/images/product/{{ $valuess->images }}" class="img-fluid" alt="">
+                                    <img src="{{ asset($valuess->images) }}" class="img-fluid" alt="">
                                 </div>
                                 <div class="item-title">
                                     <h3>{{ $valuess->title }}</h3>
@@ -37,21 +37,4 @@
             </div>
         </div>
     </section>
-
-
-{{--    <section class="collaps-group">--}}
-{{--        <div class="container-fluid">--}}
-{{--            <div class="row" style="padding: 0 10px;">--}}
-{{--                <div class="wrap">--}}
-{{--                    <div class="content">--}}
-{{--                        <p><strong>NURANIUM MARKETPLACE - SHOPPING AND SALES ONLINE SIMPLE, FAST AND SAFE</strong></p>--}}
-{{--                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis dicta a rerum omnis nesciunt nulla blanditiis, eius sapiente tenetur libero perspiciatis sunt tempora! Omnis tenetur ipsum nobis. Iusto amet eaque neque voluptatem excepturi maiores cupiditate aut in, id labore sed doloremque sunt magni saepe quis ducimus incidunt unde quasi nam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, non!</p>--}}
-{{--                        <p> Veritatis dicta a rerum omnis nesciunt nulla blanditiis, eius sapiente tenetur libero perspiciatis sunt tempora! Omnis tenetur ipsum nobis. Iusto amet eaque neque voluptatem excepturi maiores cupiditate autatis sunt tempora! Omnis tenetur ipsum nobis. Iusto amet eaque neque voluptatem excepturi maiores cupiditate aut in, id labore sed doloremque sunt magni saepe quis ducimus incidunt unde quasi nam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, non!</p>--}}
-{{--                    </div>--}}
-
-{{--                    <a href="" class="see-more">SEE MORE</a>--}}
-{{--                </div>--}}
-{{--            </div>--}}
-{{--        </div>--}}
-{{--    </section>--}}
 @endsection

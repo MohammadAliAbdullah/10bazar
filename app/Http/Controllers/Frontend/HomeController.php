@@ -136,7 +136,7 @@ class HomeController extends Controller
 
     public function register()
     {
-        return view("Frontend.create_account");
+        return view("Frontend.Page.createAccount");
     }
 
     public function shop_by_category($slug)

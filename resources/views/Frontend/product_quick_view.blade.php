@@ -1,25 +1,3 @@
-<style>
-    p>img {
-        width: 300px !important;
-        height: 300px !important;
-    }
-
-    .modal-body {
-        overflow: visible;
-    }
-
-    .img-zoom-container {
-        position: relative;
-        display: inline-block;
-    }
-
-    /* Fix xZoom z-index issue inside modal */
-    .xzoom-preview,
-    .xzoom-lens,
-    .xzoom-loading {
-        z-index: 1065 !important;
-    }
-</style>
 <div class="p-4">
     <div class="row">
         <!-- Product Image -->
@@ -123,8 +101,6 @@
     </div>
 
     <hr class="my-4">
-
-    <!-- Tabs -->
     <!-- Tabs -->
     <ul class="nav nav-tabs" id="productTab" role="tablist">
         <li class="nav-item">
@@ -134,7 +110,7 @@
             <a class="nav-link" id="spec-tab" data-toggle="tab" href="#spec" role="tab">Specification</a>
         </li>
     </ul>
-
+    {{--  --}}
     <div class="tab-content mt-3">
         <div class="tab-pane fade show active" id="desc" role="tabpanel">
             {!! $product->content ?? 'N/A' !!}
@@ -143,21 +119,10 @@
             {!! $product->specification ?? 'N/A' !!}
         </div>
     </div>
+    {{--  --}}
 </div>
 
 <link rel="stylesheet" href="{{ asset('public') }}/asset/css/xzoom.css">
 
 <script src="{{ asset('public') }}/asset/js/xzoom.min.js"></script>
 <script src="{{ asset('public') }}/asset/js/setup.js"></script>
-<script>
-    $(document).ready(function() {
-        $('.viewProductDetails').on('shown.bs.modal', function() {
-            $('.xzoom, .xzoom-gallery').xzoom({
-                zoomWidth: 400,
-                title: false,
-                tint: '#333',
-                Xoffset: 15
-            });
-        });
-    });
-</script>
