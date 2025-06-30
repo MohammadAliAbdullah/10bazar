@@ -423,3 +423,81 @@ CREATE TABLE `cs_coupons` (
 INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`, `orders`, `icon`, `status`, `created_at`, `updated_at`) VALUES
 (56, 'Coupon Type', 10, 'madmin.coupon.type.list', 5, 'fas fa-angle-right', 'Active', '2025-06-28 11:42:27', '2025-06-28 11:42:27'),
 (57, 'Coupon List', 55, 'madmin.coupon.list', 3, 'fas fa-angle-right', 'Active', '2025-06-28 11:43:24', '2025-06-28 11:43:24');
+
+-- 30-06-2025
+CREATE TABLE cs_states (
+   id BIGINT PRIMARY KEY AUTO_INCREMENT,
+   name VARCHAR(100),
+   created_by INT(11) DEFAULT NULL,
+   updated_by INT(11) DEFAULT NULL,
+   created_at TIMESTAMP NULL DEFAULT NULL,
+   updated_at TIMESTAMP NULL DEFAULT NULL
+);
+
+CREATE TABLE cs_cities (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    state_id BIGINT,
+    name VARCHAR(100),
+    created_by INT(11) DEFAULT NULL,
+    updated_by INT(11) DEFAULT NULL,
+    created_at TIMESTAMP NULL DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL
+);
+
+CREATE TABLE cs_shipping_zones (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    description TEXT,
+    created_by INT(11) DEFAULT NULL,
+    updated_by INT(11) DEFAULT NULL,
+    created_at TIMESTAMP NULL DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL
+);
+
+CREATE TABLE cs_shipping_zone_locations (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    shipping_zone_id BIGINT,
+    state_id BIGINT NULL,
+    city_id BIGINT NULL,
+    created_by INT(11) DEFAULT NULL,
+    updated_by INT(11) DEFAULT NULL,
+    created_at TIMESTAMP NULL DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL
+);
+
+CREATE TABLE cs_shipping_methods (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    shipping_zone_id BIGINT,
+    name VARCHAR(100),
+    base_fee DECIMAL(10,2),
+    per_kg_fee DECIMAL(10,2),
+    estimated_days VARCHAR(50),
+    is_active TINYINT(1) DEFAULT 1 COMMENT '1=active 0=inactive'
+);
+
+INSERT INTO cs_states (id, name, created_by, created_at) VALUES
+(1, 'Dhaka', 1, NOW()),
+(2, 'Chattogram', 1, NOW()),
+(3, 'Khulna', 1, NOW());
+
+
+INSERT INTO cs_cities (id, state_id, name, created_by, created_at) VALUES
+(1, 1, 'Dhaka City', 1, NOW()),
+(2, 1, 'Narayanganj', 1, NOW()),
+(3, 2, 'Chattogram City', 1, NOW()),
+(4, 3, 'Khulna City', 1, NOW());
+
+
+INSERT INTO cs_shipping_zones (id, name, description, created_by, created_at) VALUES
+(1, 'Zone A', 'Covers Dhaka and nearby areas', 1, NOW()),
+(2, 'Zone B', 'Covers Chattogram division', 1, NOW());
+
+INSERT INTO cs_shipping_zone_locations (id, shipping_zone_id, state_id, city_id, created_by, created_at) VALUES
+(1, 1, 1, NULL, 1, NOW()), -- Whole Dhaka state
+(2, 1, NULL, 2, 1, NOW()), -- Specific city Narayanganj
+(3, 2, 2, NULL, 1, NOW()); -- Whole Chattogram state
+
+INSERT INTO cs_shipping_methods (id, shipping_zone_id, name, base_fee, per_kg_fee, estimated_days, is_active) VALUES
+(1, 1, 'Standard Delivery', 50.00, 10.00, '2-3 Days', 1),
+(2, 1, 'Express Delivery', 100.00, 15.00, '1 Day', 1),
+(3, 2, 'Standard Delivery', 70.00, 12.00, '3-4 Days', 1);
