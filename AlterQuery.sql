@@ -472,7 +472,11 @@ CREATE TABLE cs_shipping_methods (
     base_fee DECIMAL(10,2),
     per_kg_fee DECIMAL(10,2),
     estimated_days VARCHAR(50),
-    is_active TINYINT(1) DEFAULT 1 COMMENT '1=active 0=inactive'
+    is_active TINYINT(1) DEFAULT 1 COMMENT '1=active 0=inactive',
+    created_by INT(11) DEFAULT NULL,
+    updated_by INT(11) DEFAULT NULL,
+    created_at TIMESTAMP NULL DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL
 );
 
 INSERT INTO cs_states (id, name, created_by, created_at) VALUES
