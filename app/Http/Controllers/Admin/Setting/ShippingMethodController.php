@@ -10,40 +10,43 @@ class ShippingMethodController extends Controller
 {
     public function index()
     {
-        $items = ShippingMethod::all();
-        return view('Admin.Setting.shipping_methods.index', compact('items'));
+        $shippingMethods = ShippingMethod::with('shippingZone')->get();
+        // return $shippingMethods;
+        return view('Admin.Setting.shipping_methods.index', compact('shippingMethods'));
     }
 
     public function create()
     {
-        return view('Admin.Setting.shipping_methods.create');
+        $shippingZones = \App\Models\ShippingZone::all(); // Fetch all shipping zones for the create form
+        return view('Admin.Setting.shipping_methods.create', compact('shippingZones'));
     }
 
     public function store(Request $request)
     {
         ShippingMethod::create($request->all());
-        return redirect()->route('shipping_methods.index')->with('success', 'ShippingMethod created successfully.');
+        return redirect()->route('madmin.shipping-methods.index')->with('success', 'Shipping Method created successfully.');
     }
 
-    public function show(ShippingMethod $item)
+    public function show(ShippingMethod $shippingMethod)
     {
-        return view('Admin.Setting.shipping_methods.show', compact('item'));
+        return view('Admin.Setting.shipping_methods.show', compact('shippingMethod'));
     }
 
-    public function edit(ShippingMethod $item)
+    public function edit(ShippingMethod $shippingMethod)
     {
-        return view('Admin.Setting.shipping_methods.edit', compact('item'));
+        $shippingZones = \App\Models\ShippingZone::all(); // Fetch all shipping zones for the edit form
+        return view('Admin.Setting.shipping_methods.edit', compact('shippingMethod', 'shippingZones'));
     }
 
-    public function update(Request $request, ShippingMethod $item)
+    public function update(Request $request, ShippingMethod $shippingMethod)
     {
-        $item->update($request->all());
-        return redirect()->route('shipping_methods.index')->with('success', 'ShippingMethod updated successfully.');
+        $shippingMethod->update($request->all());
+        return redirect()->route('madmin.shipping-methods.index')->with('success', 'Shipping Method updated successfully.');
     }
 
-    public function destroy(ShippingMethod $item)
+    public function destroy(ShippingMethod $shippingMethod)
     {
-        $item->delete();
-        return redirect()->route('shipping_methods.index')->with('success', 'ShippingMethod deleted successfully.');
+        $shippingMethod->delete();
+        return redirect()->route('madmin.shipping-methods.index')->with('success', 'Shipping Method deleted successfully.');
     }
 }

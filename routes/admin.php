@@ -6,6 +6,12 @@ use App\Http\Controllers\Admin\Setting\CouponController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Setting\LangController;
 use App\Http\Controllers\Admin\VisitorController;
+// === Address and shipping ===
+// use App\Http\Controllers\Admin\Setting\StateController;
+// use App\Http\Controllers\Admin\Setting\CityController;
+// use App\Http\Controllers\Admin\Setting\ShippingZoneController;
+// use App\Http\Controllers\Admin\Setting\ShippingZoneLocationController;
+// use App\Http\Controllers\Admin\Setting\ShippingMethodController;
 
 Route::get('/myadminpanel/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
 //Auth::routes();
@@ -159,6 +165,13 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         Route::post('/coupon/store', [CouponController::class, 'couponStoreOrUpdate'])->name('coupon.store');
         Route::post('/coupon/update/{id}', [CouponController::class, 'couponStoreOrUpdate'])->name('coupon.update');
         Route::post('/coupon/delete', [CouponController::class, 'couponDelete'])->name('coupon.delete');
+
+        // 
+        Route::resource('/states', '\App\Http\Controllers\Admin\Setting\StateController');
+        Route::resource('/cities', '\App\Http\Controllers\Admin\Setting\CityController');
+        Route::resource('/shipping-zones', '\App\Http\Controllers\Admin\Setting\ShippingZoneController');
+        // Route::resource('/shipping_zone_locations', '\App\Http\Controllers\Admin\Setting\ShippingZoneLocationController');
+        Route::resource('/shipping-methods', '\App\Http\Controllers\Admin\Setting\ShippingMethodController');
     });
 });
 //Auth::routes();

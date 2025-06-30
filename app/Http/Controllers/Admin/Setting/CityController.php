@@ -10,40 +10,42 @@ class CityController extends Controller
 {
     public function index()
     {
-        $items = City::all();
-        return view('cities.index', compact('items'));
+        $cities = City::all();
+        return view('Admin.Setting.cities.index', compact('cities'));
     }
 
     public function create()
     {
-        return view('cities.create');
+        $states = \App\Models\State::all(); // Fetch all states for the create form
+        return view('Admin.Setting.cities.create', compact('states'));
     }
 
     public function store(Request $request)
     {
         City::create($request->all());
-        return redirect()->route('cities.index')->with('success', 'City created successfully.');
+        return redirect()->route('madmin.cities.index')->with('success', 'City created successfully.');
     }
 
-    public function show(City $item)
+    public function show(City $city)
     {
-        return view('cities.show', compact('item'));
+        return view('Admin.Setting.cities.show', compact('city'));
     }
 
-    public function edit(City $item)
+    public function edit(City $city)
     {
-        return view('cities.edit', compact('item'));
+        $states = \App\Models\State::all(); // Fetch all states for the edit form
+        return view('Admin.Setting.cities.edit', compact('city', 'states'));
     }
 
-    public function update(Request $request, City $item)
+    public function update(Request $request, City $city)
     {
-        $item->update($request->all());
-        return redirect()->route('cities.index')->with('success', 'City updated successfully.');
+        $city->update($request->all());
+        return redirect()->route('madmin.cities.index')->with('success', 'City updated successfully.');
     }
 
-    public function destroy(City $item)
+    public function destroy(City $city)
     {
-        $item->delete();
-        return redirect()->route('cities.index')->with('success', 'City deleted successfully.');
+        $city->delete();
+        return redirect()->route('madmin.cities.index')->with('success', 'City deleted successfully.');
     }
 }

@@ -10,8 +10,8 @@ class ShippingZoneController extends Controller
 {
     public function index()
     {
-        $items = ShippingZone::all();
-        return view('Admin.Setting.shipping_zones.index', compact('items'));
+        $shippingZones = ShippingZone::all();
+        return view('Admin.Setting.shipping_zones.index', compact('shippingZones'));
     }
 
     public function create()
@@ -22,28 +22,28 @@ class ShippingZoneController extends Controller
     public function store(Request $request)
     {
         ShippingZone::create($request->all());
-        return redirect()->route('shipping_zones.index')->with('success', 'ShippingZone created successfully.');
+        return redirect()->route('madmin.shipping-zones.index')->with('success', 'Shipping Zone created successfully.');
     }
 
-    public function show(ShippingZone $item)
+    public function show(ShippingZone $shippingZone)
     {
-        return view('Admin.Setting.shipping_zones.show', compact('item'));
+        return view('Admin.Setting.shipping_zones.show', compact('shippingZone'));
     }
 
-    public function edit(ShippingZone $item)
+    public function edit(ShippingZone $shippingZone)
     {
-        return view('Admin.Setting.shipping_zones.edit', compact('item'));
+        return view('Admin.Setting.shipping_zones.edit', compact('shippingZone'));
     }
 
-    public function update(Request $request, ShippingZone $item)
+    public function update(Request $request, ShippingZone $shippingZone)
     {
-        $item->update($request->all());
-        return redirect()->route('shipping_zones.index')->with('success', 'ShippingZone updated successfully.');
+        $shippingZone->update($request->all());
+        return redirect()->route('madmin.shipping-zones.index')->with('success', 'Shipping Zone updated successfully.');
     }
 
-    public function destroy(ShippingZone $item)
+    public function destroy(ShippingZone $shippingZone)
     {
-        $item->delete();
-        return redirect()->route('shipping_zones.index')->with('success', 'ShippingZone deleted successfully.');
+        $shippingZone->delete();
+        return redirect()->route('madmin.shipping-zones.index')->with('success', 'Shipping Zone deleted successfully.');
     }
 }

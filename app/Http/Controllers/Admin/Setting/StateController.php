@@ -10,8 +10,8 @@ class StateController extends Controller
 {
     public function index()
     {
-        $items = State::all();
-        return view('Admin.Setting.states.index', compact('items'));
+        $states = State::all();
+        return view('Admin.Setting.states.index', compact('states'));
     }
 
     public function create()
@@ -22,28 +22,28 @@ class StateController extends Controller
     public function store(Request $request)
     {
         State::create($request->all());
-        return redirect()->route('states.index')->with('success', 'State created successfully.');
+        return redirect()->route('madmin.states.index')->with('success', 'State created successfully.');
     }
 
-    public function show(State $item)
+    public function show(State $state)
     {
-        return view('Admin.Setting.states.show', compact('item'));
+        return view('Admin.Setting.states.show', compact('state'));
     }
 
-    public function edit(State $item)
+    public function edit(State $state)
     {
-        return view('Admin.Setting.states.edit', compact('item'));
+        return view('Admin.Setting.states.edit', compact('state'));
     }
 
-    public function update(Request $request, State $item)
+    public function update(Request $request, State $state)
     {
-        $item->update($request->all());
-        return redirect()->route('states.index')->with('success', 'State updated successfully.');
+        $state->update($request->all());
+        return redirect()->route('madmin.states.index')->with('success', 'State updated successfully.');
     }
 
-    public function destroy(State $item)
+    public function destroy(State $state)
     {
-        $item->delete();
-        return redirect()->route('states.index')->with('success', 'State deleted successfully.');
+        $state->delete();
+        return redirect()->route('madmin.states.index')->with('success', 'State deleted successfully.');
     }
 }

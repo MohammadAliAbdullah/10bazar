@@ -37,12 +37,6 @@ use App\Http\Controllers\Mypanel\AddressController;
 use App\Http\Controllers\Mypanel\WalletController;
 use App\Http\Controllers\Mypanel\UserController;
 use App\Http\Controllers\Mypanel\PasswordController;
-// === Address and shipping ===
-use App\Http\Controllers\Admin\Setting\StateController;
-use App\Http\Controllers\Admin\Setting\CityController;
-use App\Http\Controllers\Admin\Setting\ShippingZoneController;
-use App\Http\Controllers\Admin\Setting\ShippingZoneLocationController;
-use App\Http\Controllers\Admin\Setting\ShippingMethodController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home.index');
 Route::get('/today-offer', [HomeController::class, 'today_offer'])->name('today.offer');
@@ -165,12 +159,6 @@ Route::prefix('/mypanel')->name('mypanel.')->group(function () {
         Route::resource('/password', PasswordController::class);
     });
 });
-
-Route::resource('states', StateController::class);
-Route::resource('cities',CityController::class);
-Route::resource('shipping_zones', ShippingZoneController::class);
-Route::resource('shipping_zone_locations', ShippingZoneLocationController::class);
-Route::resource('shipping_methods', ShippingMethodController::class);
 
 // === Admin Panel Routes ===
 require __DIR__ . '/admin.php';
