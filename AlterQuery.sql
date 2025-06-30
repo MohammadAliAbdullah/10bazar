@@ -505,3 +505,9 @@ INSERT INTO cs_shipping_methods (id, shipping_zone_id, name, base_fee, per_kg_fe
 (1, 1, 'Standard Delivery', 50.00, 10.00, '2-3 Days', 1),
 (2, 1, 'Express Delivery', 100.00, 15.00, '1 Day', 1),
 (3, 2, 'Standard Delivery', 70.00, 12.00, '3-4 Days', 1);
+
+-- 01-07-2025
+INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`, `orders`, `icon`, `status`, `created_at`, `updated_at`) VALUES
+(58, 'Shipping Method', 55, 'madmin.shipping-methods.index', 5, 'fas fa-angle-right', 'Active', '2025-06-30 11:57:24', '2025-06-30 11:57:24'),
+(59, 'Shipping Zone', 10, 'madmin.shipping-zones.index', 6, 'fas fa-angle-right', 'Active', '2025-06-30 11:58:28', '2025-06-30 11:58:28');
+
