@@ -92,14 +92,16 @@
     {{-- custom js - --}}
     <script>
         window.routes = {
-            layout: "{{ request()->get('style', 'grid') }}",
-            cartAdd: "{{ route('cart.add') }}",
-            cartUpdate: "{{ route('cart.update') }}",
-            cartRemove: "{{ route('cart.remove') }}",
+            layout        : "{{ request()->get('style', 'grid') }}",
+            order         : "{{ request()->get('order', 'default') }}",
+            limit         : "{{ request()->get('limit', 20) }}",
+            cartAdd       : "{{ route('cart.add') }}",
+            cartUpdate    : "{{ route('cart.update') }}",
+            cartRemove    : "{{ route('cart.remove') }}",
             headerCartList: "{{ route('headerCart.list') }}",
-            loader: "{{ asset('public/assets/loader.gif') }}",
-            shopFilter: "{{ route('filter.products') }}", // search
-            areas: "{{ route('areas') }}",
+            loader        : "{{ asset('public/assets/loader.gif') }}",
+            shopFilter    : "{{ route('filter.products') }}",             // search
+            areas         : "{{ route('areas') }}",
         };
     </script>
     <script src="{{ asset('public') }}/assets/js/customJs/cart.js?v={{ time() }}"></script>

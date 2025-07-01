@@ -30,13 +30,15 @@ $(document).ready(function () {
             url: window.routes.shopFilter + '?page=' + page,
             type: 'GET',
             data: {
-                brands: brands,
-                categories: categories,
+                brands       : brands,
+                categories   : categories,
                 subCategories: subCategories,
-                colors: colors,
-                sizes: sizes,
-                prices: prices,
-                layout: window.routes.layout,
+                colors       : colors,
+                sizes        : sizes,
+                prices       : prices,
+                layout       : window.routes.layout,
+                order        : window.routes.order,
+                limit        : window.routes.limit
             },
             beforeSend: function () {
                 $('.loader').html(
@@ -63,5 +65,31 @@ $(document).ready(function () {
         e.preventDefault();
         let page = $(this).attr('href').split('page=')[1];
         filterProducts(page);
+    });
+
+    // product view option
+    function updateURLParam(paramName, paramValue) {
+        const url = new URL(window.location.href);
+
+        if (paramValue === '') {
+            url.searchParams.delete(paramName);
+        } else {
+            url.searchParams.set(paramName, paramValue);
+        }
+
+        url.searchParams.delete('page'); // Reset to first page on filter change
+        window.location.href = url.toString();
+    }
+
+    document.getElementById('sortSelect')?.addEventListener('change', function () {
+        const selectedUrl = new URL(this.value || window.location.href);
+        const sortParam = selectedUrl.searchParams.get('order') || '';
+        updateURLParam('order', sortParam);
+    });
+
+    document.getElementById('showCount')?.addEventListener('change', function () {
+        const selectedUrl = new URL(this.value || window.location.href);
+        const limitParam = selectedUrl.searchParams.get('limit') || '';
+        updateURLParam('limit', limitParam);
     });
 });

@@ -20,20 +20,24 @@
 
         <div class="view-options__divider"></div>
 
-        {{-- Sort By --}}
+       <!-- Sort By -->
         <div class="view-options__control">
-            <select class="form-control form-control-sm" aria-label="{{ __('Sort By') }}">
+            <label for="sortSelect" class="me-2">{{ __('Sort') }}</label>
+            <select class="form-control form-control-sm" id="sortSelect">
                 <option value="">{{ __('Default') }}</option>
-                <option value="name_asc">{{ __('Name (A-Z)') }}</option>
+                <option value="{{ request()->fullUrlWithQuery(['order' => 'name_asc']) }}" {{ request()->get('order') == 'name_asc' ? 'selected' : '' }}>{{ __('Name (A-Z)') }}</option>
+                <option value="{{ request()->fullUrlWithQuery(['order' => 'name_dsc']) }}" {{ request()->get('order') == 'name_dsc' ? 'selected' : '' }}>{{ __('Name (Z-A)') }}</option>
             </select>
         </div>
 
-        {{-- Show Count --}}
+        <!-- Show Count -->
         <div class="view-options__control">
-            <label for="showCount">{{ __('Show') }}</label>
+            <label for="showCount" class="me-2">{{ __('Show') }}</label>
             <select class="form-control form-control-sm" id="showCount">
-                <option value="12">12</option>
-                <option value="24">24</option>
+                <option value="{{ request()->fullUrlWithQuery(['limit' => '20']) }}" {{ request()->get('limit') == '20' ? 'selected' : '' }}>{{ __('20') }}</option>
+                <option value="{{ request()->fullUrlWithQuery(['limit' => '30']) }}" {{ request()->get('limit') == '30' ? 'selected' : '' }}>{{ __('30') }}</option>
+                <option value="{{ request()->fullUrlWithQuery(['limit' => '40']) }}" {{ request()->get('limit') == '40' ? 'selected' : '' }}>{{ __('40') }}</option>
+                <option value="{{ request()->fullUrlWithQuery(['limit' => '50']) }}" {{ request()->get('limit') == '50' ? 'selected' : '' }}>{{ __('50') }}</option>
             </select>
         </div>
     </div>

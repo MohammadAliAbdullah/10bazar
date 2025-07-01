@@ -54,10 +54,10 @@ class HomeController extends Controller
                 'sales_price',
                 'featured'
             )
-            ->where('featured', 'Yes')
-            ->orderBy('id', 'ASC')
-            ->limit(10)
-            ->get();
+                ->where('featured', 'Yes')
+                ->orderBy('id', 'ASC')
+                ->limit(10)
+                ->get();
         });
 
         $newArrivals = Product::select(
@@ -75,9 +75,9 @@ class HomeController extends Controller
             'sales_price',
             'featured'
         )
-        ->orderBy('id', 'desc')
-        ->limit(10)
-        ->get();
+            ->orderBy('id', 'desc')
+            ->limit(10)
+            ->get();
 
         $home1 = cache()->remember('home1-home', 60 * 60 * 24, function () {
             return Banner::where('position', 'Home1')->first();
@@ -224,6 +224,65 @@ class HomeController extends Controller
         $query = Product::query();
         $query->where('status', 'Active');
 
+        // Apply filters
+        if ($request->has('brands')) {
+            $query->whereIn('brand_id', (array) $request->brands);
+        }
+
+        if ($request->has('categories')) {
+            $query->whereIn('category_id', (array) $request->categories);
+        }
+
+        if ($request->has('subCategories')) {
+            $query->whereIn('sub_category_id', (array) $request->subCategories);
+        }
+
+        if ($request->has('colors')) {
+            $query->whereIn('color', (array) $request->colors);
+        }
+
+        if ($request->has('sizes')) {
+            $query->whereIn('size', (array) $request->sizes);
+        }
+
+        if ($request->has('prices')) {
+            $priceRange = explode('-', $request->prices[0] ?? '0-1000000');
+            $minPrice = floatval($priceRange[0]);
+            $maxPrice = floatval($priceRange[1]);
+
+            $query->where(function ($q) use ($minPrice, $maxPrice) {
+                $q->whereBetween('regular_price', [$minPrice, $maxPrice])
+                    ->orWhereBetween('sales_price', [$minPrice, $maxPrice]);
+            });
+        }
+
+        // Handle sorting
+        $order = $request->order ?? 'default';
+        if ($order === 'name_asc') {
+            $query->orderBy('title', 'ASC');
+        } elseif ($order === 'name_dsc') {
+            $query->orderBy('title', 'DESC');
+        } else {
+            $query->orderBy('id', 'DESC'); // default sort
+        }
+
+        // Handle pagination
+        $limit = intval($request->limit ?? 20); // default is 20
+
+        $data['products'] = $query->paginate($limit);
+        $data['layout'] = $request->layout ?? 'grid';
+
+        return response()->json([
+            'html' => view('Frontend.Page.components.filteredProducts', $data)->render()
+        ]);
+    }
+
+
+    public function filterProducts_old(Request $request)
+    {
+        $query = Product::query();
+        $query->where('status', 'Active');
+
         if ($request->has('brands')) {
             $query->whereIn('brand_id', $request->brands);
         }
@@ -251,7 +310,7 @@ class HomeController extends Controller
 
             $query->where(function ($q) use ($minPrice, $maxPrice) {
                 $q->whereBetween('regular_price', [$minPrice, $maxPrice])
-                  ->orWhereBetween('sales_price', [$minPrice, $maxPrice]);
+                    ->orWhereBetween('sales_price', [$minPrice, $maxPrice]);
             });
         }
 

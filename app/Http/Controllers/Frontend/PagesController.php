@@ -24,7 +24,7 @@ use Auth;
 
 class PagesController extends Controller
 {
-    public function shop()
+    public function shop_old()
     {
         $cat_products = cache()->remember('cat_products-shopn', 60 * 60 * 24, function () {
             return Product::orderBy('id', 'DESC')->paginate(20);
@@ -39,6 +39,42 @@ class PagesController extends Controller
         //dd($cat_products);
         //$brands = Brand::all();
         //$categories = Category::where('type', 'Regular')->where('parent_id',0)->get();
+        return view("Frontend.Page.shop", compact('cat_products', 'brands', 'categories'));
+    }
+
+    public function shop()
+    {
+        $order = request()->get('order', 'default');
+        $limit = request()->get('limit', 20); // default limit is 20
+
+        // Generate unique cache key based on filters
+        $cacheKey = "products-shop-order_{$order}-limit_{$limit}";
+
+        // Use the same logic for sort + paginate with fallback
+        $cat_products = cache()->remember($cacheKey, now()->addDay(), function () use ($order, $limit) {
+            $query = Product::query();
+
+            // Apply sorting
+            if ($order === 'name_asc') {
+                $query->orderBy('title', 'ASC');
+            } elseif ($order === 'name_dsc') {
+                $query->orderBy('title', 'DESC');
+            } else {
+                $query->orderBy('id', 'DESC'); // default sort
+            }
+
+            return $query->paginate($limit);
+        });
+
+        // Cache brands and categories
+        $brands = cache()->remember('brands-shop-page', now()->addDay(), function () {
+            return Brand::all();
+        });
+
+        $categories = cache()->remember('categories-shop-regular-top', now()->addDay(), function () {
+            return Category::where('type', 'Regular')->where('parent_id', 0)->get();
+        });
+
         return view("Frontend.Page.shop", compact('cat_products', 'brands', 'categories'));
     }
 
