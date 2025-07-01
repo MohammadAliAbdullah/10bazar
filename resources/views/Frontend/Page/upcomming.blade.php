@@ -11,55 +11,8 @@
             <div class="col-12">
                 <div class="block">
                     <div class="products-view">
-                        <div class="products-view__options">
-                            <div class="view-options">
-                                <div class="view-options__layout">
-                                    <div class="layout-switcher">
-                                        <div class="layout-switcher__list">
-                                            <button data-layout="grid-5-full" data-with-features="false" title="{{ __('grid') }}" type="button"
-                                                class="layout-switcher__button layout-switcher__button--active">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#layout-grid-16x16"></use>
-                                                </svg>
-                                            </button>
-                                            <button data-layout="grid-5-full" data-with-features="true" title="{{ __('grid_with_features') }}" type="button"
-                                                class="layout-switcher__button">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#layout-grid-with-details-16x16"></use>
-                                                </svg>
-                                            </button>
-                                            <button data-layout="list" data-with-features="false" title="{{ __('list') }}" type="button"
-                                                class="layout-switcher__button">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#layout-list-16x16"></use>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="view-options__legend">{{ __('showing') }} {{ $products->count() }} {{ __('of') }} {{ $products->total() ?? 'N/A' }} {{ __('products') }}</div>
-                                <div class="view-options__divider"></div>
-                                <div class="view-options__control">
-                                    <label for="sortBy">{{ __('sort_by') }}</label>
-                                    <div>
-                                        <select class="form-control form-control-sm" name="sortBy" id="sortBy">
-                                            <option value="default">{{ __('default') }}</option>
-                                            <option value="name_asc">{{ __('name_a_z') }}</option>
-                                            <option value="name_desc">{{ __('name_z_a') }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="view-options__control">
-                                    <label for="showCount">{{ __('show') }}</label>
-                                    <div>
-                                        <select class="form-control form-control-sm" name="showCount" id="showCount">
-                                            <option value="12">12</option>
-                                            <option value="24">24</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {{-- View Options --}}
+                        @include('Frontend.components.productViewOption')
                         <div class="products-view__list products-list" data-layout="grid-5-full" data-with-features="false">
                             <div class="products-list__body">
                                 @forelse ($products as $product)

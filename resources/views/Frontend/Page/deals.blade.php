@@ -1,24 +1,8 @@
 @extends('Frontend.Layout.master')
 
 @section('content')
+    @include('Frontend.components.breadcrumb', ['page' => 'Deals', 'subPage' => $deals->title])
     <section>
-
-        <div class="main-section-area" style="padding: 0; background: {{ $deals->background_color }}; color: {{ $deals->text_color }};">
-            <div class="container-fluid" style="padding: 0">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="banner_campaign">
-                            <img src="{{ asset('public/images/campaign') }}/{{  $deals->banner }}" alt="" class="img-fluid">
-                        </div>
-
-                        <div class="rounded bg-gradient-4 text-white text-center">
-                            <h1 class="text-center">{{ $deals->title }}</h1>
-                            <div id="countdown1" style="color: {{ $deals->text_color }};"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="main-section-area" style="padding: 0; background: {{ $deals->background_color }}; color: {{ $deals->text_color }};">
             <div class="container-fluid">
                 <div class="row">

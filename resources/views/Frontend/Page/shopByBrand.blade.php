@@ -16,7 +16,7 @@
     <!-- Breadcrumb Start -->
     @include('Frontend.components.breadcrumb', [
         'page' => __('Shop'),
-        'subPage' => $brand->title ?? __('N/A')
+        'subPage' => $brand->title ?? __('N/A'),
     ])
 
     <div class="container">
@@ -24,75 +24,28 @@
             <div class="col-12">
                 <div class="block">
                     <div class="products-view">
-                        <div class="products-view__options">
-                            <div class="view-options">
-                                <div class="view-options__layout">
-                                    <div class="layout-switcher">
-                                        <div class="layout-switcher__list">
-                                            <button data-layout="grid-4-full" data-with-features="false" title="{{ __('Grid') }}"
-                                                type="button" class="layout-switcher__button layout-switcher__button--active">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#layout-grid-16x16"></use>
-                                                </svg>
-                                            </button>
-
-                                            <button data-layout="grid-4-full" data-with-features="true" title="{{ __('Grid With Features') }}"
-                                                type="button" class="layout-switcher__button">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#layout-grid-with-details-16x16"></use>
-                                                </svg>
-                                            </button>
-
-                                            <button data-layout="list" data-with-features="false" title="{{ __('List') }}" type="button"
-                                                class="layout-switcher__button">
-                                                <svg width="16px" height="16px">
-                                                    <use xlink:href="images/sprite.svg#layout-list-16x16"></use>
-                                                </svg>
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="view-options__legend">{{ __('Showing :count of :total products', ['count' => $cat_products->count(), 'total' => $cat_products->total()]) }}</div>
-
-                                <div class="view-options__divider"></div>
-
-                                <div class="view-options__control">
-                                    <label for="sortBy">{{ __('Sort By') }}</label>
-                                    <div>
-                                        <select id="sortBy" class="form-control form-control-sm" name="sortBy">
-                                            <option value="default">{{ __('Default') }}</option>
-                                            <option value="name_asc">{{ __('Name (A-Z)') }}</option>
-                                        </select>
-                                    </div>
-                                </div>
-
-                                <div class="view-options__control">
-                                    <label for="showCount">{{ __('Show') }}</label>
-                                    <div>
-                                        <select id="showCount" class="form-control form-control-sm" name="showCount">
-                                            <option value="12">12</option>
-                                            <option value="24">24</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {{-- View Options --}}
+                        @include('Frontend.components.productViewOption')
 
                         <div class="products-view__list products-list" data-layout="grid-4-full" data-with-features="false">
                             <div class="products-list__body">
                                 @if ($cat_products->isEmpty())
                                     <div class="products-list__empty text-center py-5">
-                                        <img src="{{ asset('public/assets/no_product_found.png') }}" alt="{{ __('No products found') }}"
-                                            class="img-fluid">
+                                        <img src="{{ asset('public/assets/no_product_found.png') }}"
+                                            alt="{{ __('No products found') }}" class="img-fluid">
                                     </div>
                                 @endif
 
                                 {{-- Product Items --}}
-                                <section id="product1" class="section-p1">
-                                    <div class="row">
+                                <section
+                                    id="{{ request()->get('style') == 'list' ? 'productListView' : 'productGirdView' }}"
+                                    class="section-p1 {{ request()->get('style') == 'list' ? 'container' : '' }}">
+                                    <div class="{{ request()->get('style') == 'list' ? 'list-container' : 'row' }}">
+                                        {{-- Loop through products --}}
                                         @foreach ($cat_products as $product)
-                                            @include('Frontend.components.productCard', ['product' => $product])
+                                            @include('Frontend.components.productCard', [
+                                                'product' => $product,
+                                            ])
                                         @endforeach
                                     </div>
                                 </section>

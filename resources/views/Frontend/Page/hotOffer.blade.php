@@ -53,7 +53,7 @@
                                     </div>
                                 @endif
                                 {{-- Product Items --}}
-                                <section id="product1" class="section-p1">
+                                <section id="productGirdView" class="section-p1">
                                     <div class="row">
                                         @foreach ($products as $product)
                                             @include('Frontend.components.productCard', [

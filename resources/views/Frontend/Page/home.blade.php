@@ -46,7 +46,7 @@
                 <h3 class="block-header__title">{{ __('Featured') }}</h3>
                 <div class="block-header__divider"></div>
             </div>
-            <section id="product1" class="section-p1">
+            <section id="productGirdView" class="section-p1">
                 <div class="row">
                     @foreach ($featureds as $product)
                         @include('Frontend.components.productCard', ['product' => $product])
@@ -62,7 +62,7 @@
                 <div class="block-header__divider"></div>
             </div>
 
-            <section id="product1" class="section-p1">
+            <section id="productGirdView" class="section-p1">
                 <div class="row">
                     @foreach ($featureds as $product)
                         @include('Frontend.components.productCard', ['product' => $product])
@@ -127,24 +127,26 @@
                 </div>
             </div>
             <div class="block-products-carousel__slider">
-                <div class="owl-carousel owl-theme section-p1" id="product1">
+                <div class="owl-carousel owl-theme section-p1" id="productGirdView">
                     @foreach ($newArrivals as $product)
-                        <div class="pro">
+                        <div class="gird-product">
                             @include('Frontend.components.productDiscount', [
                                 'product' => $product,
                             ])
-                            @if ($product)
-                                <a href="#">
-                                    @if (isset($product->thumb) && $product->thumb)
-                                        <img src="{{ asset($product->thumb) }}"
-                                            alt="{{ $product->img_alt ?? 'Product Image' }}">
-                                    @else
-                                        <img src="{{ asset('public/assets/no_image.png') }}"
-                                            alt="{{ $product->img_alt ?? 'Product Image' }}">
-                                    @endif
-                                </a>
-                            @endif
-                            <div class="des">
+                            <div class="product-thumb">
+                                @if ($product)
+                                    <a href="#">
+                                        @if (isset($product->thumb) && $product->thumb)
+                                            <img src="{{ asset($product->thumb) }}"
+                                                alt="{{ $product->img_alt ?? 'Product Image' }}">
+                                        @else
+                                            <img src="{{ asset('public/assets/no_image.png') }}"
+                                                alt="{{ $product->img_alt ?? 'Product Image' }}">
+                                        @endif
+                                    </a>
+                                @endif
+                            </div>
+                            <div class="product-details">
                                 <span>{{ $product->brand->title ?? __('Brand') }}</span>
                                 <h5>
                                     <a href="{{ route('product_details', ['id' => $product->slug]) }}">
@@ -154,7 +156,9 @@
                                 @include('Frontend.components.ratingReview')
                                 @include('Frontend.components.productPrice', ['product' => $product])
                             </div>
-                            @include('Frontend.components.addToCart', ['product' => $product])
+                            <div class="action-buttons">
+                                @include('Frontend.components.addToCart', ['product' => $product])
+                            </div>
                         </div>
                     @endforeach
                 </div>
