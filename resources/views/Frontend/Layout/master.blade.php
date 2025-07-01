@@ -92,6 +92,7 @@
     {{-- custom js - --}}
     <script>
         window.routes = {
+            layout: "{{ request()->get('style', 'grid') }}",
             cartAdd: "{{ route('cart.add') }}",
             cartUpdate: "{{ route('cart.update') }}",
             cartRemove: "{{ route('cart.remove') }}",

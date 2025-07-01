@@ -35,7 +35,8 @@ $(document).ready(function () {
                 subCategories: subCategories,
                 colors: colors,
                 sizes: sizes,
-                prices: prices
+                prices: prices,
+                layout: window.routes.layout,
             },
             beforeSend: function () {
                 $('.loader').html(

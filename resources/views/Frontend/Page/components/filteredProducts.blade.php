@@ -6,11 +6,12 @@
             </div>
         @endif
         {{-- Product Items --}}
-        <section id="productGirdView" class="section-p1">
-            <div class="row">
+        <section id="{{ $layout == 'list' ? 'productListView' : 'productGirdView' }}"
+            class="section-p1 {{ $layout == 'list' ? 'container' : '' }}">
+            <div class="{{ $layout == 'list' ? 'list-container' : 'row' }}">
                 @foreach ($products as $product)
                     {{-- Copy the product card from shop.blade.php --}}
-                    @include('Frontend.components.productCard', ['product' => $product])
+                    @include('Frontend.components.productCard', ['product' => $product, 'layout' => $layout])
                 @endforeach
             </div>
         </section>

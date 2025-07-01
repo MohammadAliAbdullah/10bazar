@@ -1,5 +1,9 @@
- <div class="{{ request()->get('style') == 'list' ? 'col-12' : 'col-6 col-md-3' }}">
-     <div class="{{ request()->get('style') == 'list' ? 'list-product d-flex align-items-start gap-3 mb-4 p-3' : 'gird-product' }}">
+ @php
+     $layout = isset($layout) ? $layout : 'grid';
+     $style = request()->get('style') ?? $layout;
+ @endphp
+ <div class="{{ $style == 'list' ? 'col-12' : 'col-6 col-md-3' }}">
+     <div class="{{ $style == 'list' ? 'list-product d-flex align-items-start gap-3 mb-4 p-3' : 'gird-product' }}">
          @include('Frontend.components.productDiscount', [
              'product' => $product,
          ])

@@ -255,10 +255,10 @@ class HomeController extends Controller
             });
         }
 
-        $products = $query->latest()->paginate(12);
-
+        $data['products'] = $query->latest()->paginate(12);
+        $data['layout'] = $request->layout ?? 'grid';
         return response()->json([
-            'html' => view('Frontend.Page.components.filteredProducts', compact('products'))->render()
+            'html' => view('Frontend.Page.components.filteredProducts', $data)->render()
         ]);
     }
 
