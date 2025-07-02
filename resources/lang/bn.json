@@ -43,7 +43,7 @@
   "Praesent pellentesque volutpat ex, vitae auctor lorem pulvinar mollis felis at lacinia.": "প্রেজেন্ট পেলেনটেস্ক ভলপাট এক্স, ভাইটি অ্যাক্টর লোরেম পালভিনার মোলিস ফেলিস এট লাসিনিয়া।",
   "Email Address": "ইমেইল ঠিকানা",
   "Email Address...": "ইমেইল ঠিকানা...",
-  "Subscribe": "সাবস্ক্রাইব করুন",
+  "Subscribe": "সাবস্ক্রাইব",
   "Follow us on social networks": "সামাজিক মাধ্যমে আমাদের অনুসরণ করুন",
   "Featured": "বৈশিষ্ট্যযুক্ত",
   "Bestsellers": "সর্বাধিক বিক্রিত",
@@ -212,9 +212,13 @@
   "Login with Email": "ইমেইল দিয়ে লগইন করুন",
   "Show All": "সব দেখুন",
   "Popular Categories": "জনপ্রিয় ক্যাটাগরিসমূহ",
-  "20": "২০",
+  "towany": "২০",
   "30": "৩০",
   "40": "৪০",
   "50": "৫০",
-  "Sort": "সাজান"
+  "Sort": "সাজান",
+  "Hot Offer": "গরম অফার",
+  "Today Offer": "আজকের অফার",
+  "Campaign": "প্রচারাভিযান",
+  "complains": "অভিযোগসমূহ"
 } 

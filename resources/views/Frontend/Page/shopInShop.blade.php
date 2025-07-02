@@ -23,12 +23,7 @@
                             <div class="products-view__list products-list" data-layout="grid-3-sidebar"
                                 data-with-features="false">
                                 <div class="products-list__body">
-                                    @if ($cat_products->isEmpty())
-                                        <div class="products-list__empty text-center py-5">
-                                            <img src="{{ asset('public/assets/no_product_found.png') }}"
-                                                alt="{{ __('No products found') }}" class="img-fluid">
-                                        </div>
-                                    @endif
+                            
                                     {{-- Product Items --}}
                                     <section
                                         id="{{ request()->get('style') == 'list' ? 'productListView' : 'productGirdView' }}"
@@ -47,7 +42,6 @@
 
                             <div class="products-view__pagination">
                                 <ul class="pagination justify-content-center">
-                                    {!! $cat_products->onEachSide(0)->links() !!}
                                 </ul>
                             </div>
                         </div>
