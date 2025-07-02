@@ -6,12 +6,6 @@ use App\Http\Controllers\Admin\Setting\CouponController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Setting\LangController;
 use App\Http\Controllers\Admin\VisitorController;
-// === Address and shipping ===
-// use App\Http\Controllers\Admin\Setting\StateController;
-// use App\Http\Controllers\Admin\Setting\CityController;
-// use App\Http\Controllers\Admin\Setting\ShippingZoneController;
-// use App\Http\Controllers\Admin\Setting\ShippingZoneLocationController;
-// use App\Http\Controllers\Admin\Setting\ShippingMethodController;
 
 Route::get('/myadminpanel/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
 //Auth::routes();
