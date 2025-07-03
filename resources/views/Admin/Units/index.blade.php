@@ -1,8 +1,14 @@
 @extends('Admin.layouts.master')
 
 @section('content')
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Add Unit'),
+        'parent' => __('Home'),
+        'child' => __('Unit'),
+        'route' => route('madmin.units.create'),
+    ])
     <!-- Content Header -->
-    <div class="content-header">
+    {{-- <div class="content-header">
         <div class="container-fluid">
             <div class="row ">
                 <div class="col-sm-6">
@@ -15,7 +21,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 
     <!-- Main Content -->
     <section class="content">
