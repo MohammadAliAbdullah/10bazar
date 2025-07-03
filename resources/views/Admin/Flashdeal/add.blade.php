@@ -1,4 +1,4 @@
-@extends('Admin.layouts.master')
+@extends('Admin.layoutApp.app')
 
 @section('content')
     <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
