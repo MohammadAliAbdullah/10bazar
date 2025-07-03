@@ -1,8 +1,14 @@
 @extends('Admin.layouts.master')
 
 @section('content')
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Complain Box Complete'),
+        'parent' => __('Home'),
+        'child' => __('Complain Box'),
+        'route' => route('madmin.complainadmin.index'),
+    ])
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    {{-- <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -18,7 +24,7 @@
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
-    </div>
+    </div> --}}
     <!-- /.content-header -->
 
     <!-- Main content -->
