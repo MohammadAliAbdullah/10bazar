@@ -168,4 +168,7 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         Route::resource('/shipping-methods', '\App\Http\Controllers\Admin\Setting\ShippingMethodController');
     });
 });
+Route::get('/applay', function () {
+    return view('Admin.layoutApp.app');
+})->name('applay');
 //Auth::routes();
