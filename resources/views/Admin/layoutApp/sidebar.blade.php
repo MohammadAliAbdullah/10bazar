@@ -1,7 +1,10 @@
 <style>
     .submenu_active {
-        background-color: rgba(0, 0, 0, 0.881) !important;
+        background-color: white !important;
         color: white !important;
+    }
+    .submenu_active a {
+        color: black !important;
     }
 </style>
 

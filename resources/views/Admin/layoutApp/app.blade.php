@@ -15,6 +15,39 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('public') }}/assets/css/main.css">
     <!-- Responsive Style -->
     <link rel="stylesheet" type="text/css" href="{{ asset('public') }}/assets/css/responsive.css">
+    {{-- datatable css --}}
+    <link rel="stylesheet" href="{{ asset('public') }}/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet"
+        href="{{ asset('public') }}/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ asset('public') }}/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <style>
+        /* Target DataTables buttons */
+        #dataTable_wrapper .dt-buttons .btn,
+        #dataTable_wrapper .dt-buttons button {
+            background-color: #e22a6f !important;
+            color: white !important;
+            border: none !important;
+            margin-right: 5px;
+        }
+
+        #dataTable_wrapper .dt-buttons .btn:hover,
+        #dataTable_wrapper .dt-buttons button:hover {
+            background-color: #c91f5d !important;
+            color: #fff !important;
+        }
+
+        .custom-thead {
+            background-color: #e22a6f;
+        }
+
+        .dt-buttons {
+            background-color: #e22a6f;
+        }
+
+        .custom-thead th {
+            color: white !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -37,9 +70,7 @@
 
                 <!-- Footer START -->
                 @include('Admin.layoutApp.footer')
-
                 <!-- Footer END -->
-
             </div>
             <!-- Page Container END -->
         </div>
@@ -62,6 +93,87 @@
     <script src="{{ asset('public') }}/assets/js/morris.min.js"></script>
     <script src="{{ asset('public') }}/assets/js/raphael-min.js"></script>
     <script src="{{ asset('public') }}/assets/js/dashborad1.js"></script>
+    {{-- datatable js --}}
+    <script src="{{ asset('public') }}/admin/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('public') }}/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ asset('public') }}/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="{{ asset('public') }}/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="{{ asset('public') }}/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="{{ asset('public') }}/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="{{ asset('public') }}/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="{{ asset('public') }}/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="{{ asset('public') }}/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script>
+        window.routes = {
+            productList: "{{ route('madmin.products.index') }}",
+        };
+    </script>
+    @yield('script')
+    <script>
+        // Highlight current menu
+        $(function() {
+            const url = window.location.href;
+            $(".nav-sidebar a").each(function() {
+                if (url === this.href) {
+                    $(this).closest("ul").closest("li").addClass("current-menu-main");
+                    $(this).closest("li").addClass("current-menu");
+                }
+            });
+        });
+
+        // Auto-close alerts & preloader
+        $(document).ready(function() {
+            setTimeout(() => $(".alert").alert('close'), 4000);
+            setTimeout(() => $(".page-preloader").hide(), 1000);
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $("#dataTable").DataTable({
+                responsive: true,
+                lengthChange: true,
+                autoWidth: false,
+                pageLength: 10,
+                ordering: true,
+                buttons: [{
+                        extend: 'copy',
+                        text: '<i class="lni-clipboard"></i>',
+                        titleAttr: 'Copy'
+                    },
+                    {
+                        extend: 'csv',
+                        text: '<i class="lni-files"></i>',
+                        titleAttr: 'Export CSV'
+                    },
+                    // {
+                    //     extend: 'excel',
+                    //     text: '<i class="lni lni-file"></i> Excel',
+                    //     titleAttr: 'Export Excel'
+                    // },
+                    // {
+                    //     extend: 'pdf',
+                    //     text: '<i class="lni lni-pdf"></i> PDF',
+                    //     titleAttr: 'Export PDF'
+                    // },
+                    {
+                        extend: 'print',
+                        text: '<i class="lni lni-printer"></i>',
+                        titleAttr: 'Print'
+                    },
+                    {
+                        extend: 'colvis',
+                        text: ' <i class="lni lni-cog"></i>',
+                        titleAttr: 'Column Visibility'
+                    }
+                ],
+                dom: '<"row mb-3"<"col-md-3"l><"col-md-6 text-center"B><"col-md-3"f>>' +
+                    '<"row"<"col-sm-12"tr>>' +
+                    '<"row mt-3"<"col-md-5"i><"col-md-7"p>>',
+            }).buttons().container().appendTo('#dataTable_wrapper .col-md-6');
+        });
+
+        // chart
+    </script>
 
 </body>
 
