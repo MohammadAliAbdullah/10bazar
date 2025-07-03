@@ -1,10 +1,10 @@
 <style>
     .submenu_active {
-        background-color: white !important;
-        color: white !important;
+        /* background-color: white !important; */
+        /* color: white !important; */
     }
     .submenu_active a {
-        color: black !important;
+        color: white !important;
     }
 </style>
 
