@@ -5,7 +5,7 @@
         'page' => __('Dashboard'),
         'parent' => __('Home'),
         'child' => __('Dashboard'),
-        'route' => route('madmin.dashboard')
+        'route' => ''
     ])
     
     <!-- Main content -->

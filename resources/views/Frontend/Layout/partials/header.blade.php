@@ -22,7 +22,7 @@
                     <div class="topbar__item">
                         <div class="topbar-dropdown">
                             <button class="topbar-dropdown__btn" type="button">{{ __('Currency') }}:
-                                <span class="topbar__item-value">{{ config('app.currency')->title }}</span>
+                                <span class="topbar__item-value">{{ isset(config('app.currency')->title) ? config('app.currency')->title : '' }}</span>
                             </button>
                             <div class="topbar-dropdown__body">
                                 <ul class="menu menu--layout--topbar">
