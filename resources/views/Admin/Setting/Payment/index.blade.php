@@ -1,4 +1,4 @@
-@extends('Admin.layouts.master')
+@extends('Admin.layoutApp.app')
 
 @section('content')
     <!-- Content Header -->
@@ -29,7 +29,7 @@
 
                     <div class="table-responsive">
                         <table id="dataTable" class="table table-bordered table-striped">
-                            <thead class="thead-dark">
+                            <thead class="custom-thead">
                                 <tr>
                                     <th>SI</th>
                                     <th>Method</th>
