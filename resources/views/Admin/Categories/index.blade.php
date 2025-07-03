@@ -1,4 +1,4 @@
-@extends('Admin.layouts.master')
+@extends('Admin.layoutApp.app')
 
 @section('content')
     <!-- Content Header -->
@@ -12,9 +12,12 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                            <a href="{{ route('madmin.categories.create') }}" class="btn btn-primary btn-sm mr-2"><i class="fa fa-plus"></i> &nbsp; Category</a>
-                            <a href="{{ route('madmin.regular.index') }}" class="btn btn-success btn-sm mr-2"><i class="fa fa-list"></i> &nbsp; Regular</a>
-                            <a href="{{ route('madmin.spacial.index') }}" class="btn btn-warning btn-sm"><i class="fa fa-list"></i> &nbsp; Special</a>
+                        <a href="{{ route('madmin.categories.create') }}" class="btn btn-primary btn-sm mr-2"><i
+                                class="fa fa-plus"></i> &nbsp; Category</a>
+                        <a href="{{ route('madmin.regular.index') }}" class="btn btn-success btn-sm mr-2"><i
+                                class="fa fa-list"></i> &nbsp; Regular</a>
+                        <a href="{{ route('madmin.spacial.index') }}" class="btn btn-warning btn-sm"><i
+                                class="fa fa-list"></i> &nbsp; Special</a>
                     </ol>
                 </div>
             </div>
@@ -25,13 +28,12 @@
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-
                 <div class="card-body">
                     @include('Admin.include.message')
 
                     <div class="table-responsive">
                         <table id="dataTable" class="table table-bordered table-striped">
-                            <thead class="thead-dark">
+                            <thead class="custom-thead">
                                 <tr>
                                     <th>SI</th>
                                     <th>Title</th>
