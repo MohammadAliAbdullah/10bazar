@@ -1,8 +1,14 @@
 @extends('Admin.layouts.master')
 
 @section('content')
+    @include('Admin.components.breadcrumb', [
+        'page' => __('Add Customer'),
+        'parent' => __('Home'),
+        'child' => __('Customer'),
+        'route' => url('/myadminpanel/customeradmin'),
+    ])
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    {{-- <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -16,7 +22,7 @@
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
-    </div>
+    </div> --}}
     <!-- /.content-header -->
 
     <!-- Main content -->
@@ -90,7 +96,4 @@
         </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
-@endsection
-@section('script')
-
 @endsection
