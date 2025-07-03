@@ -1,13 +1,19 @@
 @extends('Admin.layouts.master')
 
 @section('content')
+    @include('Admin.include.breadcrumb', [
+        'page' => __('All Sale'),
+        'parent' => __('Home'),
+        'child' => __('Sale'),
+        'route' => '',
+    ])
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    {{-- <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">All Sale
-                        {{--                        <a href="{{ route('madmin.local-sale.create') }}" class="btn btn-primary">All Sale Add</a>--}}
+                        <!--<a href="{{ route('madmin.local-sale.create') }}" class="btn btn-primary">All Sale Add</a> -->
                     </h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
@@ -18,7 +24,7 @@
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
-    </div>
+    </div> --}}
     <!-- /.content-header -->
 
     <!-- Main content -->

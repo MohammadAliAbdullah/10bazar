@@ -1,7 +1,13 @@
 @extends('Admin.layouts.master')
 
 @section('content')
-    <div class="content-header">
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Products'),
+        'parent' => __('Home'),
+        'child' => __('Products'),
+        'route' => route('madmin.products.create'),
+    ])
+    {{-- <div class="content-header">
         <div class="container-fluid">
             <div class="row ">
                 <div class="col-sm-6">
@@ -14,7 +20,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -39,7 +45,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        
+
                                     </tbody>
                                 </table>
                             </div>

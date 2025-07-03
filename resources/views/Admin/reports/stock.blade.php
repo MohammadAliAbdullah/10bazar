@@ -1,8 +1,14 @@
 @extends('Admin.layouts.master')
 
 @section('content')
+@include('Admin.include.breadcrumb', [
+    'page' => __('Stock Report'),
+    'parent' => __('Home'),
+    'child' => __('Inventory'),
+    'route' => '',
+])
 <!-- Content Header (Page header) -->
-<div class="content-header">
+{{-- <div class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
@@ -16,7 +22,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 <!-- /.content-header -->
 
 <!-- Main content -->
