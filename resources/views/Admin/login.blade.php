@@ -2,106 +2,98 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
-    <link rel="stylesheet" href="{{ asset('public') }}/assets/vendor/bootstrap-4.2.1/css/bootstrap.min.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{__('Login')}} - {{ $apps->site_title }}</title>
+    <link rel="stylesheet" href="{{ asset('public/assets/vendor/bootstrap-4.2.1/css/bootstrap.min.css') }}" />
     <style>
-        html,
-        body {
+        body, html {
             height: 100%;
-        }
-
-        .global-container {
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            margin: 0;
             background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
         }
 
-        form {
-            padding-top: 10px;
-            font-size: 14px;
-            margin-top: 30px;
+        .container-center {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
-        .card-title {
-            font-weight: 300;
+        .login-card {
+            width: 100%;
+            max-width: 360px;
+            padding: 2rem;
+            border: none;
+            border-radius: 8px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
 
-        .btn {
-            font-size: 14px;
-            margin-top: 20px;
+        .login-title {
+            font-weight: 500;
+            margin-bottom: 1rem;
         }
 
-
-        .login-form {
-            width: 330px;
-            margin: 20px;
-        }
-
-        .sign-up {
+        .brand {
+            font-size: 1.25rem;
+            color: #dc3545;
+            font-weight: bold;
             text-align: center;
-            padding: 20px 0 0;
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
         }
 
         .alert {
-            margin-bottom: -30px;
-            font-size: 13px;
-            margin-top: 20px;
+            font-size: 0.875rem;
         }
     </style>
 </head>
 
 <body>
-    <div class="global-container">
-        <div class="card login-form">
-            <div class="card-body">
-                <h3 class="card-title text-center">Log in</h3>
-                <div class="text-center font-weight-bold text-danger">10 BAZAR</div>
-                <div class="card-text">
-
-                    <form method="POST" action="{{ url('myadminpanel/login') }}">
-                        @csrf
-                        <div class="form-group">
-                            <label for="email">Email address</label>
-                            <input type="email" placeholder="Enter your email address..."
-                                class="form-control form-control-sm" id="email" name="email"
-                                value="{{ old('email') }}" required autofocus autocomplete="off">
-                            @if ($errors->has('email'))
-                                <span class="text-danger" role="alert">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </span>
-                            @endif
+    <main class="container-center">
+        <section class="login-card">
+            <h2 class="login-title text-center">{{ __('Log in') }}</h2>
+            <div class="brand">{{ $apps->site_title }}</div>
+            <form method="POST" action="{{ url('myadminpanel/login') }}" novalidate>
+                @csrf
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" id="email" name="email" class="form-control form-control-sm"
+                        placeholder="Enter your email..." value="{{ old('email') }}" required autofocus autocomplete="off" />
+                    @if ($errors->has('email'))
+                        <div class="text-danger small mt-1">
+                            {{ $errors->first('email') }}
                         </div>
-                        <div class="form-group">
-                            <label for="password">password address</label>
-                            <input type="password" placeholder="Enter your password..."
-                                class="form-control form-control-sm" id="password" name="password"
-                                value="{{ old('password') }}" required autofocus autocomplete="off">
-                            @if ($errors->has('password'))
-                                <span class="text-danger" role="alert">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </span>
-                            @endif
-                        </div>
-                        <div class="form-group">
-                            <input type="checkbox" id="remember">
-                            <label for="remember">
-                                Remember Me
-                            </label>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                        {{-- <div class="sign-up">
-                            Don't have an account? <a href="#">Create One</a>
-                        </div> --}}
-                    </form>
+                    @endif
                 </div>
-            </div>
-        </div>
-    </div>
-</body>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" class="form-control form-control-sm"
+                        placeholder="Enter your password..." required autocomplete="off" />
+                    @if ($errors->has('password'))
+                        <div class="text-danger small mt-1">
+                            {{ $errors->first('password') }}
+                        </div>
+                    @endif
+                </div>
+                <div class="form-check mb-3">
+                    <input type="checkbox" id="remember" class="form-check-input" />
+                    <label class="form-check-label" for="remember">Remember Me</label>
+                </div>
 
+                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
+            </form>
+
+            <!-- Optional sign-up link -->
+            <!-- <div class="text-center mt-3">
+                <small>Don't have an account? <a href="#">Create One</a></small>
+            </div> -->
+        </section>
+    </main>
+</body>
 </html>
