@@ -1,4 +1,4 @@
-@extends('Admin.layouts.master')
+@extends('Admin.layoutApp.app')
 
 @section('content')
     @include('Admin.include.breadcrumb', [
@@ -32,7 +32,7 @@
 
                     <div class="table-responsive">
                         <table id="dataTable" class="table table-bordered table-striped">
-                            <thead class="thead-dark">
+                            <thead class="custom-thead">
                                 <tr>
                                     <th>SI</th>
                                     <th>Name</th>
