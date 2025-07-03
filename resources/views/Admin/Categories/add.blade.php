@@ -1,7 +1,7 @@
 @extends('Admin.layouts.master')
 
 @section('content')
-    @include('Admin.components.breadcrumb', [
+    @include('Admin.include.breadcrumb', [
         'page' => __('Add Category'),
         'parent' => __('Home'),
         'child' => __('Category'),
