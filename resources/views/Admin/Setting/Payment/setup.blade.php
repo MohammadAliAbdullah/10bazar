@@ -48,7 +48,7 @@
                                             <div class="d-flex">
                                                 <a href="{{ route('madmin.paymentsetup.edit', $setup->id) }}"
                                                     class="btn btn-sm btn-info mr-1">
-                                                    <i class="fa fa-pen"></i>
+                                                    <i class="lni-pencil-alt"></i>
                                                 </a>
                                                 {!! Form::open([
                                                     'method' => 'DELETE',
@@ -56,7 +56,7 @@
                                                     'onsubmit' => 'return confirm("Delete this setup?")',
                                                 ]) !!}
                                                 <button type="submit" class="btn btn-sm btn-danger">
-                                                    <i class="fa fa-trash"></i>
+                                                    <i class="lni-trash"></i>
                                                 </button>
                                                 {!! Form::close() !!}
                                             </div>

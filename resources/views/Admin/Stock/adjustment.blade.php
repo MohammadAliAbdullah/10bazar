@@ -66,7 +66,7 @@
 
                                         <td>
                                             <div class="row">
-                                                    <a href="{{ route('madmin.adjustment.edit', ['id' => $value->id]) }}" class="btn btn-success m-1"><i class="fa fa-pen"></i> </a>
+                                                    <a href="{{ route('madmin.adjustment.edit', ['id' => $value->id]) }}" class="btn btn-success m-1"><i class="lni-pencil-alt"></i> </a>
 
                                             </div>
                                         </td>
