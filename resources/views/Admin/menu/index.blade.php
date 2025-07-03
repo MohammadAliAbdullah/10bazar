@@ -1,11 +1,11 @@
-@extends('Admin.layouts.master')
+@extends('Admin.layoutApp.app')
 
 @section('content')
     @include('Admin.include.breadcrumb', [
-        'page' => __('Add Menu'),
+        'page' => __('Menu List'),
         'parent' => __('Home'),
         'child' => __('Menu'),
-        'route' => route('madmin.adminmenu.create')
+        'route' => route('madmin.adminmenu.create'),
     ])
     <!-- Content Header (Page header) -->
     {{-- <div class="content-header">
@@ -27,85 +27,82 @@
     </div> --}}
     <!-- /.content-header -->
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        {{--                        <div class="card-header"> --}}
-                        {{--                            <h3 class="card-title">Condensed Full Width Table</h3> --}}
-                        {{--                        </div> --}}
-                        <!-- /.card-header -->
-
+    <div class="container-fluid">
+        <div class="row">
+         
+            <!-- Table Section -->
+            <div class="col-12">
+                <div class="card shadow-sm">
+                    {{-- <div class="card-header">
+                        <h5 class="mb-0">Menu List</h5>
+                    </div> --}}
+                    <div class="card-body p-0">
                         @include('Admin.include.message')
-                        <div class="card-body p-0">
-                            <table class="table table-bordered">
-                                <tbody>
+
+                        <table class="table table-bordered table-hover mb-0">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>SI</th>
+                                    <th>Title</th>
+                                    <th>Parent</th>
+                                    <th>URL</th>
+                                    <th>Icon</th>
+                                    <th>OrderBy</th>
+                                    <th>Status</th>
+                                    <th>Date</th>
+                                    <th width="250">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($packages as $value)
                                     <tr>
-                                        <th>SI</th>
-                                        <th>Title</th>
-                                        <th>Parent</th>
-                                        <th>URL</th>
-                                        <th>Icon</th>
-                                        <th>OrderBy</th>
-                                        <th>Status</th>
-                                        <th>Date</th>
-                                        <th width="250">Action</th>
+                                        <td>{{ $value->id }}</td>
+                                        <td>{{ $value->name }}</td>
+                                        <td>{{ $value->parent_id }}</td>
+                                        <td>{{ $value->url }}</td>
+                                        <td><i class="{{ $value->icon }}"></i></td>
+                                        <td>{{ $value->orders }}</td>
+                                        <td>
+                                            @if ($value->status == 'Pending')
+                                                <span class="badge badge-danger">{{ $value->status }}</span>
+                                            @else
+                                                <span class="badge badge-success">{{ $value->status }}</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $value->created_at->diffForHumans() }}</td>
+                                        <td>
+                                            <div class="d-flex flex-wrap">
+                                                <a href="{{ route('madmin.adminmenu.edit', $value->id) }}"
+                                                    class="btn btn-sm btn-success mr-2"><i class="lni-pencil-alt"></i></a>
+
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.adminmenu.destroy', $value->id]]) !!}
+                                                <button type="submit" class="btn btn-sm btn-danger"
+                                                    onclick="return confirm('Do you want to Delete?')">
+                                                    <i class="lni-trash"></i>
+                                                </button>
+                                                {!! Form::close() !!}
+                                            </div>
+                                        </td>
                                     </tr>
-                                    @foreach ($packages as $value)
-                                        <tr>
-                                            <td>{{ $value->id }}</td>
-                                            <td>{{ $value->name }}</td>
-                                            <td>
-                                                {{ $value->parent_id }}
-                                            </td>
-                                            <td>{{ $value->url }}</td>
-                                            <td><i class="{{ $value->icon }}"></i></td>
-                                            <td>{{ $value->orders }}</td>
-                                            <td>
-                                                @if ($value->status == 'Pending')
-                                                    <span class="bg bg-danger p-2 rounded">
-                                                        {{ $value->status }}
-                                                    </span>
-                                                @else
-                                                    <span class="bg bg-success p-2 rounded">
-                                                        {{ $value->status }}
-                                                    </span>
-                                                @endif
-                                            </td>
-                                            <td>{{ $value->created_at->diffForHumans() }} </td>
-
-                                            <td>
-                                                <div class="row">
-                                                    <a href="{{ route('madmin.adminmenu.edit', $value->id) }}"
-                                                        class="btn btn-success m-1"><i class="fa fa-pen"></i> </a>
-                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.adminmenu.destroy', $value->id]]) !!}
-                                                    <button type="submit" value="Delete" class="btn btn-danger m-1"
-                                                        onclick="return confirm('Do you want to Delete')">X</button>
-                                                    {!! Form::close() !!}
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <!-- /.card-body -->
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-md-2 m-0 float-right">
+
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-end">
                             {{ $packages->render() }}
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
-    </section>
+        </div>
+    </div>
+
+
+
+
+    <!-- Main content -->
+
     <!-- /.content -->
 @endsection
