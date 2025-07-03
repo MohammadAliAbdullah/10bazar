@@ -68,7 +68,7 @@
                                             <td>
                                                 <div class="row">
                                                     <a href="{{ route('madmin.adminuser.edit', $value->id) }}"
-                                                        class="btn btn-success m-1"><i class="fa fa-pen"></i> </a>
+                                                        class="btn btn-success m-1"><i class="lni-pencil-alt"></i> </a>
                                                     @if ($value->id != 1)
                                                         {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.adminuser.destroy', $value->id]]) !!}
                                                         <button type="submit" value="Delete" class="btn btn-danger m-1"

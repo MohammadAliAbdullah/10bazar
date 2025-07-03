@@ -87,7 +87,7 @@
 
                                             <td>
                                                 <div class="row">
-                                                    <a href="#" class="btn btn-success m-1"><i class="fa fa-pen"></i>
+                                                    <a href="#" class="btn btn-success m-1"><i class="lni-pencil-alt"></i>
                                                     </a>
                                                 </div>
                                             </td>
