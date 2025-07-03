@@ -1,4 +1,4 @@
-@extends('Admin.layouts.master')
+@extends('Admin.layoutApp.app')
 @section('content')
     <div class="content-header">
         <div class="container-fluid">
@@ -24,7 +24,7 @@
 
                     <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable">
-                            <thead class="thead-dark">
+                            <thead class="custom-thead">
                                 <tr>
                                     <th>#</th>
                                     <th>Name</th>
