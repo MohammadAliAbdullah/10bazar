@@ -84,15 +84,15 @@
 
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="{{ asset('public') }}/assets/js/jquery-min.js"></script>
-    <script src="{{ asset('public') }}/assets/js/popper.min.js"></script>
+    {{-- <script src="{{ asset('public') }}/assets/js/popper.min.js"></script> --}}
     <script src="{{ asset('public') }}/assets/js/bootstrap.min.js"></script>
     <script src="{{ asset('public') }}/assets/js/jquery.app.js"></script>
-    <script src="{{ asset('public') }}/assets/js/main-admin.js"></script>
+    {{-- <script src="{{ asset('public') }}/assets/js/main-admin.js"></script> --}}
 
     <!--Morris Chart-->
-    <script src="{{ asset('public') }}/assets/js/morris.min.js"></script>
+    {{-- <script src="{{ asset('public') }}/assets/js/morris.min.js"></script>
     <script src="{{ asset('public') }}/assets/js/raphael-min.js"></script>
-    <script src="{{ asset('public') }}/assets/js/dashborad1.js"></script>
+    <script src="{{ asset('public') }}/assets/js/dashborad1.js"></script> --}}
     {{-- datatable js --}}
     <script src="{{ asset('public') }}/admin/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="{{ asset('public') }}/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>

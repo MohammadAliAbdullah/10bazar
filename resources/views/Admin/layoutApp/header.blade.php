@@ -65,15 +65,15 @@
             </li>
             <li class="user-profile dropdown dropdown-animated scale-left">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <img class="profile-img img-fluid" src="{{ asset('public/assets/img/avatar/avatar.jpg') }}"
-                        alt="User Avatar">
+                    <i class="lni-users border"></i>
+                    {{-- <img class="profile-img img-fluid" src="{{ asset('public/assets/img/avatar/avatar.jpg') }}" alt="User Avatar"> --}}
                 </a>
                 <ul class="dropdown-menu dropdown-md">
                     <li>
                         <ul class="list-media">
                             <li class="list-item avatar-info">
                                 <div class="media-img">
-                                    <img src="{{ asset('public/assets/img/avatar/avatar.jpg') }}" alt="">
+                                    {{-- <img src="{{ asset('public/assets/img/avatar/avatar.jpg') }}" alt=""> --}}
                                 </div>
                                 <div class="info">
                                     <span class="title text-semibold">
