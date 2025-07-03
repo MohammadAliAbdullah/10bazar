@@ -4,7 +4,7 @@
         @csrf
         @method('DELETE')
         <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">
-            <i class="fa fa-trash"></i>
+            <i class="lni-trash"></i>
         </button>
     </form>
 </nobr>

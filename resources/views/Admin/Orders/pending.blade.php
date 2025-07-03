@@ -100,7 +100,7 @@
 
                                             <td>
                                                 <div class="row">
-                                                    {{--                                                    <a href="{{route('madmin.local-sale.edit',$value->id)}}" class="btn btn-success m-1"><i class="fa fa-pen"></i> </a> --}}
+                                                    {{--                                                    <a href="{{route('madmin.local-sale.edit',$value->id)}}" class="btn btn-success m-1"><i class="lni-pencil-alt"></i> </a> --}}
                                                     <a href="{{ route('madmin.orderadmin.show', $value->id) }}"
                                                         class="btn btn-info m-1"><i class="lni-eye"></i> </a>
                                                     {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.local-sale.destroy', $value->id]]) !!}

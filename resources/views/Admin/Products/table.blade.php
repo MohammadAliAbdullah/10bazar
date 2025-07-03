@@ -19,7 +19,7 @@
         <td>
             <div class="d-flex">
                 <a href="{{ route('madmin.products.edit', $value->id) }}" class="btn btn-success btn-sm mr-1">
-                    <i class="fa fa-pen"></i>
+                    <i class="lni-pencil-alt"></i>
                 </a>
                 {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.products.destroy', $value->id]]) !!}
                 <button type="submit" value="Delete" class="btn btn-danger btn-sm"

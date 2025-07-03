@@ -47,7 +47,7 @@
                                                 class="d-inline" onsubmit="return confirm('Are you sure?')">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $row->id }}">
-                                                <button class="btn btn-sm btn-danger"><i class="fa fa-trash"></i> Delete</button>
+                                                <button class="btn btn-sm btn-danger"><i class="lni-trash"></i> Delete</button>
                                             </form>
                                         </td>
                                     </tr>
