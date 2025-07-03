@@ -1,8 +1,14 @@
 @extends('Admin.layouts.master')
 
 @section('content')
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Slides'),
+        'parent' => __('Home'),
+        'child' => __('Slides'),
+        'route' => route('madmin.slides.create'),
+    ])
     <!-- Content Header (Page header) -->
-    <div class="content-header">
+    {{-- <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
@@ -18,7 +24,7 @@
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
-    </div>
+    </div> --}}
     <!-- /.content-header -->
 
     <!-- Main content -->
