@@ -77,7 +77,7 @@
 
                                         <td>
                                             <div class="row">
-                                                <a href="{{route('madmin.complainadmin.edit',$value->id)}}" class="btn btn-success m-1"><i class="fa fa-pen"></i> </a>
+                                                <a href="{{route('madmin.complainadmin.edit',$value->id)}}" class="btn btn-success m-1"><i class="lni-pencil-alt"></i> </a>
                                                 {!! Form::open(['method'=>'DELETE','route'=>['madmin.complainadmin.destroy',$value->id]]) !!}
                                                 <button type="submit" value="Delete" class="btn btn-danger m-1" onclick="return confirm('Do you want to Delete, Delete with product')">X</button>
                                                 {!! Form::close() !!}

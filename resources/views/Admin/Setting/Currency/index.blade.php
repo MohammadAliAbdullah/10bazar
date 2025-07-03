@@ -46,7 +46,7 @@
                                                 <!-- Edit Button -->
                                                 <a href="{{ route('madmin.currency.edit', $currency->id) }}"
                                                     class="btn btn-sm btn-success mr-1">
-                                                    <i class="fa fa-pen"></i>
+                                                    <i class="lni-pencil-alt"></i>
                                                 </a>
 
                                                 <!-- Delete Button -->
@@ -56,7 +56,7 @@
                                                     'onsubmit' => 'return confirm("Are you sure to delete this currency?")',
                                                 ]) !!}
                                                 <button type="submit" class="btn btn-sm btn-danger">
-                                                    <i class="fa fa-trash"></i>
+                                                    <i class="lni-trash"></i>
                                                 </button>
                                                 {!! Form::close() !!}
                                             </div>
