@@ -1,4 +1,4 @@
-@extends('Admin.layouts.master')
+@extends('Admin.layoutApp.app')
 
 @section('content')
 @include('Admin.include.breadcrumb', [

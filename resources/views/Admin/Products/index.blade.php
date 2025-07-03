@@ -1,4 +1,4 @@
-@extends('Admin.layouts.master')
+@extends('Admin.layoutApp.app')
 
 @section('content')
     @include('Admin.include.breadcrumb', [
@@ -31,7 +31,7 @@
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table id="productDataTable" class="table table-bordered table-striped">
-                                    <thead class="thead-dark">
+                                    <thead class="custom-thead">
                                         <tr>
                                             <th>SI</th>
                                             <th>Title</th>
