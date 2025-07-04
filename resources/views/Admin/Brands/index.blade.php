@@ -2,36 +2,17 @@
 
 @section('content')
     @include('Admin.include.breadcrumb', [
-        'page' => __('Brand'),
+        'page' => __('Brand List'),
         'parent' => __('Home'),
         'child' => __('Brand'),
+        'button' => __('Add Brand'),
+        'button_icon' => 'lni-plus',
         'route' => route('madmin.brands.create'),
     ])
-    <!-- Content Header -->
-    {{-- <div class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">
-                        Brand
-                    </h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <a href="{{ route('madmin.brands.create') }}" class="btn btn-primary btn-sm mr-2">
-                            <i class="fa fa-plus"></i> &nbsp; Add Brand
-                        </a>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
     <!-- Main Content -->
     <section class="content">
         <div class="container-fluid">
             <div class="card">
-
                 <div class="card-body">
                     @include('Admin.include.message')
 
@@ -49,7 +30,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($brands as $key => $value)
+                                @foreach ($brands as $key => $value)
                                     <tr>
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $value->title }}</td>
@@ -62,14 +43,14 @@
                                         <td>
                                             <div class="d-flex">
                                                 <a href="{{ route('madmin.brands.edit', $value->id) }}"
-                                                   class="btn btn-success btn-sm mr-1">
+                                                    class="btn btn-success btn-sm mr-1">
                                                     <i class="lni-pencil-alt"></i>
                                                 </a>
-                                                {!! Form::open(['method'=>'DELETE','route'=>['madmin.brands.destroy',$value->id]]) !!}
-                                                    <button type="submit" class="btn btn-danger btn-sm"
-                                                            onclick="return confirm('Are you sure you want to delete this?')">
-                                                        X
-                                                    </button>
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.brands.destroy', $value->id]]) !!}
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Are you sure you want to delete this?')">
+                                                    X
+                                                </button>
                                                 {!! Form::close() !!}
                                             </div>
                                         </td>
@@ -83,4 +64,3 @@
         </div>
     </section>
 @endsection
-
