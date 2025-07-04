@@ -32,7 +32,7 @@
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-12">  
                     <div class="card">
                     {{--                        <div class="card-header">--}}
                     {{--                            <h3 class="card-title">Condensed Full Width Table</h3>--}}
@@ -79,7 +79,7 @@
                                             <div class="row">
                                                 <a href="{{route('madmin.complainadmin.edit',$value->id)}}" class="btn btn-success m-1"><i class="lni-pencil-alt"></i> </a>
                                                 {!! Form::open(['method'=>'DELETE','route'=>['madmin.complainadmin.destroy',$value->id]]) !!}
-                                                <button type="submit" value="Delete" class="btn btn-danger m-1" onclick="return confirm('Do you want to Delete, Delete with product')">X</button>
+                                                <button type="submit" value="Delete" class="btn btn-danger m-1" onclick="return confirm('Do you want to Delete, Delete with product')"><i class="lni-trash"></i></button>
                                                 {!! Form::close() !!}
 
                                             </div>

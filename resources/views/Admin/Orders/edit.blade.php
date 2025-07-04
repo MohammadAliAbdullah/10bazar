@@ -71,7 +71,7 @@
                                   <td><input class="sales_price" id="sales_price" type="text" name="sales_price[]" value="{{ $details->price }}"></td>
                                   <td><input class=" qty" id="qty" type="text" name="qty[]" value="{{ $details->qty }}" ></td>
                                   <td><input class="total" id="total" type="text" name="total[]" value="{{ $details->total }}"></td>
-                                  <td><div class="btn btn-danger remove_row" id="action" type="text">X</div></td>
+                                  <td><div class="btn btn-danger remove_row" id="action" type="text"><i class="lni-trash"></i></div></td>
                                 </tr>
                                 @endforeach
                               </tbody>

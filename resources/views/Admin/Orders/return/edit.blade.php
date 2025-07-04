@@ -99,7 +99,7 @@
                                     <div class="col-md-1">
                                         <div class="form-group">
                                             {{--                                        <label for="action" class="small remove-label">Remove</label>--}}
-                                            <div class="btn btn-danger remove_row" id="action" type="text">X</div>
+                                            <div class="btn btn-danger remove_row" id="action" type="text"><i class="lni-trash"></i></div>
                                         </div>
                                     </div>
 
