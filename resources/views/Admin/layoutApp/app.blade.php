@@ -16,10 +16,9 @@
     <!-- Responsive Style -->
     <link rel="stylesheet" type="text/css" href="{{ asset('public') }}/assets/css/responsive.css">
     {{-- datatable css --}}
-    <link rel="stylesheet" href="{{ asset('public') }}/admin/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-    <link rel="stylesheet"
-        href="{{ asset('public') }}/admin/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-    <link rel="stylesheet" href="{{ asset('public') }}/admin/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ asset('public') }}/datatables/datatables-bs4/css/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ asset('public') }}/datatables/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{ asset('public') }}/datatables/datatables-buttons/css/buttons.bootstrap4.min.css">
     <style>
         /* Target DataTables buttons */
         #dataTable_wrapper .dt-buttons .btn,
@@ -89,22 +88,22 @@
     {{-- <script src="{{ asset('public') }}/assets/js/popper.min.js"></script> --}}
     <script src="{{ asset('public') }}/assets/js/bootstrap.min.js"></script>
     <script src="{{ asset('public') }}/assets/js/jquery.app.js"></script>
-    {{-- <script src="{{ asset('public') }}/assets/js/main-admin.js"></script> --}}
+
 
     <!--Morris Chart-->
     <script src="{{ asset('public') }}/assets/js/morris.min.js"></script>
     <script src="{{ asset('public') }}/assets/js/raphael-min.js"></script>
     {{-- <script src="{{ asset('public') }}/assets/js/dashborad1.js"></script> --}}
     {{-- datatable js --}}
-    <script src="{{ asset('public') }}/admin/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="{{ asset('public') }}/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-    <script src="{{ asset('public') }}/admin/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="{{ asset('public') }}/admin/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-    <script src="{{ asset('public') }}/admin/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="{{ asset('public') }}/admin/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-    <script src="{{ asset('public') }}/admin/plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-    <script src="{{ asset('public') }}/admin/plugins/datatables-buttons/js/buttons.print.min.js"></script>
-    <script src="{{ asset('public') }}/admin/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+    <script src="{{ asset('public') }}/datatables/datatables/jquery.dataTables.min.js"></script>
+    <script src="{{ asset('public') }}/datatables/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+    <script src="{{ asset('public') }}/datatables/datatables-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="{{ asset('public') }}/datatables/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+    <script src="{{ asset('public') }}/datatables/datatables-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="{{ asset('public') }}/datatables/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+    <script src="{{ asset('public') }}/datatables/datatables-buttons/js/buttons.html5.min.js"></script>
+    <script src="{{ asset('public') }}/datatables/datatables-buttons/js/buttons.print.min.js"></script>
+    <script src="{{ asset('public') }}/datatables/datatables-buttons/js/buttons.colVis.min.js"></script>
     <script>
         window.routes = {
             productList: "{{ route('madmin.products.index') }}",
