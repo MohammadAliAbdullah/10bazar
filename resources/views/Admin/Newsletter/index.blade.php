@@ -1,81 +1,76 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Newsletter
-{{--                        <a href="{{ route('madmin.newsletteradmin.create') }}" class="btn btn-primary">Newsletter Add</a>--}}
-                    </h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Newsletter</a></li>
-                        <li class="breadcrumb-item active">Newsletter add</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Newsletter'),
+        'parent' => __('Home'),
+        'child' => __('Newsletter'),
+        'button' => __(''),
+        'button_icon' => '',
+        'route' => '#',
+    ])
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                    {{--                        <div class="card-header">--}}
-                    {{--                            <h3 class="card-title">Condensed Full Width Table</h3>--}}
-                    {{--                        </div>--}}
-                    <!-- /.card-header -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                @include('Admin.include.message')
 
-                        @include('Admin.include.message')
-                        <div class="card-body p-0">
-                            <table class="table table-bordered">
-                                <tbody>
+                <div class="card">
+                    <div class="card-body p-0">
+                        <table class="table table-bordered mb-0">
+                            <thead class="custom-thead">
                                 <tr>
-                                    <th>SI</th>
-                                    <th>EMail</th>
+                                    <th style="width: 50px">SI</th>
+                                    <th>Email</th>
                                     <th>Status</th>
                                     <th>Date</th>
-                                    <th>Action</th>
+                                    <th style="width: 120px">Action</th>
                                 </tr>
-                                @foreach($values as $value)
+                            </thead>
+                            <tbody>
+                                @foreach ($values as $value)
                                     <tr>
                                         <td>{{ $value->id }}</td>
                                         <td>{{ $value->email }}</td>
                                         <td>{{ $value->status }}</td>
-                                        <td>{{ $value->created_at->diffForHumans() }} </td>
+                                        <td>{{ $value->created_at->diffForHumans() }}</td>
                                         <td>
-                                            <div class="row">
-{{--                                                <a href="{{route('madmin.newsletteradmin.edit',$value->id)}}" class="btn btn-success m-1"><i class="lni-pencil-alt"></i> </a>--}}
-                                                {!! Form::open(['method'=>'DELETE','route'=>['madmin.newsletteradmin.destroy',$value->id]]) !!}
-                                                <button type="submit" value="Delete" class="btn btn-danger m-1" onclick="return confirm('Do you want to Delete')"><i class="lni-trash"></i></button>
+                                            <div class="d-flex">
+                                                {{-- Uncomment this if you later implement edit --}}
+                                                {{-- <a href="{{ route('madmin.newsletteradmin.edit', $value->id) }}" class="btn btn-success btn-sm mr-1">
+                                                    <i class="lni-pencil-alt"></i>
+                                                </a> --}}
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.newsletteradmin.destroy', $value->id]]) !!}
+                                                <button type="submit" class="btn btn-danger btn-sm"
+                                                    onclick="return confirm('Do you want to delete this newsletter?')">
+                                                    <i class="lni-trash"></i>
+                                                </button>
                                                 {!! Form::close() !!}
                                             </div>
                                         </td>
                                     </tr>
                                 @endforeach
 
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <!-- /.card-body -->
+                                @if ($values->isEmpty())
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted py-3">
+                                            No newsletter records found.
+                                        </td>
+                                    </tr>
+                                @endif
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-md-2 m-0 float-right">
-                            {{ $values->render() }}
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-end">
+                            {{ $values->links() }}
                         </div>
                     </div>
                 </div>
+
+
+
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+        </div>
+    </div>
 @endsection
