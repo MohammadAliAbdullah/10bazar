@@ -51,7 +51,9 @@
 </head>
 
 <body>
-    <div class="app header-default side-nav-dark">
+    {{-- <div class="app header-default side-nav-dark"> --}}
+    <div id="app-body"
+        class="app header-default side-nav-dark {{ session('sidebar_folded') ? 'side-nav-folded' : '' }}">
         <div class="layout">
             <!-- Header START -->
             @include('Admin.layoutApp.header')
@@ -90,9 +92,9 @@
     {{-- <script src="{{ asset('public') }}/assets/js/main-admin.js"></script> --}}
 
     <!--Morris Chart-->
-    {{-- <script src="{{ asset('public') }}/assets/js/morris.min.js"></script>
+    <script src="{{ asset('public') }}/assets/js/morris.min.js"></script>
     <script src="{{ asset('public') }}/assets/js/raphael-min.js"></script>
-    <script src="{{ asset('public') }}/assets/js/dashborad1.js"></script> --}}
+    {{-- <script src="{{ asset('public') }}/assets/js/dashborad1.js"></script> --}}
     {{-- datatable js --}}
     <script src="{{ asset('public') }}/admin/plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="{{ asset('public') }}/admin/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
@@ -109,6 +111,27 @@
         };
     </script>
     @yield('script')
+    <script>
+        $(document).ready(function() {
+            $('#sidenav-toggler').on('click', function(e) {
+                e.preventDefault();
+
+                let isFolded = $('#app-body').hasClass('side-nav-folded');
+
+                $.ajax({
+                    url: "{{ route('toggle.sidebar') }}",
+                    method: "POST",
+                    data: {
+                        folded: isFolded,
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function(response) {
+                        console.log('Sidebar state saved:', response.status);
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         // Highlight current menu
         $(function() {

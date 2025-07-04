@@ -10,7 +10,7 @@
         </div>
         <ul class="nav-left">
             <li>
-                <a class="sidenav-fold-toggler" href="javascript:void(0);">
+                <a id="sidenav-toggler" class="sidenav-fold-toggler" href="javascript:void(0);">
                     <i class="lni-menu"></i>
                 </a>
                 <a class="sidenav-expand-toggler" href="javascript:void(0);">

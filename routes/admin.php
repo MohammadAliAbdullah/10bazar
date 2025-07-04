@@ -171,4 +171,10 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
 Route::get('/applay', function () {
     return view('Admin.layoutApp.app');
 })->name('applay');
+use Illuminate\Http\Request;
+Route::post('/toggle-sidebar', function (Request $request) {
+    $folded = $request->folded == 'true' ? 1 : 0;
+    session(['sidebar_folded' => $folded]);
+    return response()->json(['status' => $folded]);
+})->name('toggle.sidebar');
 //Auth::routes();
