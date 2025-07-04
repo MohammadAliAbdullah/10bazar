@@ -1,121 +1,74 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
+    {{-- Breadcrumb --}}
     @include('Admin.include.breadcrumb', [
         'page' => __('Add Menu'),
         'parent' => __('Home'),
         'child' => __('Menu'),
-        'route' => url('slide'),
+        'button' => __('Menu List'),
+        'button_icon' => 'lni-text-align-justify',
+        'route' => route('madmin.adminmenu.index'),
     ])
-    <!-- Content Header (Page header) -->
 
-    {{-- <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Add Menu</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('slide') }}">Menu</a></li>
-                        <li class="breadcrumb-item active">Add Menu</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="card card-info">
-                        {{--                <div class="card-header"> --}}
-                        {{--                    <h3 class="card-title">Horizontal Form</h3> --}}
-                        {{--                </div> --}}
-                        <!-- /.card-header -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
                         @include('Admin.include.message')
-                        <!-- form start -->
+
                         {!! Form::open([
                             'method' => 'POST',
                             'route' => 'madmin.adminmenu.store',
                             'class' => 'form-horizontal',
                             'files' => true,
                         ]) !!}
-                        <div class="card-body">
 
-
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Title', ['class' => 'col-sm-4 col-form-label']) !!}
-                                <div class="col-sm-8">
-                                    {!! Form::text('name', null, ['class' => 'form-control', 'id' => 'receiver', 'required']) !!}
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Parent', ['class' => 'col-sm-4 col-form-label']) !!}
-                                <div class="col-sm-8">
-                                    {!! Form::select('parent_id', ['0' => 'Select parent'] + $menus, null, [
-                                        'class' => 'form-control',
-                                        'id' => 'receiver',
-                                        'required',
-                                    ]) !!}
-                                </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                {!! Form::label('name', 'Title') !!}
+                                {!! Form::text('name', null, ['class' => 'form-control', 'placeholder' => 'Menu title', 'required']) !!}
                             </div>
 
-                            <div class="form-group row">
-                                {!! Form::label('name', 'URL', ['class' => 'col-sm-4 col-form-label']) !!}
-                                <div class="col-sm-8">
-                                    {!! Form::text('url', null, ['class' => 'form-control', 'id' => 'receiver', 'required']) !!}
-                                </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('parent_id', 'Parent') !!}
+                                {!! Form::select('parent_id', ['0' => 'Select parent'] + $menus, null, ['class' => 'form-control', 'required']) !!}
                             </div>
-
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Icon', ['class' => 'col-sm-4 col-form-label']) !!}
-                                <div class="col-sm-8">
-                                    {!! Form::text('icon', 'fas fa-angle-right', ['class' => 'form-control', 'id' => 'receiver', 'required']) !!}
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Orders', ['class' => 'col-sm-4 col-form-label']) !!}
-                                <div class="col-sm-8">
-                                    {!! Form::number('orders', null, ['class' => 'form-control', 'id' => 'receiver', 'required']) !!}
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Status', ['class' => 'col-sm-4 col-form-label']) !!}
-                                <div class="col-sm-8">
-                                    {!! Form::select('status', ['Active' => 'Active', 'Pending' => 'Pending'], null, [
-                                        'class' => 'form-control',
-                                        'id' => 'receiver',
-                                        'required',
-                                    ]) !!}
-                                </div>
-                            </div>
-
-
                         </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                {!! Form::label('url', 'URL') !!}
+                                {!! Form::text('url', null, ['class' => 'form-control', 'placeholder' => 'Page URL', 'required']) !!}
+                            </div>
 
+                            <div class="form-group col-md-6">
+                                {!! Form::label('icon', 'Icon') !!}
+                                {!! Form::text('icon', 'fas fa-angle-right', ['class' => 'form-control', 'placeholder' => 'e.g. fas fa-home']) !!}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                {!! Form::label('orders', 'Order') !!}
+                                {!! Form::number('orders', null, ['class' => 'form-control', 'placeholder' => 'Display order', 'required']) !!}
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {!! Form::label('status', 'Status') !!}
+                                {!! Form::select('status', ['Active' => 'Active', 'Pending' => 'Pending'], null, ['class' => 'form-control']) !!}
+                            </div>
+                        </div>
+
+                        <div class="mt-3">
                             <button type="submit" class="btn btn-info">Submit</button>
-                            <button onclick="window.history.back()" class="btn btn-default float-right">Cancel</button>
+                            <button onclick="window.history.back()" class="btn btn-default">Cancel</button>
                         </div>
-                        <!-- /.card-footer -->
+
                         {!! Form::close() !!}
-
                     </div>
+                    {{-- No pagination needed for form --}}
                 </div>
-
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-@endsection
-@section('script')
+        </div>
+    </div>
 @endsection

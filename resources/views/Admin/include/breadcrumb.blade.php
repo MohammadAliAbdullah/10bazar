@@ -30,8 +30,7 @@
         <div class="col-12 col-lg-9 col-md-6">
             <ol class="breadcrumb float-right">
                 @if (!empty($page) && !empty($route))
-                    <li><a href="{{ $route }}">Home</a></li>
-                    <li class="active">/ {{ $page }}</li>
+                    <li><a href="{{ $route }}" class="btn btn-success text-white"><i class="{{ $button_icon }}"></i> &nbsp {{ $button }} </a></li>
                 @elseif (!empty($parent) && empty($route))
                     <li><a href="javascript:void(0)">Home</a></li>
                     <li><a href="javascript:void(0)">{{ $parent }}</a></li>
