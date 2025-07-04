@@ -5,110 +5,62 @@
         'page' => __('Inventory'),
         'parent' => __('Home'),
         'child' => __('Inventory'),
-        'route' => '',
+        'button' => __('Add Inventory'),
+        'button_icon' => 'lni-plus',
+        'route' => '#', // You can update this route when you implement inventory add
     ])
-    <!-- Content Header (Page header) -->
-    {{-- <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Inventory
-                        <!-- <a href="#" class="btn btn-primary">Inventory Add</a> -->
-                    </h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Inventory</a></li>
-                        <li class="breadcrumb-item active">Inventory add</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div> --}}
-    <!-- /.content-header -->
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        {{--                        <div class="card-header"> --}}
-                        {{--                            <h3 class="card-title">Condensed Full Width Table</h3> --}}
-                        {{--                        </div> --}}
-                        <!-- /.card-header -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                @include('Admin.include.message')
 
-                        @include('Admin.include.message')
-                        <div class="card-body p-0">
-                            <table class="table table-bordered">
-                                <tbody>
+                <div class="card">
+                    <div class="card-body p-0">
+                        <table class="table table-bordered mb-0">
+                            <thead class="custom-thead">
+                                <tr>
+                                    <th style="width: 50px;">SI</th>
+                                    <th>Title</th>
+                                    <th>Category</th>
+                                    <th>Brand</th>
+                                    <th>QTY</th>
+                                    <th>Regular Price</th>
+                                    <th>Sales Price</th>
+                                    <th style="width: 100px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse ($stocks as $value)
                                     <tr>
-                                        <th>SI</th>
-                                        <th>Title</th>
-                                        {{--                                    <th>Image</th> --}}
-                                        {{--                                    <th>Sized</th> --}}
-                                        {{--                                    <th>Colored</th> --}}
-                                        <th>Category</th>
-                                        <th>Brand</th>
-                                        <th>QTY</th>
-                                        {{--                                    <th>Purchase Price</th> --}}
-                                        <th>Regular Price</th>
-                                        <th>Sales Price</th>
-                                        {{--                                    <th>Date</th> --}}
-                                        <th>Action</th>
+                                        <td>{{ $value->id }}</td>
+                                        <td>{{ $value->title ?? 'N/A' }}</td>
+                                        <td>{{ $value->category->title ?? 'N/A' }}</td>
+                                        <td>{{ $value->brand->title ?? 'N/A' }}</td>
+                                        <td>{{ $value->productstock->qty ?? 0 }}</td>
+                                        <td>{{ $value->productstock->ragular_price ?? 0 }} Tk</td>
+                                        <td>{{ $value->productstock->sales_price ?? 0 }} Tk</td>
+                                        <td>
+                                            <a href="#" class="btn btn-sm btn-success" title="Edit">
+                                                <i class="lni-pencil-alt"></i>
+                                            </a>
+                                        </td>
                                     </tr>
-                                    @foreach ($stocks as $value)
-                                        <tr>
-                                            <td>{{ $value->id }}</td>
-                                            <td>{{ $value->title ?? 'N/A' }}</td>
-                                            {{--                                        <td> --}}
-                                            {{--                                            <img src="{{ asset('public/assets/images/products/'.$value->product->thumb ) }}" width="60" height="40"></td> --}}
-                                            {{--                                        <td>{{ $value->sku }}</td> --}}
-
-                                            {{--                                        <td> --}}
-                                            {{--                                            {{ $value->sized }} --}}
-                                            {{--                                        </td> --}}
-                                            {{--                                        <td> --}}
-                                            {{--                                            {{ $value->colored }} --}}
-                                            {{--                                        </td> --}}
-                                            <td>
-                                                {{ $value->category->title ?? 'N/A' }}
-                                            </td>
-                                            <td>
-                                                {{ $value->brand->title ?? 'N/A' }}
-                                            </td>
-                                            <td>{{ $value->productstock->qty ?? 0 }}</td>
-                                            {{--                                        <td>{{ $value->purchase_price }}</td> --}}
-                                            <td>{{ $value->productstock->ragular_price ?? 0 }} Tk</td>
-                                            <td>{{ $value->productstock->sales_price ?? 0 }} Tk</td>
-                                            {{--                                        <td>{{ $value->created_at->diffForHumans() }} </td> --}}
-
-                                            <td>
-                                                <div class="row">
-                                                    <a href="#" class="btn btn-success m-1"><i class="lni-pencil-alt"></i>
-                                                    </a>
-
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <!-- /.card-body -->
+                                @empty
+                                    <tr>
+                                        <td colspan="8" class="text-center text-muted py-3">No inventory data found.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-md-2 m-0 float-right">
-                            {{ $stocks->render() }}
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-end">
+                            {{ $stocks->links() }}
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+        </div>
+    </div>
 @endsection
