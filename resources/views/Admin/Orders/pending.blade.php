@@ -1,133 +1,118 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Pending Sale
-                        {{--                        <a href="{{ route('madmin.local-sale.create') }}" class="btn btn-primary">All Sale Add</a> --}}
-                    </h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Pending Sale</a></li>
-                        <li class="breadcrumb-item active">Pending Sale add</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+    {{-- Breadcrumb --}}
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Pending Orders'),
+        'parent' => __('Home'),
+        'child' => __('Sale'),
+        'button' => __('All Orders'),
+        'button_icon' => 'lni lni-cart',
+        'route' => '#',
+        'multipleBtn' => [
+            ['name' => 'Pending Order', 'class' => 'btn-info', 'icon' => 'lni-text-align-justify', 'route' => route('madmin.orders.pending')],
+            ['name' => 'Complete Order', 'class' => 'btn-dark', 'icon' => 'lni-text-align-justify', 'route' => route('madmin.orders.complete')],
+            ['name' => 'All Orders', 'class' => 'btn-success', 'icon' => 'lni-text-align-justify', 'route' => route('madmin.orderadmin.index')],
+            ['name' => 'Complete Sale', 'class' => 'btn-secondary', 'icon' => 'lni-text-align-justify', 'route' => route('madmin.orders.complete')],
+        ],
+    ])
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                        {{--                        <div class="card-header"> --}}
-                        {{--                            <h3 class="card-title">Condensed Full Width Table</h3> --}}
-                        {{--                        </div> --}}
-                        <!-- /.card-header -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                @include('Admin.include.message')
 
-                        @include('Admin.include.message')
-                        <div class="card-body p-0">
-                            <table class="table table-bordered table-responsive">
-                                <tbody>
+                <div class="card">
+                    {{-- <div class="card-header">
+                        <h5 class="mb-0">Pending Sales List</h5>
+                    </div> --}}
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered mb-0">
+                                <thead class="custom-thead">
                                     <tr>
                                         <th>SI</th>
                                         <th>Invoice</th>
-                                        <th width="20%">Customer Information</th>
-                                        <th width="30%">Product</th>
+                                        <th width="20%">Customer Info</th>
+                                        <th width="25%">Products</th>
                                         <th>Order Details</th>
                                         <th>Date</th>
-                                        <th class="10%">Action</th>
+                                        <th class="text-center">Action</th>
                                     </tr>
-                                    @foreach ($orders as $value)
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $page = request()->get('page') ?? 1;
+                                    @endphp
+                                    @forelse ($orders as $value)
                                         <tr>
-                                            <td>{{ $value->id }}</td>
+                                            <td>{{ $page ? ($page - 1) * 10 + $loop->iteration : $loop->iteration }}</td>
                                             <td>{{ $value->invoice_no }}</td>
                                             <td>
-                                                <b>Name:</b> {{ $value->customer->name }} </br>
-                                                <b>Phone:</b> {{ $value->customer->phone }} </br>
-                                                <b>Email:</b> {{ $value->customer->email }} </br>
-                                                <b>Address:</b> {{ $value->customer->address }} </br>
+                                                <strong>Name:</strong> {{ $value->customer->name ?? 'N/A' }}<br>
+                                                <strong>Phone:</strong> {{ $value->customer->phone ?? 'N/A' }}<br>
+                                                <strong>Email:</strong> {{ $value->customer->email ?? 'N/A' }}<br>
+                                                <strong>Address:</strong> {{ $value->customer->address ?? 'N/A' }}
                                             </td>
                                             <td>
-                                                @php
-                                                    $products = \App\Models\OrderDetails::where(
-                                                        'order_id',
-                                                        $value->id,
-                                                    )->get();
-                                                @endphp
-                                                @foreach ($products as $product)
+                                                @foreach (\App\Models\OrderDetails::where('order_id', $value->id)->get() as $product)
                                                     {{ $product->name }}
-                                                    <hr>
+                                                    <hr class="my-1">
                                                 @endforeach
                                             </td>
                                             <td>
-                                                <b>Sub Total:</b> {{ $value->subtotal }} Tk</br>
-                                                <b>Discount:</b> {{ $value->discount }} Tk</br>
-                                                <b>Delivery Charge:</b> {{ $value->delivary_charge }} Tk</br>
-                                                {{--                                            <b>Vat:</b> {{ $value->vat }} Tk</br> --}}
-                                                {{--                                            <b>Delivary Charge:</b> {{ $value->delivary_charge }} Tk</br> --}}
-                                                <b>Total:</b> {{ $value->total }} Tk
+                                                <strong>Sub Total:</strong> {{ $value->subtotal }} Tk<br>
+                                                <strong>Discount:</strong> {{ $value->discount }} Tk<br>
+                                                <strong>Delivery:</strong> {{ $value->delivary_charge }} Tk<br>
+                                                <strong>Total:</strong> {{ $value->total }} Tk
                                             </td>
-
                                             <td>
-                                                {{ $value->created_at->diffForHumans() }}
-                                                @if ($value->status == 'Pending')
-                                                    <div class="bg bg-danger p-1">
-                                                        Pending
-                                                    </div>
-                                                @elseif($value->status == 'Processing')
-                                                    <div class="bg bg-warning p-1">
-                                                        Processing
-                                                    </div>
-                                                @elseif($value->status == 'Shipped')
-                                                    <div class="bg bg-info p-1">
-                                                        Shipped
-                                                    </div>
-                                                @else
-                                                    <div class="bg bg-success p-1">
-                                                        Completed
-                                                    </div>
-                                                @endif
+                                                {{ $value->created_at->diffForHumans() }}<br>
+                                                @php
+                                                    $badgeClass = match ($value->status) {
+                                                        'Pending' => 'danger',
+                                                        'Processing' => 'warning',
+                                                        'Shipped' => 'info',
+                                                        default => 'success',
+                                                    };
+                                                @endphp
+                                                <span
+                                                    class="badge bg-{{ $badgeClass }} mt-1">{{ $value->status }}</span>
                                             </td>
-
-                                            <td>
-                                                <div class="row">
-                                                    {{--                                                    <a href="{{route('madmin.local-sale.edit',$value->id)}}" class="btn btn-success m-1"><i class="lni-pencil-alt"></i> </a> --}}
+                                            <td class="text-center">
+                                                <div class="d-flex justify-content-center flex-wrap">
                                                     <a href="{{ route('madmin.orderadmin.show', $value->id) }}"
-                                                        class="btn btn-info m-1"><i class="lni-eye"></i> </a>
+                                                        class="btn btn-sm btn-info m-1">
+                                                        <i class="lni lni-eye"></i>
+                                                    </a>
                                                     {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.local-sale.destroy', $value->id]]) !!}
-                                                    <button type="submit" value="Delete" class="btn btn-danger m-1"
-                                                        onclick="return confirm('Do you want to Delete')"><i class="lni-trash"></i></button>
+                                                    <button type="submit" class="btn btn-sm btn-danger m-1"
+                                                        onclick="return confirm('Do you want to delete this sale?')">
+                                                        <i class="lni lni-trash"></i>
+                                                    </button>
                                                     {!! Form::close() !!}
-
                                                 </div>
                                             </td>
                                         </tr>
-                                    @endforeach
-
+                                    @empty
+                                        <tr>
+                                            <td colspan="7" class="text-center text-muted">No pending sales found.</td>
+                                        </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
+                        </div>
+                    </div>
 
+                    @if ($orders->hasPages())
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-end">
+                                {{ $orders->links() }}
+                            </div>
                         </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-md-2 m-0 float-right">
-                            {{ $orders->render() }}
-                        </div>
-                    </div>
+                    @endif
                 </div>
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+        </div>
+    </div>
 @endsection
