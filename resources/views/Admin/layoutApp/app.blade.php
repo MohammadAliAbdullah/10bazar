@@ -27,11 +27,10 @@
         href="{{ asset('public/assets/datatables/datatables-responsive/css/responsive.bootstrap4.min.css') }}">
     <link rel="stylesheet"
         href="{{ asset('public/assets/datatables/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
-
-    {{-- extra --}}
-    {{-- <link rel="stylesheet" href="{{ asset('public/admin/plugins/summernote/summernote-bs4.min.css') }}"> --}}
+    <!-- summernote -->
     <link rel="stylesheet" href="{{ asset('public/assets/summernote/summernote-bs4.min.css') }}">
-
+    <!-- colorpicker -->
+    <link rel="stylesheet" href="{{ asset('public/assets/colorpicker/css/bootstrap-colorpicker.min.css') }}" />
     <style>
         #dataTable_wrapper .dt-buttons .btn,
         #dataTable_wrapper .dt-buttons button,
@@ -68,24 +67,18 @@
     <div id="app-body"
         class="app header-default side-nav-dark {{ session('sidebar_folded') ? 'side-nav-folded' : '' }}">
         <div class="layout">
-
             <!-- Header -->
             @include('Admin.layoutApp.header')
-
             <!-- Sidebar -->
             @include('Admin.layoutApp.sidebar')
-
             <!-- Page Container -->
             <div class="page-container">
-
                 <!-- Main Content -->
                 <div class="main-content">
                     @yield('content')
                 </div>
-
                 <!-- Footer -->
                 @include('Admin.layoutApp.footer')
-
             </div>
         </div>
     </div>
@@ -115,10 +108,11 @@
     <script src="{{ asset('public/assets/datatables/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('public/assets/datatables/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script src="{{ asset('public') }}/assets/js/customJs/commonDatatable.js?v={{ time() }}"></script>
-    {{-- summernote --}}
+    <!-- summernote -->
     <script src="{{ asset('public/assets/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('public/assets/summernote/summernote-bs4.min.js') }}"></script>
-
+    <!-- color picker -->
+    <script src="{{ asset('public/assets/colorpicker/js/bootstrap-colorpicker.min.js') }}"></script>
     <!-- Routes for JS -->
     <script>
         window.routes = {
