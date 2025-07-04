@@ -1,28 +1,19 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <!-- Content Header -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">
-                        category
-                    </h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <a href="{{ route('madmin.categories.create') }}" class="btn btn-primary btn-sm mr-2"><i
-                                class="fa fa-plus"></i> &nbsp; Category</a>
-                        <a href="{{ route('madmin.regular.index') }}" class="btn btn-success btn-sm mr-2"><i
-                                class="fa fa-list"></i> &nbsp; Regular</a>
-                        <a href="{{ route('madmin.spacial.index') }}" class="btn btn-warning btn-sm"><i
-                                class="fa fa-list"></i> &nbsp; Special</a>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Category List'),
+        'parent' => __('Home'),
+        'child' => __('Sale'),
+        'button' => __('All Orders'),
+        'button_icon' => 'lni lni-cart',
+        'route' => '#',
+        'multipleBtn' => [
+            ['name' => 'Category', 'class' => 'btn-info', 'icon' => 'lni-plus', 'route' => route('madmin.categories.create')],
+            ['name' => 'Regular', 'class' => 'btn-dark', 'icon' => 'lni-text-align-justify', 'route' => route('madmin.regular.index')],
+            ['name' => 'Special', 'class' => 'btn-success', 'icon' => 'lni-text-align-justify', 'route' => route('madmin.spacial.index')],
+        ],
+    ])
 
     <!-- Main Content -->
     <section class="content">

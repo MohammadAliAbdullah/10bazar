@@ -5,7 +5,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>{{ $apps->site_title }}</title>
-
+    <!-- favicon -->
+    <link rel="icon" type="image/png" href="{{ isset($apps->favicon) ? asset($apps->favicon) : '' }}">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="{{ asset('public/assets/css/bootstrap.min.css') }}">
 
