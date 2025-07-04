@@ -4,26 +4,12 @@
         'page' => __('Attributes'),
         'parent' => __('Home'),
         'child' => __('Attribute'),
+        'button' => __('Add Attribute'),
+        'button_icon' => 'lni-plus',
+        'route' => route('madmin.brands.index'),
         'route' => route('madmin.attributes.create'),
     ])
     <!-- Content Header -->
-    {{-- <div class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">
-                        Attributes
-                    </h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <a href="{{ route('madmin.attributes.create') }}" class="btn btn-primary btn-sm mr-2"><i class="fa fa-plus"></i> &nbsp; Add Attribute</a>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
     <!-- Main Content -->
     <section class="content">
         <div class="container-fluid">
@@ -49,7 +35,8 @@
                                         <td>{{ $key + 1 }}</td>
                                         <td>{{ $value->name }}</td>
                                         <td>{{ $value->value }}</td>
-                                        <td>{{ $value->parent_id != 0 ? ($value->attribute_parent->name ?? 'N/A') : 'N/A' }}</td>
+                                        <td>{{ $value->parent_id != 0 ? $value->attribute_parent->name ?? 'N/A' : 'N/A' }}
+                                        </td>
                                         <td>{{ $value->created_at->diffForHumans() }}</td>
                                         <td>
                                             <div class="d-flex">
@@ -59,7 +46,8 @@
                                                 </a>
                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.attributes.destroy', $value->id]]) !!}
                                                 <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Are you sure you want to delete this?')"><i class="lni-trash"></i>
+                                                    onclick="return confirm('Are you sure you want to delete this?')"><i
+                                                        class="lni-trash"></i>
                                                 </button>
                                                 {!! Form::close() !!}
                                             </div>
