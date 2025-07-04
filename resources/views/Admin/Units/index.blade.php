@@ -5,6 +5,8 @@
         'page' => __('Add Unit'),
         'parent' => __('Home'),
         'child' => __('Unit'),
+        'button' => __('Add Unit'),
+        'button_icon' => 'lni-plus',
         'route' => route('madmin.units.create'),
     ])
     <!-- Content Header -->
