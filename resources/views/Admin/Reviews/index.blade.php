@@ -71,7 +71,7 @@
                                             <div class="row">
                                                     <a href="{{route('madmin.review_reply',$value->id)}}" class="btn btn-success m-1">{!! !empty($review_reply) ? '<i class="lni-pencil-alt"></i>': "Reply" !!} </a>
                                                     {!! Form::open(['method'=>'DELETE','route'=>['madmin.contacts.destroy',$value->id]]) !!}
-                                                    <button type="submit" value="Delete" class="btn btn-danger m-1" onclick="return confirm('Do you want to Delete')">X</button>
+                                                    <button type="submit" value="Delete" class="btn btn-danger m-1" onclick="return confirm('Do you want to Delete')"><i class="lni-trash"></i></button>
                                                     {!! Form::close() !!}
 
                                             </div>

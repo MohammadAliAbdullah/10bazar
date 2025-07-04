@@ -1,5 +1,5 @@
 <nobr>
-    <a href="{{ route('madmin.products.edit', $row->id) }}" class="btn btn-sm btn-info"><i class="fa fa-edit"></i></a>
+    <a href="{{ route('madmin.products.edit', $row->id) }}" class="btn btn-sm btn-info"><i class="lni-pencil-alt"></i></a>
     <form action="{{ route('madmin.products.destroy', $row->id) }}" method="POST" style="display:inline;">
         @csrf
         @method('DELETE')

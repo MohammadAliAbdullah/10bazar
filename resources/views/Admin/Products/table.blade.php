@@ -23,7 +23,7 @@
                 </a>
                 {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.products.destroy', $value->id]]) !!}
                 <button type="submit" value="Delete" class="btn btn-danger btn-sm"
-                    onclick="return confirm('Do you want to Delete')">X</button>
+                    onclick="return confirm('Do you want to Delete')"><i class="lni-trash"></i></button>
                 {!! Form::close() !!}
             </div>
         </td>

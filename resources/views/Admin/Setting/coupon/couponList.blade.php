@@ -52,7 +52,7 @@
                                         <td>{{ $row->is_active ? 'Active' : 'Inactive' }}</td>
                                         <td>
                                             <a href="{{ route('madmin.coupon.edit', $row->id) }}"
-                                                class="btn btn-sm btn-info"><i class="fa fa-edit"></i> Edit</a>
+                                                class="btn btn-sm btn-info"><i class="lni-pencil-alt"></i> Edit</a>
                                             <form action="{{ route('madmin.coupon.delete') }}" method="POST"
                                                 class="d-inline" onsubmit="return confirm('Delete this coupon?')">
                                                 @csrf

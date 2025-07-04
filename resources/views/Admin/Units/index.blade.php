@@ -63,8 +63,7 @@
                                                 </a>
                                                 {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.units.destroy', $value->id]]) !!}
                                                 <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Do you want to delete this unit?')">
-                                                    X
+                                                    onclick="return confirm('Do you want to delete this unit?')"><i class="lni-trash"></i>
                                                 </button>
                                                 {!! Form::close() !!}
                                             </div>

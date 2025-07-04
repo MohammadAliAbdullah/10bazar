@@ -42,7 +42,7 @@
                                         <td>{{ $row->created_at }}</td>
                                         <td>
                                             <a href="{{ route('madmin.coupon.type.edit', $row->id) }}"
-                                                class="btn btn-sm btn-info"><i class="fa fa-edit"></i>Edit</a>
+                                                class="btn btn-sm btn-info"><i class="lni-pencil-alt"></i>Edit</a>
                                             <form action="{{ route('madmin.coupon.type.delete') }}" method="POST"
                                                 class="d-inline" onsubmit="return confirm('Are you sure?')">
                                                 @csrf
