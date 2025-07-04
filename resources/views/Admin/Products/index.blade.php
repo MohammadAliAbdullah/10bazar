@@ -5,22 +5,10 @@
         'page' => __('Products'),
         'parent' => __('Home'),
         'child' => __('Products'),
+        'button' => __('Add Product'),
+        'button_icon' => 'lni lni-cart-full',
         'route' => route('madmin.products.create'),
     ])
-    {{-- <div class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Products</h1>
-                </div>
-                <div class="col-sm-6 text-right">
-                    <a href="{{ route('madmin.products.create') }}" class="btn btn-primary btn-sm">
-                        <i class="fa fa-plus"></i> Product
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div> --}}
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
@@ -57,5 +45,5 @@
     </section>
 @endsection
 @section('script')
-    <script src="{{ asset('public') }}/assets/js/customJs/productDataTable.js?v={{ time() }}"></script>
+    <script src="{{ asset('public') }}/assets/js/customJs/productDatatable.js?v={{ time() }}"></script>
 @endsection

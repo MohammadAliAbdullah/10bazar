@@ -57,33 +57,23 @@ var table = $("#productDataTable").DataTable({
         '<"row mt-3"<"col-md-5"i><"col-md-7"p>>',
     buttons: [{
         extend: 'copy',
-        text: '<i class="fas fa-copy"></i>',
+        text: '<i class="lni-clipboard"></i>',
         titleAttr: 'Copy'
     },
     {
         extend: 'csv',
-        text: '<i class="fas fa-file-csv"></i>',
+        text: '<i class="lni-files"></i>',
         titleAttr: 'Export CSV'
     },
     {
-        extend: 'excel',
-        text: '<i class="fas fa-file-excel"></i>',
-        titleAttr: 'Export Excel'
-    },
-    {
-        extend: 'pdf',
-        text: '<i class="fas fa-file-pdf"></i>',
-        titleAttr: 'Export PDF'
-    },
-    {
         extend: 'print',
-        text: '<i class="fas fa-print"></i>',
+        text: '<i class="lni lni-printer"></i>',
         titleAttr: 'Print'
     },
     {
         extend: 'colvis',
-        text: '<i class="fas fa-columns"></i>',
+        text: '<i class="lni lni-cog"></i>',
         titleAttr: 'Column Visibility'
     }
-    ]
+    ],
 });
