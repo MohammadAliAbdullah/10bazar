@@ -2,10 +2,12 @@
 
 @section('content')
     @include('Admin.include.breadcrumb', [
-        'page' => __('Edit Banner'),
+        'page' => __('Add Banner'),
         'parent' => __('Home'),
         'child' => __('Banner'),
-        'route' => url('slide'),
+        'button' => __('Banner List'),
+        'button_icon' => 'lni lni-list',
+        'route' => route('madmin.banners.index'),
     ])
     <!-- Content Header (Page header) -->
     {{-- <div class="content-header">
@@ -34,7 +36,12 @@
                     <div class="card card-info">
                         @include('Admin.include.message')
                         <!-- form start -->
-                        {!! Form::model($banner, ['method'=>'PATCH','route'=>['madmin.banners.update', $banner->id],'class'=>'form-horizontal', 'files'=>true]) !!}
+                        {!! Form::model($banner, [
+                            'method' => 'PATCH',
+                            'route' => ['madmin.banners.update', $banner->id],
+                            'class' => 'form-horizontal',
+                            'files' => true,
+                        ]) !!}
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-6">
@@ -42,40 +49,48 @@
                                     <div class="form-group row ">
                                         {!! Form::label('name', 'Type', ['class' => 'col-sm-4 col-form-label']) !!}
                                         <div class="col-sm-8">
-                                            {!! Form::select('type', ['Adsense' => 'Adsense','Image' => 'Image'],null,['class'=>'type form-control','id'=>'receiver','required']); !!}
+                                            {!! Form::select('type', ['Adsense' => 'Adsense', 'Image' => 'Image'], null, [
+                                                'class' => 'type form-control',
+                                                'id' => 'receiver',
+                                                'required',
+                                            ]) !!}
                                         </div>
                                     </div>
 
                                     <div class="form-group row position">
                                         {!! Form::label('name', 'Banner Position', ['class' => 'col-sm-4 col-form-label']) !!}
                                         <div class="col-sm-8">
-                                            {!! Form::text('position', null, ['class'=>'form-control','id'=>'receiver','required']) !!}
+                                            {!! Form::text('position', null, ['class' => 'form-control', 'id' => 'receiver', 'required']) !!}
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         {!! Form::label('name', 'URL', ['class' => 'col-sm-4 col-form-label']) !!}
                                         <div class="col-sm-8">
-                                            {!! Form::text('url', null, ['class'=>'form-control','id'=>'receiver','required']) !!}
+                                            {!! Form::text('url', null, ['class' => 'form-control', 'id' => 'receiver', 'required']) !!}
                                         </div>
                                     </div>
 
-                                    
+
 
                                     <div class="form-group row">
                                         {!! Form::label('name', 'Status', ['class' => 'col-sm-4 col-form-label']) !!}
                                         <div class="col-sm-8">
-                                            {!! Form::select('status', ['Active' => 'Active','Pending' => 'Pending'],null,['class'=>'form-control','id'=>'receiver','required']); !!}
+                                            {!! Form::select('status', ['Active' => 'Active', 'Pending' => 'Pending'], null, [
+                                                'class' => 'form-control',
+                                                'id' => 'receiver',
+                                                'required',
+                                            ]) !!}
                                         </div>
                                     </div>
 
                                 </div>
-                                
+
                             </div>
                         </div>
                         <div class="card-footer">
                             <button type="submit" class="btn btn-info">Submit</button>
-                            <button  onclick="window.history.back()" class="btn btn-default float-right">Cancel</button>
+                            <button onclick="window.history.back()" class="btn btn-default float-right">Cancel</button>
                         </div>
                         {!! Form::close() !!}
                     </div>
@@ -87,40 +102,39 @@
     <!-- /.content -->
 @endsection
 @section('script')
-<script type="text/javascript">
-        
-    var image = '<div class="form-group row image_ban">\
-                                        {!! Form::label("name", "Image", ["class" => "col-sm-4 col-form-label"]) !!}\
-                                        <div class="col-sm-8">\
-                                            {!! Form::file("images", ["class"=>"form-control","id"=>"receiver","required"]) !!}\
-                                        </div>\
-                                    </div>';
-    var code = '<div class="form-group row code">\
-                                        {!! Form::label("name", "Code", ["class" => "col-sm-4 col-form-label"]) !!}\
-                                        <div class="col-sm-8">\
-                                            {!! Form::textarea("code", null, ["class"=>"form-control","id"=>"receiver", "required", "rows" => 3]) !!}\
-                                        </div>\
-                                    </div>';
+    <script type="text/javascript">
+        var image = '<div class="form-group row image_ban">\
+                                            {!! Form::label('name', 'Image', ['class' => 'col-sm-4 col-form-label']) !!}\
+                                            <div class="col-sm-8">\
+                                                {!! Form::file('images', ['class' => 'form-control', 'id' => 'receiver', 'required']) !!}\
+                                            </div>\
+                                        </div>';
+        var code = '<div class="form-group row code">\
+                                            {!! Form::label('name', 'Code', ['class' => 'col-sm-4 col-form-label']) !!}\
+                                            <div class="col-sm-8">\
+                                                {!! Form::textarea('code', null, ['class' => 'form-control', 'id' => 'receiver', 'required', 'rows' => 3]) !!}\
+                                            </div>\
+                                        </div>';
 
-    $(document).ready(function(){
-        $('.type').change(function(){
-            if (this.value == 'Adsense') {
-                var position = $('.position');
-                var code_section = $('.image_ban');
-                if (code_section.length > 0) {
-                    code_section.remove()
+        $(document).ready(function() {
+            $('.type').change(function() {
+                if (this.value == 'Adsense') {
+                    var position = $('.position');
+                    var code_section = $('.image_ban');
+                    if (code_section.length > 0) {
+                        code_section.remove()
+                    }
+                    position.after(code);
                 }
-                position.after(code);
-            }
-            if (this.value == 'Image') {
-                var position = $('.position');
-                var image_ban_section = $('.code');
-                if (image_ban_section.length > 0) {
-                    image_ban_section.remove();
+                if (this.value == 'Image') {
+                    var position = $('.position');
+                    var image_ban_section = $('.code');
+                    if (image_ban_section.length > 0) {
+                        image_ban_section.remove();
+                    }
+                    position.after(image);
                 }
-                position.after(image);
-            }
-        });          
-    });
-</script>
+            });
+        });
+    </script>
 @endsection

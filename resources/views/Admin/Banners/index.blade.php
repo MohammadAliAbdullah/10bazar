@@ -5,97 +5,87 @@
         'page' => __('Banner'),
         'parent' => __('Home'),
         'child' => __('Banner'),
+        'button' => __('Add Banner'),
+        'button_icon' => 'lni lni-plus',
         'route' => route('madmin.banners.create'),
     ])
-    <!-- Content Header (Page header) -->
-    {{-- <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Banner
-                        <a href="{{ route('madmin.banners.create') }}" class="btn btn-primary">Banner Add</a>
-                    </h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Banner</a></li>
-                        <li class="breadcrumb-item active">Banner add</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div> --}}
-    <!-- /.content-header -->
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                    {{--                        <div class="card-header">--}}
-                    {{--                            <h3 class="card-title">Condensed Full Width Table</h3>--}}
-                    {{--                        </div>--}}
-                    <!-- /.card-header -->
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    @include('Admin.include.message')
 
-                        @include('Admin.include.message')
-                        <div class="card-body p-0">
-                            <table class="table table-bordered">
-                                <tbody>
+                    <div class="card-body p-0">
+                        <table class="table table-bordered table-hover mb-0">
+                            <thead class="custom-thead">
                                 <tr>
                                     <th>SI</th>
                                     <th>Position</th>
                                     <th>URL</th>
-                                    <th>Images</th>
+                                    <th>Image</th>
                                     <th>Code</th>
                                     <th>Type</th>
                                     <th>Status</th>
                                     <th>Date</th>
-                                    <th>Action</th>
+                                    <th width="130">Action</th>
                                 </tr>
-                                @foreach($banners as $value)
+                            </thead>
+                            <tbody>
+                                @forelse($banners as $value)
                                     <tr>
                                         <td>{{ $value->id }}</td>
                                         <td>{{ $value->position }}</td>
+                                        <td>{{ $value->url }}</td>
                                         <td>
-                                            {{ $value->url }}
-                                        </td>
-                                        <td>
-                                            <img src="{{ asset('public/images/banners/'.$value->images) }}" width="80px" height="60px">
+                                            <img src="{{ asset('public/images/banners/'.$value->images) }}" 
+                                                 alt="Banner {{ $value->id }}" width="80" height="60">
                                         </td>
                                         <td>{{ $value->code }}</td>
                                         <td>{{ $value->type }}</td>
-                                        <td>{{ $value->status }}</td>
-                                        <td>{{ $value->created_at->diffForHumans() }} </td>
-
                                         <td>
-                                            <div class="row">
-                                                    <a href="{{route('madmin.banners.edit',$value->id)}}" class="btn btn-success m-1"><i class="lni-pencil-alt"></i> </a>
-{{--                                                    {!! Form::open(['method'=>'DELETE','route'=>['madmin.banners.destroy',$value->id]]) !!}--}}
-{{--                                                    <button type="submit" value="Delete" class="btn btn-danger m-1" onclick="return confirm('Do you want to Delete')"><i class="lni-trash"></i></button>--}}
-{{--                                                    {!! Form::close() !!}--}}
-
+                                            @if($value->status == 'Active')
+                                                <span class="badge badge-success">Active</span>
+                                            @elseif($value->status == 'Pending')
+                                                <span class="badge badge-warning">Pending</span>
+                                            @else
+                                                <span class="badge badge-secondary">{{ $value->status }}</span>
+                                            @endif
+                                        </td>
+                                        <td>{{ $value->created_at->diffForHumans() }}</td>
+                                        <td>
+                                            <div class="btn-group" role="group" aria-label="Actions">
+                                                <a href="{{ route('madmin.banners.edit', $value->id) }}" 
+                                                   class="btn btn-sm btn-success" title="Edit">
+                                                    <i class="lni-pencil-alt"></i>
+                                                </a>
+                                                {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.banners.destroy', $value->id], 'style' => 'display:inline']) !!}
+                                                    <button type="submit" 
+                                                            class="btn btn-sm btn-danger" 
+                                                            onclick="return confirm('Are you sure to delete this banner?')"
+                                                            title="Delete">
+                                                        <i class="lni-trash"></i>
+                                                    </button>
+                                                {!! Form::close() !!}
                                             </div>
                                         </td>
                                     </tr>
-                                @endforeach
-
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <!-- /.card-body -->
+                                @empty
+                                    <tr>
+                                        <td colspan="9" class="text-center">No banners found.</td>
+                                    </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-md-2 m-0 float-right">
-                            {{ $banners->render() }}
+
+                    <div class="card-footer clearfix">
+                        <div class="float-right">
+                            {{ $banners->links() }}
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+        </div>
+    </div>
 @endsection
