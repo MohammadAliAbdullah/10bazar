@@ -27,6 +27,10 @@
     <link rel="stylesheet"
         href="{{ asset('public/assets/datatables/datatables-buttons/css/buttons.bootstrap4.min.css') }}">
 
+    {{-- extra --}}
+    {{-- <link rel="stylesheet" href="{{ asset('public/admin/plugins/summernote/summernote-bs4.min.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('public/assets/summernote/summernote-bs4.min.css') }}">
+
     <style>
         #dataTable_wrapper .dt-buttons .btn,
         #dataTable_wrapper .dt-buttons button,
@@ -110,6 +114,10 @@
     <script src="{{ asset('public/assets/datatables/datatables-buttons/js/buttons.print.min.js') }}"></script>
     <script src="{{ asset('public/assets/datatables/datatables-buttons/js/buttons.colVis.min.js') }}"></script>
     <script src="{{ asset('public') }}/assets/js/customJs/commonDatatable.js?v={{ time() }}"></script>
+    {{-- summernote --}}
+    <script src="{{ asset('public/assets/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ asset('public/assets/summernote/summernote-bs4.min.js') }}"></script>
+
     <!-- Routes for JS -->
     <script>
         window.routes = {
