@@ -5,7 +5,7 @@
         'page' => __('Dashboard'),
         'parent' => __('Home'),
         'child' => __('Dashboard'),
-        'route' => '',
+        'route' => '#',
     ])
 
     <!-- Main content -->
@@ -441,28 +441,8 @@
                 </ul>
             </div>
         </div>
-
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     {{-- main content --}}
-
 @endsection
 @section('script')
     <script>
@@ -484,14 +464,22 @@
         // Initialize the Morris Donut chart
         new Morris.Donut({
             element: 'morris-donut-example',
-            data: [
-                { label: "Marketplace", value: 3654 },
-                { label: "On Site", value: 954 },
-                { label: "Others", value: 262 }
+            data: [{
+                    label: "Marketplace",
+                    value: 3654
+                },
+                {
+                    label: "On Site",
+                    value: 954
+                },
+                {
+                    label: "Others",
+                    value: 262
+                }
             ],
             colors: ['#007bff', '#e22a6f', '#6f42c1'],
             resize: true
-        }); 
+        });
 
         // Initialize the Chart.js bar chart
     </script>

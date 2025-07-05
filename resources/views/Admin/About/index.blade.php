@@ -5,45 +5,21 @@
         'page' => __('About Us'),
         'parent' => __('Home'),
         'child' => __('About'),
-        'route' => '',
+        'button' => __('Add About'),
+        'button_icon' => 'lni lni-plus',
+        'route' => '#',
     ])
-
-    <!-- Content Header (Page header) -->
-    {{-- <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">About Us
-                        <!-- <a href="{{ route('madmin.categories.create') }}" class="btn btn-primary">Category Add</a> -->
-                    </h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">About us</a></li>
-                        <li class="breadcrumb-item active">About</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div> --}}
-    <!-- /.content-header -->
-
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-12">
                     <div class="card">
-                        {{--                        <div class="card-header"> --}}
-                        {{--                            <h3 class="card-title">Condensed Full Width Table</h3> --}}
-                        {{--                        </div> --}}
-                        <!-- /.card-header -->
 
                         @include('Admin.include.message')
                         <div class="card-body p-0">
                             <table class="table table-bordered">
-                                <tbody>
+                                <thead class="custom-thead">
                                     <tr>
                                         <th>about_title</th>
                                         <th>content</th>
@@ -53,6 +29,8 @@
                                         <th>Date</th>
                                         <th>Action</th>
                                     </tr>
+                                </thead>
+                                <tbody>
                                     @foreach ($categories as $value)
                                         <tr>
                                             <td>{{ $value->about_title }}</td>
@@ -79,14 +57,13 @@
 
                                 </tbody>
                             </table>
-
+                        </div>
+                        <div class="card-footer clearfix">
+                            <div class="float-right">
+                                {{ $categories->render() }}
+                            </div>
                         </div>
                         <!-- /.card-body -->
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-md-2 m-0 float-right">
-                            {{ $categories->render() }}
-                        </div>
                     </div>
                 </div>
             </div>

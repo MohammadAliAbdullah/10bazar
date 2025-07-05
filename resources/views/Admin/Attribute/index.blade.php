@@ -57,7 +57,11 @@
                             </tbody>
                         </table>
                     </div>
-
+                    <div class="card-footer clearfix">
+                        <div class="float-right">
+                            {{ $attributes->render() }}
+                        </div>
+                    </div>
                     {{-- Optional: Pagination --}}
                     {{-- <div class="row">
                         <div class="col-md-6 offset-md-2 m-0 float-right">
