@@ -1,42 +1,44 @@
 @extends('Admin.layoutApp.app')
+
 @section('content')
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">
-                        <h3>{{ $couponType ? 'Edit' : 'Add' }} Coupon Type</h3>
-                    </h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item">
-                            <span>{{ $couponType ? 'Edit' : 'Add' }}</span>
-                        </li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Breadcrumb --}}
+    @include('Admin.include.breadcrumb', [
+        'page' => $couponType ? __('Edit Coupon Type') : __('Add Coupon Type'),
+        'parent' => __('Setting'),
+        'child' => __('Coupon Types'),
+        'button' => $couponType ? __('List Coupon Types') : __('Add Coupon Type'),
+        'button_icon' => 'lni lni-list',
+        'route' => route('madmin.coupon.type.list'),
+    ])
+
     <section class="content">
         <div class="container-fluid">
             <div class="card shadow-sm">
                 @include('Admin.include.message')
+
                 <form
                     action="{{ $couponType ? route('madmin.coupon.type.update', $couponType->id) : route('madmin.coupon.type.store') }}"
                     method="POST" class="p-3 form-horizontal">
                     @csrf
+                    @if($couponType)
+                        @method('POST')
+                    @endif
+
                     <div class="form-group">
-                        <label>Type Name</label>
-                        <input type="text" name="name" value="{{ old('name', $couponType->name ?? '') }}"
+                        <label for="name">Type Name <span class="text-danger">*</span></label>
+                        <input id="name" type="text" name="name" value="{{ old('name', $couponType->name ?? '') }}"
                             class="form-control" required>
                     </div>
+
                     <div class="form-group form-check">
-                        <input type="checkbox" name="is_active" class="form-check-input"
-                            {{ isset($couponType) && $couponType->is_active ? 'checked' : '' }}>
-                        <label class="form-check-label">Active</label>
+                        <input id="is_active" type="checkbox" name="is_active" class="form-check-input"
+                            {{ old('is_active', $couponType->is_active ?? false) ? 'checked' : '' }}>
+                        <label for="is_active" class="form-check-label">Active</label>
                     </div>
-                    <button type="submit" class="btn btn-success">{{ $couponType ? 'Update' : 'Save' }}</button>
+
+                    <button type="submit" class="btn btn-{{ $couponType ? 'success' : 'primary' }}">
+                        {{ $couponType ? __('Update') : __('Save') }}
+                    </button>
                 </form>
             </div>
         </div>

@@ -1,21 +1,13 @@
 @extends('Admin.layoutApp.app')
 @section('content')
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Coupon List</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <a href="{{ route('madmin.coupon.add') }}" class="btn btn-primary btn-sm">
-                            <i class="fa fa-plus"></i> Add Coupon
-                        </a>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+    @include('Admin.include.breadcrumb', [
+        'page' => 'Coupon List',
+        'parent' => 'Home',
+        'child' => 'Coupons',
+        'button' => 'Add Coupon',
+        'button_icon' => 'fa fa-plus',
+        'route' => route('madmin.coupon.add'),
+    ])
     <section class="content">
         <div class="container-fluid">
             <div class="card">
@@ -52,12 +44,12 @@
                                         <td>{{ $row->is_active ? 'Active' : 'Inactive' }}</td>
                                         <td>
                                             <a href="{{ route('madmin.coupon.edit', $row->id) }}"
-                                                class="btn btn-sm btn-info"><i class="lni-pencil-alt"></i> Edit</a>
+                                                class="btn btn-sm btn-info"><i class="lni-pencil-alt"></i></a>
                                             <form action="{{ route('madmin.coupon.delete') }}" method="POST"
                                                 class="d-inline" onsubmit="return confirm('Delete this coupon?')">
                                                 @csrf
                                                 <input type="hidden" name="id" value="{{ $row->id }}">
-                                                <button class="btn btn-sm btn-danger"><i class="lni-trash"></i> Delete</button>
+                                                <button class="btn btn-sm btn-danger"><i class="lni-trash"></i></button>
                                             </form>
                                         </td>
                                     </tr>
