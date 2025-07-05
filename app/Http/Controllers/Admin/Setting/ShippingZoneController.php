@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ShippingZone;
+use Illuminate\Support\Facades\Session; // Import Session for flash messages
 
 class ShippingZoneController extends Controller
 {
@@ -22,6 +23,7 @@ class ShippingZoneController extends Controller
     public function store(Request $request)
     {
         ShippingZone::create($request->all());
+        Session::flash('status', 'Shipping Zone created successfully!');
         return redirect()->route('madmin.shipping-zones.index')->with('success', 'Shipping Zone created successfully.');
     }
 
@@ -38,6 +40,7 @@ class ShippingZoneController extends Controller
     public function update(Request $request, ShippingZone $shippingZone)
     {
         $shippingZone->update($request->all());
+        Session::flash('status', 'Shipping Zone updated successfully!');
         return redirect()->route('madmin.shipping-zones.index')->with('success', 'Shipping Zone updated successfully.');
     }
 

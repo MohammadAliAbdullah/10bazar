@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\State;
+use Illuminate\Support\Facades\Session;
 
 class StateController extends Controller
 {
@@ -22,6 +23,7 @@ class StateController extends Controller
     public function store(Request $request)
     {
         State::create($request->all());
+        Session::flash('status', 'State created successfully!');
         return redirect()->route('madmin.states.index')->with('success', 'State created successfully.');
     }
 
@@ -38,6 +40,7 @@ class StateController extends Controller
     public function update(Request $request, State $state)
     {
         $state->update($request->all());
+        Session::flash('status', 'State updated successfully!');
         return redirect()->route('madmin.states.index')->with('success', 'State updated successfully.');
     }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ShippingMethod;
+use Illuminate\Support\Facades\Session;
 
 class ShippingMethodController extends Controller
 {
@@ -24,6 +25,7 @@ class ShippingMethodController extends Controller
     public function store(Request $request)
     {
         ShippingMethod::create($request->all());
+        Session::flash('status', 'Shipping Method created successfully!');
         return redirect()->route('madmin.shipping-methods.index')->with('success', 'Shipping Method created successfully.');
     }
 
@@ -41,6 +43,7 @@ class ShippingMethodController extends Controller
     public function update(Request $request, ShippingMethod $shippingMethod)
     {
         $shippingMethod->update($request->all());
+        Session::flash('status', 'Shipping Method updated successfully!');
         return redirect()->route('madmin.shipping-methods.index')->with('success', 'Shipping Method updated successfully.');
     }
 
