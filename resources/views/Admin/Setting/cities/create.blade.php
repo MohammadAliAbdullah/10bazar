@@ -1,21 +1,15 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Create City</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('madmin.cities.index') }}">Cities</a></li>
-                        <li class="breadcrumb-item active">Create</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Breadcrumb --}}
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Add City'),
+        'parent' => __('Setting'),
+        'child' => __('Cities'),        
+        'route' => route('madmin.cities.index'),
+        'button' => __('Back to List'),
+        'button_icon' => 'lni lni-arrow-left',
+    ])
 
     <section class="content">
         <div class="container-fluid">
