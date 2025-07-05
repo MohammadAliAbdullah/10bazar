@@ -5,101 +5,84 @@
         'page' => __('Faqs'),
         'parent' => __('Home'),
         'child' => __('Faqs'),
+        'button' => __('Add Faq'),
+        'button_icon' => 'lni lni-plus',
         'route' => route('madmin.faqs.create'),
     ])
-    <!-- Content Header (Page header) -->
-    {{-- <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Faqs
-                        <a href="{{ route('madmin.faqs.create') }}" class="btn btn-primary">Faqs Add</a>
-                    </h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Faqs</a></li>
-                        <li class="breadcrumb-item active">Faqs add</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div> --}}
-    <!-- /.content-header -->
 
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-12">
                     <div class="card">
-                    {{--                        <div class="card-header">--}}
-                    {{--                            <h3 class="card-title">Condensed Full Width Table</h3>--}}
-                    {{--                        </div>--}}
-                    <!-- /.card-header -->
 
                         @include('Admin.include.message')
+
                         <div class="card-body p-0">
-                            <table class="table table-bordered">
-                                <tbody>
-                                <tr>
-                                    <th>SI</th>
-                                    <th>Title</th>
-                                    <th>Content</th>
-                                    <th>Orders</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                    <th width="130">Action</th>
-                                </tr>
-                                @foreach($faqs as $value)
-                                    <tr>
-                                        <td>{{ $value->id }}</td>
-                                        <td>{{ $value->title }}</td>
-                                        <td>
-                                            {{ Str::limit($value->content, 200) }}
-                                        </td>
-                                        <td>{{ $value->orders }}</td>
-                                        <td>
-                                            @if($value->status=='Pending')
-                                                <span class="bg bg-danger p-2 rounded">
-                                                    {{ $value->status }}
-                                                </span>
-                                            @else
-                                                <span class="bg bg-success p-2 rounded">
-                                                    {{ $value->status }}
-                                                </span>
-                                            @endif
-                                        </td>
-                                        <td>{{ $value->created_at->diffForHumans() }} </td>
-
-                                        <td>
-                                            <div class="row">
-                                                    <a href="{{route('madmin.faqs.edit',$value->id)}}" class="btn btn-success m-1"><i class="lni-pencil-alt"></i> </a>
-                                                    {!! Form::open(['method'=>'DELETE','route'=>['madmin.faqs.destroy',$value->id]]) !!}
-                                                    <button type="submit" value="Delete" class="btn btn-danger m-1" onclick="return confirm('Do you want to Delete')"><i class="lni-trash"></i></button>
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-hover mb-0">
+                                    <thead class="custom-thead">
+                                        <tr>
+                                            <th>SI</th>
+                                            <th>Title</th>
+                                            <th class="d-none d-md-table-cell">Content</th> <!-- Hide on mobile -->
+                                            <th>Orders</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th class="text-nowrap" width="130">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($faqs as $value)
+                                            <tr>
+                                                <td>{{ $loop->iteration }}</td>
+                                                <td>{{ $value->title }}</td>
+                                                <td class="d-none d-md-table-cell">
+                                                    {{ Str::limit(strip_tags($value->content), 200) }}</td>
+                                                <!-- Hide on mobile -->
+                                                <td>{{ $value->orders }}</td>
+                                                <td>
+                                                    @if ($value->status == 'Pending')
+                                                        <span
+                                                            class="bg-danger text-white px-2 py-1 rounded">{{ $value->status }}</span>
+                                                    @else
+                                                        <span
+                                                            class="bg-success text-white px-2 py-1 rounded">{{ $value->status }}</span>
+                                                    @endif
+                                                </td>
+                                                <td>{{ $value->created_at->diffForHumans() }}</td>
+                                                <td class="text-nowrap">
+                                                    <a href="{{ route('madmin.faqs.edit', $value->id) }}"
+                                                        class="btn btn-success btn-sm m-1">
+                                                        <i class="lni-pencil-alt"></i>
+                                                    </a>
+                                                    {!! Form::open([
+                                                        'method' => 'DELETE',
+                                                        'route' => ['madmin.faqs.destroy', $value->id],
+                                                        'style' => 'display:inline',
+                                                    ]) !!}
+                                                    <button type="submit" class="btn btn-danger btn-sm m-1"
+                                                        onclick="return confirm('Do you want to Delete?')">
+                                                        <i class="lni-trash"></i>
+                                                    </button>
                                                     {!! Form::close() !!}
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                                </tbody>
-                            </table>
-
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-md-2 m-0 float-right">
-                            {{ $faqs->render() }}
+
+                        <div class="card-footer clearfix">
+                            <div class="float-right">
+                                {{ $faqs->links() }}
+                            </div>
                         </div>
-                    </div>
+
+                    </div> <!-- /.card -->
                 </div>
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
-    <!-- /.content -->
 @endsection
