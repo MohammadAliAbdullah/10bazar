@@ -1,23 +1,16 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Shipping Zones</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <a href="{{ route('madmin.shipping-zones.create') }}" class="btn btn-primary btn-sm mr-2">
-                            <i class="fa fa-plus"></i> Add Shipping Zone
-                        </a>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-
+    {{-- Breadcrumb --}}
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Shipping Zones'),
+        'parent' => __('Setting'),
+        'child' => __('Shipping Zones'),
+        'button' => __('Add Shipping Zone'),
+        'button_icon' => 'lni lni-plus',
+        'route' => route('madmin.shipping-zones.create'),
+    ])
+    
     <section class="content">
         <div class="container-fluid">
             @include('Admin.include.message')
@@ -25,7 +18,7 @@
             <div class="card">
                 <div class="card-body">
                     <table class="table table-bordered">
-                        <thead>
+                        <thead class="custom-thead">
                             <tr>
                                 <th>ID</th>
                                 <th>Name</th>

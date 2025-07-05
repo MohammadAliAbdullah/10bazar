@@ -1,21 +1,15 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Edit Shipping Zone</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ route('madmin.shipping-zones.index') }}">Shipping Zones</a></li>
-                        <li class="breadcrumb-item active">Edit</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Breadcrumb --}}
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Edit Shipping Zone'),
+        'parent' => __('Setting'),
+        'child' => __('Shipping Zones'),
+        'button' => __('Back to List'),
+        'button_icon' => 'lni lni-arrow-left',
+        'route' => route('madmin.shipping-zones.index'),
+    ])
 
     <section class="content">
         <div class="container-fluid">
