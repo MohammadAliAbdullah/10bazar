@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
- use Illuminate\Support\Facades\Auth; // make sure to import Auth
- 
+use Illuminate\Support\Facades\Auth; // make sure to import Auth
+
 class CouponController extends Controller
 {
     public function __construct()
@@ -104,24 +104,32 @@ class CouponController extends Controller
             'coupon_code' => 'required|max:250|unique:cs_coupons,coupon_code,' . ($id ?? 'NULL') . ',id',
             'discount_percent' => 'required|numeric',
             'qty' => 'required|integer',
-            'usedQty' => 'required|integer',
             'date_from' => 'required|date',
             'date_to' => 'required|date|after_or_equal:date_from',
             'coupon_type_id' => 'required|integer',
         ];
+
         $data = $request->validate($rules);
+
+        // Set is_active flag (1 if present, else 0)
         $data['is_active'] = $request->has('is_active') ? 1 : 0;
 
+        // Initialize usedQty to 0 if not provided (important to avoid SQL error)
+        $data['usedQty'] = 0;
+
         if ($id) {
+            // Update existing coupon
             DB::table('cs_coupons')->where('id', $id)->update($data);
             Session::flash('status', 'Coupon updated successfully');
         } else {
+            // Insert new coupon
             DB::table('cs_coupons')->insert($data);
             Session::flash('status', 'Coupon created successfully');
         }
 
         return redirect()->route('madmin.coupon.list');
     }
+
     public function couponDelete(Request $request)
     {
         $couponId = $request->id;

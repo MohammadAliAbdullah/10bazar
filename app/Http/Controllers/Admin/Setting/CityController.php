@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Setting;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\City;
+use Illuminate\Support\Facades\Session; // Import Session for flash messages
 
 class CityController extends Controller
 {
@@ -23,6 +24,7 @@ class CityController extends Controller
     public function store(Request $request)
     {
         City::create($request->all());
+        Session::flash('status', 'City created successfully!');
         return redirect()->route('madmin.cities.index')->with('success', 'City created successfully.');
     }
 
@@ -40,6 +42,7 @@ class CityController extends Controller
     public function update(Request $request, City $city)
     {
         $city->update($request->all());
+        Session::flash('status', 'City updated successfully!');
         return redirect()->route('madmin.cities.index')->with('success', 'City updated successfully.');
     }
 

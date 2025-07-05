@@ -16,8 +16,11 @@ class SeoConfigsController extends Controller
      */
     public function index()
     {
-        $data['configs'] = SeoConfig::paginate(10);
-        return view("Admin.Setting.seo.index", $data);
+        // $data['configs'] = SeoConfig::paginate(10);
+        // return view("Admin.Setting.seo.index", $data);
+         $id = SeoConfig ::first()->id ?? null;
+        $config = SeoConfig::findOrFail($id);
+        return view("Admin.Setting.seo.edit", compact("config"));
     }
 
     /**
@@ -40,7 +43,7 @@ class SeoConfigsController extends Controller
     {
         SeoConfig::create($request->all());
 
-        Session::flash('status','Your config has been sucessfully add');
+        Session::flash('status', 'Your config has been sucessfully add');
         return redirect()->route('madmin.seoconfigs.index');
     }
 
@@ -78,7 +81,7 @@ class SeoConfigsController extends Controller
     {
         $config = SeoConfig::findOrFail($id);
         $config->update($request->all());
-        Session::flash('status','Your config has been sucessfully update');
+        Session::flash('status', 'Your config has been sucessfully update');
         return redirect()->route('madmin.seoconfigs.index');
     }
 

@@ -232,7 +232,7 @@ class SettingController extends Controller
 
     public function editPaymentSetup($id)
     {
-        $edit = PaymentSetup::findOrFail($id);
+        $data['edit'] = PaymentSetup::findOrFail($id);
         $data['setups'] = PaymentSetup::with('paymentMethod')->latest()->get();
         $data['methods'] = PaymentMethod::where('is_active', 1)->get();
         $data['currencies'] = Currency::all();
@@ -242,7 +242,7 @@ class SettingController extends Controller
     public function updatePaymentSetup(Request $request, $id)
     {
         $request->validate([
-            'payment_method_id' => 'required|exists:payment_methods,id',
+            'payment_method_id' => 'required',
             'marchantid'        => 'nullable|string|max:255',
             'password'          => 'required|string|max:120',
             'email'             => 'required|email|max:100',
@@ -257,7 +257,7 @@ class SettingController extends Controller
 
         PaymentSetup::findOrFail($id)->update($request->all());
         Session::flash('status', 'Payment setup updated successfully!');
-        return redirect()->route('madmin.paymentsetup.create')->with('success', 'Payment setup updated.');
+        return redirect()->route('madmin.paymentsetup.index')->with('success', 'Payment setup updated.');
     }
 
     public function destroyPaymentSetup($id)
