@@ -5,175 +5,121 @@
         'page' => __('All Sale'),
         'parent' => __('Home'),
         'child' => __('Sale'),
-        'route' => '',
+        'button' => null, // No add button here, but you can add if needed
+        'route' => '#',
     ])
-    <!-- Content Header (Page header) -->
-    {{-- <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">All Sale
-                        <!--<a href="{{ route('madmin.local-sale.create') }}" class="btn btn-primary">All Sale Add</a> -->
-                    </h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">All Sale</a></li>
-                        <li class="breadcrumb-item active">All Sale add</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div> --}}
-    <!-- /.content-header -->
 
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            {!! Form::open(['method'=>'GET','route'=>'madmin.sales.reports']) !!}
-                            <div class="row">
-                                <div class="col-md-4">
-                                    {!! Form::date('start', null, ['class'=>'form-control','id'=>'receiver','required']) !!}
-                                </div>
-                                <div class="col-md-4">
-                                    {!! Form::date('end', null, ['class'=>'form-control','id'=>'receiver','required']) !!}
-                                </div>
-                                <div class="col-md-4">
-                                    <button type="submit" class="btn btn-info">Search</button>
-                                    <a href="{{ route('madmin.sales.reports') }}" class="btn btn-danger">Reset</a>
-                                </div>
+                            {!! Form::open(['method' => 'GET', 'route' => 'madmin.sales.reports', 'class' => 'row g-2 align-items-center']) !!}
+                            <div class="col-md-4">
+                                {!! Form::date('start', request('start'), ['class' => 'form-control', 'required']) !!}
+                            </div>
+                            <div class="col-md-4">
+                                {!! Form::date('end', request('end'), ['class' => 'form-control', 'required']) !!}
+                            </div>
+                            <div class="col-md-4 d-flex gap-2">
+                                <button type="submit" class="btn btn-info">Search</button>
+                                <a href="{{ route('madmin.sales.reports') }}" class="btn btn-danger">Reset</a>
                             </div>
                             {!! Form::close() !!}
-                        </div>
-                        <!-- /.card-header -->
-                    </div>
-                        <div class="row">
-                            <!-- ./col -->
-                            <div class="col-lg-3 col-6">
-                                <!-- small box -->
-                                <div class="small-box bg-warning">
-                                    <div class="inner">
-                                        <h3>{{ $amount }} Tk</h3>
-
-                                        <p>Total Amount</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="fa fa-dollar-sign"></i>
-                                    </div>
-
-                                </div>
-                            </div>
-                            <!-- ./col -->
-                            <div class="col-lg-3 col-6">
-                                <!-- small box -->
-                                <div class="small-box bg-danger">
-                                    <div class="inner">
-                                        <h3>{{ $qty }}</h3>
-
-                                        <p>Total Order</p>
-                                    </div>
-                                    <div class="icon">
-                                        <i class="ion ion-pie-graph"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- ./col -->
-                        </div>
-
-                        @include('Admin.include.message')
-                    <div class="card">
-                        <div class="card-body p-0">
-                            <table class="table table-bordered table-responsive">
-                                <tbody>
-                                <tr>
-                                    <th>SI</th>
-                                    <th>Invoice</th>
-                                    <th width="20%">Customer Information</th>
-                                    <th width="30%">Product</th>
-                                    <th>Order Details</th>
-                                    <th>Date</th>
-                                    <th class="10%">Action</th>
-                                </tr>
-                                @foreach($orders as $value)
-                                    <tr>
-                                        <td>{{ $value->id }}</td>
-                                        <td>{{ $value->invoice_no }}</td>
-                                        <td>
-                                            <b>Name:</b> {{ $value->customer->name }} </br>
-                                            <b>Phone:</b> {{ $value->customer->phone }} </br>
-                                            <b>Email:</b> {{ $value->customer->email }} </br>
-                                            <b>Address:</b> {{ $value->customer->address }} </br>
-                                        </td>
-                                        <td>
-                                            @php
-                                                $products=\App\Models\OrderDetails::where('order_id',$value->id)->get();
-                                            @endphp
-                                            @foreach($products as $product)
-                                                {{ $product->name }} <hr>
-                                            @endforeach
-                                        </td>
-                                        <td>
-                                            <b>Sub Total:</b> {{ $value->subtotal }} Tk</br>
-                                            <b>Discount:</b> {{ $value->discount }} Tk</br>
-                                            {{--                                            <b>Vat:</b> {{ $value->vat }} Tk</br>--}}
-                                            {{--                                            <b>Delivary Charge:</b> {{ $value->delivary_charge }} Tk</br>--}}
-                                            <b>Total:</b> {{ $value->total }} Tk
-                                        </td>
-
-                                        <td>
-                                            {{ $value->created_at->diffForHumans() }}
-                                            @if( $value->status=='Pending')
-                                                <div class="bg bg-danger p-1">
-                                                    Pending
-                                                </div>
-                                            @elseif( $value->status=='Processing')
-                                                <div class="bg bg-warning p-1">
-                                                    Processing
-                                                </div>
-                                            @elseif( $value->status=='Shipped')
-                                                <div class="bg bg-info p-1">
-                                                    Shipped
-                                                </div>
-                                            @else
-                                                <div class="bg bg-success p-1">
-                                                    Completed
-                                                </div>
-                                            @endif
-                                        </td>
-
-                                        <td>
-                                            <div class="row">
-                                                {{--                                                    <a href="{{route('madmin.local-sale.edit',$value->id)}}" class="btn btn-success m-1"><i class="lni-pencil-alt"></i> </a>--}}
-                                                <a href="{{route('madmin.orderadmin.show',$value->id)}}" class="btn btn-info m-1"><i class="lni-eye"></i> </a>
-                                                {!! Form::open(['method'=>'DELETE','route'=>['madmin.local-sale.destroy',$value->id]]) !!}
-                                                <button type="submit" value="Delete" class="btn btn-danger m-1" onclick="return confirm('Do you want to Delete')"><i class="lni-trash"></i></button>
-                                                {!! Form::close() !!}
-
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                                </tbody>
-                            </table>
-
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-md-2 m-0 float-right">
-                            {{ $orders->render() }}
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
+
+            {{-- Summary --}}
+            <div class="row mb-3">
+                <div class="col-lg-3 col-6">
+                    <h5>Total Amount: <strong>{{ number_format($amount, 2) }} Tk</strong></h5>
+                </div>
+                <div class="col-lg-3 col-6">
+                    <h5>Total Orders: <strong>{{ $qty }}</strong></h5>
+                </div>
+            </div>
+
+            @include('Admin.include.message')
+
+            <div class="card">
+                <div class="card-body p-0 table-responsive">
+                    <table class="table table-bordered table-hover mb-0">
+                        <thead class="custom-thead">
+                            <tr>
+                                <th>SI</th>
+                                <th>Invoice</th>
+                                <th class="d-none d-md-table-cell" width="20%">Customer Information</th>
+                                <th class="d-none d-md-table-cell" width="30%">Product</th>
+                                <th>Order Details</th>
+                                <th>Date</th>
+                                <th class="text-nowrap" width="10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($orders as $order)
+                                <tr>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $order->invoice_no }}</td>
+                                    <td class="d-none d-md-table-cell" class="text-break">
+                                        <b>Name:</b> {{ $order->customer->name }}<br>
+                                        <b>Phone:</b> {{ $order->customer->phone }}<br>
+                                        <b>Email:</b> {{ $order->customer->email }}<br>
+                                        <b>Address:</b> {{ $order->customer->address }}
+                                    </td>
+                                    <td class="d-none d-md-table-cell">
+                                        @php
+                                            $products = \App\Models\OrderDetails::where('order_id', $order->id)->pluck('name');
+                                        @endphp
+                                        <ul class="mb-0 pl-3" style="list-style-type: disc;">
+                                            @foreach($products as $productName)
+                                                <li style="font-size: 0.9rem;">{{ $productName }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </td>
+                                    <td class="text-break">
+                                        <b>Sub Total:</b> {{ number_format($order->subtotal, 2) }} Tk<br>
+                                        <b>Discount:</b> {{ number_format($order->discount, 2) }} Tk<br>
+                                        <b>Total:</b> {{ number_format($order->total, 2) }} Tk
+                                    </td>
+                                    <td>
+                                        {{ $order->created_at->diffForHumans() }}
+                                        @php
+                                            $statusClass = match ($order->status) {
+                                                'Pending' => 'bg-danger',
+                                                'Processing' => 'bg-warning',
+                                                'Shipped' => 'bg-info',
+                                                default => 'bg-success',
+                                            };
+                                        @endphp
+                                        <div class="{{ $statusClass }} text-white p-1 rounded mt-1 text-center">
+                                            {{ $order->status }}
+                                        </div>
+                                    </td>
+                                    <td class="text-nowrap">
+                                        <a href="{{ route('madmin.orderadmin.show', $order->id) }}" class="btn btn-info btn-sm m-1" title="View Details">
+                                            <i class="lni-eye"></i>
+                                        </a>
+                                        {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.local-sale.destroy', $order->id], 'style' => 'display:inline-block']) !!}
+                                            <button type="submit" class="btn btn-danger btn-sm m-1" onclick="return confirm('Do you want to Delete?')" title="Delete">
+                                                <i class="lni-trash"></i>
+                                            </button>
+                                        {!! Form::close() !!}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="card-footer clearfix">
+                    <div class="float-right">
+                        {{ $orders->links() }}
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </section>
-    <!-- /.content -->
 @endsection
