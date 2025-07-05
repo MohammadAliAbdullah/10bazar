@@ -1,144 +1,103 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Edit SEO Config</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('slide') }}">SEO Config</a></li>
-                        <li class="breadcrumb-item active">Edit SEO Config</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
+    {{-- Breadcrumb --}}
+    @include('Admin.include.breadcrumb', [
+        'page' => __('SEO Config'),
+        'parent' => __('Home'),
+        'child' => __('SEO Config'),
+        'button' => __('Back'),
+        'button_icon' => 'lni lni-arrow-left',
+        'route' => '#',
+    ])
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-md-10">
-                    <div class="card card-info">
-                    {{--                <div class="card-header">--}}
-                    {{--                    <h3 class="card-title">Horizontal Form</h3>--}}
-                    {{--                </div>--}}
-                    <!-- /.card-header -->
-                    @include('Admin.include.message')
-                    <!-- form start -->
-                        {!! Form::model($config, ['method'=>'PATCH','route'=>['madmin.seoconfigs.update', $config->id],'class'=>'form-horizontal', 'files'=>true]) !!}
-                        <div class="card-body">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        @include('Admin.include.message')
 
+                        {!! Form::model($config, [
+                            'method' => 'PATCH',
+                            'route' => ['madmin.seoconfigs.update', $config->id],
+                            'class' => 'form-horizontal',
+                            'files' => true,
+                        ]) !!}
 
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Meta Title', ['class' => 'col-sm-2 col-form-label']) !!}
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('meta_title', null, ['class'=>'form-control','id'=>'receiver','required']) !!}
-                                </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                {!! Form::label('meta_title', 'Meta Title') !!}
+                                {!! Form::textarea('meta_title', null, ['class' => 'form-control', 'rows' => 2, 'required']) !!}
                             </div>
 
-
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Meta Keyword', ['class' => 'col-sm-2 col-form-label']) !!}
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('meta_description', null, ['class'=>'form-control','id'=>'receiver']) !!}
-                                </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('meta_description', 'Meta Description') !!}
+                                {!! Form::textarea('meta_description', null, ['class' => 'form-control', 'rows' => 2]) !!}
                             </div>
 
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Meta Keyword', ['class' => 'col-sm-2 col-form-label']) !!}
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('meta_keyword', null, ['class'=>'form-control','id'=>'receiver']) !!}
-                                </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('meta_keyword', 'Meta Keyword') !!}
+                                {!! Form::textarea('meta_keyword', null, ['class' => 'form-control', 'rows' => 2]) !!}
                             </div>
 
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Google Webmaster', ['class' => 'col-sm-2 col-form-label']) !!}
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('google_webmaster', null, ['class'=>'form-control','id'=>'receiver']) !!}
-                                    <p>Get your google web master verification code at <a href="https://search.google.com/search-console/about">Google search console</a></p>
-                                </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('google_webmaster', 'Google Webmaster') !!}
+                                {!! Form::textarea('google_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://search.google.com/search-console/about" target="_blank">Google Search Console</a></p>
                             </div>
 
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Bing Webmaster', ['class' => 'col-sm-2 col-form-label']) !!}
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('bing_webmaster', null, ['class'=>'form-control','id'=>'receiver']) !!}
-                                    <p>Get your bing web master verification code at <a href="https://www.bing.com/webmasters/about">bing search console</a></p>
-                                </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('bing_webmaster', 'Bing Webmaster') !!}
+                                {!! Form::textarea('bing_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://www.bing.com/webmasters/about" target="_blank">Bing Webmaster Tools</a></p>
                             </div>
 
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Yandex Webmaster', ['class' => 'col-sm-2 col-form-label']) !!}
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('yindex_webmaster', null, ['class'=>'form-control','id'=>'receiver']) !!}
-                                    <p>Get your Yandex web master verification code at <a href="https://webmaster.yandex.com/welcome/">Yandex search console</a></p>
-                                </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('yindex_webmaster', 'Yandex Webmaster') !!}
+                                {!! Form::textarea('yindex_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://webmaster.yandex.com/welcome/" target="_blank">Yandex Webmaster</a></p>
                             </div>
 
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Google Analytics', ['class' => 'col-sm-2 col-form-label']) !!}
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('google_analytics', null, ['class'=>'form-control','id'=>'receiver']) !!}
-                                    <p>Get your google analytics verification code at <a href="https://analytics.google.com/analytics/web/">Google analytics</a></p>
-                                </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('google_analytics', 'Google Analytics') !!}
+                                {!! Form::textarea('google_analytics', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://analytics.google.com/analytics/web/" target="_blank">Google Analytics</a></p>
                             </div>
 
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Facebook ID', ['class' => 'col-sm-2 col-form-label']) !!}
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('facebook_id', null, ['class'=>'form-control','id'=>'receiver']) !!}
-                                    <p>Get your facebook link from  <a href="#">Facebook</a></p>
-                                </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('facebook_id', 'Facebook ID') !!}
+                                {!! Form::textarea('facebook_id', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://www.facebook.com/" target="_blank">Facebook</a></p>
                             </div>
 
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Facebook Pixel', ['class' => 'col-sm-2 col-form-label']) !!}
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('facebook_pixel', null, ['class'=>'form-control','id'=>'receiver']) !!}
-                                    <p>Get your facebook pixel verification code at <a href="https://developers.facebook.com/docs/facebook-pixel/">facebook Pixel</a></p>
-                                </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('facebook_pixel', 'Facebook Pixel') !!}
+                                {!! Form::textarea('facebook_pixel', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://developers.facebook.com/docs/facebook-pixel/" target="_blank">Facebook Pixel Docs</a></p>
                             </div>
 
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Tawk', ['class' => 'col-sm-2 col-form-label']) !!}
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('tawk', null, ['class'=>'form-control','id'=>'receiver']) !!}
-                                    <p>Get your tawk verification code at <a href="https://www.tawk.to/">tawk</a></p>
-                                </div>
+                            <div class="form-group col-md-6">
+                                {!! Form::label('tawk', 'Tawk') !!}
+                                {!! Form::textarea('tawk', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://www.tawk.to/" target="_blank">Tawk.to</a></p>
                             </div>
 
-                            <div class="form-group row">
-                                {!! Form::label('name', 'Others', ['class' => 'col-sm-2 col-form-label']) !!}
-                                <div class="col-sm-10">
-                                    {!! Form::textarea('other_code', null, ['class'=>'form-control','id'=>'receiver']) !!}
-                                </div>
+                            <div class="form-group col-md-12">
+                                {!! Form::label('other_code', 'Others') !!}
+                                {!! Form::textarea('other_code', null, ['class' => 'form-control', 'rows' => 2]) !!}
                             </div>
                         </div>
-                        <!-- /.card-body -->
-                        <div class="card-footer">
 
+                        <div class="mt-3">
                             <button type="submit" class="btn btn-info">Update</button>
-                            <button  onclick="window.history.back()" class="btn btn-default float-right">Cancel</button>
+                            <button type="button" onclick="window.history.back()" class="btn btn-default">Cancel</button>
                         </div>
-                        <!-- /.card-footer -->
-                        {!! Form::close() !!}
 
+                        {!! Form::close() !!}
                     </div>
                 </div>
-
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
-@endsection
-@section('script')
-
+        </div>
+    </div>
 @endsection

@@ -1,82 +1,103 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <!-- Content Header -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">SEO Config</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        {{-- <a href="{{ route('madmin.seoconfigs.create') }}" class="btn btn-primary btn-sm mr-2">
-                            <i class="fa fa-plus"></i> &nbsp; Add SEO Config
-                        </a> --}}
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Breadcrumb --}}
+    @include('Admin.include.breadcrumb', [
+        'page' => __('SEO Config'),
+        'parent' => __('Home'),
+        'child' => __('SEO Config'),
+        'button' => __('Back'),
+        'button_icon' => 'lni lni-arrow-left',
+        'route' => '#',
+    ])
 
-    <!-- Main Content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="card">
-                <div class="card-body">
-                    @include('Admin.include.message')
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        @include('Admin.include.message')
 
-                    <div class="table-responsive">
-                        <table id="dataTable" class="table table-bordered table-striped">
-                            <thead class="custom-thead">
-                                <tr>
-                                    <th>SI</th>
-                                    <th>Title</th>
-                                    <th>Keyword</th>
-                                    <th>Description</th>
-                                    <th>Google</th>
-                                    <th>Bing</th>
-                                    <th>Analytics</th>
-                                    <th>Facebook</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($configs as $key => $value)
-                                    <tr>
-                                        <td>{{ $key + 1 }}</td>
-                                        <td>{{ $value->meta_title }}</td>
-                                        <td>{{ $value->meta_keyword }}</td>
-                                        <td>{{ $value->meta_description }}</td>
-                                        <td>{{ $value->google_webmaster }}</td>
-                                        <td>{{ $value->bing_webmaster }}</td>
-                                        <td>{{ $value->google_analytics }}</td>
-                                        <td>{{ $value->facebook_id }}</td>
-                                        <td>{{ $value->created_at->diffForHumans() }}</td>
-                                        <td>
-                                            <div class="d-flex">
-                                                <a href="{{ route('madmin.seoconfigs.edit', $value->id) }}"
-                                                    class="btn btn-success btn-sm mr-1">
-                                                    <i class="lni-pencil-alt"></i>
-                                                </a>
-                                                {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.seoconfigs.destroy', $value->id]]) !!}
-                                                <button type="submit" class="btn btn-danger btn-sm"
-                                                    onclick="return confirm('Do you want to delete this?')"><i class="lni-trash"></i>
-                                                </button>
-                                                {!! Form::close() !!}
-                                            </div>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="float-right mt-3">
-                            {{ $configs->links() }}
+                        {!! Form::model($config, [
+                            'method' => 'PATCH',
+                            'route' => ['madmin.seoconfigs.update', $config->id],
+                            'class' => 'form-horizontal',
+                            'files' => true,
+                        ]) !!}
+
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                {!! Form::label('meta_title', 'Meta Title') !!}
+                                {!! Form::textarea('meta_title', null, ['class' => 'form-control', 'rows' => 2, 'required']) !!}
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {!! Form::label('meta_description', 'Meta Description') !!}
+                                {!! Form::textarea('meta_description', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {!! Form::label('meta_keyword', 'Meta Keyword') !!}
+                                {!! Form::textarea('meta_keyword', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {!! Form::label('google_webmaster', 'Google Webmaster') !!}
+                                {!! Form::textarea('google_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://search.google.com/search-console/about" target="_blank">Google Search Console</a></p>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {!! Form::label('bing_webmaster', 'Bing Webmaster') !!}
+                                {!! Form::textarea('bing_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://www.bing.com/webmasters/about" target="_blank">Bing Webmaster Tools</a></p>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {!! Form::label('yindex_webmaster', 'Yandex Webmaster') !!}
+                                {!! Form::textarea('yindex_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://webmaster.yandex.com/welcome/" target="_blank">Yandex Webmaster</a></p>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {!! Form::label('google_analytics', 'Google Analytics') !!}
+                                {!! Form::textarea('google_analytics', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://analytics.google.com/analytics/web/" target="_blank">Google Analytics</a></p>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {!! Form::label('facebook_id', 'Facebook ID') !!}
+                                {!! Form::textarea('facebook_id', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://www.facebook.com/" target="_blank">Facebook</a></p>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {!! Form::label('facebook_pixel', 'Facebook Pixel') !!}
+                                {!! Form::textarea('facebook_pixel', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://developers.facebook.com/docs/facebook-pixel/" target="_blank">Facebook Pixel Docs</a></p>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                {!! Form::label('tawk', 'Tawk') !!}
+                                {!! Form::textarea('tawk', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                <p class="text-muted">Get it from <a href="https://www.tawk.to/" target="_blank">Tawk.to</a></p>
+                            </div>
+
+                            <div class="form-group col-md-12">
+                                {!! Form::label('other_code', 'Others') !!}
+                                {!! Form::textarea('other_code', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                            </div>
                         </div>
+
+                        <div class="mt-3">
+                            <button type="submit" class="btn btn-info">Update</button>
+                            <button type="button" onclick="window.history.back()" class="btn btn-default">Cancel</button>
+                        </div>
+
+                        {!! Form::close() !!}
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 @endsection
