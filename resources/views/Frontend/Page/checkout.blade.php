@@ -17,21 +17,13 @@
                 <div class="col-12 col-lg-6 col-xl-7">
                     <div class="card mb-lg-0">
                         <div class="card-body">
-                            <h3 class="card-title">{{ __('Shipping Details') }}</h3>
+
+
+
+                            <h3 class="card-title">{{ __('Delivery Details') }}</h3>
                             @include('include.message')
 
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label for="checkout-first-name">{{ __('Name') }} <span
-                                            class="text-danger">*</span></label>
-                                    {!! Form::text('name', null, ['class' => 'form-control', 'required', 'id' => 'checkout-first-name']) !!}
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label for="checkout-last-name">{{ __('Phone') }} <span
-                                            class="text-danger">*</span></label>
-                                    {!! Form::number('phone', null, ['class' => 'form-control', 'required', 'id' => 'checkout-last-name']) !!}
-                                </div>
-                            </div>
+                            
 
                             <div class="form-group">
                                 <label for="checkout-country">{{ __('District') }} <span
@@ -64,6 +56,27 @@
                                 </select>
                             </div>
 
+                            
+
+
+                            <h3 class="card-title">{{ __('Shipping Details') }}</h3>
+                            @include('include.message')
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="checkout-first-name">{{ __('Name') }} <span
+                                            class="text-danger">*</span></label>
+                                    {!! Form::text('name', null, ['class' => 'form-control', 'required', 'id' => 'checkout-first-name']) !!}
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="checkout-last-name">{{ __('Phone') }} <span
+                                            class="text-danger">*</span></label>
+                                    {!! Form::number('phone', null, ['class' => 'form-control', 'required', 'id' => 'checkout-last-name']) !!}
+                                </div>
+                            </div>
+
+                            
+
                             <div class="form-group">
                                 <label for="checkout-street-address">{{ __('Address') }} <span
                                         class="text-danger">*</span></label>
@@ -74,6 +87,11 @@
                                     'required',
                                 ]) !!}
                             </div>
+
+
+
+
+
                         </div>
                         <div class="card-divider"></div>
                     </div>
@@ -126,7 +144,8 @@
                                                 <span class="payment-methods__item-radio input-radio">
                                                     <span class="input-radio__body">
                                                         <input class="input-radio__input" name="payment_method"
-                                                            type="radio" value="{{ $method->code . '@' . $method->id }}">
+                                                            type="radio"
+                                                            value="{{ $method->code . '@' . $method->id }}">
                                                         <span class="input-radio__circle"></span>
                                                     </span>
                                                 </span>

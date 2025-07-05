@@ -511,3 +511,5 @@ INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`, `orders`, `icon`, `status
 (58, 'Shipping Method', 55, 'madmin.shipping-methods.index', 5, 'fas fa-angle-right', 'Active', '2025-06-30 11:57:24', '2025-06-30 11:57:24'),
 (59, 'Shipping Zone', 10, 'madmin.shipping-zones.index', 6, 'fas fa-angle-right', 'Active', '2025-06-30 11:58:28', '2025-06-30 11:58:28');
 
+-- 05-07-2025
+ALTER TABLE `cs_shipping_zone_locations` ADD INDEX(`shipping_zone_id`, `state_id`, `city_id`);

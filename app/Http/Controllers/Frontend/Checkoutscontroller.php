@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Area;
+use App\Models\State;
 use App\Models\City;
 use App\Models\Division;
 use App\Models\PaymentGetway;
@@ -26,8 +27,8 @@ class Checkoutscontroller extends Controller
 
     public function areas(Request $request)
     {
-        $sub_cats = City::orderBy('name', 'ASC')->where('division_id', $request->parent_id)->get()->pluck('name', 'id')->toArray();
-        return response()->json($sub_cats);;
+        $sub_cats = City::orderBy('name', 'ASC')->where('state_id', $request->parent_id)->get()->pluck('name', 'id')->toArray();
+        return response()->json($sub_cats);
     }
 
     public function checkout()
@@ -35,7 +36,8 @@ class Checkoutscontroller extends Controller
         // if (Auth::guard('mypanel')->user()) {
             $data['customer'] = Auth::guard('mypanel')->user();
             $data['cartCollection'] = Cart::getContent();
-            $data['districts'] = Division::orderBy('name', 'ASC')->get()->pluck('name', 'id')->toArray();
+            $data['districts'] = State::orderBy('name', 'ASC')->get()->pluck('name', 'id')->toArray();
+            // $data['districts'] = Division::orderBy('name', 'ASC')->get()->pluck('name', 'id')->toArray();
             $data['paymentMethods'] = PaymentMethod::orderBy('id', 'ASC')->where([['is_active', '1'], ['is_web', 1]])->get();
             return view("Frontend.Page.checkout", $data);
         // } else {
