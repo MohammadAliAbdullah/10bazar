@@ -2,36 +2,20 @@
 
 @section('content')
     @include('Admin.include.breadcrumb', [
-        'page' => __('Add Admin'),
+        'page' => __('Add user'),
         'parent' => __('Home'),
         'child' => __('Admin'),
-        'route' => url('slide'),
+        'button' => __('Back to List'),
+        'button_icon' => 'lni lni-arrow-left',
+        'route' => route('madmin.adminuser.index'),
     ])
-
-    <!-- Content Header (Page header) -->
-    {{-- <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h3 class="m-0 text-dark">Add Admin</h3>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="{{ url('slide') }}">Admin</a></li>
-                        <li class="breadcrumb-item active">Add Admin</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div> --}}
-    <!-- /.content-header -->
 
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <!-- Small boxes (Stat box) -->
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-12">
                     <div class="card card-info">
                         @include('Admin.include.message')
                         <!-- form start -->
@@ -41,31 +25,30 @@
                                 <div class="col-md-12">
                                     <div class="form-group row">
                                         {!! Form::label('name', 'Name', ['class' => 'col-sm-2 col-form-label']) !!}
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-8">
                                             {!! Form::text('name', null, ['class' => 'form-control', 'id' => 'receiver', 'required']) !!}
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
                                         {!! Form::label('name', 'Email', ['class' => 'col-sm-2 col-form-label']) !!}
-                                        <div class="col-sm-10">
+                                        <div class="col-sm-8">
                                             {!! Form::email('email', null, ['class' => 'form-control', 'id' => 'receiver', 'required']) !!}
                                         </div>
                                     </div>
-
                                     <div class="form-group row">
                                         {!! Form::label('name', 'Password', ['class' => 'col-sm-2 col-form-label']) !!}
-                                        <div class="col-sm-10">
-                                            {!! Form::password('password', null, ['class' => 'form-control', 'id' => 'receiver', 'required']) !!}
+                                        <div class="col-sm-8">
+                                            <div class="input-group">
+                                                {!! Form::password('password', ['class' => 'form-control', 'id' => 'password', 'required']) !!}
+                                                <div class="input-group-append">
+                                                    <span class="input-group-text">
+                                                        <i class="lni lni-eye toggle-password" style="cursor: pointer;"></i>
+                                                    </span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    {{--                                    <div class="form-group row"> --}}
-                                    {{--                                        {!! Form::label('name', 'Role', ['class' => 'col-sm-2']) !!} --}}
-                                    {{--                                        <div class="col-sm-8"> --}}
-                                    {{--                                            {!! Form::select('role_id', ['Admin' => 'Admin','Article' => 'Article Publisher'],null,['class'=>'form-control','id'=>'receiver','required']); !!} --}}
-                                    {{--                                        </div> --}}
-                                    {{--                                    </div> --}}
 
                                     <div class="form-group row">
                                         {!! Form::label('name', 'Status', ['class' => 'col-sm-2']) !!}
@@ -80,12 +63,12 @@
                                 </div>
 
                             </div>
+                            <div class="mt-3">
+                                <button type="submit" class="btn btn-info">Submit</button>
+                                <button onclick="window.history.back()" class="btn btn-default">Cancel</button>
+                            </div>
+                        </div>
 
-                        </div>
-                        <div class="card-footer">
-                            <button type="submit" class="btn btn-info">Submit</button>
-                            <button onclick="window.history.back()" class="btn btn-default float-right">Cancel</button>
-                        </div>
                         {!! Form::close() !!}
                     </div>
                 </div>
@@ -96,9 +79,18 @@
     <!-- /.content -->
 @endsection
 @section('script')
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
             $('#summernote').summernote();
+
+            // Toggle password visibility
+            $(document).on('click', '.toggle-password', function() {
+                const input = $('#password');
+                const icon = $(this);
+                const type = input.attr('type') === 'password' ? 'text' : 'password';
+                input.attr('type', type);
+                icon.toggleClass('lni lni-eye-slash');
+            });
         });
     </script>
 @endsection

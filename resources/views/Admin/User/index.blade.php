@@ -2,30 +2,13 @@
 
 @section('content')
     @include('Admin.include.breadcrumb', [
-        'page' => __('Add Admin'),
+        'page' => __('User List'),
         'parent' => __('Home'),
         'child' => __('Admin'),
+        'button' => __('Add User'),
+        'button_icon' => 'lni lni-plus',
         'route' => route('madmin.adminuser.create'),
     ])
-    <!-- Content Header (Page header) -->
-    {{-- <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Admin
-                        <a href="{{ route('madmin.adminuser.create') }}" class="btn btn-primary">Admin Add</a>
-                    </h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                        <li class="breadcrumb-item active">Admin add</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div> --}}
-    <!-- /.content-header -->
 
     <!-- Main content -->
     <section class="content">
@@ -34,15 +17,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="card">
-                        {{--                        <div class="card-header"> --}}
-                        {{--                            <h3 class="card-title">Condensed Full Width Table</h3> --}}
-                        {{--                        </div> --}}
-                        <!-- /.card-header -->
-
                         @include('Admin.include.message')
                         <div class="card-body p-0">
                             <table class="table table-bordered">
-                                <tbody>
+                                <thead class="custom-thead">
                                     <tr>
                                         <th>SI</th>
                                         <th>Name</th>
@@ -52,6 +30,8 @@
                                         <th>Date</th>
                                         <th>Action</th>
                                     </tr>
+                                </thead>
+                                <tbody>
                                     @foreach ($values as $value)
                                         <tr>
                                             <td>{{ $value->id }}</td>
@@ -72,7 +52,8 @@
                                                     @if ($value->id != 1)
                                                         {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.adminuser.destroy', $value->id]]) !!}
                                                         <button type="submit" value="Delete" class="btn btn-danger m-1"
-                                                            onclick="return confirm('Do you want to Delete, Delete with product')"><i class="lni-trash"></i></button>
+                                                            onclick="return confirm('Do you want to Delete, Delete with product')"><i
+                                                                class="lni-trash"></i></button>
                                                         {!! Form::close() !!}
                                                     @endif
 
