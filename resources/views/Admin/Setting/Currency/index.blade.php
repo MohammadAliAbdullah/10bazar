@@ -1,21 +1,15 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Manage Currencies</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <a href="{{ route('madmin.currency.create') }}" class="btn btn-primary btn-sm mr-2"><i
-                                class="fa fa-plus"></i> Add Currency</a>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Breadcrumb --}}
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Manage Currencies'),
+        'parent' => __('Setting'),  
+        'child' => __('Currencies'),
+        'button' => __('Add Currency'),
+        'button_icon' => 'lni lni-plus',
+        'route' => route('madmin.currency.create'),
+    ])    
     
     <section class="content">
         <div class="container-fluid">
