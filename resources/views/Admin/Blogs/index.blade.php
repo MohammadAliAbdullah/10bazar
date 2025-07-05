@@ -1,91 +1,76 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <!-- Content Header (Page header) -->
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Blog
-                        <a href="{{ route('madmin.blogs.create') }}" class="btn btn-primary">Blog Add</a>
-                    </h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Blog</a></li>
-                        <li class="breadcrumb-item active">Blog add</li>
-                    </ol>
-                </div><!-- /.col -->
-            </div><!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="card">
-                    {{--                        <div class="card-header">--}}
-                    {{--                            <h3 class="card-title">Condensed Full Width Table</h3>--}}
-                    {{--                        </div>--}}
-                    <!-- /.card-header -->
+@include('Admin.include.breadcrumb', [
+    'page' => __('Blog List'),
+    'parent' => __('Home'),
+    'child' => __('Blogs'),
+    'button' => __('Add Blog'),
+    'button_icon' => 'lni lni-plus',
+    'route' => route('madmin.blogs.create'),
+])
 
-                        @include('Admin.include.message')
-                        <div class="card-body p-0">
-                            <table class="table table-bordered">
-                                <tbody>
-                                <tr>
-                                    <th>SI</th>
-                                    <th>Title</th>
-                                    <th>Slug</th>
-                                    <th>Thumb</th>
-                                    <th>Status</th>
-                                    <th>Date</th>
-                                    <th>Action</th>
-                                </tr>
-                                @foreach($blogs as $value)
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+
+                    @include('Admin.include.message')
+
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover mb-0">
+                                <thead class="custom-thead">
                                     <tr>
-                                        <td>{{ $value->id }}</td>
+                                        <th>SI</th>
+                                        <th>Title</th>
+                                        <th>Slug</th>
+                                        <th>Thumb</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th class="text-nowrap">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($blogs as $value)
+                                    <tr>
+                                        <td>{{ $loop->iteration }}</td>
                                         <td>{{ $value->title }}</td>
+                                        <td>{{ $value->slug }}</td>
                                         <td>
-                                            {{ $value->slug }}
-                                        </td>
-                                        <td>
-                                            <img src="{{ asset('public/images/blogs/thumb/'.$value->thumb) }}" width="80" height="60">
+                                            <img src="{{ asset('public/images/blogs/thumb/' . $value->thumb) }}" class="img-fluid" style="max-width: 80px; max-height: 60px;" alt="thumb">
                                         </td>
                                         <td>{{ $value->status }}</td>
-                                        <td>{{ $value->created_at->diffForHumans() }} </td>
-
-                                        <td>
-                                            <div class="row">
-                                                    <a href="{{route('madmin.blogs.edit',$value->id)}}" class="btn btn-success m-1"><i class="lni-pencil-alt"></i> </a>
-                                                    {!! Form::open(['method'=>'DELETE','route'=>['madmin.blogs.destroy',$value->id]]) !!}
-                                                    <button type="submit" value="Delete" class="btn btn-danger m-1" onclick="return confirm('Do you want to Delete')"><i class="lni-trash"></i></button>
-                                                    {!! Form::close() !!}
-
-                                            </div>
+                                        <td>{{ $value->created_at->diffForHumans() }}</td>
+                                        <td class="text-nowrap">
+                                            <a href="{{ route('madmin.blogs.edit', $value->id) }}" class="btn btn-success btn-sm">
+                                                <i class="lni-pencil-alt"></i>
+                                            </a>
+                                            {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.blogs.destroy', $value->id], 'style' => 'display:inline']) !!}
+                                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Do you want to Delete?')">
+                                                <i class="lni-trash"></i>
+                                            </button>
+                                            {!! Form::close() !!}
                                         </td>
                                     </tr>
-                                @endforeach
-
+                                    @endforeach
                                 </tbody>
                             </table>
+                        </div> <!-- /.table-responsive -->
+                    </div> <!-- /.card-body -->
 
-                        </div>
-                        <!-- /.card-body -->
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 offset-md-2 m-0 float-right">
-                            {{ $blogs->render() }}
+                    <div class="card-footer clearfix">
+                        <div class="float-right">
+                            {{ $blogs->links() }}
                         </div>
                     </div>
-                </div>
+
+                </div> <!-- /.card -->
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+        </div>
+    </div>
+</section>
+
 @endsection
