@@ -1,21 +1,15 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Payment Methods</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <a href="{{ route('madmin.paymentmethod.create') }}" class="btn btn-primary btn-sm mr-2"><i
-                                class="fa fa-plus"></i> Add Payment Method</a>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Breadcrumb --}}
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Payment Methods'),
+        'parent' => __('Home'),
+        'child' => __('Payment Methods'),
+        'button' => __('Add Payment Method'),
+        'button_icon' => 'lni lni-plus',
+        'route' => '#',
+    ])
 
     <section class="content">
         <div class="container-fluid">
@@ -23,17 +17,15 @@
             <!-- List of Methods -->
             <div class="card">
                 <div class="card-body p-0">
-                    
-                    
                     <table class="table table-bordered mb-0">
-                        <thead>
+                        <thead class="custom-thead">
                             <tr>
                                 <th>Title</th>
                                 <th>Code</th>
-                                <th>Is Web</th>
-                                <th>COA ID</th>
+                                <th class="d-none d-md-table-cell">Is Web</th>
+                                <th class="d-none d-md-table-cell">COA ID</th>
                                 <th>Status</th>
-                                <th>Created</th>
+                                <th class="d-none d-md-table-cell">Created</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -42,10 +34,10 @@
                                 <tr>
                                     <td>{{ $method->title }}</td>
                                     <td>{{ $method->code }}</td>
-                                    <td>{{ $method->is_web == 1 ? 'Yes' : 'No' }}</td>
-                                    <td>{{ $method->acc_coa_id ?? 'N/A' }}</td>
+                                    <td class="d-none d-md-table-cell">{{ $method->is_web == 1 ? 'Yes' : 'No' }}</td>
+                                    <td class="d-none d-md-table-cell">{{ $method->acc_coa_id ?? 'N/A' }}</td>
                                     <td>{{ $method->is_active == 1 ? 'Active' : 'Inactive' }}</td>
-                                    <td>{{ $method->created_at->diffForHumans() }}</td>
+                                    <td class="d-none d-md-table-cell">{{ $method->created_at->diffForHumans() }}</td>
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('madmin.paymentmethod.edit', $method->id) }}"
@@ -73,9 +65,6 @@
                             @endif
                         </tbody>
                     </table>
-
-
-                    
                 </div>
             </div>
         </div>

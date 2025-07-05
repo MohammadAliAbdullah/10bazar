@@ -1,21 +1,15 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
-    <div class="content-header">
-        <div class="container-fluid">
-            <div class="row ">
-                <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Payment Setup</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <a href="{{ route('madmin.paymentsetup.create') }}" class="btn btn-primary btn-sm mr-2"><i
-                                class="fa fa-plus"></i> Add Payment Setup</a>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
+    {{-- Breadcrumb --}}
+    @include('Admin.include.breadcrumb', [
+        'page' => __('Payment Setup'),
+        'parent' => __('Setting'),
+        'child' => __('Payment'),
+        'button' => __('Add New Setup'),
+        'button_icon' => 'lni lni-plus',
+        'route' => route('madmin.paymentsetup.create'),
+    ])
 
     <section class="content">
         <div class="container-fluid">
