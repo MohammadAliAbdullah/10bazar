@@ -1,6 +1,7 @@
 @extends('Admin.layoutApp.app')
 
 @section('content')
+
     @include('Admin.include.breadcrumb', [
         'page' => __('Edit About Us'),
         'parent' => __('Home'),
@@ -9,76 +10,80 @@
         'button_icon' => 'lni lni-list',
         'route' => route('madmin.aboutadmin.index'),
     ])
+
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
-            <!-- Small boxes (Stat box) -->
+            <!-- Main row -->
             <div class="row">
                 <div class="col-12">
                     <div class="card">
                         @include('Admin.include.message')
-                        <!-- form start -->
+
+                        <!-- Form start -->
                         {!! Form::model($category, [
                             'method' => 'PATCH',
                             'route' => ['madmin.aboutadmin.update', $category->id],
                             'class' => 'form-horizontal',
                             'files' => true,
                         ]) !!}
+
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-12">
+
                                     <div class="form-group row">
-                                        {!! Form::label('name', 'About Title', ['class' => 'col-sm-2 col-form-label']) !!}
+                                        {!! Form::label('about_title', 'About Title', ['class' => 'col-sm-2 col-form-label']) !!}
                                         <div class="col-sm-10">
-                                            {!! Form::text('about_title', null, ['class' => 'form-control', 'id' => 'receiver', 'required']) !!}
+                                            {!! Form::text('about_title', null, ['class' => 'form-control', 'required']) !!}
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        {!! Form::label('name', 'About Us', ['class' => 'col-sm-2 col-form-label']) !!}
+                                        {!! Form::label('content', 'About Us', ['class' => 'col-sm-2 col-form-label']) !!}
                                         <div class="col-sm-10">
-                                            {!! Form::textarea('content', null, ['class' => 'form-control', 'id' => 'receiver', 'rows' => 5]) !!}
-                                        </div>
-                                    </div>
-
-
-
-                                    <div class="form-group row">
-                                        {!! Form::label('name', 'Mission', ['class' => 'col-sm-2 col-form-label']) !!}
-                                        <div class="col-sm-10">
-                                            {!! Form::textarea('mission', null, ['class' => 'form-control', 'id' => 'receiver', 'rows' => 3]) !!}
+                                            {!! Form::textarea('content', null, ['class' => 'form-control', 'rows' => 5]) !!}
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        {!! Form::label('name', 'Vision', ['class' => 'col-sm-2']) !!}
+                                        {!! Form::label('mission', 'Mission', ['class' => 'col-sm-2 col-form-label']) !!}
                                         <div class="col-sm-10">
-                                            {!! Form::textarea('vision', null, ['class' => 'form-control', 'id' => 'receiver', 'rows' => 3]) !!}
+                                            {!! Form::textarea('mission', null, ['class' => 'form-control', 'rows' => 3]) !!}
                                         </div>
                                     </div>
 
                                     <div class="form-group row">
-                                        {!! Form::label('name', 'Establistmet', ['class' => 'col-sm-2']) !!}
+                                        {!! Form::label('vision', 'Vision', ['class' => 'col-sm-2 col-form-label']) !!}
                                         <div class="col-sm-10">
-                                            {!! Form::textarea('establistmet', null, ['class' => 'form-control', 'id' => 'receiver', 'rows' => 3]) !!}
+                                            {!! Form::textarea('vision', null, ['class' => 'form-control', 'rows' => 3]) !!}
                                         </div>
                                     </div>
+
+                                    <div class="form-group row">
+                                        {!! Form::label('establistmet', 'Establishment', ['class' => 'col-sm-2 col-form-label']) !!}
+                                        <div class="col-sm-10">
+                                            {!! Form::textarea('establistmet', null, ['class' => 'form-control', 'rows' => 3]) !!}
+                                        </div>
+                                    </div>
+
                                 </div>
                             </div>
+
                             <div class="mt-3">
                                 <button type="submit" class="btn btn-info">Update</button>
-                                <button onclick="window.history.back()" class="btn btn-default">Cancel</button>
+                                <button type="button" onclick="window.history.back()" class="btn btn-default">Cancel</button>
                             </div>
                         </div>
 
                         {!! Form::close() !!}
+                        <!-- Form end -->
                     </div>
                 </div>
             </div>
-            <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
+        </div>
     </section>
-    <!-- /.content -->
 @endsection
+
 @section('script')
 @endsection
