@@ -30,9 +30,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($shippingMethods as $shippingMethod)
+                            @foreach ($shippingMethods as $shippingMethod)
                                 <tr>
-                                    <td>{{ $shippingMethod->id }}</td>
+                                    <td>{{ request('page') ? (request('page') - 1) * 10 + $loop->iteration : $loop->iteration }}
+                                    </td>
                                     <td>{{ $shippingMethod->name }}</td>
                                     <td>{{ $shippingMethod->shippingZone->name }}</td>
                                     <td>{{ $shippingMethod->base_fee }}</td>
@@ -40,11 +41,14 @@
                                     <td>{{ $shippingMethod->estimated_days }}</td>
                                     <td>{{ $shippingMethod->is_active ? 'Active' : 'Inactive' }}</td>
                                     <td>
-                                        <a href="{{ route('madmin.shipping-methods.edit', $shippingMethod->id) }}" class="btn btn-info btn-sm"><i class="lni lni-pencil-alt"></i></a>
-                                        <form action="{{ route('madmin.shipping-methods.destroy', $shippingMethod->id) }}" method="POST" style="display: inline-block;">
+                                        <a href="{{ route('madmin.shipping-methods.edit', $shippingMethod->id) }}"
+                                            class="btn btn-info btn-sm"><i class="lni lni-pencil-alt"></i></a>
+                                        <form action="{{ route('madmin.shipping-methods.destroy', $shippingMethod->id) }}"
+                                            method="POST" style="display: inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"><i class="lni lni-trash"></i></button>
+                                            <button type="submit" class="btn btn-danger btn-sm"><i
+                                                    class="lni lni-trash"></i></button>
                                         </form>
                                     </td>
                                 </tr>
