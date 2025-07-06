@@ -513,3 +513,5 @@ INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`, `orders`, `icon`, `status
 
 -- 05-07-2025
 ALTER TABLE `cs_shipping_zone_locations` ADD INDEX(`shipping_zone_id`, `state_id`, `city_id`);
+-- 06-07-2025
+ALTER TABLE `cs_shipping_zones` ADD `is_default` INT(11) NULL DEFAULT NULL AFTER `description`;
