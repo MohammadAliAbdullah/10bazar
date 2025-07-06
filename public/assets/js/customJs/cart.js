@@ -168,7 +168,7 @@ $(document).ready(function () {
         <div class="dropcart__product">
             <div class="dropcart__product-image">
                 <a href="/product/${item.attributes.slug}">
-                    <img src="${item.attributes.image ?? '/default-image.jpg'}" alt="image">
+                    <img src="${window.routes.baseUrl +'/' + item.attributes.image}" alt="image">
                 </a>
             </div>
             <div class="dropcart__product-info">
