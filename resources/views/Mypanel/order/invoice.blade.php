@@ -188,25 +188,26 @@
         <table>
             <tr>
                 <td style="border: none; width: 59%">
-                    <img src="{{ public_path('assets/invoice_logo.png') }}" alt="Company Logo">
+                    <img src="{{ asset($apps->logo) }}" alt="Company Logo">
                     <h1 style="color: #5ce1e6; margin-top: 10px!important">INVOICE</h1>
                     Invoice Number:# <span style="font-size: 12px; font-weight: semi-bold">
-                        {{ $data->invoice_no }}</span>
+                        {{ $data->invoice_no }}
+                    </span>
                 </td>
                 <td style="border-right: none;border-top: none; border-bottom: none; width: 41%; padding-left: 05px">
-                    <h2><span style="color: black; padding-bottom: 5px">10 BAZAR</span></h2>
+                    <h2><span style="color: black; padding-bottom: 5px">{{ $apps->site_title }}</span></h2>
                     <br>
                     <p>
                         <img src="{{ public_path('assets/icons/phone.png') }}" width="14"
-                            style="vertical-align: middle;" /> +880 17 200 85127<br>
+                            style="vertical-align: middle;" /> {{ $apps->phone }}<br>
                         <img src="{{ public_path('assets/icons/email.png') }}" width="14"
-                            style="vertical-align: middle;" /> 10bazar.store@gmail.com<br>
+                            style="vertical-align: middle;" /> {{ $apps->email }}<br>
                         <img src="{{ public_path('assets/icons/map.png') }}" width="14"
                             style="vertical-align: middle;" />
-                        Road-1/A, Sector-7, Uttara <br>
+                        {{ $apps->address }} <br>
                         <img src="{{ public_path('assets/icons/web.png') }}" width="14"
                             style="vertical-align: middle;" />
-                        www.10bazar.store
+                        {{ $apps->website_link }}
                     </p>
                 </td>
             </tr>
@@ -231,7 +232,9 @@
                         <br>
                         <span style="font-weight: semi-bold">Name:</span> {{ $data->customer->name }}<br>
                         <span style="font-weight: semi-bold">Phone:<span> {{ $data->customer->phone }}<br>
-                                <span style="font-weight: semi-bold">Email:<span> {{ $data->customer->email }}
+                        @if(!empty($data->customer->email))
+                        <span style="font-weight: semi-bold">Email:<span> {{ $data->customer->email }}
+                        @endif
                     </td>
                     <td rowspan="4" style="text-align: left; border: none; width: 41%">
                         <strong>Shipping To</strong><br>
@@ -242,8 +245,8 @@
                         <span style="font-weight: semi-bold">Name:</span> {{ $ship['name'] }}<br>
                         <span style="font-weight: semi-bold">Phone:<span> {{ $ship['phone'] }}<br>
                         <span style="font-weight: semi-bold">Address:<span> {{ $ship['address'] }} <br>
-                        <span style="font-weight: semi-bold">City:<span> {{ $ship['city'] }} <br>
-                        <span style="font-weight: semi-bold">Area:<span> {{ $ship['area'] }}
+                        <span style="font-weight: semi-bold">State/District:<span> {{ $ship['state_name'] }} <br>
+                        <span style="font-weight: semi-bold">City:<span> {{ $ship['city_name'] }}
                     </td>
                 </tr>
             </table>
@@ -319,8 +322,8 @@
                 3. For any assistance, you are entitled to 12 months of service warranty from the date
                 of
                 purchase.<br>
-                4. You can reach us at <strong> +880 17 200 85127</strong> or email us at
-                <strong>10bazar.store@gmail.com</strong>.<br>
+                4. You can reach us at <strong> {{ $apps->phone }}</strong> or email us at
+                <strong>{{ $apps->email }}</strong>.<br>
                 5. <strong>No Money Back Policy.</strong><br>
                 <span style="font-size: 17px">Thank you for shopping with us. Have a great day!</span>
             </p>
