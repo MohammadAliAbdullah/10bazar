@@ -15,8 +15,7 @@
     <link rel="icon" type="image/png" href="{{ isset($apps->favicon) ? asset($apps->favicon) : '' }}"><!-- fonts -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,400i,500,500i,700,700i"><!-- css -->
     <link rel="stylesheet" href="{{ asset('public') }}/assets/vendor/bootstrap-4.2.1/css/bootstrap.min.css">
-    <link rel="stylesheet"
-        href="{{ asset('public') }}/assets/vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="{{ asset('public') }}/assets/vendor/owl-carousel-2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet" href="{{ asset('public') }}/assets/css/style.css">
     <link rel="stylesheet" href="{{ asset('public') }}/assets/css/custom_style.css">
     <!-- js -->
@@ -92,6 +91,7 @@
     {{-- custom js - --}}
     <script>
         window.routes = {
+            baseUrl       : "{{ url('/') }}",
             layout        : "{{ request()->get('style', 'grid') }}",
             order         : "{{ request()->get('order', 'default') }}",
             limit         : "{{ request()->get('limit', 20) }}",
@@ -101,7 +101,8 @@
             headerCartList: "{{ route('headerCart.list') }}",
             loader        : "{{ asset('public/assets/loader.gif') }}",
             shopFilter    : "{{ route('filter.products') }}",             // search
-            areas         : "{{ route('areas') }}",
+            states        : "{{ route('states') }}",
+            cities        : "{{ route('cities') }}",
         };
     </script>
     <script src="{{ asset('public') }}/assets/js/customJs/cart.js?v={{ time() }}"></script>
