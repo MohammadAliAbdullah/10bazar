@@ -76,7 +76,8 @@ Route::post('/search', [HomeController::class, 'search'])->name('search');
 Route::get('/vrf', [VrfController::class, 'index'])->name('vrf');
 
 // === Checkout ===
-Route::get('/areas', [Checkoutscontroller::class, 'areas'])->name('areas');
+Route::get('/states', [Checkoutscontroller::class, 'states'])->name('states');
+Route::get('/cities', [Checkoutscontroller::class, 'cities'])->name('cities');
 Route::get('/checkout', [Checkoutscontroller::class, 'checkout'])->name('checkout');
 Route::post('/checkout-Store', [Checkoutscontroller::class, 'checkout_store'])->name('checkout_store');
 Route::post('/transaction_fee', [Checkoutscontroller::class, 'transaction_fee'])->name('transaction_fee');

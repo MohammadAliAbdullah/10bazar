@@ -164,7 +164,9 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         Route::resource('/states', '\App\Http\Controllers\Admin\Setting\StateController');
         Route::resource('/cities', '\App\Http\Controllers\Admin\Setting\CityController');
         Route::resource('/shipping-zones', '\App\Http\Controllers\Admin\Setting\ShippingZoneController');
-        // Route::resource('/shipping_zone_locations', '\App\Http\Controllers\Admin\Setting\ShippingZoneLocationController');
+        Route::resource('/shipping-zone-locations', '\App\Http\Controllers\Admin\Setting\ShippingZoneLocationController');
+        // Route::resource('shipping-zone-locations', \App\Http\Controllers\Admin\Setting\ShippingZoneLocationController::class);
+
         Route::resource('/shipping-methods', '\App\Http\Controllers\Admin\Setting\ShippingMethodController');
     });
 });
