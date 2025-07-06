@@ -11,7 +11,7 @@ class CityController extends Controller
 {
     public function index()
     {
-        $cities = City::all();
+        $cities = City::orderBy('state_id', 'ASC')->paginate(10);
         return view('Admin.Setting.cities.index', compact('cities'));
     }
 
