@@ -27,7 +27,7 @@ class CartsController extends Controller
             'price'      => formatPrice($product->sales_price, false), // Assuming formatPrice is a helper function to format the price
             'quantity'   => 1,
             'attributes' => array(
-                'image'   => $product->thumbnail_img,
+                'image'   => $product->thumb,
                 'slug'    => $product->slug,
                 'colored' => $product->attribute_pa_color,
             )
@@ -82,7 +82,6 @@ class CartsController extends Controller
     public function headerCartList()
     {
         $items    = Cart::getContent();
-        // return $items;
         $subtotal = Cart::getSubTotal();
 
         return response()->json([

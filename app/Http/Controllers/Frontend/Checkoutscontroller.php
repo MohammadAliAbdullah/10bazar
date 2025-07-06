@@ -15,6 +15,9 @@ use Darryldecode\Cart\Facades\CartFacade as Cart;
 use App\Models\Customer;
 use App\Models\Voucher;
 use App\Models\Coupon;
+use App\Models\ShippingMethod;
+use App\Models\ShippingZone;
+use App\Models\ShippingZoneLocation;
 use Illuminate\Support\Facades\Session;
 
 class Checkoutscontroller extends Controller
@@ -25,24 +28,94 @@ class Checkoutscontroller extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function areas(Request $request)
+    public function states(Request $request)
     {
-        $sub_cats = City::orderBy('name', 'ASC')->where('state_id', $request->parent_id)->get()->pluck('name', 'id')->toArray();
-        return response()->json($sub_cats);
+        $zoneId          = $request->zone_id;
+        $shippingMethods = ShippingMethod::where('shipping_zone_id', $zoneId)->get();
+        $states          = ShippingZoneLocation::with('state')
+            ->where('shipping_zone_id', $zoneId)
+            ->get()
+            ->groupBy('state_id')
+            ->map(function ($group) {
+                $state = $group->first()->state;
+                //  return $state;
+                return [
+                    'id' => $state->id,
+                    'name' => $state->name
+                ];
+            });
+        return response()->json(['states' => $states, 'shippingMethods' => $shippingMethods]);
+    }
+
+    public function cities(Request $request)
+    {
+        $cities = ShippingZoneLocation::with('city')
+            ->where('state_id', $request->state_id)
+            ->get()
+            ->groupBy('city_id')
+            ->map(function ($group) {
+                $city = $group->first()->city;
+                return $city;
+                // return [
+                //     'id' => $city->id,
+                //     'name' => $city->name,
+                //     'state_id' => $city->state_id,
+                //     'city_id' => $city->id
+                // ];
+            })
+            ->sortBy(function ($item) {
+                return [$item->state_id, $item->city_id];
+            })
+            ->values();
+        // return $cities;
+        return response()->json($cities);
     }
 
     public function checkout()
     {
         // if (Auth::guard('mypanel')->user()) {
-            $data['customer'] = Auth::guard('mypanel')->user();
-            $data['cartCollection'] = Cart::getContent();
-            $data['districts'] = State::orderBy('name', 'ASC')->get()->pluck('name', 'id')->toArray();
-            // $data['districts'] = Division::orderBy('name', 'ASC')->get()->pluck('name', 'id')->toArray();
-            $data['paymentMethods'] = PaymentMethod::orderBy('id', 'ASC')->where([['is_active', '1'], ['is_web', 1]])->get();
-            return view("Frontend.Page.checkout", $data);
+        $data['customer'] = Auth::guard('mypanel')->user();
+        $data['cartCollection'] = Cart::getContent();
+
+        $data['zone'] = ShippingZone::where('is_default', 1)->first();
+        $zoneId = $data['zone']->id;
+        $data['zoneLocation'] = ShippingZoneLocation::where('shipping_zone_id', $zoneId)
+            ->where('is_default', 1)
+            ->orderBy('id', 'DESC')
+            ->first();
+
+        $stateId = $data['zoneLocation']->state_id;
+        $cityId = $data['zoneLocation']->city_id;
+        $data['state'] = State::where('id', $stateId)->first();
+        $data['city'] = City::where('id', $cityId)->first();
+        // drop down
+
+        $data['zones'] =  ShippingZone::orderBy('is_default', 'desc')->get()->pluck('name', 'id')->toArray();
+        $data['states'] = State::orderBy('name', 'ASC')
+            ->where('id', $stateId)
+            ->get()->pluck('name', 'id')->toArray();
+        // Get the selected city
+        $selectedCity = City::where('id', $cityId)->pluck('name', 'id')->toArray();
+
+        // Get other cities in the same state (excluding selected city), ordered by name
+        $otherCities = City::orderBy('name', 'ASC')
+            ->where('state_id', $stateId)
+            ->where('id', '!=', $cityId)
+            ->pluck('name', 'id')
+            ->toArray();
+
+        // Merge selected city at the top
+        $data['cities'] = $selectedCity + $otherCities;
+        // shipping method
+        $data['shippingMethods'] = ShippingMethod::orderBy('base_fee', 'ASC')
+            ->where([['is_active', '1'], ['shipping_zone_id', $zoneId]])
+            ->get();
+
+        $data['paymentMethods'] = PaymentMethod::orderBy('id', 'ASC')->where([['is_active', '1'], ['is_web', 1]])->get();
+        return view("Frontend.Page.checkout", $data);
         // } else {
-            // session(['link' => url()->previous()]);
-            // return redirect()->route('login');
+        // session(['link' => url()->previous()]);
+        // return redirect()->route('login');
         // }
     }
     public function transaction_fee(Request $request)
