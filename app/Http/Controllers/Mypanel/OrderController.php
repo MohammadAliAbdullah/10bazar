@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Mypanel;
 use App\Http\Controllers\Controller;
 use App\Library\SslCommerz\SslCommerzNotification;
 use App\Models\Area;
+use App\Models\State;
 use App\Models\City;
 use App\Models\Customer;
 use App\Models\Division;
@@ -52,26 +53,27 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
+        if (!Auth::guard('mypanel')->check()) {
+            $user = Customer::firstOrCreate(
+                ['phone' => $request->phone],
+                [
+                    'name'     => $request->name,
+                    'address'  => $request->address,
+                    'status'   => 'Active',
+                    'password' => bcrypt(12345678),
+                ]
+            );
+
+            Auth::guard('mypanel')->login($user);
+        }
         try {
             DB::beginTransaction();
             $cartCollection = Cart::getContent();
             if ($cartCollection->isEmpty()) {
-                return redirect()->route('mypanel.index')->with('error', 'Your cart is empty!');
+                return redirect()->route('checkout')->with('error', 'Your cart is empty!');
             }
-            if (!Auth::guard('mypanel')->check()) {
-                $user = Customer::firstOrCreate(
-                    ['phone' => $request->phone],
-                    [
-                        'name'     => $request->name,
-                        'address'  => $request->address,
-                        'status'   => 'Active',
-                        'password' => bcrypt(12345678),
-                    ]
-                );
-
-                Auth::guard('mypanel')->login($user);
-            }
-
+            $state                     = State::where('id', $request->state_id)->first();
+            $city                      = City::where('id', $request->city_id)->first();
             $method                    = explode('@', $request->payment_method);
             $paymentMethod             = $method[0] ?? '';
             $paymentId                 = $method[1] ?? '';
@@ -79,6 +81,8 @@ class OrderController extends Controller
             $shipping['customer_id']   = $customer;
             $shipping['name']          = $request->name;
             $shipping['phone']         = $request->phone;
+            $shipping['state_name']    = $state->name;
+            $shipping['city_name']     = $city->name;
             $shipping['state_id']      = $request->state_id;
             $shipping['city_id']       = $request->city_id;
             $shipping['address']       = $request->address;
@@ -116,7 +120,7 @@ class OrderController extends Controller
 
             //Shipping Insert
             $shipping['order_id'] = $orderId;
-            $shipping_id = OrderAddress::create($shipping);
+            OrderAddress::create($shipping);
 
             //order details table
             foreach ($cartCollection as $key => $value) {
@@ -133,25 +137,26 @@ class OrderController extends Controller
 
             //Payment Insert
             $payment['order_id'] = $orderId;
-            if ($paymentMethod == 'CS-COD') {
+            if ($paymentMethod != '') {
                 $payment['payment_id'] = $paymentId;
-                $payment['transaction_id'] = 'COD';
-                $payment['full_info'] = 'CS-COD';
-                $payment['amount'] =  $order['total'];
-                $pay = OrderPayment::create($payment);
-            } elseif ($paymentMethod == 'CS-BKASH') {
-                $payment['payment_id'] = $paymentId;
-                $payment['transaction_id'] = $request->transaction;
-                $payment['full_info'] = $request->bkashnumber;
-                $payment['amount'] =  $order['total'];
-                $pay = OrderPayment::create($payment);
-            } elseif ($paymentMethod == 'CS-ROCKET') {
-                $payment['payment_id'] = $paymentId;
-                $payment['transaction_id'] = $request->rocket_transaction;
-                $payment['full_info'] = $request->rocket_number;
+                $payment['transaction_id'] = $paymentMethod;
+                $payment['full_info'] = $paymentMethod;
                 $payment['amount'] =  $order['total'];
                 $pay = OrderPayment::create($payment);
             }
+            // elseif ($paymentMethod == 'CS-BKASH') {
+            //     $payment['payment_id'] = $paymentId;
+            //     $payment['transaction_id'] = $request->transaction;
+            //     $payment['full_info'] = $request->bkashnumber;
+            //     $payment['amount'] =  $order['total'];
+            //     $pay = OrderPayment::create($payment);
+            // } elseif ($paymentMethod == 'CS-ROCKET') {
+            //     $payment['payment_id'] = $paymentId;
+            //     $payment['transaction_id'] = $request->rocket_transaction;
+            //     $payment['full_info'] = $request->rocket_number;
+            //     $payment['amount'] =  $order['total'];
+            //     $pay = OrderPayment::create($payment);
+            // }
 
             if ($paymentMethod == 'CS-SSLCOM') {
                 // default code is bellow.
@@ -162,33 +167,31 @@ class OrderController extends Controller
                 $post_data['tran_id'] = $order['invoice_no']; // tran_id must be unique
 
                 # CUSTOMER INFORMATION
-                $post_data['cus_name'] = $customers->name;
-                $post_data['cus_email'] = $customers->email;
-                $post_data['cus_add1'] = $shipping['address'];
-                $post_data['cus_add2'] = "";
-                $post_data['cus_city'] = "";
-                $post_data['cus_state'] = "";
+                $post_data['cus_name']     = $customers->name;
+                $post_data['cus_email']    = $customers->email;
+                $post_data['cus_add1']     = $shipping['address'];
+                $post_data['cus_add2']     = "";
+                $post_data['cus_city']     = "";
+                $post_data['cus_state']    = "";
                 $post_data['cus_postcode'] = "";
-                $post_data['cus_country'] = "Bangladesh";
-                $post_data['cus_phone'] = $customers->phone;
-                $post_data['cus_fax'] = "";
+                $post_data['cus_country']  = "Bangladesh";
+                $post_data['cus_phone']    = $customers->phone;
+                $post_data['cus_fax']      = "";
 
                 # SHIPMENT INFORMATION
-                $post_data['ship_name'] = $shipping['name'];
-                $post_data['ship_add1'] = $shipping['address'];
-                $post_data['ship_add2'] = "";
-                $post_data['ship_city'] = $shipping['city'];
-                $post_data['ship_state'] = $shipping['area'];
-                $post_data['ship_postcode'] = "1000";
-                $post_data['ship_phone'] = $shipping['phone'];
-                $post_data['ship_country'] = "Bangladesh";
-                $post_data['shipping_method'] = "NO";
-                $post_data['product_name'] = "Electronics";
+                $post_data['ship_name']        = $shipping['name'];
+                $post_data['ship_add1']        = $shipping['address'];
+                $post_data['ship_add2']        = "";
+                $post_data['ship_city']        = $shipping['state_name'];
+                $post_data['ship_state']       = $shipping['city_name'];
+                $post_data['ship_postcode']    = "1000";
+                $post_data['ship_phone']       = $shipping['phone'];
+                $post_data['ship_country']     = "Bangladesh";
+                $post_data['shipping_method']  = "NO";
+                $post_data['product_name']     = "Electronics";
                 $post_data['product_category'] = "Goods";
-                $post_data['product_profile'] = "physical-goods";
+                $post_data['product_profile']  = "physical-goods";
 
-                // $config = sslcommerz_config();
-                // $sslc = new SslCommerzNotification($config);
                 $sslc = new SslCommerzNotification();
                 # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
                 //$payment_options = $sslc->makePayment($post_data, 'hosted');
@@ -204,14 +207,14 @@ class OrderController extends Controller
                 Cart::clear();
             }
 
+            DB::commit();
             Session::flash('status', 'Order has is Successful! placed!');
             return redirect()->route('mypanel.morder.index')->with('status', 'Order has is Successful! placed!');
-            DB::commit();
         } catch (\Exception $e) {
             // Rollback transaction on error
             DB::rollBack();
             Session::flash('status', $e->getMessage());
-            return redirect()->route('checkout')->with('status', 'Order has is Failed!');
+            return redirect()->route('checkout')->with('status',  $e->getMessage());
         }
     }
 
@@ -385,15 +388,26 @@ class OrderController extends Controller
     {
         $data['user']    = $user  = Auth::guard('mypanel')->user()->id;
         $data['profile'] = Customer::where('id', $user)->first();
-        $data['order']  = $order = Order::where('invoice_no', $id)->first();
+        $data['order']   = $order = Order::with([
+            'address.state:id,name',
+            'address.city:id,name'
+        ])
+            ->where('invoice_no', $id)
+            ->first();
+        // return $order;
         $data['orders'] = OrderDetails::where('order_id', $order->id)->get();
-        // return $data;
         return view('Mypanel.user', $data);
     }
 
+    /**
+     * Download a PDF copy of the invoice for the order with the given ID
+     *
+     * @param int $id The ID of the order
+     * @return \Illuminate\Http\Response
+     */
+
     public function invoice($id)
     {
-
         $data = ['invoice_no' => $id];
         $pdf = PDF::loadView('Mypanel.order.invoice', $data);
         return $pdf->stream('invoice-' . $id . '.pdf');
