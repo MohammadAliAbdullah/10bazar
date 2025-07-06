@@ -33,22 +33,28 @@
         <div class="card-body">
             <div class="d-flex justify-content-between status-step">
                 <div class="text-center">
-                    <div class="status-circle {{ $order->status == 'Pending' ? 'bg-success' : 'bg-secondary' }} mb-2">1</div>
+                    <div class="status-circle {{ $order->status == 'Pending' ? 'bg-success' : 'bg-secondary' }} mb-2">1
+                    </div>
                     <div>Order placed</div>
                 </div>
                 <div class="status-line"></div>
                 <div class="text-center">
-                    <div class="status-circle {{ in_array($order->status, ['Processing', 'Shipped', 'Complete']) ? 'bg-success' : 'bg-secondary' }} mb-2">2</div>
+                    <div
+                        class="status-circle {{ in_array($order->status, ['Processing', 'Shipped', 'Complete']) ? 'bg-success' : 'bg-secondary' }} mb-2">
+                        2</div>
                     <div>Confirmed</div>
                 </div>
                 <div class="status-line"></div>
                 <div class="text-center">
-                    <div class="status-circle {{ in_array($order->status, ['Shipped', 'Complete']) ? 'bg-success' : 'bg-secondary' }} mb-2">3</div>
+                    <div
+                        class="status-circle {{ in_array($order->status, ['Shipped', 'Complete']) ? 'bg-success' : 'bg-secondary' }} mb-2">
+                        3</div>
                     <div>Shipped</div>
                 </div>
                 <div class="status-line"></div>
                 <div class="text-center">
-                    <div class="status-circle {{ $order->status == 'Complete' ? 'bg-success' : 'bg-secondary' }} mb-2">4</div>
+                    <div class="status-circle {{ $order->status == 'Complete' ? 'bg-success' : 'bg-secondary' }} mb-2">4
+                    </div>
                     <div>Delivered</div>
                 </div>
             </div>
@@ -101,11 +107,13 @@
                             <td><strong>Shipping Details:</strong></td>
                             <td>
                                 @php
-                                    $ship = json_decode($order->shipping_address, true);
+                                    $shipping = json_decode($order->shipping_address ?? '{}');
                                 @endphp
-                                {{ $ship['name'] }}<br>
-                                {{ $ship['phone'] }}<br>
-                                {{ $ship['address'] }}
+                                {{ $shipping->name ?? 'N/A' }}<br>
+                                {{ $shipping->phone ?? 'N/A' }}<br>
+                                {{ $shipping->address ?? 'N/A' }}<br>
+                                {{ $shipping->city_name ?? 'N/A' }},
+                                {{ $shipping->state_name ?? 'N/A' }}
                             </td>
                         </tr>
                         <tr>
