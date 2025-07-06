@@ -220,7 +220,7 @@
                         <div class="nav-panel__indicators">
                             <div class="indicator indicator--trigger--click">
                                 <a class="indicator__button">
-                                    <span class="indicator__area"><i class="fas fa-user"></i></span>
+                                    <span class="indicator__area"><i class="{{ Auth::guard('mypanel')->user() ? 'fas fa-user-check' : 'fas fa-user-lock' }}"></i></span>
                                 </a>
                                 <div class="indicator__dropdown">
                                     <div class="dropcart">
