@@ -63,7 +63,7 @@
                     <tbody>
                         <tr>
                             <td><strong>Order Code:</strong></td>
-                            <td>{{ $order->order_code }}</td>
+                            <td>{{ $order->invoice_no }}</td>
                         </tr>
                         <tr>
                             <td><strong>Order date:</strong></td>
@@ -105,7 +105,7 @@
                                 @endphp
                                 {{ $ship['name'] }}<br>
                                 {{ $ship['phone'] }}<br>
-                                {{ $ship['address'] }}, {{ $ship['area'] }}, {{ $ship['city'] }}
+                                {{ $ship['address'] }}
                             </td>
                         </tr>
                         <tr>
