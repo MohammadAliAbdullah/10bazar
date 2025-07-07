@@ -162,7 +162,9 @@ Route::prefix('/mypanel')->name('mypanel.')->group(function () {
 });
 // live chat
 Route::get('/chat', function () {
-    return view('chat');
+    dd(env('OPENAI_API_KEY'));
+    // return env('OPENAI_API_KEY') ? 'Key exists' : 'Key missing';
+    // return view('chat');
 });
 
 Route::post('/chat-message', [App\Http\Controllers\ChatController::class, 'handle']);

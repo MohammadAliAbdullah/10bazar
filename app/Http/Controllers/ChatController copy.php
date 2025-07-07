@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Faq;
 use Illuminate\Support\Facades\Http;
 
 class ChatController extends Controller
@@ -12,7 +13,7 @@ class ChatController extends Controller
         $msg = strtolower(trim($request->message));
         $msg = preg_replace('/[^a-z0-9\s]/i', '', $msg); // Clean input
 
-        // 👋 Static reply to greetings
+        // 👋 Greeting messages
         if (preg_match('/\b(assalamu|salaam|salam)\b/i', $msg)) {
             return response()->json(['reply' => 'Wa Alaikum Assalam! How can I help you today?']);
         }
@@ -20,7 +21,17 @@ class ChatController extends Controller
             return response()->json(['reply' => 'Assalamu Alaikum wa Rahmatullahi wa Barakatuh! How can I help you today?']);
         }
 
-        // 🤖 Always use OpenAI for other questions
+        // 🔍 Search in FAQs
+        $faq = Faq::get()->first(function ($faq) use ($msg) {
+            similar_text(strtolower($faq->title), $msg, $percent);
+            return $percent > 50;
+        });
+
+        if ($faq) {
+            return response()->json(['reply' => $faq->content]);
+        }
+
+        // 🤖 OpenAI fallback
         return response()->json(['reply' => $this->askAI($msg)]);
     }
 
@@ -32,25 +43,14 @@ class ChatController extends Controller
             ])->post('https://api.openai.com/v1/chat/completions', [
                 'model' => 'gpt-3.5-turbo',
                 'messages' => [
-                    ['role' => 'system', 'content' => 'You are a helpful customer support assistant for an eCommerce website. Answer user queries simply and clearly.'],
+                    ['role' => 'system', 'content' => 'You are a helpful customer service assistant for an eCommerce website.'],
                     ['role' => 'user', 'content' => $question],
                 ],
             ]);
-            dd($response->body()); // Debugging line to see the raw response
 
-            if ($response->failed()) {
-                return "Sorry, I couldn't reach the AI service.";
-            }
-
-            $json = $response->json();
-
-            if (isset($json['choices'][0]['message']['content'])) {
-                return $json['choices'][0]['message']['content'];
-            } else {
-                return "Sorry, I didn't understand that. Can you please rephrase?";
-            }
+            return $response->json()['choices'][0]['message']['content'] ?? "Sorry, I don't have an answer.";
         } catch (\Exception $e) {
-            return "Something went wrong while talking to the AI. Please try again later.";
+            return "AI service is temporarily unavailable. Please try again later.";
         }
     }
 }
