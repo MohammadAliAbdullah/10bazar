@@ -1,7 +1,7 @@
 <?php return array (
   'app' => 
   array (
-    'name' => '10 Bazar',
+    'name' => 'bdtask',
     'env' => 'local',
     'debug' => true,
     'url' => 'http://localhost',
@@ -165,24 +165,24 @@
   ),
   'barcode' => 
   array (
-    'store_path' => 'C:\\server\\htdocs\\10bazar\\public\\/',
+    'store_path' => 'D:\\xampp\\htdocs\\bdtask\\public\\/',
   ),
   'bkash' => 
   array (
     'sandbox' => true,
-    'app_key' => '4f6o0cjiki2rfm34kfdadl1eqq',
-    'app_secret' => '2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b',
-    'username' => 'sandboxTokenizedUser02',
-    'password' => 'sandboxTokenizedUser02@12345',
-    'grant_token_url' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/token/grant',
-    'refresh_token_url' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/token/refresh',
-    'create_payment_url' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/create',
-    'execute_payment_url' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/execute',
-    'payment_status_url' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/payment/status',
-    'search_transaction_url' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/general/searchTransaction',
-    'refund_url' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/payment/refund',
-    'refund_status_url' => 'https://tokenized.sandbox.bka.sh/v1.2.0-beta/tokenized/checkout/payment/refund/status',
-    'callback_url' => 'https://localhost/10bazar/bkash/callback',
+    'app_key' => NULL,
+    'app_secret' => NULL,
+    'username' => NULL,
+    'password' => NULL,
+    'grant_token_url' => NULL,
+    'refresh_token_url' => NULL,
+    'create_payment_url' => NULL,
+    'execute_payment_url' => NULL,
+    'payment_status_url' => NULL,
+    'search_transaction_url' => NULL,
+    'refund_url' => NULL,
+    'refund_status_url' => NULL,
+    'callback_url' => NULL,
   ),
   'broadcasting' => 
   array (
@@ -245,7 +245,7 @@
       'file' => 
       array (
         'driver' => 'file',
-        'path' => 'C:\\server\\htdocs\\10bazar\\storage\\framework/cache/data',
+        'path' => 'D:\\xampp\\htdocs\\bdtask\\storage\\framework/cache/data',
       ),
       'memcached' => 
       array (
@@ -285,7 +285,7 @@
         'endpoint' => NULL,
       ),
     ),
-    'prefix' => '10_bazar_cache',
+    'prefix' => 'bdtask_cache',
   ),
   'cors' => 
   array (
@@ -324,7 +324,7 @@
       array (
         'driver' => 'sqlite',
         'url' => NULL,
-        'database' => 'bazarsto_10bazar',
+        'database' => 'hotel_csl',
         'prefix' => '',
         'foreign_key_constraints' => true,
       ),
@@ -334,7 +334,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'bazarsto_10bazar',
+        'database' => 'hotel_csl',
         'username' => 'root',
         'password' => '',
         'unix_socket' => '',
@@ -354,7 +354,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'bazarsto_10bazar',
+        'database' => 'hotel_csl',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -369,7 +369,7 @@
         'url' => NULL,
         'host' => '127.0.0.1',
         'port' => '3306',
-        'database' => 'bazarsto_10bazar',
+        'database' => 'hotel_csl',
         'username' => 'root',
         'password' => '',
         'charset' => 'utf8',
@@ -384,7 +384,7 @@
       'options' => 
       array (
         'cluster' => 'redis',
-        'prefix' => '10_bazar_database_',
+        'prefix' => 'bdtask_database_',
       ),
       'default' => 
       array (
@@ -410,10 +410,10 @@
     'orientation' => 'portrait',
     'defines' => 
     array (
-      'font_dir' => 'C:\\server\\htdocs\\10bazar\\storage\\fonts/',
-      'font_cache' => 'C:\\server\\htdocs\\10bazar\\storage\\fonts/',
-      'temp_dir' => 'C:\\Users\\Admin\\AppData\\Local\\Temp',
-      'chroot' => 'C:\\server\\htdocs\\10bazar',
+      'font_dir' => 'D:\\xampp\\htdocs\\bdtask\\storage\\fonts/',
+      'font_cache' => 'D:\\xampp\\htdocs\\bdtask\\storage\\fonts/',
+      'temp_dir' => 'C:\\Users\\Bdtask121\\AppData\\Local\\Temp',
+      'chroot' => 'D:\\xampp\\htdocs\\bdtask',
       'enable_font_subsetting' => false,
       'pdf_backend' => 'CPDF',
       'default_media_type' => 'screen',
@@ -435,12 +435,12 @@
       'local' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\server\\htdocs\\10bazar\\storage\\app',
+        'root' => 'D:\\xampp\\htdocs\\bdtask\\storage\\app',
       ),
       'public' => 
       array (
         'driver' => 'local',
-        'root' => 'C:\\server\\htdocs\\10bazar\\storage\\app/public',
+        'root' => 'D:\\xampp\\htdocs\\bdtask\\storage\\app/public',
         'url' => 'http://localhost/storage',
         'visibility' => 'public',
       ),
@@ -457,7 +457,7 @@
     ),
     'links' => 
     array (
-      'C:\\server\\htdocs\\10bazar\\public\\storage' => 'C:\\server\\htdocs\\10bazar\\storage\\app/public',
+      'D:\\xampp\\htdocs\\bdtask\\public\\storage' => 'D:\\xampp\\htdocs\\bdtask\\storage\\app/public',
     ),
   ),
   'geoip' => 
@@ -470,7 +470,7 @@
       'maxmind_database' => 
       array (
         'class' => 'Torann\\GeoIP\\Services\\MaxMindDatabase',
-        'database_path' => 'C:\\server\\htdocs\\10bazar\\storage\\app/geoip.mmdb',
+        'database_path' => 'D:\\xampp\\htdocs\\bdtask\\storage\\app/geoip.mmdb',
         'update_url' => 'https://download.maxmind.com/app/geoip_download?edition_id=GeoLite2-City&license_key=&suffix=tar.gz',
         'locales' => 
         array (
@@ -492,7 +492,7 @@
         'class' => 'Torann\\GeoIP\\Services\\IPGeoLocation',
         'secure' => true,
         'key' => NULL,
-        'continent_path' => 'C:\\server\\htdocs\\10bazar\\storage\\app/continents.json',
+        'continent_path' => 'D:\\xampp\\htdocs\\bdtask\\storage\\app/continents.json',
         'lang' => 'en',
       ),
       'ipdata' => 
@@ -617,13 +617,13 @@
       'single' => 
       array (
         'driver' => 'single',
-        'path' => 'C:\\server\\htdocs\\10bazar\\storage\\logs/laravel.log',
+        'path' => 'D:\\xampp\\htdocs\\bdtask\\storage\\logs/laravel.log',
         'level' => 'debug',
       ),
       'daily' => 
       array (
         'driver' => 'daily',
-        'path' => 'C:\\server\\htdocs\\10bazar\\storage\\logs/laravel.log',
+        'path' => 'D:\\xampp\\htdocs\\bdtask\\storage\\logs/laravel.log',
         'level' => 'debug',
         'days' => 14,
       ),
@@ -673,7 +673,7 @@
       ),
       'emergency' => 
       array (
-        'path' => 'C:\\server\\htdocs\\10bazar\\storage\\logs/laravel.log',
+        'path' => 'D:\\xampp\\htdocs\\bdtask\\storage\\logs/laravel.log',
       ),
     ),
   ),
@@ -723,14 +723,14 @@
     'from' => 
     array (
       'address' => NULL,
-      'name' => '10 Bazar',
+      'name' => 'bdtask',
     ),
     'markdown' => 
     array (
       'theme' => 'default',
       'paths' => 
       array (
-        0 => 'C:\\server\\htdocs\\10bazar\\resources\\views/vendor/mail',
+        0 => 'D:\\xampp\\htdocs\\bdtask\\resources\\views/vendor/mail',
       ),
     ),
   ),
@@ -788,33 +788,6 @@
       'table' => 'failed_jobs',
     ),
   ),
-  'scout' => 
-  array (
-    'driver' => 'database',
-    'prefix' => '',
-    'queue' => false,
-    'after_commit' => false,
-    'chunk' => 
-    array (
-      'searchable' => 500,
-      'unsearchable' => 500,
-    ),
-    'soft_delete' => false,
-    'identify' => false,
-    'algolia' => 
-    array (
-      'id' => '',
-      'secret' => '',
-    ),
-    'meilisearch' => 
-    array (
-      'host' => 'http://localhost:7700',
-      'key' => NULL,
-      'index-settings' => 
-      array (
-      ),
-    ),
-  ),
   'services' => 
   array (
     'mailgun' => 
@@ -840,7 +813,7 @@
     'lifetime' => '120',
     'expire_on_close' => false,
     'encrypt' => false,
-    'files' => 'C:\\server\\htdocs\\10bazar\\storage\\framework/sessions',
+    'files' => 'D:\\xampp\\htdocs\\bdtask\\storage\\framework/sessions',
     'connection' => NULL,
     'table' => 'sessions',
     'Store' => NULL,
@@ -849,9 +822,9 @@
       0 => 2,
       1 => 100,
     ),
-    'cookie' => '10_bazar_session',
+    'cookie' => 'bdtask_session',
     'path' => '/',
-    'domain' => 'localhost',
+    'domain' => NULL,
     'secure' => NULL,
     'http_only' => true,
     'same_site' => NULL,
@@ -892,9 +865,9 @@
   array (
     'paths' => 
     array (
-      0 => 'C:\\server\\htdocs\\10bazar\\resources\\views',
+      0 => 'D:\\xampp\\htdocs\\bdtask\\resources\\views',
     ),
-    'compiled' => 'C:\\server\\htdocs\\10bazar\\storage\\framework\\views',
+    'compiled' => 'D:\\xampp\\htdocs\\bdtask\\storage\\framework\\views',
   ),
   'debugbar' => 
   array (
@@ -908,7 +881,7 @@
     array (
       'enabled' => true,
       'driver' => 'file',
-      'path' => 'C:\\server\\htdocs\\10bazar\\storage\\debugbar',
+      'path' => 'D:\\xampp\\htdocs\\bdtask\\storage\\debugbar',
       'connection' => NULL,
       'provider' => '',
       'hostname' => '127.0.0.1',
@@ -1029,7 +1002,7 @@
     array (
     ),
     'auto_language_detection' => false,
-    'temp_dir' => 'C:\\server\\htdocs\\10bazar\\storage\\app',
+    'temp_dir' => 'D:\\xampp\\htdocs\\bdtask\\storage\\app',
     'pdfa' => false,
     'pdfaauto' => false,
     'use_active_forms' => false,
