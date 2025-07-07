@@ -12,11 +12,7 @@
             </div>
             {{-- Main Content --}}
             <div class="shop-layout__content">
-                <div class="d-block d-md-none mb-3 text-right mt-5">
-                    <button class="btn btn-dark" data-toggle="modal" data-target="#filterModal">
-                        <i class="fa fa-filter"></i> Filter
-                    </button>
-                </div>
+                
                 <div class="block">
                     <div class="products-view">
                         {{-- View Options --}}

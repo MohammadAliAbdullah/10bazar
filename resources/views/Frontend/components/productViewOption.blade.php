@@ -15,6 +15,12 @@
                     class="layout-switcher__button" href="{{ request()->fullUrlWithQuery(['style' => 'list']) }}">
                     <i class="fas fa-list"></i>
                 </a>
+
+                {{-- Mobile Filter Button --}}
+                <a title="{{ __('Filter') }}" type="button"
+                    class="layout-switcher__button d-block d-md-none" data-toggle="modal" data-target="#filterModal">
+                    <i class="fa fa-filter"></i>
+                </a>
             </div>
         </div>
 
