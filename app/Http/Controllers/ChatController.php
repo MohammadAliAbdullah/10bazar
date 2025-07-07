@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Models\Faq;
 
 class ChatController extends Controller
 {
@@ -20,8 +21,22 @@ class ChatController extends Controller
             return response()->json(['reply' => 'Assalamu Alaikum wa Rahmatullahi wa Barakatuh! How can I help you today?']);
         }
 
-        // 🤖 Always use OpenAI for other questions
-        return response()->json(['reply' => $this->askAI($msg)]);
+        // 🔍 Search in FAQs
+        $faq = Faq::get()->first(function ($faq) use ($msg) {
+            similar_text(strtolower($faq->title), $msg, $percent);
+            return $percent > 50;
+        });
+        if (!$faq) {
+            $faq = Faq::search($msg)->first();
+        }
+
+        if ($faq) {
+            return response()->json(['reply' => $faq->content]);
+        } else {
+            // 🤖 Always use OpenAI for other questions
+            return response()->json(['reply' => 'Please contact our customer support team.']);
+            // return response()->json(['reply' => $this->askAI($msg)]);
+        }
     }
 
     private function askAI($question)
@@ -36,18 +51,16 @@ class ChatController extends Controller
                     ['role' => 'user', 'content' => $question],
                 ],
             ]);
-            dd($response->body()); // Debugging line to see the raw response
+            $data = $response->json();
 
-            if ($response->failed()) {
-                return "Sorry, I couldn't reach the AI service.";
-            }
-
-            $json = $response->json();
-
-            if (isset($json['choices'][0]['message']['content'])) {
-                return $json['choices'][0]['message']['content'];
+            if (isset($data['error']['message'])) {
+                return $data['error']['message'];  // 🔥 Echo just the error message
             } else {
-                return "Sorry, I didn't understand that. Can you please rephrase?";
+                if (isset($json['choices'][0]['message']['content'])) {
+                    return $json['choices'][0]['message']['content'];
+                } else {
+                    return "Sorry, I didn't understand that. Can you please rephrase?";
+                }
             }
         } catch (\Exception $e) {
             return "Something went wrong while talking to the AI. Please try again later.";
