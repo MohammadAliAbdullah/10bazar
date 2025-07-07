@@ -35,7 +35,6 @@ class SettingController extends Controller
             'admin_logo'            => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'login_logo'            => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'invoice_logo'          => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
-            // 'logo'                  => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'favicon'               => 'nullable|image|mimes:png,jpg,jpeg,ico|max:1024',
             'timezone'              => 'nullable|string|max:150',
             'date_format'           => 'nullable|string',
@@ -75,6 +74,7 @@ class SettingController extends Controller
 
         // Try to get the existing settings entry (if it's an update)
         $setting = AppSetting::find($request->input('id'));
+        // dd($setting);
 
         // List of file inputs to process
         $imageFields = ['favicon', 'invoice_logo', 'website_logo', 'admin_logo', 'login_logo'];
@@ -82,13 +82,13 @@ class SettingController extends Controller
         foreach ($imageFields as $field) {
             if ($request->hasFile($field)) {
                 // If it's an update and the old file exists, delete it
-                if ($setting && $setting->$field && file_exists(public_path($setting->$field))) {
-                    @unlink(public_path($setting->$field));
+                if ($setting && $setting->$field && file_exists($setting->$field)) {
+                    unlink($setting->$field); // Fixed here
                 }
 
                 // Upload and store new file
                 $file = $request->file($field);
-                $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                $filename = Str::random(8) . '.' . $file->getClientOriginalExtension();
                 $file->move(public_path('uploads/settings'), $filename);
                 $validated[$field] = 'public/uploads/settings/' . $filename;
             }

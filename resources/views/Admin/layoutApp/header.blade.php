@@ -2,7 +2,7 @@
     <div class="header-container">
         <div class="nav-logo">
             <a href="{{ url('/myadminpanel/dashboard') }}">
-                <b><img src="{{ asset($apps->logo) }}" alt="" style="height: 40px;"></b>
+                <b><img src="{{ asset($apps->admin_logo) }}" alt="" style="height: 40px;"></b>
                 <span class="logo">
                     <strong class="ml-2 text-white">{{ $apps->site_title }}</strong>
                 </span>

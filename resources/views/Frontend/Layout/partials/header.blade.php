@@ -84,7 +84,7 @@
         <div class="site-header__middle container">
             <div class="site-header__logo">
                 <a href="{{ url('/') }}" class="site-header__logo-link">
-                    <img src="{{ isset($apps->logo) ? asset($apps->logo) : '' }}">
+                    <img src="{{ isset($apps->website_logo) ? asset($apps->website_logo) : '' }}">
                 </a>
             </div>
             <div class="site-header__search">

@@ -60,17 +60,6 @@
                     {{-- Branding --}}
                     {{-- Branding --}}
                     <div class="tab-pane fade" id="branding">
-                        {{-- Main Logo --}}
-                        <div class="form-group row">
-                            {!! Form::label('logo', 'Main Logo', ['class' => 'col-sm-3 col-form-label']) !!}
-                            <div class="col-sm-9">
-                                {!! Form::file('logo', ['class' => 'form-control', 'onchange' => "previewImage(this, 'logoPreview')"]) !!}
-                                <img id="logoPreview" src="{{ isset($setting->logo) ? asset($setting->logo) : '' }}"
-                                    class="img-thumbnail mt-2"
-                                    style="{{ isset($setting->logo) ? '' : 'display:none;' }} max-height:100px;" />
-                            </div>
-                        </div>
-
                         {{-- Website Logo --}}
                         <div class="form-group row">
                             {!! Form::label('website_logo', 'Website Logo', ['class' => 'col-sm-3 col-form-label']) !!}
@@ -125,14 +114,6 @@
                                     src="{{ isset($setting->favicon) ? asset($setting->favicon) : '' }}"
                                     class="img-thumbnail mt-2"
                                     style="{{ isset($setting->favicon) ? '' : 'display:none;' }} max-height:50px;" />
-                            </div>
-                        </div>
-
-                        {{-- Splash Logo --}}
-                        <div class="form-group row">
-                            {!! Form::label('splash_logo', 'Splash Logo Path', ['class' => 'col-sm-3 col-form-label']) !!}
-                            <div class="col-sm-9">
-                                {!! Form::text('splash_logo', old('splash_logo', $setting->splash_logo ?? ''), ['class' => 'form-control']) !!}
                             </div>
                         </div>
                     </div>

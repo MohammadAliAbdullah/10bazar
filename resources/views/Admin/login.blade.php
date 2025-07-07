@@ -4,10 +4,13 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{__('Login')}} - {{ $apps->site_title }}</title>
+    {{-- fevicon --}}
+    <link rel="icon" type="image/png" href="{{ asset($apps->favicon) }}">
+    <title>{{ __('Login') }} - {{ $apps->site_title }}</title>
     <link rel="stylesheet" href="{{ asset('public/assets/vendor/bootstrap-4.2.1/css/bootstrap.min.css') }}" />
     <style>
-        body, html {
+        body,
+        html {
             height: 100%;
             margin: 0;
             background-color: #f5f5f5;
@@ -37,11 +40,15 @@
         }
 
         .brand {
-            font-size: 1.25rem;
+            font-size: 1.75rem;
             color: #dc3545;
             font-weight: bold;
             text-align: center;
             margin-bottom: 1rem;
+            font-family: 'Josefin Sans', sans-serif;
+            /* uppercase; */
+            text-transform: uppercase;
+
         }
 
         .form-group label {
@@ -57,14 +64,16 @@
 <body>
     <main class="container-center">
         <section class="login-card">
-            <h2 class="login-title text-center">{{ __('Log in') }}</h2>
-            <div class="brand">{{ $apps->site_title }}</div>
+            <div class="brand"><img src="{{ asset($apps->login_logo) }}" alt="" style="height: 50px;">
+                {{ $apps->site_title }}</div>
+            <h3 class="login-title text-center">{{ __('Log in') }}</h3>
             <form method="POST" action="{{ url('myadminpanel/login') }}" novalidate>
                 @csrf
                 <div class="form-group">
                     <label for="email">Email address</label>
                     <input type="email" id="email" name="email" class="form-control form-control-sm"
-                        placeholder="Enter your email..." value="{{ old('email') }}" required autofocus autocomplete="off" />
+                        placeholder="Enter your email..." value="{{ old('email') }}" required autofocus
+                        autocomplete="off" />
                     @if ($errors->has('email'))
                         <div class="text-danger small mt-1">
                             {{ $errors->first('email') }}
@@ -96,4 +105,5 @@
         </section>
     </main>
 </body>
+
 </html>
