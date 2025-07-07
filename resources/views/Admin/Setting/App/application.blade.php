@@ -58,9 +58,11 @@
                     </div>
 
                     {{-- Branding --}}
+                    {{-- Branding --}}
                     <div class="tab-pane fade" id="branding">
+                        {{-- Main Logo --}}
                         <div class="form-group row">
-                            {!! Form::label('logo', 'Logo', ['class' => 'col-sm-3 col-form-label']) !!}
+                            {!! Form::label('logo', 'Main Logo', ['class' => 'col-sm-3 col-form-label']) !!}
                             <div class="col-sm-9">
                                 {!! Form::file('logo', ['class' => 'form-control', 'onchange' => "previewImage(this, 'logoPreview')"]) !!}
                                 <img id="logoPreview" src="{{ isset($setting->logo) ? asset($setting->logo) : '' }}"
@@ -69,6 +71,52 @@
                             </div>
                         </div>
 
+                        {{-- Website Logo --}}
+                        <div class="form-group row">
+                            {!! Form::label('website_logo', 'Website Logo', ['class' => 'col-sm-3 col-form-label']) !!}
+                            <div class="col-sm-9">
+                                {!! Form::file('website_logo', [
+                                    'class' => 'form-control',
+                                    'onchange' => "previewImage(this, 'websiteLogoPreview')",
+                                ]) !!}
+                                <img id="websiteLogoPreview"
+                                    src="{{ isset($setting->website_logo) ? asset($setting->website_logo) : '' }}"
+                                    class="img-thumbnail mt-2"
+                                    style="{{ isset($setting->website_logo) ? '' : 'display:none;' }} max-height:100px;" />
+                            </div>
+                        </div>
+
+                        {{-- Admin Panel Logo --}}
+                        <div class="form-group row">
+                            {!! Form::label('admin_logo', 'Admin Panel Logo', ['class' => 'col-sm-3 col-form-label']) !!}
+                            <div class="col-sm-9">
+                                {!! Form::file('admin_logo', [
+                                    'class' => 'form-control',
+                                    'onchange' => "previewImage(this, 'adminLogoPreview')",
+                                ]) !!}
+                                <img id="adminLogoPreview"
+                                    src="{{ isset($setting->admin_logo) ? asset($setting->admin_logo) : '' }}"
+                                    class="img-thumbnail mt-2"
+                                    style="{{ isset($setting->admin_logo) ? '' : 'display:none;' }} max-height:100px;" />
+                            </div>
+                        </div>
+
+                        {{-- Login Logo --}}
+                        <div class="form-group row">
+                            {!! Form::label('login_logo', 'Login Page Logo', ['class' => 'col-sm-3 col-form-label']) !!}
+                            <div class="col-sm-9">
+                                {!! Form::file('login_logo', [
+                                    'class' => 'form-control',
+                                    'onchange' => "previewImage(this, 'loginLogoPreview')",
+                                ]) !!}
+                                <img id="loginLogoPreview"
+                                    src="{{ isset($setting->login_logo) ? asset($setting->login_logo) : '' }}"
+                                    class="img-thumbnail mt-2"
+                                    style="{{ isset($setting->login_logo) ? '' : 'display:none;' }} max-height:100px;" />
+                            </div>
+                        </div>
+
+                        {{-- Favicon --}}
                         <div class="form-group row">
                             {!! Form::label('favicon', 'Favicon', ['class' => 'col-sm-3 col-form-label']) !!}
                             <div class="col-sm-9">
@@ -80,6 +128,7 @@
                             </div>
                         </div>
 
+                        {{-- Splash Logo --}}
                         <div class="form-group row">
                             {!! Form::label('splash_logo', 'Splash Logo Path', ['class' => 'col-sm-3 col-form-label']) !!}
                             <div class="col-sm-9">
@@ -87,6 +136,7 @@
                             </div>
                         </div>
                     </div>
+
 
                     {{-- Invoice --}}
                     <div class="tab-pane fade" id="invoice">

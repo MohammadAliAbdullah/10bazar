@@ -517,3 +517,39 @@ ALTER TABLE `cs_shipping_zone_locations` ADD INDEX(`shipping_zone_id`, `state_id
 ALTER TABLE `cs_shipping_zones` ADD `is_default` INT(11) NULL DEFAULT NULL AFTER `description`;
 -- 07-07-2025
 ALTER TABLE `cs_settings` ADD `website_link` VARCHAR(150) NULL DEFAULT NULL AFTER `invoice_email`;
+-- 07-07-2025
+INSERT INTO `cs_mail_configs` (
+    `protocol`,
+    `smtp_host`,
+    `smtp_port`,
+    `smtp_user`,
+    `smtp_pass`,
+    `mail_type`,
+    `is_invoice`,
+    `is_purchase`,
+    `is_receive`,
+    `is_payment`,
+    `is_active`,
+    `created_at`,
+    `updated_at`
+) VALUES (
+    'smtp',
+    'ssl://smtp.gmail.com',
+    '465',
+    'mdalibd511@gmail.com',
+    'sdxfbufuzqoeldjs',
+    'html',
+    1,
+    0,
+    1,
+    0,
+    1,
+    NULL,
+    '2019-07-09 00:50:01'
+);
+
+ALTER TABLE `cs_settings`
+ADD COLUMN `website_logo` TEXT DEFAULT NULL AFTER `logo`,
+ADD COLUMN `admin_logo` TEXT DEFAULT NULL AFTER `website_logo`,
+ADD COLUMN `login_logo` TEXT DEFAULT NULL AFTER `admin_logo`,
+ADD COLUMN `invoice_logo` TEXT DEFAULT NULL AFTER `login_logo`;
