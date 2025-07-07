@@ -35,6 +35,83 @@ class SettingController extends Controller
             'admin_logo'            => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'login_logo'            => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'invoice_logo'          => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+            // 'logo'                  => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+            'favicon'               => 'nullable|image|mimes:png,jpg,jpeg,ico|max:1024',
+            'timezone'              => 'nullable|string|max:150',
+            'date_format'           => 'nullable|string',
+            'vat'                   => 'nullable|numeric',
+            'show_vat_number'       => 'nullable|boolean',
+            'vat_number'            => 'nullable|string|max:50',
+            'service_charge'        => 'nullable|numeric',
+            'discount_type'         => 'nullable|string|max:50',
+            'service_charge_type'   => 'nullable|string|max:50',
+            'discount_rate'         => 'nullable|numeric',
+            'country'               => 'nullable|string|max:100',
+            'google_map_embed_link' => 'nullable|string|max:500',
+            'latitude'              => 'nullable|numeric',
+            'longitude'             => 'nullable|numeric',
+            'currency_id'           => 'nullable|integer',
+            'language'              => 'nullable|string|max:50',
+            'site_alignment'        => 'nullable|string|max:50',
+            'powered_by_text'       => 'nullable|string|max:255',
+            'footer_text'           => 'nullable|string|max:255',
+            // Social Media Links
+            'facebook'                 => 'nullable|url|max:255',
+            'twitter'                  => 'nullable|max:255',
+            'linkedin'                 => 'nullable|max:255',
+            'instagram'                => 'nullable|max:255',
+            'youtube'                  => 'nullable|max:255',
+            'tiktok'                   => 'nullable|max:255',
+            // end Social Media Links
+            'whatsapp_number'          => 'nullable|string|max:20',
+            'refund_restriction'       => 'nullable|boolean',
+            'refund_auto_approve'      => 'nullable|boolean',
+            'refund_deduction_percent' => 'nullable|numeric',
+            'inventory_type'           => 'nullable|string|max:50',
+            'invoice_company'          => 'nullable|string|max:255',
+            'invoice_email'            => 'nullable|email|max:255',
+            // Add more validation rules as needed
+        ]);
+
+        // Try to get the existing settings entry (if it's an update)
+        $setting = AppSetting::find($request->input('id'));
+
+        // List of file inputs to process
+        $imageFields = ['favicon', 'invoice_logo', 'website_logo', 'admin_logo', 'login_logo'];
+
+        foreach ($imageFields as $field) {
+            if ($request->hasFile($field)) {
+                // If it's an update and the old file exists, delete it
+                if ($setting && $setting->$field && file_exists(public_path($setting->$field))) {
+                    @unlink(public_path($setting->$field));
+                }
+
+                // Upload and store new file
+                $file = $request->file($field);
+                $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+                $file->move(public_path('uploads/settings'), $filename);
+                $validated[$field] = 'public/uploads/settings/' . $filename;
+            }
+        }
+
+        // Insert or update the record
+        AppSetting::updateOrCreate(['id' => $request->input('id')], $validated);
+
+        return redirect()->back()->with('success', 'Settings saved successfully!');
+    }
+
+    public function store_old(Request $request)
+    {
+        $validated = $request->validate([
+            'site_title'            => 'required|string|max:255',
+            'store_name'            => 'nullable|string|max:100',
+            'address'               => 'required|string',
+            'email'                 => 'required|email|max:50',
+            'phone'                 => 'required|string|max:200',
+            'website_logo'          => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+            'admin_logo'            => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+            'login_logo'            => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
+            'invoice_logo'          => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'logo'                  => 'nullable|image|mimes:png,jpg,jpeg|max:2048',
             'favicon'               => 'nullable|image|mimes:png,jpg,jpeg,ico|max:1024',
             'timezone'              => 'nullable|string|max:150',
