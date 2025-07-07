@@ -553,3 +553,5 @@ ADD COLUMN `website_logo` TEXT DEFAULT NULL AFTER `logo`,
 ADD COLUMN `admin_logo` TEXT DEFAULT NULL AFTER `website_logo`,
 ADD COLUMN `login_logo` TEXT DEFAULT NULL AFTER `admin_logo`,
 ADD COLUMN `invoice_logo` TEXT DEFAULT NULL AFTER `login_logo`;
+
+ALTER TABLE `faqs` CHANGE `title` `title` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;

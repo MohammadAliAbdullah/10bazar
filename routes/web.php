@@ -160,6 +160,11 @@ Route::prefix('/mypanel')->name('mypanel.')->group(function () {
         Route::resource('/password', PasswordController::class);
     });
 });
+// live chat
+Route::get('/chat', function () {
+    return view('chat');
+});
 
+Route::post('/chat-message', [App\Http\Controllers\ChatController::class, 'handle']);
 // === Admin Panel Routes ===
 require __DIR__ . '/admin.php';
