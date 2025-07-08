@@ -1,25 +1,8 @@
-<style>
-    .layout-switcher__button {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 6px 10px;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        background-color: #fff;
-        color: #333;
-        font-size: 14px;
-    }
-
-    .layout-switcher__button i {
-        font-size: 16px;
-    }
-</style>
 <div class="products-view__options">
     <div class="view-options d-flex flex-wrap align-items-center justify-content-between">
 
         <!-- Layout Switcher -->
-        <div class="layout-switcher mb-2 me-3">
+        <div class="layout-switcher d-flex align-items-center mb-2 me-3">
             <div class="layout-switcher__list d-flex align-items-center">
                 <!-- Grid Button -->
                 <a data-layout="grid-3-sidebar" data-with-features="true" title="{{ __('Grid With Features') }}"
@@ -42,35 +25,47 @@
             </div>
         </div>
 
-        <!-- Divider (optional, hidden on mobile) -->
-        <div class="view-options__divider d-none d-md-block mx-3"></div>
-
-        <!-- Sort By -->
-        <div class="view-options__control mb-2 me-3">
-            <label for="sortSelect" class="me-2">{{ __('Sort') }}</label>
-            <select class="form-control form-control-sm w-auto d-inline-block" id="sortSelect"
+        <!-- Sort + Show Count Controls -->
+        <div class="view-options__control d-flex align-items-center mb-2 me-3">
+            <!-- Sort Label + Select -->
+            <label for="sortSelect" class="me-2 mb-0 d-block">
+                <i class="fas fa-sort-alpha-up"></i>
+            </label>
+            <select class="form-control form-control-sm w-auto me-3" id="sortSelect"
                 onchange="window.location.href=this.value;">
                 <option value="">{{ __('Default') }}</option>
                 <option value="{{ request()->fullUrlWithQuery(['order' => 'name_asc']) }}"
-                    {{ request()->get('order') == 'name_asc' ? 'selected' : '' }}>{{ __('Name (A-Z)') }}</option>
+                    {{ request()->get('order') == 'name_asc' ? 'selected' : '' }}>
+                    {{ __('Name (A-Z)') }}
+                </option>
                 <option value="{{ request()->fullUrlWithQuery(['order' => 'name_dsc']) }}"
-                    {{ request()->get('order') == 'name_dsc' ? 'selected' : '' }}>{{ __('Name (Z-A)') }}</option>
+                    {{ request()->get('order') == 'name_dsc' ? 'selected' : '' }}>
+                    {{ __('Name (Z-A)') }}
+                </option>
             </select>
-        </div>
 
-        <!-- Show Count -->
-        <div class="view-options__control mb-2">
-            <label for="showCount" class="me-2">{{ __('Show') }}</label>
-            <select class="form-control form-control-sm w-auto d-inline-block" id="showCount"
+            <!-- Show Count Label + Select -->
+            <label for="showCount" class="me-2 mb-0 d-block ml-2">
+                <i class="fas fa-list-ol me-1"></i>
+            </label>
+            <select class="form-control form-control-sm w-auto" id="showCount"
                 onchange="window.location.href=this.value;">
                 <option value="{{ request()->fullUrlWithQuery(['limit' => '20']) }}"
-                    {{ request()->get('limit') == '20' ? 'selected' : '' }}>{{ __('20') }}</option>
+                    {{ request()->get('limit') == '20' ? 'selected' : '' }}>
+                    {{ __('20') }}
+                </option>
                 <option value="{{ request()->fullUrlWithQuery(['limit' => '30']) }}"
-                    {{ request()->get('limit') == '30' ? 'selected' : '' }}>{{ __('30') }}</option>
+                    {{ request()->get('limit') == '30' ? 'selected' : '' }}>
+                    {{ __('30') }}
+                </option>
                 <option value="{{ request()->fullUrlWithQuery(['limit' => '40']) }}"
-                    {{ request()->get('limit') == '40' ? 'selected' : '' }}>{{ __('40') }}</option>
+                    {{ request()->get('limit') == '40' ? 'selected' : '' }}>
+                    {{ __('40') }}
+                </option>
                 <option value="{{ request()->fullUrlWithQuery(['limit' => '50']) }}"
-                    {{ request()->get('limit') == '50' ? 'selected' : '' }}>{{ __('50') }}</option>
+                    {{ request()->get('limit') == '50' ? 'selected' : '' }}>
+                    {{ __('50') }}
+                </option>
             </select>
         </div>
 
