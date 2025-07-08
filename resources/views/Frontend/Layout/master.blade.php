@@ -31,6 +31,71 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-6"></script>
     {{-- sweetalert.js --}}
     <script src="{{ asset('public') }}/assets/vendor/sweetalert/sweetalert.js"></script>
+    <style>
+        /* Slide-in from left */
+        .modal.left .modal-dialog {
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            margin: 0 !important;
+            height: 100%;
+            max-width: 90%;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease-out;
+            z-index: 1055;
+        }
+
+        .modal.left.show .modal-dialog {
+            transform: translateX(0);
+        }
+
+        /* Modal container styles */
+        .modal.left .modal-content,
+        .modal-dialog,
+        .modal-content {
+            height: 100%;
+            background-color: #fff !important;
+            border: none !important;
+            box-shadow: none !important;
+            outline: none !important;
+            border-radius: 0 !important;
+        }
+
+        /* Remove Bootstrap 5 shadow variables if applicable */
+        .modal-content {
+            --bs-box-shadow: none !important;
+            box-shadow: none !important;
+        }
+
+        /* Extra assurance: override browser focus ring & active box-shadows */
+        .modal *,
+        .modal *:focus,
+        .modal *:active {
+            box-shadow: none !important;
+            outline: none !important;
+            border-color: transparent !important;
+        }
+
+        /* Modal body scroll and spacing */
+        .modal.left .modal-body {
+            overflow-y: auto;
+            flex-grow: 1;
+            padding: 15px;
+        }
+
+        /* Header/footer no borders */
+        .modal-header,
+        .modal-footer {
+            border: none !important;
+        }
+
+        /* Optional: backdrop less visible or completely transparent */
+        .modal-backdrop {
+            background-color: rgba(0, 0, 0, 0.1) !important;
+            box-shadow: none !important;
+        }
+    </style>
     {{-- @if ($isRtl)
         <style>
             body {
@@ -91,18 +156,18 @@
     {{-- custom js - --}}
     <script>
         window.routes = {
-            baseUrl       : "{{ url('/') }}",
-            layout        : "{{ request()->get('style', 'grid') }}",
-            order         : "{{ request()->get('order', 'default') }}",
-            limit         : "{{ request()->get('limit', 20) }}",
-            cartAdd       : "{{ route('cart.add') }}",
-            cartUpdate    : "{{ route('cart.update') }}",
-            cartRemove    : "{{ route('cart.remove') }}",
+            baseUrl: "{{ url('/') }}",
+            layout: "{{ request()->get('style', 'grid') }}",
+            order: "{{ request()->get('order', 'default') }}",
+            limit: "{{ request()->get('limit', 20) }}",
+            cartAdd: "{{ route('cart.add') }}",
+            cartUpdate: "{{ route('cart.update') }}",
+            cartRemove: "{{ route('cart.remove') }}",
             headerCartList: "{{ route('headerCart.list') }}",
-            loader        : "{{ asset('public/assets/loader.gif') }}",
-            shopFilter    : "{{ route('filter.products') }}",             // search
-            states        : "{{ route('states') }}",
-            cities        : "{{ route('cities') }}",
+            loader: "{{ asset('public/assets/loader.gif') }}",
+            shopFilter: "{{ route('filter.products') }}", // search
+            states: "{{ route('states') }}",
+            cities: "{{ route('cities') }}",
         };
     </script>
     <script src="{{ asset('public') }}/assets/js/customJs/cart.js?v={{ time() }}"></script>

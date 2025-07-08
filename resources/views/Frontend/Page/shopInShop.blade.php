@@ -11,7 +11,10 @@
         <div class="shop-layout shop-layout--sidebar--start">
 
             {{-- Sidebar Filter --}}
-            @include('Frontend.Page.components.brandFilter')
+            <div class="d-none d-md-block">
+                @include('Frontend.Page.components.brandFilter')
+            </div>
+            {{-- Main Content --}}
 
             <div class="shop-layout__content">
                 <div class="block">
@@ -23,7 +26,7 @@
                             <div class="products-view__list products-list" data-layout="grid-3-sidebar"
                                 data-with-features="false">
                                 <div class="products-list__body">
-                            
+
                                     {{-- Product Items --}}
                                     <section
                                         id="{{ request()->get('style') == 'list' ? 'productListView' : 'productGirdView' }}"
@@ -46,6 +49,22 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal left fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-slideout" role="document">
+            <div class="modal-content h-100 d-flex flex-column">
+                <div class="modal-header">
+                    <h5 class="modal-title">Filter Products</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body overflow-auto flex-grow-1">
+                    @include('Frontend.Page.components.brandFilter')
                 </div>
             </div>
         </div>

@@ -14,8 +14,10 @@
         <div class="shop-layout shop-layout--sidebar--start">
 
             {{-- Sidebar Filter --}}
-            @include('Frontend.Page.components.categoryFilter')
-
+            <div class="d-none d-md-block">
+                @include('Frontend.Page.components.categoryFilter')
+            </div>
+            {{-- Main Content --}}
             <div class="shop-layout__content">
                 <div class="block">
                     <div class="products-view">
@@ -54,6 +56,22 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal left fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="filterModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-slideout" role="document">
+            <div class="modal-content h-100 d-flex flex-column">
+                <div class="modal-header">
+                    <h5 class="modal-title">{{ __('Filter Products') }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="{{ __('Close') }}">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body overflow-auto flex-grow-1">
+                    @include('Frontend.Page.components.categoryFilter')
                 </div>
             </div>
         </div>
