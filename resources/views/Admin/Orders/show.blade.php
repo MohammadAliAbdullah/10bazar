@@ -125,7 +125,7 @@
                                             <tr>
                                                 <td>{{ $index + 1 }}</td>
                                                 <td>
-                                                    <img src="{{ asset('public/images/product/' . ($value->product->thumb ?? 'notfound.png')) }}"
+                                                    <img src="{{ asset($value->product->thumb) }}"
                                                         alt="Product Image" width="40" height="40"
                                                         class="img-thumbnail">
                                                 </td>
