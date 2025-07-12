@@ -188,25 +188,26 @@
         <table>
             <tr>
                 <td style="border: none; width: 59%">
-                    <img src="{{ public_path('assets/invoice_logo.png') }}" alt="Company Logo">
+                    <img src="{{ asset($apps->invoice_logo) }}" alt="Company Logo">
                     <h1 style="color: #5ce1e6; margin-top: 10px!important">INVOICE</h1>
                     Invoice Number:# <span style="font-size: 12px; font-weight: semi-bold">
-                        {{ $data->invoice_no }}</span>
+                        {{ $data->invoice_no }}
+                    </span>
                 </td>
                 <td style="border-right: none;border-top: none; border-bottom: none; width: 41%; padding-left: 05px">
-                    <h2><span style="color: black; padding-bottom: 5px">10 BAZAR</span></h2>
+                    <h2><span style="color: black; padding-bottom: 5px">{{ $apps->site_title }}</span></h2>
                     <br>
                     <p>
                         <img src="{{ public_path('assets/icons/phone.png') }}" width="14"
-                            style="vertical-align: middle;" /> +880 17 200 85127<br>
+                            style="vertical-align: middle;" /> {{ $apps->phone }}<br>
                         <img src="{{ public_path('assets/icons/email.png') }}" width="14"
-                            style="vertical-align: middle;" /> 10bazar.store@gmail.com<br>
+                            style="vertical-align: middle;" /> {{ $apps->email }}<br>
                         <img src="{{ public_path('assets/icons/map.png') }}" width="14"
                             style="vertical-align: middle;" />
-                        Road-1/A, Sector-7, Uttara <br>
+                        {{ $apps->address }} <br>
                         <img src="{{ public_path('assets/icons/web.png') }}" width="14"
                             style="vertical-align: middle;" />
-                        www.10bazar.store
+                        {{ $apps->website_link }}
                     </p>
                 </td>
             </tr>
@@ -242,8 +243,8 @@
                         <span style="font-weight: semi-bold">Name:</span> {{ $ship['name'] }}<br>
                         <span style="font-weight: semi-bold">Phone:<span> {{ $ship['phone'] }}<br>
                         <span style="font-weight: semi-bold">Address:<span> {{ $ship['address'] }} <br>
-                        <span style="font-weight: semi-bold">City:<span> {{ $ship['city'] }} <br>
-                        <span style="font-weight: semi-bold">Area:<span> {{ $ship['area'] }}
+                        <span style="font-weight: semi-bold">State/District:<span> {{ $ship['state_name'] }} <br>
+                        <span style="font-weight: semi-bold">City:<span> {{ $ship['city_name'] }}
                     </td>
                 </tr>
             </table>
@@ -263,47 +264,47 @@
                     <td>{{ $key + 1 }}</td>
                     <td class="product">{{ $order->name }}</td>
                     <td align="right">{{ $order->qty }}</td>
-                    <td align="right">{{ $order->price }} Tk</td>
-                    <td align="right">{{ $order->total }} Tk</td>
+                    <td align="right">{{ $order->price }}</td>
+                    <td align="right">{{ number_format($order->total, 2) }}</td>
                 </tr>
             @endforeach
             <tr>
                 <td class="blank" colspan="2" rowspan="6" style="border: none">
                 </td>
                 <td colspan="2" class="total-line">Sub Total:</td>
-                <td class="total-value">{{ $data->subtotal }} Tk</td>
+                <td class="total-value">{{ number_format($data->subtotal, 2) }}</td>
             </tr>
             @if ($data->discount > 0)
                 <tr>
                     <td colspan="2" class="total-line">Discount:</td>
-                    <td class="total-value">{{ $data->discount ?? 0 }} Tk</td>
+                    <td class="total-value">{{ $data->discount ?? 0 }}</td>
                 </tr>
             @endif
             @if ($data->coupon_discount > 0)
                 <tr>
                     <td colspan="2" class="total-line">Coupon Discount:</td>
-                    <td class="total-value">{{ $data->coupon_discount ?? 0 }} Tk</td>
+                    <td class="total-value">{{ $data->coupon_discount ?? 0 }}</td>
                 </tr>
             @endif
             @if ($data->vat > 0)
                 <tr>
                     <td colspan="2" class="total-line">VAT (0%):</td>
-                    <td class="total-value">{{ $data->vat ?? 0 }} Tk</td>
+                    <td class="total-value">{{ $data->vat ?? 0 }}</td>
                 </tr>
             @endif
             @if ($data->delivary_charge > 0)
                 <tr>
                     <td colspan="2" class="total-line">Delivery Charge:</td>
-                    <td class="total-value">{{ $data->delivary_charge ?? 0 }} Tk</td>
+                    <td class="total-value">{{ number_format($data->delivary_charge, 2) ?? 0 }}</td>
                 </tr>
             @endif
             <tr>
                 <td colspan="2" class="total-line">Grand Total:</td>
-                <td class="total-value">{{ $data->total }} Tk</td>
+                <td class="total-value">{{ number_format($data->total, 2)}}</td>
             </tr>
             <tr>
                 <td colspan="2" class="balance"><strong>TOTAL AMOUNT DUE:</strong></td>
-                <td class="total-value balance"><strong>{{ $data->total }} Tk</strong></td>
+                <td class="total-value balance"><strong>{{ number_format($data->total, 2) }}</strong></td>
             </tr>
         </table>
         <div id="terms">
@@ -319,8 +320,8 @@
                 3. For any assistance, you are entitled to 12 months of service warranty from the date
                 of
                 purchase.<br>
-                4. You can reach us at <strong> +880 17 200 85127</strong> or email us at
-                <strong>10bazar.store@gmail.com</strong>.<br>
+                4. You can reach us at <strong> {{ $apps->phone }}</strong> or email us at
+                <strong>{{ $apps->email }}</strong>.<br>
                 5. <strong>No Money Back Policy.</strong><br>
                 <span style="font-size: 17px">Thank you for shopping with us. Have a great day!</span>
             </p>

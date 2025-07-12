@@ -25,4 +25,10 @@ class Order extends Model
         return $this->hasOne(OrderAddress::class);
     }
 
+    // order table payment_type and PaymentMethod table code join
+    public function paymentType()
+    {
+        return $this->hasOne(PaymentMethod::class, 'code', 'payment_type');
+    }
+
 }

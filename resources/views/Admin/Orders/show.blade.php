@@ -12,7 +12,7 @@
         <div class="container-fluid">
             <div class="row">
                 {{-- Order Status Update --}}
-                <div class="col-md-6 mb-3">
+                <div class="col-lg-6 col-md-6 mb-3">
                     <div class="callout callout-info p-3">
                         {!! Form::open(['method' => 'POST', 'route' => 'madmin.orderadmin.store']) !!}
                         <div class="d-flex align-items-center w-100" style="gap: 10px;">
@@ -26,23 +26,22 @@
                                 </option>
                             </select>
                             <input type="hidden" name="id" value="{{ $order->id }}">
-                            <button type="submit" class="btn btn-info">Submit</button>
+                            <button type="submit" class="btn btn-info">
+                                <i class="lni-add-files"></i>
+                                <span class="d-none d-md-inline-block">Update</span>
+                            </button>
+                            <a href="{{ route('madmin.invoicea4.index', $order->invoice_no) }}" target="_blank"
+                                title="Print Invoice" class="btn btn-success text-white mr-2">
+                                <i class="lni-printer"></i>
+                                <span class="d-none d-md-inline-block">Invoice</span>
+                            </a>
+                            <a href="{{ route('madmin.chalan.index', $order->invoice_no) }}"
+                                class="btn btn-danger text-white" title="Print Challan">
+                                <i class="lni-printer"></i>
+                                <span class="d-none d-md-inline-block">Challan</span>
+                            </a>
                         </div>
                         {!! Form::close() !!}
-                    </div>
-                </div>
-
-                {{-- Print Buttons --}}
-                <div class="col-md-6 mb-3">
-                    <div class="callout callout-info d-flex flex-wrap gap-2 float-right">
-                        {{-- Print Invoice and Challan --}}
-                        <a href="{{ route('madmin.invoicea4.index', $order->invoice_no) }}" target="_blank"
-                            class="btn btn-success text-white mr-2">
-                            <i class="fa fa-print"></i> Invoice Print
-                        </a>
-                        <a href="{{ route('madmin.chalan.index', $order->invoice_no) }}" class="btn btn-danger text-white">
-                            <i class="fa fa-print"></i> Challan Print
-                        </a>
                     </div>
                 </div>
 
@@ -85,7 +84,8 @@
 
                             <div class="col-sm-4 invoice-col">
                                 <b>Invoice #{{ $order->invoice_no }}</b><br>
-                                <b>Payment Method:</b> {{ $order->payment_type }}<br>
+                                <b>Payment Method:</b>
+                                {{ isset($order->payment_type) ? $order->paymentType->title : $order->payment_type }}<br>
                                 <b>Payment Status:</b> {{ $order->payment_status }}<br>
                                 <b>Status:</b>
                                 @php
@@ -143,7 +143,7 @@
                                         </tr>
                                         <tr>
                                             <th colspan="5" class="text-right">Shipping Cost:</th>
-                                            <th>{{ number_format($order->shipping_cost, 2) }}</th>
+                                            <th>{{ number_format($order->delivary_charge, 2) }}</th>
                                         </tr>
                                         <tr>
                                             <th colspan="5" class="text-right">Discount:</th>
@@ -166,7 +166,7 @@
                             <div class="col-md-4">
                                 <div class="table-responsive">
                                     <table class="table table-bordered">
-                                        
+
                                     </table>
                                 </div>
                             </div>

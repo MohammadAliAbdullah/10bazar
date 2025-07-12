@@ -37,7 +37,8 @@ class OrderController extends Controller
 
     public function show($id)
     {
-        $order=Order::findOrFail($id);
+        $order=Order::with('paymentType')->findOrFail($id);
+        // return $order;
         return view('Admin.Orders.show', compact('order'));
     }
 
