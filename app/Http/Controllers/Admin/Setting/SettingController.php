@@ -384,17 +384,19 @@ class SettingController extends Controller
     public function mailConfigStore(Request $request)
     {
         $validated = $request->validate([
-            'protocol'     => 'required|string|max:100',
-            'smtp_host'    => 'required|string|max:100',
-            'smtp_port'    => 'required|string|max:100',
-            'smtp_user'    => 'required|string|max:100',
-            'smtp_pass'    => 'required|string|max:100',
-            'mail_type'    => 'required|string|max:100',
-            'is_invoice'   => 'nullable|in:0,1',
-            'is_purchase'  => 'nullable|in:0,1',
-            'is_receive'   => 'nullable|in:0,1',
-            'is_payment'   => 'nullable|in:0,1',
-            'is_active'    => 'nullable|in:0,1',
+            'protocol'    => 'required|string|max:100',
+            'smtp_host'   => 'required|string|max:100',
+            'smtp_port'   => 'required|string|max:100',
+            'smtp_user'   => 'required|string|max:100',
+            'smtp_pass'   => 'required|string|max:100',
+            'mail_type'   => 'required|string|max:100',
+            'cc'          => 'nullable|string|max:100',
+            'bcc'         => 'nullable|string|max:100',
+            'is_invoice'  => 'nullable|in:0,1',
+            'is_purchase' => 'nullable|in:0,1',
+            'is_receive'  => 'nullable|in:0,1',
+            'is_payment'  => 'nullable|in:0,1',
+            'is_active'   => 'nullable|in:0,1',
         ]);
 
         DB::table('cs_mail_configs')->updateOrInsert(['id' => 1], $validated);

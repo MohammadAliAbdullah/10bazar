@@ -57,6 +57,17 @@
                                     <input type="text" name="mail_type" class="form-control"
                                         value="{{ old('mail_type', $mail->mail_type ?? '') }}" required>
                                 </div>
+                                {{-- cc and bcc --}}
+                                <div class="form-group col-md-6">
+                                    <label>CC</label>
+                                    <input type="text" name="cc" class="form-control"
+                                        value="{{ old('cc', $mail->cc ?? '') }}" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label>BCC</label>
+                                    <input type="text" name="bcc" class="form-control"
+                                        value="{{ old('bcc', $mail->bcc ?? '') }}" required>
+                                </div>
                             </div>
 
                             <div class="row">

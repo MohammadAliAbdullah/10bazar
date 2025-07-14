@@ -18,6 +18,6 @@ class MailConfig extends Model
 
     protected $fillable = [
         'protocol', 'smtp_host', 'smtp_port', 'smtp_user', 'smtp_pass',
-        'mail_type', 'is_invoice', 'is_purchase', 'is_receive', 'is_payment', 'is_active'
+        'mail_type', 'cc', 'bcc', 'is_invoice', 'is_purchase', 'is_receive', 'is_payment', 'is_active'
     ];
 }
