@@ -53,7 +53,84 @@ class OrderController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(Request $request)
+    {
+        $request->validate([
+            'name'           => 'required|string|max:255',
+            'phone'          => 'required|string|max:20',
+            'address'        => 'required|string',
+            'state_id'       => 'required|exists:cs_states,id',
+            'city_id'        => 'required|exists:cs_cities,id',
+            'payment_method' => 'required|string',
+            'delivery_fee'   => 'nullable|numeric|min:0',
+        ]);
+
+        try {
+            DB::beginTransaction();
+
+            // Auto-create or authenticate customer
+            $customer = $this->getOrCreateCustomer($request);
+
+            // Cart validation
+            $cart = Cart::getContent();
+            if ($cart->isEmpty()) {
+                return back()->with('error', 'Your cart is empty!');
+            }
+
+            // Prepare order
+            $orderData = $this->prepareOrderData($request, $customer);
+            $order = Order::create($orderData);
+            $orderId = $order->id;
+
+            // Save address
+            OrderAddress::create([
+                'order_id'    => $orderId,
+                'customer_id' => $customer->id,
+                'name'        => $request->name,
+                'phone'       => $request->phone,
+                'state_id'    => $request->state_id,
+                'city_id'     => $request->city_id,
+                'state_name'  => State::find($request->state_id)->name,
+                'city_name'   => City::find($request->city_id)->name,
+                'address'     => $request->address,
+            ]);
+
+            // Order details
+            foreach ($cart as $item) {
+                OrderDetails::create([
+                    'order_id'   => $orderId,
+                    'product_id' => $item->id,
+                    'name'       => $item->name,
+                    'qty'        => $item->quantity,
+                    'price'      => $item->price,
+                    'total'      => $item->price * $item->quantity,
+                ]);
+            }
+
+            // Save payment info
+            $this->storePaymentInfo($request, $orderId, $orderData['total']);
+
+            // Email invoice
+            $this->sendInvoiceMail($customer, $order);
+
+            // Payment gateway handling
+            if ($orderData['payment_type'] === 'CS-SSLCOM') {
+                $this->initiateSslCommerz($customer, $order, $request->address);
+            } else {
+                Cart::clear();
+            }
+
+            DB::commit();
+            return redirect()->route('mypanel.morder.index')->with('status', 'Order placed successfully!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            Log::error('Order placement failed: ' . $e->getMessage());
+            return back()->with('error', 'Something went wrong! ' . $e->getMessage());
+        }
+    }
+
+    public function store_14072025(Request $request)
     {
         if (!Auth::guard('mypanel')->check()) {
             $user = Customer::firstOrCreate(
@@ -230,165 +307,6 @@ class OrderController extends Controller
         }
     }
 
-    public function store_old_25062025(Request $request)
-    {
-        // dd($request->all());
-        if (!Auth::guard('mypanel')->check()) {
-            $user = Customer::firstOrCreate(
-                ['phone' => $request->phone],
-                [
-                    'name'     => $request->name,
-                    'address'  => $request->address,
-                    'status'   => 'Active',
-                    'password' => bcrypt(12345678),
-                ]
-            );
-
-            Auth::guard('mypanel')->login($user);
-        }
-
-        $customer = Auth::guard('mypanel')->user()->id;
-        $city     = Division::where('id', $request->city)->first();
-        $area     = City::where('id', $request->area)->first();
-        //Shipping Address
-        $shipping['customer_id'] = $customer;
-        $shipping['name']        = $request->name;
-        $shipping['phone']       = $request->phone;
-        $shipping['city_id']     = $request->city;
-        $shipping['area_id']     = $request->area;
-        $shipping['city']        = $city->name;
-        $shipping['area']        = $area->name;
-        $shipping['address']     = $request->address;
-        $shipping_address        = json_encode($shipping);
-        $delivery_fee             = $request->city == 47 ? 80 : 130;
-
-        //Order
-        $order = array();
-        $order['currency'] = "BDT";
-        $order['invoice_no'] = "IN" . time();
-        $order['callan_no'] = "CL" . time();
-        $order['customer_id'] = $customer;
-        $order['subtotal'] = Cart::getSubTotal();
-        $order['discount'] = 0;
-        $order['vat'] = 0;
-        $order['delivary_charge'] = $delivery_fee;
-        $order['total'] = Cart::getTotal() - $order['discount'] + $order['delivary_charge'] + ($order['vat'] * $order['subtotal'] / 100); # You cant not pay less than 10
-        $order['shipping_address'] = $shipping_address;
-        if ($request->payment_method == 'cash_on_delivery') {
-            $order['payment_type'] = "COD";
-            $order['payment_status'] = "Pending";
-        } elseif ($request->payment_method == 'Bkash') {
-            $order['payment_type'] = "Bkash";
-            $order['payment_status'] = "Pending";
-        } elseif ($request->payment_method == 'Rocket') {
-            $order['payment_type'] = "Rocket";
-            $order['payment_status'] = "Pending";
-        } elseif ($request->payment_method == 'ssl') {
-            $order['payment_type'] = "SSLCommerz";
-            $order['payment_status'] = "Pending";
-        }
-        //$order['payment_details'] = "details";
-        $order['cupon_id'] = "cupon_id";
-        $order['cupon_amount'] = "cupon_amount";
-        $order['status'] = "Pending";
-        $orderId = Order::create($order)->id;
-
-        //Shipping Insert
-        $shipping['order_id'] = $orderId;
-        $shipping_id = OrderAddress::create($shipping);
-
-        //order details table
-        $cartCollection = Cart::getContent();
-        foreach ($cartCollection as $key => $value) {
-            $order_details['order_id'] = $orderId;
-            $order_details['product_id'] = $key;
-            $order_details['name'] = $value->name;
-            //$order_details['sized'] = $value->attributes->sized;
-            //$order_details['colored'] = $value->attributes->colored;
-            $order_details['qty'] = $value->quantity;
-            $order_details['price'] = $value->price;
-            $order_details['total'] = $value->price * $value->quantity;
-            OrderDetails::create($order_details);
-        }
-
-        //Payment Insert
-        $payment['order_id'] = $orderId;
-        if ($request->payment_method == 'cash_on_delivery') {
-            $payment['payment_id'] = 1;
-            $payment['transaction_id'] = 'COD';
-            $payment['full_info'] = 'cash_on_delivery';
-            $payment['amount'] =  $order['total'];
-            $pay = OrderPayment::create($payment);
-        } elseif ($request->payment_method == 'Bkash') {
-            $payment['payment_id'] = 2;
-            $payment['transaction_id'] = $request->transaction;
-            $payment['full_info'] = $request->bkashnumber;
-            $payment['amount'] =  $order['total'];
-            $pay = OrderPayment::create($payment);
-        } elseif ($request->payment_method == 'Rocket') {
-            $payment['payment_id'] = 3;
-            $payment['transaction_id'] = $request->rocket_transaction;
-            $payment['full_info'] = $request->rocket_number;
-            $payment['amount'] =  $order['total'];
-            $pay = OrderPayment::create($payment);
-        }
-
-        //dd($pay);
-        if ($request->payment_method == 'cash_on_delivery') {
-            Cart::clear();
-            return redirect()->route('mypanel.morder.index')->with('status', 'Order has is Successful! placed!');
-        } elseif ($request->payment_method == 'Nogod' or $request->payment_method == 'Bkash') {
-            Cart::clear();
-            return redirect()->route('mypanel.morder.index')->with('status', 'Order has is Successful! placed!');
-        } else {
-            // default code is bellow.
-            $customers = Customer::where('id', $customer)->first();
-            $post_data = array();
-            $post_data['total_amount'] = $order['total']; # You cant not pay less than 10
-            $post_data['currency'] = "BDT";
-            $post_data['tran_id'] = $order['invoice_no']; // tran_id must be unique
-
-            # CUSTOMER INFORMATION
-            $post_data['cus_name'] = $customers->name;
-            $post_data['cus_email'] = $customers->email;
-            $post_data['cus_add1'] = $shipping['address'];
-            $post_data['cus_add2'] = "";
-            $post_data['cus_city'] = "";
-            $post_data['cus_state'] = "";
-            $post_data['cus_postcode'] = "";
-            $post_data['cus_country'] = "Bangladesh";
-            $post_data['cus_phone'] = $customers->phone;
-            $post_data['cus_fax'] = "";
-
-            # SHIPMENT INFORMATION
-            $post_data['ship_name'] = $shipping['name'];
-            $post_data['ship_add1'] = $shipping['address'];
-            $post_data['ship_add2'] = "";
-            $post_data['ship_city'] = $shipping['city'];
-            $post_data['ship_state'] = $shipping['area'];
-            $post_data['ship_postcode'] = "1000";
-            $post_data['ship_phone'] = $shipping['phone'];
-            $post_data['ship_country'] = "Bangladesh";
-            $post_data['shipping_method'] = "NO";
-            $post_data['product_name'] = "Electronics";
-            $post_data['product_category'] = "Goods";
-            $post_data['product_profile'] = "physical-goods";
-
-
-            $sslc = new SslCommerzNotification();
-            # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
-            //$payment_options = $sslc->makePayment($post_data, 'hosted');
-            //$sslc = new SSLCommerz();
-            # initiate(Transaction Data , false: Redirect to SSLCOMMERZ gateway/ true: Show all the Payement gateway here )
-            $payment_options = $sslc->makePayment($post_data, 'hosted');
-
-            if (!is_array($payment_options)) {
-                print_r($payment_options);
-                $payment_options = array();
-            }
-        }
-    }
-
 
     /**
      * Display the specified resource.
@@ -425,37 +343,108 @@ class OrderController extends Controller
         return $pdf->stream('invoice-' . $id . '.pdf');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
+
+    private function getOrCreateCustomer(Request $request)
     {
-        //
+        if (!Auth::guard('mypanel')->check()) {
+            $user = Customer::firstOrCreate(
+                ['phone' => $request->phone],
+                [
+                    'name'     => $request->name,
+                    'address'  => $request->address,
+                    'status'   => 'Active',
+                    'password' => bcrypt('12345678'),
+                ]
+            );
+            Auth::guard('mypanel')->login($user);
+            return $user;
+        }
+
+        return Auth::guard('mypanel')->user();
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
+    private function prepareOrderData(Request $request, $customer)
     {
-        //
+        $methodData = explode('@', $request->payment_method);
+        $paymentType = $methodData[0] ?? 'Unknown';
+        $invoiceNo = 'IN' . now()->timestamp;
+
+        return [
+            'currency'         => config('app.currency.title', 'BDT'),
+            'invoice_no'       => $invoiceNo,
+            'callan_no'        => 'CL' . now()->timestamp,
+            'customer_id'      => $customer->id,
+            'subtotal'         => Cart::getSubTotal(),
+            'discount'         => 0,
+            'vat'              => 0,
+            'delivary_charge'  => $request->delivery_fee,
+            'total'            => Cart::getTotal() + $request->delivery_fee,
+            'shipping_address' => json_encode([
+                'name'        => $request->name,
+                'phone'       => $request->phone,
+                'state_id'    => $request->state_id,
+                'city_id'     => $request->city_id,
+                'state_name'  => State::find($request->state_id)->name,
+                'city_name'   => City::find($request->city_id)->name,
+                'address'     => $request->address,
+            ]),
+            'payment_type'     => $paymentType,
+            'payment_status'   => 'Pending',
+            'cupon_id'         => null,
+            'cupon_amount'     => 0,
+            'status'           => 'Pending',
+        ];
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
+    private function storePaymentInfo(Request $request, $orderId, $amount)
     {
-        //
+        $methodData = explode('@', $request->payment_method);
+        if (!$methodData[0]) return;
+
+        OrderPayment::create([
+            'order_id'       => $orderId,
+            'payment_id'     => $methodData[1] ?? null,
+            'transaction_id' => $methodData[0],
+            'full_info'      => $methodData[0],
+            'amount'         => $amount,
+        ]);
+    }
+
+    private function sendInvoiceMail($customer, $order)
+    {
+        if (!$customer->email) return;
+
+        MailService::sendCustomerInvoice($customer->email, [
+            'customer_name' => $customer->name,
+            'invoice_id'    => $order['invoice_no'],
+            'amount'        => $order['total'],
+        ]);
+    }
+
+    private function initiateSslCommerz($customer, $order, $shippingAddress)
+    {
+        $sslc = new SslCommerzNotification();
+        $data = [
+            'total_amount'      => $order['total'],
+            'currency'          => 'BDT',
+            'tran_id'           => $order['invoice_no'],
+            'cus_name'          => $customer->name,
+            'cus_email'         => $customer->email ?? 'demo@ssl.com',
+            'cus_add1'          => $shippingAddress,
+            'cus_city'          => 'Dhaka',
+            'cus_state'         => '',
+            'cus_postcode'      => '',
+            'cus_country'       => 'Bangladesh',
+            'cus_phone'         => $customer->phone,
+            'product_name'      => 'Order Product',
+            'product_category'  => 'Goods',
+            'product_profile'   => 'general',
+            'ship_name'         => $customer->name,
+            'ship_add1'         => $shippingAddress,
+            'ship_city'         => 'Dhaka',
+            'ship_country'      => 'Bangladesh',
+            'shipping_method'   => 'Courier',
+        ];
+        $sslc->makePayment($data, 'hosted');
     }
 }
