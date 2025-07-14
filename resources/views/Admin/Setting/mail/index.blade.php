@@ -45,6 +45,7 @@
                                     <input type="text" name="smtp_user" class="form-control"
                                         value="{{ old('smtp_user', $mail->smtp_user ?? '') }}" required>
                                 </div>
+                                
 
                                 <div class="form-group col-md-6">
                                     <label>SMTP Password <span class="text-danger">*</span></label>

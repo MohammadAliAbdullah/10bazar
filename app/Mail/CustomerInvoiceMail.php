@@ -42,7 +42,7 @@ class CustomerInvoiceMail extends Mailable
     {
         // We chain all the settings together inside this one method.
         // NOTE: The public property `$data` is automatically available in the view.
-        return $this->subject(' - Your Invoice')
+        return $this->subject($this->data['compnyName'] . ' - Your Invoice')
                     ->cc($this->ccEmails)
                     ->bcc($this->bccEmails)
                     ->view('emails.test'); // This will use resources/views/emails/test.blade.php

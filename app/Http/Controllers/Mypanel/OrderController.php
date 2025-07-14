@@ -208,21 +208,15 @@ class OrderController extends Controller
                 Cart::clear();
             }
             if ($customer->email) {
-                // check sending status 
-                $isInvoice = MailConfig::where('is_active', 1)->first()->is_invoice;
-                if ($isInvoice) {
-                    // Send email
-                    $emailData = [
-                        'customer_name' => $customer->name,
-                        'invoice_id'    => $order['invoice_no'],
-                        'amount'        => $order['total'],
-                    ];
-                    // $customers->email
-                    MailService::sendCustomerInvoice(
-                        $customer->email ?? 'fallback@example.com',
-                        $emailData
-                    );
-                }
+                $emailData = [
+                    'customer_name' => $customer->name,
+                    'invoice_id'    => $order['invoice_no'],
+                    'amount'        => $order['total'],
+                ];
+                MailService::sendCustomerInvoice(
+                    $customer->email ?? 'fallback@example.com',
+                    $emailData
+                );
             }
 
             DB::commit();
