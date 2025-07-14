@@ -555,3 +555,8 @@ ADD COLUMN `login_logo` TEXT DEFAULT NULL AFTER `admin_logo`,
 ADD COLUMN `invoice_logo` TEXT DEFAULT NULL AFTER `login_logo`;
 
 ALTER TABLE `faqs` CHANGE `title` `title` TEXT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL;
+
+-- 14-07-2025
+ALTER TABLE cs_mail_configs 
+ADD cc TEXT DEFAULT NULL AFTER mail_type,
+ADD bcc TEXT DEFAULT NULL AFTER cc;

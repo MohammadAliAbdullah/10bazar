@@ -209,14 +209,9 @@ class OrderController extends Controller
             }
             if ($customer->email) {
                 // check sending status 
-                $isSend = MailConfig::first()->is_invoice;
-                if ($isSend) {
+                $isInvoice = MailConfig::where('is_active', 1)->first()->is_invoice;
+                if ($isInvoice) {
                     // Send email
-                    $emailData = [
-                        'customer_name' => $customer->name,
-                        'invoice_id'    => $order['invoice_no'],
-                        'amount'        => $order['total'],
-                    ];
                     $emailData = [
                         'customer_name' => $customer->name,
                         'invoice_id'    => $order['invoice_no'],
