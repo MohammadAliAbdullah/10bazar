@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Mypanel;
 use App\Http\Controllers\Controller;
 use App\Library\SslCommerz\SslCommerzNotification;
 use App\Models\Area;
+use App\Models\MailConfig;
 use App\Models\State;
 use App\Models\City;
 use App\Models\Customer;
@@ -19,6 +20,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use PDF;
 use Illuminate\Support\Facades\Session; // Import Session for flash messages
+use App\Services\MailService;
 
 class OrderController extends Controller
 {
@@ -77,8 +79,8 @@ class OrderController extends Controller
             $method                    = explode('@', $request->payment_method);
             $paymentMethod             = $method[0] ?? '';
             $paymentId                 = $method[1] ?? '';
-            $customer                  = Auth::guard('mypanel')->user()->id;
-            $shipping['customer_id']   = $customer;
+            $customerId                  = Auth::guard('mypanel')->user()->id;
+            $shipping['customer_id']   = $customerId;
             $shipping['name']          = $request->name;
             $shipping['phone']         = $request->phone;
             $shipping['state_name']    = $state->name;
@@ -92,7 +94,7 @@ class OrderController extends Controller
             $order['currency']         = config('app.currency')->title ?? 'BDT';
             $order['invoice_no']       = "IN" . time();
             $order['callan_no']        = "CL" . time();
-            $order['customer_id']      = $customer;
+            $order['customer_id']      = $customerId;
             $order['subtotal']         = Cart::getSubTotal();
             $order['discount']         = 0;
             $order['vat']              = 0;
@@ -157,25 +159,24 @@ class OrderController extends Controller
             //     $payment['amount'] =  $order['total'];
             //     $pay = OrderPayment::create($payment);
             // }
-
+            $customer = Customer::where('id', $customerId)->first();
             if ($paymentMethod == 'CS-SSLCOM') {
                 // default code is bellow.
-                $customers = Customer::where('id', $customer)->first();
                 $post_data = array();
                 $post_data['total_amount'] = $order['total']; # You cant not pay less than 10
                 $post_data['currency'] = "BDT";
                 $post_data['tran_id'] = $order['invoice_no']; // tran_id must be unique
 
                 # CUSTOMER INFORMATION
-                $post_data['cus_name']     = $customers->name;
-                $post_data['cus_email']    = $customers->email;
+                $post_data['cus_name']     = $customer->name;
+                $post_data['cus_email']    = $customer->email;
                 $post_data['cus_add1']     = $shipping['address'];
                 $post_data['cus_add2']     = "";
                 $post_data['cus_city']     = "";
                 $post_data['cus_state']    = "";
                 $post_data['cus_postcode'] = "";
                 $post_data['cus_country']  = "Bangladesh";
-                $post_data['cus_phone']    = $customers->phone;
+                $post_data['cus_phone']    = $customer->phone;
                 $post_data['cus_fax']      = "";
 
                 # SHIPMENT INFORMATION
@@ -205,6 +206,30 @@ class OrderController extends Controller
                 }
             } else {
                 Cart::clear();
+            }
+            if ($customer->email) {
+                // check sending status 
+                $isSend = MailConfig::first()->is_invoice;
+                if ($isSend) {
+                    // Send email
+                    $emailData = [
+                        'customer_name' => $customer->name,
+                        'invoice_id'    => $order['invoice_no'],
+                        'amount'        => $order['total'],
+                    ];
+                    $emailData = [
+                        'customer_name' => $customer->name,
+                        'invoice_id'    => $order['invoice_no'],
+                        'amount'        => $order['total'],
+                    ];
+                    // $customers->email
+                    MailService::sendCustomerInvoice(
+                        $customer->email ?? 'fallback@example.com',
+                        $emailData,
+                        ['accounts@yourcompany.com'],
+                        ['admin@yourcompany.com']
+                    );
+                }
             }
 
             DB::commit();

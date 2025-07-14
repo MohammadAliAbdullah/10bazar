@@ -41,6 +41,7 @@ class MailService
         Config::set('mail.from.name', 'Your Company Name');
 
         // Send mail
-        Mail::to($to)->send(new CustomerInvoiceMail($data, $cc, $bcc));
+        // Mail::to($to)->send(new CustomerInvoiceMail($data, $cc, $bcc));
+        Mail::to($to)->cc($cc)->bcc($bcc)->send(new CustomerInvoiceMail($data));
     }
 }
