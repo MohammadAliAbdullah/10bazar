@@ -9,13 +9,16 @@ use App\Mail\CustomerInvoiceMail;
 
 class MailService
 {
-    public static function sendCustomerInvoice($to, $data, $cc = [], $bcc = [])
+    public static function sendCustomerInvoice($to, $data)
     {
         $mailConfig = MailConfig::where('is_active', 1)->first();
 
         if (!$mailConfig) {
             throw new \Exception('No active mail configuration found.');
         }
+        // Extract and validate CC and BCC emails
+        $cc = $mailConfig->cc ? array_filter(array_map('trim', explode(',', $mailConfig->cc))) : [];
+        $bcc = $mailConfig->bcc ? array_filter(array_map('trim', explode(',', $mailConfig->bcc))) : [];
 
         // Parse encryption and host
         $encryption = 'ssl';

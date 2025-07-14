@@ -220,9 +220,7 @@ class OrderController extends Controller
                     // $customers->email
                     MailService::sendCustomerInvoice(
                         $customer->email ?? 'fallback@example.com',
-                        $emailData,
-                        ['accounts@yourcompany.com'],
-                        ['admin@yourcompany.com']
+                        $emailData
                     );
                 }
             }
