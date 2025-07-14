@@ -1,5 +1,4 @@
-<?php 
-namespace Darryldecode\Cart;
+<?php namespace Darryldecode\Cart;
 
 use Darryldecode\Cart\Exceptions\InvalidConditionException;
 use Darryldecode\Cart\Exceptions\InvalidItemException;

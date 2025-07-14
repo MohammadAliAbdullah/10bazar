@@ -41,13 +41,13 @@
   ),
   'facade/ignition' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Facade\\Ignition\\IgnitionServiceProvider',
-    ),
     'aliases' => 
     array (
       'Flare' => 'Facade\\Ignition\\Facades\\Flare',
+    ),
+    'providers' => 
+    array (
+      0 => 'Facade\\Ignition\\IgnitionServiceProvider',
     ),
   ),
   'fideloper/proxy' => 
@@ -66,13 +66,13 @@
   ),
   'intervention/image' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Intervention\\Image\\ImageServiceProvider',
-    ),
     'aliases' => 
     array (
       'Image' => 'Intervention\\Image\\Facades\\Image',
+    ),
+    'providers' => 
+    array (
+      0 => 'Intervention\\Image\\ImageServiceProvider',
     ),
   ),
   'jenssegers/agent' => 
@@ -88,13 +88,13 @@
   ),
   'jorenvanhocht/laravel-share' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Jorenvh\\Share\\Providers\\ShareServiceProvider',
-    ),
     'aliases' => 
     array (
       'Share' => 'Jorenvh\\Share\\ShareFacade',
+    ),
+    'providers' => 
+    array (
+      0 => 'Jorenvh\\Share\\Providers\\ShareServiceProvider',
     ),
   ),
   'laravel/sail' => 
@@ -139,14 +139,14 @@
   ),
   'milon/barcode' => 
   array (
-    'providers' => 
-    array (
-      0 => 'Milon\\Barcode\\BarcodeServiceProvider',
-    ),
     'aliases' => 
     array (
       'DNS1D' => 'Milon\\Barcode\\Facades\\DNS1DFacade',
       'DNS2D' => 'Milon\\Barcode\\Facades\\DNS2DFacade',
+    ),
+    'providers' => 
+    array (
+      0 => 'Milon\\Barcode\\BarcodeServiceProvider',
     ),
   ),
   'nesbot/carbon' => 
