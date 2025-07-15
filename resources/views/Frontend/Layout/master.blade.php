@@ -52,13 +52,15 @@
             color: {{ $theme->navbar_text }};
         }
 
-        .btn-primary {
+        .btn-primary,
+        .btn-secondary {
             background-color: {{ $theme->button_bg }};
             border-color: {{ $theme->button_border }};
             color: {{ $theme->button_text }};
         }
 
-        .btn-primary:hover {
+        .btn-primary:hover,
+        .btn-secondary:hover {
             background-color: {{ $theme->button_hover }};
             border-color: {{ $theme->button_border }};
             color: {{ $theme->button_text }};
