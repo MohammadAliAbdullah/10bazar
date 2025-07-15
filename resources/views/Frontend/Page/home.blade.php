@@ -64,7 +64,7 @@
 
             <section id="productGirdView" class="section-p1">
                 <div class="row">
-                    @foreach ($featureds as $product)
+                    @foreach ($bestSellers as $product)
                         @include('Frontend.components.productCard', ['product' => $product])
                     @endforeach
                 </div>

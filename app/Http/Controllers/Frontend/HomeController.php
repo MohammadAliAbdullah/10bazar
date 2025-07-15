@@ -79,6 +79,58 @@ class HomeController extends Controller
             ->limit(10)
             ->get();
 
+        // best saller product
+        $bestSellers = Product::select(
+            'products.id',
+            'products.category_id',
+            'products.sku',
+            'products.title',
+            'products.slug',
+            'products.thumb',
+            'products.images',
+            'products.img_alt',
+            'products.gallery',
+            'products.qty',
+            'products.regular_price',
+            'products.sales_price',
+            'products.featured',
+            DB::raw('IFNULL(SUM(CASE 
+            WHEN order_details.qty REGEXP "^[0-9]+$" THEN CAST(order_details.qty AS UNSIGNED) 
+            ELSE 0 
+        END), 0) as total_sold'),
+            DB::raw('IFNULL(SUM(CASE 
+            WHEN order_details.total REGEXP "^[0-9.]+$" THEN CAST(order_details.total AS DECIMAL(10,2)) 
+            ELSE 0 
+        END), 0) as total_revenue')
+        )
+            ->leftJoin('order_details', 'order_details.product_id', '=', 'products.id')
+            // ->where('products.status', 1)
+            ->where(function ($query) {
+                $query->whereDate('order_details.created_at', '>=', Carbon::now()->subDays(30))
+                    ->orWhereNull('order_details.created_at');
+            })
+            ->groupBy(
+                'products.id',
+                'products.category_id',
+                'products.sku',
+                'products.title',
+                'products.slug',
+                'products.thumb',
+                'products.images',
+                'products.img_alt',
+                'products.gallery',
+                'products.qty',
+                'products.regular_price',
+                'products.sales_price',
+                'products.featured'
+            )
+            ->orderByDesc('total_sold')
+            ->limit(20)
+            ->get();
+
+        // return $bestSellers;
+        // exit;
+        
         $home1 = cache()->remember('home1-home', 60 * 60 * 24, function () {
             return Banner::where('position', 'Home1')->first();
         });
@@ -99,7 +151,7 @@ class HomeController extends Controller
             return Blog::orderBy('id', 'DESC')->where('status', 'Active')->limit(3)->get();
         });
 
-        return view("Frontend.Page.home", compact('slides', 'categories', 'featureds', 'home1', 'home2', 'home3', 'spproducts', 'spacials', 'blogs', 'newArrivals', 'brands'));
+        return view("Frontend.Page.home", compact('slides', 'categories', 'featureds', 'home1', 'home2', 'home3', 'spproducts', 'spacials', 'blogs', 'newArrivals', 'brands', 'bestSellers'));
     }
 
     public function search(Request $request)

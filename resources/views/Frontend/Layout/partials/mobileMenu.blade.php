@@ -11,21 +11,6 @@
         <div class="mobilemenu__content">
             <ul class="mobile-links mobile-links--level--0" data-collapse
                 data-collapse-opened-class="mobile-links__item--open">
-                <li>
-                    <div class="site-header__search">
-                        <div class="search">
-                            {!! Form::open(['method' => 'POST', 'route' => 'search', 'class' => 'search__form']) !!}
-                            <input class="search__input" name="search"
-                                placeholder="Search for products, brands and more" aria-label="Site search"
-                                type="text" autocomplete="off">
-                            <button class="search__button" type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                            <div class="search__border"></div>
-                            {!! Form::close() !!}
-                        </div>
-                    </div>
-                </li>
                 <li class="mobile-links__item" data-collapse-item>
                     <div class="mobile-links__item-title">
                         <a href="{{ route('home.index') }}" class="mobile-links__item-link">Home</a>
@@ -46,9 +31,7 @@
                                 <a class="mobile-links__item-link"
                                     href="{{ url('category') }}/{{ $category['category_slug'] }}">{{ $category['category_name'] }}</a>
                                 <button class="mobile-links__item-toggle" type="button" data-collapse-trigger>
-                                    <svg class="mobile-links__item-arrow" width="12px" height="7px">
-                                        <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7"></use>
-                                    </svg>
+                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
                                 </button>
                             </div>
                             <div class="mobile-links__item-sub-links" data-collapse-content>
@@ -59,10 +42,7 @@
                                                 <a href="#" class="mobile-links__item-link">Mobile</a>
                                                 <button class="mobile-links__item-toggle" type="button"
                                                     data-collapse-trigger>
-                                                    <svg class="mobile-links__item-arrow" width="12px" height="7px">
-                                                        <use xlink:href="images/sprite.svg#arrow-rounded-down-12x7">
-                                                        </use>
-                                                    </svg>
+                                                    <i class="fa fa-arrow-down" aria-hidden="true"></i>
                                                 </button>
                                             </div>
                                             <div class="mobile-links__item-sub-links" data-collapse-content>

@@ -9,6 +9,7 @@ use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 use App\Models\Category;
+use App\Models\ThemeSetting;
 use Cart;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -62,6 +63,10 @@ class AppServiceProvider extends ServiceProvider
         view()->composer('language_switcher', function ($view) {
             $view->with('current_locale', app()->getLocale());
             $view->with('available_locales', config('app.available_locales'));
+        });
+        view()->composer('*', function ($view) {
+            $theme = ThemeSetting::first(); // or cache
+            $view->with('theme', $theme);
         });
     }
 

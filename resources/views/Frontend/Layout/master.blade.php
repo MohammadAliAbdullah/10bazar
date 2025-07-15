@@ -31,87 +31,6 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-97489509-6"></script>
     {{-- sweetalert.js --}}
     <script src="{{ asset('public') }}/assets/vendor/sweetalert/sweetalert.js"></script>
-    <style>
-        /* Slide-in from left */
-        .modal.left .modal-dialog {
-            position: fixed;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            margin: 0 !important;
-            height: 100%;
-            max-width: 90%;
-            transform: translateX(-100%);
-            transition: transform 0.3s ease-out;
-            z-index: 1055;
-        }
-
-        .modal.left.show .modal-dialog {
-            transform: translateX(0);
-        }
-
-        /* Modal container styles */
-        .modal.left .modal-content,
-        .modal-dialog,
-        .modal-content {
-            height: 100%;
-            background-color: #fff !important;
-            border: none !important;
-            box-shadow: none !important;
-            outline: none !important;
-            border-radius: 0 !important;
-        }
-
-        /* Remove Bootstrap 5 shadow variables if applicable */
-        .modal-content {
-            --bs-box-shadow: none !important;
-            box-shadow: none !important;
-        }
-
-        /* Extra assurance: override browser focus ring & active box-shadows */
-        .modal *,
-        .modal *:focus,
-        .modal *:active {
-            box-shadow: none !important;
-            outline: none !important;
-            border-color: transparent !important;
-        }
-
-        /* Modal body scroll and spacing */
-        .modal.left .modal-body {
-            overflow-y: auto;
-            flex-grow: 1;
-            padding: 15px;
-        }
-
-        /* Header/footer no borders */
-        .modal-header,
-        .modal-footer {
-            border: none !important;
-        }
-
-        /* Optional: backdrop less visible or completely transparent */
-        .modal-backdrop {
-            background-color: rgba(0, 0, 0, 0.1) !important;
-            box-shadow: none !important;
-        }
-    </style>
-    {{-- @if ($isRtl)
-        <style>
-            body {
-                direction: rtl;
-                text-align: right;
-            }
-
-            .text-left {
-                text-align: right !important;
-            }
-
-            .text-right {
-                text-align: left !important;
-            }
-        </style>
-    @endif --}}
     <script>
         window.dataLayer = window.dataLayer || [];
 
@@ -121,6 +40,76 @@
         gtag('js', new Date());
         gtag('config', 'UA-97489509-6');
     </script>
+    <style>
+        .topbar {
+            background-color: {{ $theme->topbar_bg }};
+            color: {{ $theme->topbar_text }};
+        }
+
+        .nav-panel,
+        .mobile-header__panel {
+            background-color: {{ $theme->navbar_bg }};
+            color: {{ $theme->navbar_text }};
+        }
+
+        .btn-primary {
+            background-color: {{ $theme->button_bg }};
+            border-color: {{ $theme->button_border }};
+            color: {{ $theme->button_text }};
+        }
+
+        .page-item.active .page-link {
+            background-color: {{ $theme->pagination_bg }};
+            color: {{ $theme->pagination_text }};
+            border-color: {{ $theme->pagination_bg }};
+        }
+
+        .action-buttons .cart,
+        .action-buttons .eye {
+            border: 1px solid {{ $theme->cart_border }};
+            background-color: {{ $theme->cart_bg }};
+            color: {{ $theme->cart_text }};
+        }
+    </style>
+    {{-- <style>
+        .topbar{
+            background-color: #f7f7f7;
+            color: black;
+        }
+        .nav-panel{
+            background-color: #ffd333;
+            color: black;
+        }
+        .mobile-header__panel{
+            background-color: #ffd333;
+            color: black;
+        }
+        #productGirdView .action-buttons .cart,
+        #productGirdView .action-buttons .eye {
+            border: #088178 1px solid;
+            background-color: #088178;
+            color: white;
+        }
+
+        #productListView .action-buttons .cart:hover,
+        #productListView .action-buttons .eye:hover {
+            border: #088178 1px solid;
+            background-color: #088178;
+            color: #fff;
+        }
+
+        .page-item.active .page-link {
+            z-index: 3;
+            color: #fff;
+            background-color: #088178;
+            border-color: #088178;
+        }
+        .btn-primary, .btn-primary.disabled, .btn-primary:disabled {
+            color: #fff;
+            background-color: #ffd333;
+            border-color: #ffd333;
+        }
+    </style> --}}
     @include('include.facebook_pixel')
 </head>
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\Setting\CouponController;
 use App\Http\Controllers\Admin\Setting\SettingController;
 use App\Http\Controllers\Admin\Setting\LangController;
 use App\Http\Controllers\Admin\VisitorController;
+use App\Http\Controllers\Admin\ThemeSettingController;
 
 Route::get('/myadminpanel/dashboard', [App\Http\Controllers\Admin\AdminController::class, 'index'])->name('admin.home');
 //Auth::routes();
@@ -168,11 +169,13 @@ Route::prefix('/myadminpanel')->name('madmin.')->namespace('Madmin')->group(func
         // Route::resource('shipping-zone-locations', \App\Http\Controllers\Admin\Setting\ShippingZoneLocationController::class);
 
         Route::resource('/shipping-methods', '\App\Http\Controllers\Admin\Setting\ShippingMethodController');
+
+        // themes setting
+        Route::get('/theme-settings', [ThemeSettingController::class, 'edit'])->name('theme-settings.edit');
+        Route::post('/theme-settings', [ThemeSettingController::class, 'update'])->name('theme-settings.update');
     });
 });
-// Route::get('/applay', function () {
-//     return view('Admin.layoutApp.app');
-// })->name('applay');
+
 use Illuminate\Http\Request;
 
 Route::post('/toggle-sidebar', function (Request $request) {
@@ -180,40 +183,3 @@ Route::post('/toggle-sidebar', function (Request $request) {
     session(['sidebar_folded' => $folded]);
     return response()->json(['status' => $folded]);
 })->name('toggle.sidebar');
-
-// send mail
-
-// routes/web.php
-
-use App\Services\MailService;
-
-Route::get('/send-mail', function () {
-
-    // The recipient of the email
-    $customerEmail = 'maabdullah511@gmail.com';
-    $customerName = 'John Doe';
-    $ccEmails = ['accounting@yourcompany.com', 'md@yourcompany.com'];
-    $bccEmails = ['manager@yourcompany.com', 'archive@yourcompany.com'];
-
-    try {
-        MailService::sendCustomerInvoice(
-            $customerEmail,
-            [
-                'customer_name' => $customerName,
-                'invoice_id' => 'INV-2023-1001',
-                'amount' => 150.75,
-            ],
-            $ccEmails, // CC
-            $bccEmails // BCC
-        );
-
-        return response()->json(['message' => 'Mail sent successfully']);
-    } catch (\Exception $e) {
-        // Return a more detailed error message for debugging
-        return response()->json([
-            'message' => 'Failed to send mail.',
-            'error' => $e->getMessage()
-        ], 500);
-    }
-});
-//Auth::routes();

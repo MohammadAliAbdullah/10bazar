@@ -10,41 +10,33 @@
                         <img src="{{ asset('public') }}/assets/10_bazar_logo.jpg" alt="logo">
                     </a>
                     <div class="mobile-header__search">
-                        <form class="mobile-header__search-form" action="#">
-                            <input class="mobile-header__search-input" name="search"
-                                placeholder="Search over 10,000 products" aria-label="Site search" type="text"
-                                autocomplete="off">
-                            <button class="mobile-header__search-button mobile-header__search-button--submit"
-                                type="submit">
-                                <svg width="20px" height="20px">
-                                    <use xlink:href="images/sprite.svg#search-20"></use>
-                                </svg>
-                            </button>
-                            <button class="mobile-header__search-button mobile-header__search-button--close"
-                                type="button">
-                                <svg width="20px" height="20px">
-                                    <use xlink:href="images/sprite.svg#cross-20"></use>
-                                </svg>
-                            </button>
-                            <div class="mobile-header__search-body"></div>
-                        </form>
+
+                        {!! Form::open(['method' => 'POST', 'route' => 'search', 'class' => 'mobile-header__search-form']) !!}
+                        <input class="mobile-header__search-input" name="search"
+                            placeholder="Search for products, brands and more" aria-label="Site search" type="text"
+                            autocomplete="off">
+                        <button class="mobile-header__search-button mobile-header__search-button--submit"
+                            type="submit">
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </button>
+                        <button class="mobile-header__search-button mobile-header__search-button--close" type="button">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </button>
+                        <div class="mobile-header__search-body"></div>
+                        {!! Form::close() !!}
                     </div>
                     <div class="mobile-header__indicators">
                         <div class="indicator indicator--mobile-search indicator--mobile d-sm-none"><button
                                 class="indicator__button">
                                 <span class="indicator__area">
-                                    <svg width="20px" height="20px">
-                                        <use xlink:href="images/sprite.svg#search-20"></use>
-                                    </svg>
+                                    <i class="fa fa-search" aria-hidden="true"></i>
                                 </span>
                             </button>
                         </div>
                         <div class="indicator indicator--mobile d-sm-flex d-none">
                             <a href="wishlist.html" class="indicator__button">
                                 <span class="indicator__area">
-                                    <svg width="20px" height="20px">
-                                        <use xlink:href="images/sprite.svg#heart-20"></use>
-                                    </svg>
+                                    <i class="far fa-heart"></i>
                                     <span class="indicator__value">0</span>
                                 </span>
                             </a>

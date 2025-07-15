@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\AppSetting;
 use App\Models\Currency;
 use Closure;
 use Illuminate\Http\Request;
@@ -20,7 +21,9 @@ class SetCurrency
 
     public function handle($request, Closure $next)
     {
-        $currency_id = session('currency_id', 1); // Default: BDT (id = 1)
+        // default currency
+        $default_currency_id = AppSetting::first()->currency_id;
+        $currency_id = session('currency_id', $default_currency_id); // Default: BDT (id = 1)
         $currency = Currency::find($currency_id);
 
         if ($currency) {

@@ -605,3 +605,40 @@ VALUES
 ('Steadfast Courier', NULL, '09678-000888', 'https://steadfast.com.bd/track?code=', 'Active'),
 ('RedX (ShopUp)', 'https://api.redx.com.bd/v1/track', 'hello@redx.com.bd', 'https://redx.com.bd/track?tracking_id=', 'Active');
 
+-- 16-07-2025
+CREATE TABLE IF NOT EXISTS cs_theme_settings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    topbar_bg VARCHAR(7) DEFAULT '#f7f7f7',
+    topbar_text VARCHAR(7) DEFAULT '#000000',
+    navbar_bg VARCHAR(7) DEFAULT '#ffd333',
+    navbar_text VARCHAR(7) DEFAULT '#000000',
+    button_bg VARCHAR(7) DEFAULT '#ffd333',
+    button_hover VARCHAR(7) DEFAULT '#088178',
+    button_border VARCHAR(7) DEFAULT '#088178',
+    button_text VARCHAR(7) DEFAULT '#ffffff',
+    pagination_bg VARCHAR(7) DEFAULT '#088178',
+    pagination_text VARCHAR(7) DEFAULT '#ffffff',
+    cart_bg VARCHAR(7) DEFAULT '#088178',
+    cart_border VARCHAR(7) DEFAULT '#088178',
+    cart_text VARCHAR(7) DEFAULT '#ffffff',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+INSERT INTO cs_theme_settings (
+    topbar_bg, topbar_text,
+    navbar_bg, navbar_text,
+    button_bg, button_hover, button_border, button_text,
+    pagination_bg, pagination_text,
+    cart_bg, cart_border, cart_text
+) VALUES (
+    '#f7f7f7', '#000000',
+    '#ffd333', '#000000',
+    '#ffd333', '#088178', '#088178', '#ffffff',
+    '#088178', '#ffffff',
+    '#088178', '#088178', '#ffffff'
+);
+
+-- 17-07-2025
+INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`, `orders`, `icon`, `status`, `created_at`, `updated_at`) VALUES (NULL, 'Themes Setup', '10', 'madmin.theme-settings.edit', '10', 'fas fa-angle-right', 'Active', '2025-07-15 19:51:34', '2025-07-15 19:51:34')
+

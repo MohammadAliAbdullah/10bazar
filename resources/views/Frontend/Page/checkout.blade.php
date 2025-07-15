@@ -156,7 +156,7 @@
                                                 <span class="payment-methods__item-radio input-radio">
                                                     <span class="input-radio__body">
                                                         <input class="input-radio__input" name="payment_method"
-                                                            type="radio" value="{{ $method->code . '@' . $method->id }}">
+                                                            type="radio" value="{{ $method->code . '@' . $method->id }}" {{ $method->code == 'CS-COD' ? 'checked' : '' }}>
                                                         <span class="input-radio__circle"></span>
                                                     </span>
                                                 </span>
