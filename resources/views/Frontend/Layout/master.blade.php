@@ -58,6 +58,12 @@
             color: {{ $theme->button_text }};
         }
 
+        .btn-primary:hover {
+            background-color: {{ $theme->button_hover }};
+            border-color: {{ $theme->button_border }};
+            color: {{ $theme->button_text }};
+        }
+
         .page-item.active .page-link {
             background-color: {{ $theme->pagination_bg }};
             color: {{ $theme->pagination_text }};
