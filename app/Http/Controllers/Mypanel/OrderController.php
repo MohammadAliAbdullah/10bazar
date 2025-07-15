@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use PDF;
 use Illuminate\Support\Facades\Session; // Import Session for flash messages
 use App\Services\MailService;
+use App\Services\SmsService;
 
 class OrderController extends Controller
 {
@@ -111,15 +112,18 @@ class OrderController extends Controller
             // Save payment info
             $this->storePaymentInfo($request, $orderId, $orderData['total']);
 
-            // Email invoice
-            $this->sendInvoiceMail($customer, $order);
-
             // Payment gateway handling
             if ($orderData['payment_type'] === 'CS-SSLCOM') {
                 $this->initiateSslCommerz($customer, $order, $request->address);
             } else {
                 Cart::clear();
             }
+
+            // Email invoice
+            $this->sendInvoiceMail($customer, $order);
+            // ✅ Send SMS
+            $smsMessage = "Thank you {$customer->name}, your order ({$order['invoice_no']}) has been placed. Total: ৳{$order['total']}.";
+            SmsService::send($customer->phone, $smsMessage);
 
             DB::commit();
             return redirect()->route('mypanel.morder.index')->with('status', 'Order placed successfully!');
