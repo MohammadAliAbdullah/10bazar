@@ -560,3 +560,48 @@ ALTER TABLE `faqs` CHANGE `title` `title` TEXT CHARACTER SET utf8mb4 COLLATE utf
 ALTER TABLE cs_mail_configs 
 ADD cc TEXT DEFAULT NULL AFTER mail_type,
 ADD bcc TEXT DEFAULT NULL AFTER cc;
+
+-- 15-07-2025
+CREATE TABLE cs_couriers (
+    id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    api_url VARCHAR(255),
+    contact_info TEXT,
+    tracking_url VARCHAR(255),
+    status ENUM('Active', 'Inactive') DEFAULT 'Active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT(11) DEFAULT NULL,
+    updated_by INT(11) DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE courier_shipments (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id BIGINT(20) UNSIGNED NOT NULL,
+    courier_id INT(10) UNSIGNED NOT NULL,
+    tracking_number VARCHAR(100),
+    shipment_status VARCHAR(100) DEFAULT 'Pending',
+    shipment_date DATETIME,
+    delivery_date DATETIME,
+    status ENUM('Processing', 'Shipped', 'Delivered', 'Failed') DEFAULT 'Processing',
+    remarks TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT(11) DEFAULT NULL,
+    updated_by INT(11) DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
+
+    CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
+    CONSTRAINT fk_courier FOREIGN KEY (courier_id) REFERENCES cs_couriers(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+
+
+INSERT INTO cs_couriers (name, api_url, contact_info, tracking_url, status)
+VALUES
+('Sundarban Courier Service', 'https://api.sundarbancourier.com/v1/track', '09612003003', 'https://sundarbancourier.com/track?tn=', 'Active'),
+('SA Paribahan', NULL, '02-9569355 (Motijheel, Dhaka)', NULL, 'Active'),
+('Pathao Courier', 'https://api.pathao.com/courier/track', '09678100800', 'https://pathao.com/parcel/tracking?track_id=', 'Active'),
+('Paperfly', 'https://api.paperfly.com.bd/track', '09610009999', 'https://paperfly.com.bd/track?tracking_number=', 'Active'),
+('Steadfast Courier', NULL, '09678-000888', 'https://steadfast.com.bd/track?code=', 'Active'),
+('RedX (ShopUp)', 'https://api.redx.com.bd/v1/track', 'hello@redx.com.bd', 'https://redx.com.bd/track?tracking_id=', 'Active');
+
