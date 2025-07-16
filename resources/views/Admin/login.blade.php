@@ -97,7 +97,14 @@
 
                 <button type="submit" class="btn btn-primary btn-block">Sign In</button>
             </form>
-
+            {{-- demo username and password --}}
+            @if (env('APP_DEMO') == 'TRUE')
+                <div class="text-center mt-3">
+                    <small>Username: admin@gmail.com</small>
+                    <br>
+                    <small>Password: 12345678</small>
+                </div>
+            @endif
             <!-- Optional sign-up link -->
             <!-- <div class="text-center mt-3">
                 <small>Don't have an account? <a href="#">Create One</a></small>

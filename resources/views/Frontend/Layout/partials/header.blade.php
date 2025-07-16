@@ -10,6 +10,11 @@
         <div class="site-header__topbar topbar">
             <div class="topbar__container container">
                 <div class="topbar__row">
+                    @if (env('APP_DEMO') == 'TRUE')
+                        <div class="topbar__item topbar__item--link">
+                            <a class="topbar-link" href="{{ route('madmin.login') }}">{{ __('Admin Login') }}</a>
+                        </div>
+                    @endif
                     <div class="topbar__item topbar__item--link">
                         <a class="topbar-link" href="{{ route('track') }}">
                             {{ __('Track Order') }}
@@ -22,7 +27,8 @@
                     <div class="topbar__item">
                         <div class="topbar-dropdown">
                             <button class="topbar-dropdown__btn" type="button">{{ __('Currency') }}:
-                                <span class="topbar__item-value">{{ isset(config('app.currency')->title) ? config('app.currency')->title : '' }}</span>
+                                <span
+                                    class="topbar__item-value">{{ isset(config('app.currency')->title) ? config('app.currency')->title : '' }}</span>
                             </button>
                             <div class="topbar-dropdown__body">
                                 <ul class="menu menu--layout--topbar">
@@ -84,7 +90,8 @@
         <div class="site-header__middle container">
             <div class="site-header__logo">
                 <a href="{{ url('/') }}" class="site-header__logo-link">
-                    <img src="{{ isset($apps->website_logo) ? asset($apps->website_logo) : '' }}" style="width: 300px; height: 50px;">
+                    <img src="{{ isset($apps->website_logo) ? asset($apps->website_logo) : '' }}"
+                        style="width: 300px; height: 50px;">
                 </a>
             </div>
             <div class="site-header__search">
@@ -220,7 +227,8 @@
                         <div class="nav-panel__indicators">
                             <div class="indicator indicator--trigger--click">
                                 <a class="indicator__button">
-                                    <span class="indicator__area"><i class="{{ Auth::guard('mypanel')->user() ? 'fas fa-user-check' : 'fas fa-user-lock' }}"></i></span>
+                                    <span class="indicator__area"><i
+                                            class="{{ Auth::guard('mypanel')->user() ? 'fas fa-user-check' : 'fas fa-user-lock' }}"></i></span>
                                 </a>
                                 <div class="indicator__dropdown">
                                     <div class="dropcart">
