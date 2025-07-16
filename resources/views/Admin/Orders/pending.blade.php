@@ -10,10 +10,30 @@
         'button_icon' => 'lni lni-cart',
         'route' => '#',
         'multipleBtn' => [
-            ['name' => 'Pending Order', 'class' => 'btn-info', 'icon' => 'lni-text-align-justify', 'route' => route('madmin.orders.pending')],
-            ['name' => 'Complete Order', 'class' => 'btn-dark', 'icon' => 'lni-text-align-justify', 'route' => route('madmin.orders.complete')],
-            ['name' => 'All Orders', 'class' => 'btn-success', 'icon' => 'lni-text-align-justify', 'route' => route('madmin.orderadmin.index')],
-            ['name' => 'Complete Sale', 'class' => 'btn-secondary', 'icon' => 'lni-text-align-justify', 'route' => route('madmin.orders.complete')],
+            [
+                'name' => 'Pending Order',
+                'class' => 'btn-info',
+                'icon' => 'lni-text-align-justify',
+                'route' => route('madmin.orders.pending'),
+            ],
+            [
+                'name' => 'Complete Order',
+                'class' => 'btn-dark',
+                'icon' => 'lni-text-align-justify',
+                'route' => route('madmin.orders.complete'),
+            ],
+            [
+                'name' => 'All Orders',
+                'class' => 'btn-success',
+                'icon' => 'lni-text-align-justify',
+                'route' => route('madmin.orderadmin.index'),
+            ],
+            [
+                'name' => 'Complete Sale',
+                'class' => 'btn-secondary',
+                'icon' => 'lni-text-align-justify',
+                'route' => route('madmin.orders.complete'),
+            ],
         ],
     ])
 
@@ -61,10 +81,17 @@
                                                 @endforeach
                                             </td>
                                             <td>
-                                                <strong>Sub Total:</strong> {{ $value->subtotal }} Tk<br>
-                                                <strong>Discount:</strong> {{ $value->discount }} Tk<br>
-                                                <strong>Delivery:</strong> {{ $value->delivary_charge }} Tk<br>
-                                                <strong>Total:</strong> {{ $value->total }} Tk
+                                                <strong>Sub Total:</strong> {{ $value->subtotal }}<br>
+                                                @if ($value->discount > 0)
+                                                    <strong>Discount:</strong> {{ $value->discount }}<br>
+                                                @endif
+                                                @if ($value->cupon_amount > 0)
+                                                    <strong>Coup. Discount:</strong> {{ $value->cupon_amount }}<br>
+                                                @endif
+                                                @if ($value->delivary_charge > 0)
+                                                    <strong>Delivery:</strong> {{ $value->delivary_charge }}<br>
+                                                @endif
+                                                <strong>Total:</strong> {{ $value->total }}
                                             </td>
                                             <td>
                                                 {{ $value->created_at->diffForHumans() }}<br>

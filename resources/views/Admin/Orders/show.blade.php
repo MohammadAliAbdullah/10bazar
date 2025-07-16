@@ -149,14 +149,24 @@
                                                 <th colspan="5" class="text-right">Subtotal:</th>
                                                 <th>{{ number_format($order->subtotal, 2) }}</th>
                                             </tr>
-                                            <tr>
-                                                <th colspan="5" class="text-right">Shipping Cost:</th>
-                                                <th>{{ number_format($order->delivary_charge, 2) }}</th>
-                                            </tr>
-                                            <tr>
-                                                <th colspan="5" class="text-right">Discount:</th>
-                                                <th>{{ number_format($order->discount, 2) }}</th>
-                                            </tr>
+                                            @if ($order->discount)
+                                                <tr>
+                                                    <th colspan="5" class="text-right">Discount:</th>
+                                                    <th>{{ number_format($order->discount, 2) }}</th>
+                                                </tr>
+                                            @endif
+                                            @if ($order->cupon_amount)
+                                                <tr>
+                                                    <th colspan="5" class="text-right">Coup. Discount:</th>
+                                                    <th>{{ number_format($order->cupon_amount, 2) }}</th>
+                                                </tr>
+                                            @endif
+                                            @if ($order->delivary_charge)
+                                                <tr>
+                                                    <th colspan="5" class="text-right">Delivery Charge:</th>
+                                                    <th>{{ number_format($order->delivary_charge, 2) }}</th>
+                                                </tr>
+                                            @endif
                                             <tr>
                                                 <th colspan="5" class="text-right">Total:</th>
                                                 <th>{{ number_format($order->total, 2) }}</th>

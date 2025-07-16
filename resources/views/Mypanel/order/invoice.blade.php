@@ -282,10 +282,10 @@
                     <td class="total-value">{{ $data->discount ?? 0 }}</td>
                 </tr>
             @endif
-            @if ($data->coupon_discount > 0)
+            @if ($data->cupon_amount > 0)
                 <tr>
                     <td colspan="2" class="total-line">Coupon Discount:</td>
-                    <td class="total-value">{{ $data->coupon_discount ?? 0 }}</td>
+                    <td class="total-value">{{ $data->cupon_amount ?? 0 }}</td>
                 </tr>
             @endif
             @if ($data->vat > 0)

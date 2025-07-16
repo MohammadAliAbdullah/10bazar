@@ -167,6 +167,10 @@
                                     <td>{{ $order->subtotal }}</td>
                                 </tr>
                                 <tr>
+                                    <td><strong>Coupon Discount</strong></td>
+                                    <td>{{ $order->cupon_amount }}</td>
+                                </tr>
+                                <tr>
                                     <td><strong>Delivery Charge</strong></td>
                                     <td>{{ $order->delivary_charge }}</td>
                                 </tr>

@@ -641,4 +641,5 @@ INSERT INTO cs_theme_settings (
 
 -- 17-07-2025
 INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`, `orders`, `icon`, `status`, `created_at`, `updated_at`) VALUES (NULL, 'Themes Setup', '10', 'madmin.theme-settings.edit', '10', 'fas fa-angle-right', 'Active', '2025-07-15 19:51:34', '2025-07-15 19:51:34')
-
+-- 18-07-2025
+ALTER TABLE orders CHANGE cupon_amount cupon_amount DECIMAL(10,2) NOT NULL;
