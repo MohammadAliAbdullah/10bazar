@@ -72,12 +72,26 @@
             border-color: {{ $theme->pagination_bg }};
         }
 
-        .action-buttons .cart,
+        /* .action-buttons .cart,
         .action-buttons .eye {
             border: 1px solid {{ $theme->cart_border }};
             background-color: {{ $theme->cart_bg }};
             color: {{ $theme->cart_text }};
+        } */
+
+        #productGirdView .action-buttons .cart,
+        #productGirdView .action-buttons .eye {
+            border: 1px solid {{ $theme->cart_border }};
+            background-color: {{ $theme->cart_bg }};
+            color: {{ $theme->cart_text }};
         }
+
+        /* #productListView .action-buttons .cart:hover,
+        #productListView .action-buttons .eye:hover {
+            border: 1px solid {{ $theme->cart_border }};
+            background-color: {{ $theme->cart_bg }};
+            color: {{ $theme->cart_text }};
+        } */
     </style>
     {{-- <style>
         .topbar{
