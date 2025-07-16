@@ -191,28 +191,28 @@ class Checkoutscontroller extends Controller
             'grand_total' => number_format($grandTotal, 2),
         ]);
 
-        exit;
-        $coupon_code = $request->coupon_code;
-        $is_used     = Coupon::where([['coupon', '=', $coupon_code], ['user_id', '=', Auth::guard('mypanel')->user()->id]])->first();
-        $find_coupon = Voucher::where([['code', '=', $coupon_code], ['status', '=', 'Ongoing']])->first();
+        // exit;
+        // $coupon_code = $request->coupon_code;
+        // $is_used     = Coupon::where([['coupon', '=', $coupon_code], ['user_id', '=', Auth::guard('mypanel')->user()->id]])->first();
+        // $find_coupon = Voucher::where([['code', '=', $coupon_code], ['status', '=', 'Ongoing']])->first();
 
-        if ($find_coupon && ($find_coupon->useges_qty < $find_coupon->voucher_limit)) {
-            $is_shop = $find_coupon->product_id;
-            if ($find_coupon->product_id == "Shop") {
-                $target = "subtotal";
+        // if ($find_coupon && ($find_coupon->useges_qty < $find_coupon->voucher_limit)) {
+        //     $is_shop = $find_coupon->product_id;
+        //     if ($find_coupon->product_id == "Shop") {
+        //         $target = "subtotal";
 
-                $this->apply_coupon($is_shop, $find_coupon, $target);
-            } else {
-                # check if cart has product id in $find_coupon variable.
-                $target = "subtotal";
-                $this->apply_coupon($is_shop, $is_used, $find_coupon, $target);
-            }
-        } else {
-            return response()->json('Invalid coupon code !!!');
-            exit();
-            //return response()->json($this->message);
-        }
-        return response()->json($this->message);
+        //         $this->apply_coupon($is_shop, $find_coupon, $target);
+        //     } else {
+        //         # check if cart has product id in $find_coupon variable.
+        //         $target = "subtotal";
+        //         $this->apply_coupon($is_shop, $is_used, $find_coupon, $target);
+        //     }
+        // } else {
+        //     return response()->json('Invalid coupon code !!!');
+        //     exit();
+        //     //return response()->json($this->message);
+        // }
+        // return response()->json($this->message);
     }
 
     public function apply_coupon($is_shop, $is_used, $find_coupon, $target)

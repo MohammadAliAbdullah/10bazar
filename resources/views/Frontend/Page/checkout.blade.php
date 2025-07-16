@@ -141,7 +141,7 @@
                                     </tr>
                                     <tr>
                                         <th>{{ __('Coupon Discount') }}</th>
-                                        <td><span id="couponDiscount">0</span></td>
+                                        <td><span id="couponDiscount">{{ session('applied_coupon.discount') ?? 0 }}</span></td>
                                     </tr>
                                     @if (session('applied_coupon.code'))
                                         <tr>
@@ -154,7 +154,7 @@
                                     <tr>
                                         <th>{{ __('Total') }}</th>
                                         <td><span
-                                                id="grandTotal">{{ number_format(Cart::getTotal() + $firstMethod->base_fee ?? '0', 2) }}</span>
+                                                id="grandTotal">{{ number_format((Cart::getTotal() - session('applied_coupon.discount') ?? 0) + $firstMethod->base_fee ?? '0', 2) }}</span>
                                         </td>
                                     </tr>
                                     <tr>
