@@ -605,7 +605,7 @@ VALUES
 ('Steadfast Courier', NULL, '09678-000888', 'https://steadfast.com.bd/track?code=', 'Active'),
 ('RedX (ShopUp)', 'https://api.redx.com.bd/v1/track', 'hello@redx.com.bd', 'https://redx.com.bd/track?tracking_id=', 'Active');
 
--- 16-07-2025
+-- 15-07-2025
 CREATE TABLE IF NOT EXISTS cs_theme_settings (
     id INT AUTO_INCREMENT PRIMARY KEY,
     topbar_bg VARCHAR(7) DEFAULT '#f7f7f7',
@@ -639,7 +639,7 @@ INSERT INTO cs_theme_settings (
     '#088178', '#088178', '#ffffff'
 );
 
--- 17-07-2025
+-- 15-07-2025
 INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`, `orders`, `icon`, `status`, `created_at`, `updated_at`) VALUES (NULL, 'Themes Setup', '10', 'madmin.theme-settings.edit', '10', 'fas fa-angle-right', 'Active', '2025-07-15 19:51:34', '2025-07-15 19:51:34')
--- 18-07-2025
+-- 16-07-2025
 ALTER TABLE orders CHANGE cupon_amount cupon_amount DECIMAL(10,2) NOT NULL;
