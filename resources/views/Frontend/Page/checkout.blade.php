@@ -140,9 +140,32 @@
                                         </td>
                                     </tr>
                                     <tr>
+                                        <th>{{ __('Coupon Discount') }}</th>
+                                        <td><span id="couponDiscount">0</span></td>
+                                    </tr>
+                                    @if (session('applied_coupon.code'))
+                                        <tr>
+                                            <th>{{ __('Coupon') }}</th>
+                                            <td><span
+                                                    id="couponCodePreview">{{ session('applied_coupon.code') ?? '-' }}</span>
+                                            </td>
+                                        </tr>
+                                    @endif
+                                    <tr>
                                         <th>{{ __('Total') }}</th>
                                         <td><span
                                                 id="grandTotal">{{ number_format(Cart::getTotal() + $firstMethod->base_fee ?? '0', 2) }}</span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="2">
+                                            <div class="d-flex gap-2">
+                                                <input type="text" name="coupon_code" class="form-control"
+                                                    id="couponCodeInput" placeholder="{{ __('Enter coupon code') }}">
+                                                <button type="button" class="btn btn-primary" id="applyCoupon">
+                                                    {{ __('Apply') }}
+                                                </button>
+                                            </div>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -156,7 +179,8 @@
                                                 <span class="payment-methods__item-radio input-radio">
                                                     <span class="input-radio__body">
                                                         <input class="input-radio__input" name="payment_method"
-                                                            type="radio" value="{{ $method->code . '@' . $method->id }}" {{ $method->code == 'CS-COD' ? 'checked' : '' }}>
+                                                            type="radio" value="{{ $method->code . '@' . $method->id }}"
+                                                            {{ $method->code == 'CS-COD' ? 'checked' : '' }}>
                                                         <span class="input-radio__circle"></span>
                                                     </span>
                                                 </span>
@@ -200,4 +224,32 @@
             {!! Form::close() !!}
         </div>
     </div>
+    <script>
+        $(document).on('click', '#applyCoupon', function() {
+            var couponCode = $('#couponCodeInput').val();
+            var shippingFee = $('#shippingFee').text();
+
+            $.ajax({
+                url: "{{ route('coupon') }}",
+                method: "POST",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    coupon_code: couponCode,
+                    shipping_fee: shippingFee,
+                },
+                success: function(response) {
+                    if (response.status === 'success') {
+                        $('#couponDiscount').text(response.discount_amount);
+                        $('#grandTotal').text(response.grand_total);
+                        alert('Coupon applied successfully!');
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function() {
+                    alert('An error occurred while applying the coupon.');
+                }
+            });
+        });
+    </script>
 @endsection

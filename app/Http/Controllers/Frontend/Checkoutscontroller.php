@@ -19,6 +19,8 @@ use App\Models\ShippingMethod;
 use App\Models\ShippingZone;
 use App\Models\ShippingZoneLocation;
 use Illuminate\Support\Facades\Session;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class Checkoutscontroller extends Controller
 {
@@ -149,8 +151,49 @@ class Checkoutscontroller extends Controller
      */
     public function coupon(Request $request)
     {
+        // if (!Auth::guard('mypanel')->user()) {
+        //     return response()->json('Please login first !!!');
+        //     exit();
+        // }
+        $code         = $request->coupon_code;
+        $shipping_fee = $request->shipping_fee;
+        $coupon       = DB::table('cs_coupons')
+            ->where('coupon_code', $code)
+            ->where('is_active', 1)
+            ->whereDate('date_from', '<=', Carbon::today())
+            ->whereDate('date_to', '>=', Carbon::today())
+            ->first();
+        // dd($coupon);
+        if (!$coupon) {
+            return response()->json(['status' => 'error', 'message' => 'Invalid or expired coupon code.']);
+        }
+
+        if ($coupon->qty <= $coupon->usedQty) {
+            return response()->json(['status' => 'error', 'message' => 'Coupon usage limit exceeded.']);
+        }
+
+        $subTotal = Cart::getSubTotal();
+        $discountAmount = ($subTotal * $coupon->discount_percent) / 100;
+        $shipping   = $shipping_fee;
+        $grandTotal = $subTotal - $discountAmount + $shipping;
+        
+        session([
+            'applied_coupon' => [
+                'code' => $coupon->coupon_code,
+                'discount' => $discountAmount,
+                'id' => $coupon->id,
+            ]
+        ]);
+
+        return response()->json([
+            'status' => 'success',
+            'discount_amount' => number_format($discountAmount, 2),
+            'grand_total' => number_format($grandTotal, 2),
+        ]);
+
+        exit;
         $coupon_code = $request->coupon_code;
-        $is_used = Coupon::where([['coupon', '=', $coupon_code], ['user_id', '=', Auth::guard('mypanel')->user()->id]])->first();
+        $is_used     = Coupon::where([['coupon', '=', $coupon_code], ['user_id', '=', Auth::guard('mypanel')->user()->id]])->first();
         $find_coupon = Voucher::where([['code', '=', $coupon_code], ['status', '=', 'Ongoing']])->first();
 
         if ($find_coupon && ($find_coupon->useges_qty < $find_coupon->voucher_limit)) {

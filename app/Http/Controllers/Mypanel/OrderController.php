@@ -72,6 +72,8 @@ class OrderController extends Controller
 
             // Auto-create or authenticate customer
             $customer = $this->getOrCreateCustomer($request);
+            $coupon = session('applied_coupon', null);
+            $couponId = $coupon['id'] ?? null;
 
             // Cart validation
             $cart = Cart::getContent();
@@ -124,6 +126,14 @@ class OrderController extends Controller
             // ✅ Send SMS
             $smsMessage = "Thank you {$customer->name}, your order ({$order['invoice_no']}) has been placed. Total: ৳{$order['total']}.";
             SmsService::send($customer->phone, $smsMessage);
+
+            // Optional: Increment usedQty
+            if ($couponId) {
+                DB::table('cs_coupons')->where('id', $couponId)->increment('usedQty');
+            }
+
+            // Clear session coupon after order
+            session()->forget('applied_coupon');
 
             DB::commit();
             return redirect()->route('mypanel.morder.index')->with('status', 'Order placed successfully!');
@@ -372,6 +382,10 @@ class OrderController extends Controller
         $methodData = explode('@', $request->payment_method);
         $paymentType = $methodData[0] ?? 'Unknown';
         $invoiceNo = 'IN' . now()->timestamp;
+        $coupon = session('applied_coupon', null);
+        $couponDiscount = $coupon['discount'] ?? 0;
+        $couponCode = $coupon['code'] ?? null;
+        $couponId = $coupon['id'] ?? null;
 
         return [
             'currency'         => config('app.currency.title', 'BDT'),
@@ -382,7 +396,7 @@ class OrderController extends Controller
             'discount'         => 0,
             'vat'              => 0,
             'delivary_charge'  => $request->delivery_fee,
-            'total'            => Cart::getTotal() + $request->delivery_fee,
+            'total'            => Cart::getTotal() + $request->delivery_fee - $couponDiscount,
             'shipping_address' => json_encode([
                 'name'        => $request->name,
                 'phone'       => $request->phone,
@@ -394,8 +408,8 @@ class OrderController extends Controller
             ]),
             'payment_type'     => $paymentType,
             'payment_status'   => 'Pending',
-            'cupon_id'         => null,
-            'cupon_amount'     => 0,
+            'cupon_id'         => $couponId,
+            'cupon_amount'     => $couponDiscount,
             'status'           => 'Pending',
         ];
     }
