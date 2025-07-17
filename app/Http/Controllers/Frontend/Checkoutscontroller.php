@@ -190,7 +190,7 @@ class Checkoutscontroller extends Controller
             ->where('customer_id', $user->id)
             ->exists();
 
-        if ($alreadyUsed) {
+        if ($alreadyUsed || session('applied_coupon.id')) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'You have already used this coupon.'
