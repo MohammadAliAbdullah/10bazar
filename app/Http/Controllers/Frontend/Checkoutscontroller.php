@@ -3,16 +3,12 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
-use App\Models\Area;
 use App\Models\State;
 use App\Models\City;
-use App\Models\Division;
-use App\Models\PaymentGetway;
 use App\Models\PaymentMethod;
 use Illuminate\Http\Request;
 use Auth;
 use Darryldecode\Cart\Facades\CartFacade as Cart;
-use App\Models\Customer;
 use App\Models\Voucher;
 use App\Models\Coupon;
 use App\Models\ShippingMethod;
@@ -133,7 +129,6 @@ class Checkoutscontroller extends Controller
         $customer = Auth::guard('mypanel')->user();
 
         if ($district != "Dhaka") {
-
             Cart::session($customer->id)->condition($condition1);
         } elseif ($district == "Dhaka") {
             Cart::session($customer->id)->clearCartConditions($condition1);
@@ -151,68 +146,86 @@ class Checkoutscontroller extends Controller
      */
     public function coupon(Request $request)
     {
-        // if (!Auth::guard('mypanel')->user()) {
-        //     return response()->json('Please login first !!!');
-        //     exit();
-        // }
+        $request->validate([
+            'coupon_code' => 'required|string|max:50',
+            'shipping_fee' => 'required|numeric|min:0',
+        ]);
+
+        // Check if user is logged in
+        if (!Auth::guard('mypanel')->check()) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Please login to use a coupon.'
+            ]);
+        }
+        $user = Auth::guard('mypanel')->user();
         $code         = $request->coupon_code;
         $shipping_fee = $request->shipping_fee;
-        $coupon       = DB::table('cs_coupons')
+
+        // Get valid coupon
+        $coupon = DB::table('cs_coupons')
             ->where('coupon_code', $code)
             ->where('is_active', 1)
             ->whereDate('date_from', '<=', Carbon::today())
             ->whereDate('date_to', '>=', Carbon::today())
             ->first();
-        // dd($coupon);
+
         if (!$coupon) {
-            return response()->json(['status' => 'error', 'message' => 'Invalid or expired coupon code.']);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid or expired coupon code.'
+            ]);
         }
 
         if ($coupon->qty <= $coupon->usedQty) {
-            return response()->json(['status' => 'error', 'message' => 'Coupon usage limit exceeded.']);
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Coupon usage limit exceeded.'
+            ]);
         }
 
-        $subTotal = Cart::getSubTotal();
+        // Check if this user has already used this coupon
+        $alreadyUsed = DB::table('orders')
+            ->where('coupon_id', $coupon->id)
+            ->where('customer_id', $user->id)
+            ->exists();
+
+        if ($alreadyUsed) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'You have already used this coupon.'
+            ]);
+        }
+
+        // Check if discount_percent is valid
+        if (!is_numeric($coupon->discount_percent) || $coupon->discount_percent < 0 || $coupon->discount_percent > 100) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Invalid discount value on coupon.'
+            ]);
+        }
+
+        // Calculate totals
+        $subTotal       = Cart::getSubTotal();
         $discountAmount = ($subTotal * $coupon->discount_percent) / 100;
-        $shipping   = $shipping_fee;
-        $grandTotal = $subTotal - $discountAmount + $shipping;
-        
+        $grandTotal     = $subTotal - $discountAmount + $shipping_fee;
+
+        // Store in session
         session([
             'applied_coupon' => [
-                'code' => $coupon->coupon_code,
+                'code'     => $coupon->coupon_code,
                 'discount' => $discountAmount,
-                'id' => $coupon->id,
+                'id'       => $coupon->id,
             ]
         ]);
 
         return response()->json([
-            'status' => 'success',
-            'discount_amount' => number_format($discountAmount, 2),
-            'grand_total' => number_format($grandTotal, 2),
+            'status'           => 'success',
+            'discount_amount'  => number_format($discountAmount, 2),
+            'grand_total'      => number_format($grandTotal, 2),
+            'message'          => 'Coupon applied successfully.'
         ]);
 
-        // exit;
-        // $coupon_code = $request->coupon_code;
-        // $is_used     = Coupon::where([['coupon', '=', $coupon_code], ['user_id', '=', Auth::guard('mypanel')->user()->id]])->first();
-        // $find_coupon = Voucher::where([['code', '=', $coupon_code], ['status', '=', 'Ongoing']])->first();
-
-        // if ($find_coupon && ($find_coupon->useges_qty < $find_coupon->voucher_limit)) {
-        //     $is_shop = $find_coupon->product_id;
-        //     if ($find_coupon->product_id == "Shop") {
-        //         $target = "subtotal";
-
-        //         $this->apply_coupon($is_shop, $find_coupon, $target);
-        //     } else {
-        //         # check if cart has product id in $find_coupon variable.
-        //         $target = "subtotal";
-        //         $this->apply_coupon($is_shop, $is_used, $find_coupon, $target);
-        //     }
-        // } else {
-        //     return response()->json('Invalid coupon code !!!');
-        //     exit();
-        //     //return response()->json($this->message);
-        // }
-        // return response()->json($this->message);
     }
 
     public function apply_coupon($is_shop, $is_used, $find_coupon, $target)

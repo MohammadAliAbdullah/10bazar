@@ -92,8 +92,9 @@ $(document).ready(function () {
     });
 
     function updateShippingInfo(shippingFee) {
-        const subTotal   = $('#cartSubTotal').text();
-        const grandTotal = parseFloat(subTotal) + parseFloat(shippingFee);
+        const subTotal       = $('#cartSubTotal').text();
+        const couponDiscount = $('#couponDiscount').text() || '0';
+        const grandTotal     = parseFloat(subTotal) - parseFloat(couponDiscount) + parseFloat(shippingFee);
         $('#shippingFee').text(shippingFee);
         $('#grandTotal').text(grandTotal.toFixed(2));
     }
