@@ -39,7 +39,7 @@
                             {!! Form::label('image', 'Image', ['class' => 'font-weight-bold']) !!}
                             <br>
                             @if($slide->images)
-                                <img src="{{ asset('public/images/slide/' . $slide->images) }}" alt="Current Slide Image" style="max-width: 150px; margin-bottom: 15px;">
+                                <img src="{{ asset($slide->images) }}" alt="Current Slide Image" style="max-width: 150px; margin-bottom: 15px;">
                             @endif
                             {!! Form::file('image', [
                                 'class' => 'form-control',

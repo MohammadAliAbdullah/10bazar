@@ -8,7 +8,10 @@ use Illuminate\Http\Request;
 use App\Models\Blog;
 use App\Models\SeoMeta;
 use Illuminate\Support\Facades\Session;
-use Intervention\Image\ImageManagerStatic as Image;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
+
+
 
 class BlogsController extends Controller
 {
@@ -43,36 +46,53 @@ class BlogsController extends Controller
     {
         $data = $request->all();
 
-        $blog['title'] = $data['title'];
-        $blog['slug'] = $this->createSlug($data['title']);
-        //$blog['slug'] = str_replace(" ","-",$blog['title']);
-        $blog['status'] = $data['status'];
+        // Basic Fields
+        $blog['title']   = $data['title'];
+        $blog['slug']    = $this->createSlug($data['title']);
+        $blog['status']  = $data['status'];
         $blog['content'] = $data['content'];
-        $blog['writer'] = $data['writer'];
-        //thumb
-        $thumb_file = $request->images;
-        $thumb = Image::make($thumb_file->getRealPath())->resize(300, 300,function ($constraint){
-            $constraint->aspectRatio();
-        });
+        $blog['writer']  = $data['writer'];
 
-        $thumb_dest = public_path( 'images/blogs/thumb/' );
-        $blog['thumb'] = time() . '.'.$request->images->clientExtension();
-        $thumb->save( $thumb_dest.$blog['thumb'] );
+        // Handle Image Upload
+        if ($request->hasFile('images')) {
+            $file = $request->file('images');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
 
-        //Image 
-        $blog['images'] = time() . '.'.$request->images->clientExtension();
-        $image_file = $request->images;
-        $image_dest = public_path( 'images/blogs' );
-        $image_file->move( $image_dest, $blog['images'] );
+            // Paths
+            $uploadPath = public_path('uploads/blogs/');
+            $thumbPath = $uploadPath . 'thumb_' . $filename;
+            $imagePath = $uploadPath . $filename;
 
-        /// SEO meta table
-        $blog['meta_title'] = $data['meta_title'];
-        $blog['meta_keyword'] = $data['meta_keyword'];
+            // Ensure folder exists
+            if (!File::exists($uploadPath)) {
+                File::makeDirectory($uploadPath, 0755, true);
+            }
+
+            // Create and save thumbnail (300x300)
+            $thumb = Image::make($file->getRealPath())->fit(300, 300, function ($constraint) {
+                $constraint->upsize();
+            });
+            $thumb->save($thumbPath);
+            $blog['thumb'] = 'public/uploads/blogs/thumb_' . $filename;
+
+            // Move original image
+            $file->move($uploadPath, $filename);
+            $blog['images'] = 'public/uploads/blogs/' . $filename;
+        }
+
+        // SEO Meta
+        $blog['meta_title']       = $data['meta_title'];
+        $blog['meta_keyword']     = $data['meta_keyword'];
         $blog['meta_description'] = $data['meta_description'];
+
+        // Create blog
         Blog::create($blog);
-        Session::flash('status','Your blog has been sucessfully add');
+
+        Session::flash('status', 'Your blog has been successfully added');
         return redirect()->route('madmin.blogs.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -108,41 +128,62 @@ class BlogsController extends Controller
     {
         $data = $request->all();
         $blog_to_update = Blog::findOrFail($id);
-        $blog['title'] = $data['title'];
 
-        if($data['title']==$blog_to_update->title){
-            $category['slug']=$blog_to_update->slug;
-        }else{
+        // Basic fields
+        $blog['title']   = $data['title'];
+        $blog['status']  = $data['status'];
+        $blog['content'] = $data['content'];
+        $blog['writer']  = $data['writer'];
+
+        // Slug logic
+        if ($data['title'] === $blog_to_update->title) {
+            $blog['slug'] = $blog_to_update->slug;
+        } else {
             $blog['slug'] = $this->createSlug($data['title']);
         }
-        $blog['status'] = $data['status'];
-        $blog['content'] = $data['content'];
-        $blog['writer'] = $data['writer'];
 
-        if ($request->has('images')) {
-            //thumb
-            $thumb_file = $request->images;
-            $thumb = Image::make($thumb_file->getRealPath())->resize(300, 300,function ($constraint){
-                $constraint->aspectRatio();
+        // Handle image and thumbnail
+        if ($request->hasFile('images')) {
+            $file = $request->file('images');
+            $extension = $file->getClientOriginalExtension();
+            $fileName = time() . '.' . $extension;
+            $destinationPath = public_path('uploads/blogs/');
+
+            // Ensure folder exists
+            if (!File::exists($destinationPath)) {
+                File::makeDirectory($destinationPath, 0755, true);
+            }
+
+            // Save thumbnail (resized)
+            $thumbImage = Image::make($file->getRealPath())->fit(300, 300, function ($constraint) {
+                $constraint->upsize();
             });
+            $thumbPath = $destinationPath . 'thumb_' . $fileName;
+            $thumbImage->save($thumbPath);
+            $blog['thumb'] = 'public/uploads/blogs/thumb_' . $fileName;
 
-            $thumb_dest = public_path( 'images/blogs/thumb/' );
-            $blog['thumb'] = time() . '.'.$request->images->clientExtension();
-            $thumb->save( $thumb_dest.$blog['thumb'] );
+            // Save original image
+            $file->move($destinationPath, $fileName);
+            $blog['images'] = 'public/uploads/blogs/' . $fileName;
 
-            //Image 
-            $blog['images'] = time() . '.'.$request->images->clientExtension();
-            $image_file = $request->images;
-            $image_dest = public_path( 'images/blogs' );
-            $image_file->move( $image_dest, $blog['images'] );
+            // Optional: Delete old images (if needed)
+            if ($blog_to_update->images && File::exists($blog_to_update->images)) {
+                File::delete($blog_to_update->images);
+            }
+            if ($blog_to_update->thumb && File::exists($blog_to_update->thumb)) {
+                File::delete($blog_to_update->thumb);
+            }
         }
 
-        /// SEO meta table
-        $blog['meta_title'] = $data['meta_title'];
-        $blog['meta_keyword'] = $data['meta_keyword'];
+        // SEO Meta Fields
+        $blog['meta_title']       = $data['meta_title'];
+        $blog['meta_keyword']     = $data['meta_keyword'];
         $blog['meta_description'] = $data['meta_description'];
+
+        // Update
         $blog_to_update->update($blog);
-        Session::flash('status','Your blog has been sucessfully updated');
+
+        Session::flash('status', 'Your blog has been successfully updated');
         return redirect()->route('madmin.blogs.index');
     }
 
@@ -156,14 +197,14 @@ class BlogsController extends Controller
     {
         $category = Blog::findOrFail($id);
         $category->delete();
-        Session::flash('status','Your Blog has been sucessfully deleted!');
+        Session::flash('status', 'Your Blog has been sucessfully deleted!');
         return redirect()->route('madmin.blogs.index');
     }
     public function createSlug($title, $id = 0)
     {
         $slug = str_slug($title);
         $allSlugs = $this->getRelatedSlugs($slug, $id);
-        if (! $allSlugs->contains('slug', $slug)){
+        if (! $allSlugs->contains('slug', $slug)) {
             return $slug;
         }
 
@@ -180,7 +221,7 @@ class BlogsController extends Controller
     }
     protected function getRelatedSlugs($slug, $id = 0)
     {
-        return Blog::select('slug')->where('slug', 'like', $slug.'%')
+        return Blog::select('slug')->where('slug', 'like', $slug . '%')
             ->where('id', '<>', $id)
             ->get();
     }

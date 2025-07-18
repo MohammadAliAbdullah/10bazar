@@ -40,7 +40,7 @@
                                         <td>{{ $value->title }}</td>
                                         <td>{{ $value->slug }}</td>
                                         <td>
-                                            <img src="{{ asset('public/images/blogs/thumb/' . $value->thumb) }}" class="img-fluid" style="max-width: 80px; max-height: 60px;" alt="thumb">
+                                            <img src="{{ asset($value->thumb) }}" class="img-fluid" style="max-width: 80px; max-height: 60px;" alt="thumb">
                                         </td>
                                         <td>{{ $value->status }}</td>
                                         <td>{{ $value->created_at->diffForHumans() }}</td>

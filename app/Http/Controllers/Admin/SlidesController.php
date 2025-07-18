@@ -6,8 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SlideRequest;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Intervention\Image\Facades\Image;
 use App\Models\Slide;
-use Image;
 
 class SlidesController extends Controller
 {
@@ -41,32 +42,42 @@ class SlidesController extends Controller
     public function store(SlideRequest $request)
     {
         $data = $request->all();
-        //Image
-//        $data['images'] = time() . '.'.$request->image->clientExtension();
-//        $image_file = $request->image;
-//        $image_dest = storage_path( 'admin/images/slides' );
-//        $image_file->move( $image_dest, $data['images'] );
-//        $data['url'] = asset('storage/admin/images/slides/'.$data['images']);
-        if($file=$request->file('image')){
-            $img=preg_replace('/\s+/', '-','slide.'. $file->extension());
-            $names=time().$img;
-            //$names=$img;
-            $destinationPath = public_path('images/slide/');
+
+        // Initialize data array
+        $user_data = [];
+
+        // Handle image upload
+        if ($file = $request->file('image')) {
+            $imgName = preg_replace('/\s+/', '-', 'slide.' . $file->extension());
+            $finalName = time() . $imgName;
+
+            // Ensure destination path exists
+            $destinationPath = public_path('uploads/slide/');
+            if (!File::exists($destinationPath)) {
+                File::makeDirectory($destinationPath, 0755, true);
+            }
+
+            // Resize and save image
             $img = Image::make($file->path());
-            $img->resize(1500, 500, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $user_data['images']=$names;
+            $img->fit(1110, 480)->save($destinationPath . $finalName);
+
+            // Save relative path to DB
+            $user_data['images'] = 'public/uploads/slide/' . $finalName;
         }
-        $user_data['title']=$data['title'];
-        $user_data['url']=$data['url'];
-        $user_data['orders']=$data['orders'];
-        $user_data['status']=$data['status'];
-        //dd($user_data);
+
+        // Assign other fields
+        $user_data['title']  = $data['title'];
+        $user_data['url']    = $data['url'];
+        $user_data['orders'] = $data['orders'];
+        $user_data['status'] = $data['status'];
+
+        // Store slide
         Slide::create($user_data);
-        Session::flash('status','Your slide has been sucessfully add');
+
+        Session::flash('status', 'Your slide has been successfully added');
         return redirect()->route('madmin.slides.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -103,37 +114,45 @@ class SlidesController extends Controller
         $data = $request->all();
         $slide = Slide::findOrFail($slide);
 
-//        $data['url'] = "url";
-//        if ($request->image) {
-//            //Image
-//            $data['images'] = time() . '.'.$request->image->clientExtension();
-//            $image_file = $request->image;
-//            $image_dest = storage_path( 'admin/images/slides' );
-//            $image_file->move( $image_dest, $data['images'] );
-//        }
-        if($file=$request->file('image')){
-            if(file_exists(public_path() . "/images/slide/" . $slide->images)) {
-                unlink(public_path() . "/images/slide/" . $slide->images);
+        // Handle image upload
+        if ($file = $request->file('image')) {
+            // Delete old image if exists
+            $oldPath = $slide->images;
+            if (File::exists($oldPath)) {
+                File::delete($oldPath);
             }
-            $img=preg_replace('/\s+/', '-','slide.'. $file->extension());
-            $names=time().$img;
-            //$names=$img;
-            $destinationPath = public_path('images/slide/');
-            $img = Image::make($file->path());
-            $img->resize(1500, 500, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $user_data['images']=$names;
-        }
-        $user_data['title']=$data['title'];
-        $user_data['url']=$data['url'];
-        $user_data['orders']=$data['orders'];
-        $user_data['status']=$data['status'];
 
+            // Generate unique filename
+            $imgName = preg_replace('/\s+/', '-', 'slide.' . $file->extension());
+            $finalName = time() . $imgName;
+
+            // Set destination path
+            $destinationPath = public_path('uploads/slide/');
+            if (!File::exists($destinationPath)) {
+                File::makeDirectory($destinationPath, 0755, true);
+            }
+
+            // Resize and save (exact 1110x480 with cropping)
+            $img = Image::make($file->path());
+            $img->fit(1110, 480)->save($destinationPath . $finalName);
+
+            // Save full relative path in DB
+            $user_data['images'] = 'public/uploads/slide/' . $finalName;
+        }
+
+        // Other fields
+        $user_data['title']  = $data['title'];
+        $user_data['url']    = $data['url'];
+        $user_data['orders'] = $data['orders'];
+        $user_data['status'] = $data['status'];
+
+        // Update slide
         $slide->update($user_data);
-        Session::flash('status','Your slide has been sucessfully add');
+
+        Session::flash('status', 'Your slide has been successfully updated');
         return redirect()->route('madmin.slides.index');
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -144,11 +163,11 @@ class SlidesController extends Controller
     public function destroy($id)
     {
         $slide = Slide::findOrFail($id);
-        if(file_exists(public_path() . "/images/slide/" . $slide->images)) {
-            unlink(public_path() . "/images/slide/" . $slide->images);
+        if (file_exists($slide->images)) {
+            unlink($slide->images);
         }
         $slide->delete();
-        Session::flash('status','Your slide has been sucessfully delete!');
+        Session::flash('status', 'Your slide has been sucessfully delete!');
         return redirect()->route('madmin.slides.index');
     }
 }

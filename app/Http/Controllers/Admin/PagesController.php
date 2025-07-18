@@ -3,12 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\PageRequest;
 use Illuminate\Http\Request;
-use App\Models\Page;
 use App\Models\SeoMeta;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Session;
-use Intervention\Image\ImageManagerStatic as Image;
+use Intervention\Image\Facades\Image;
+use App\Models\Page;
+use App\Http\Requests\PageRequest;
 
 class PagesController extends Controller
 {
@@ -42,55 +43,65 @@ class PagesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+
     public function store(PageRequest $request)
     {
         $data = $request->all();
-        if ($file = $request->file('images')) {
-            $img = preg_replace('/\s+/', '-', 'thumb.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('images/page/');
-            $img = Image::make($file->path());
-            $img->resize(200, 200, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $page['thumb'] = $names;
+        $page = [];
+
+        // Ensure directories exist
+        $pageDir = public_path('uploads/pages/');
+        if (!File::exists($pageDir)) {
+            File::makeDirectory($pageDir, 0755, true);
         }
-        if ($file = $request->file('images')) {
-            $img = preg_replace('/\s+/', '-', 'images.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('images/page/');
-            $img = Image::make($file->path());
-            $img->resize(400, 400, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $page['images'] = $names;
+
+        // Handle main image & thumbnail from 'images' field
+        if ($request->hasFile('images')) {
+            $file = $request->file('images');
+            $extension = $file->getClientOriginalExtension();
+            $basename = time();
+
+            // Thumb (200x200)
+            $thumbName = $basename . '_thumb.' . $extension;
+            $thumbPath = $pageDir . $thumbName;
+            Image::make($file->getRealPath())->fit(200, 200)->save($thumbPath);
+            $page['thumb'] = 'public/uploads/pages/' . $thumbName;
+
+            // Main image (400x400)
+            $imageName = $basename . '_main.' . $extension;
+            $imagePath = $pageDir . $imageName;
+            Image::make($file->getRealPath())->fit(400, 400)->save($imagePath);
+            $page['images'] = 'public/uploads/pages/' . $imageName;
         }
-        if ($file = $request->file('background')) {
-            $img = preg_replace('/\s+/', '-', 'page.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('images/');
-            $img = Image::make($file->path());
-            $img->resize(1300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $page['background'] = $names;
+
+        // Handle background image
+        if ($request->hasFile('background')) {
+            $file = $request->file('background');
+            $extension = $file->getClientOriginalExtension();
+            $bgName = time() . '_bg.' . $extension;
+            $bgPath = public_path('uploads/pages/' . $bgName);
+
+            Image::make($file->getRealPath())->fit(1300, 300)->save($bgPath);
+            $page['background'] = 'public/uploads/pages/' . $bgName;
         }
-        $page['title'] = $data['title'];
-        $page['slug'] = $this->createSlug($data['title']);
-        $page['status'] = $data['status'];
+
+        // Other fields
+        $page['title']   = $data['title'];
+        $page['slug']    = $this->createSlug($data['title']);
+        $page['status']  = $data['status'];
         $page['content'] = $data['content'];
-        /// SEO meta table
-        $page['meta_title'] = $data['meta_title'];
-        $page['meta_keyword'] = $data['meta_keyword'];
+
+        // SEO
+        $page['meta_title']       = $data['meta_title'];
+        $page['meta_keyword']     = $data['meta_keyword'];
         $page['meta_description'] = $data['meta_description'];
 
+        // Save
         Page::create($page);
-        Session::flash('status', 'Your page has been sucessfully add');
+        Session::flash('status', 'Your page has been successfully added');
         return redirect()->route('madmin.pages.index');
     }
+
 
     /**
      * Display the specified resource.
@@ -122,65 +133,84 @@ class PagesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function update(PageRequest $request, $id)
     {
         $data = $request->all();
-
         $page_to_update = Page::findOrFail($id);
-        $seometa_to_update = Page::findOrFail($id)->seometa;
 
+        $page = [];
+
+        // Title and slug logic
         $page['title'] = $data['title'];
-        if ($data['title'] == $page_to_update->title) {
-            $page['slug'] = $page_to_update->slug;
-        } else {
-            $page['slug'] = $this->createSlug($data['title']);
-        }
+        $page['slug'] = ($data['title'] === $page_to_update->title)
+            ? $page_to_update->slug
+            : $this->createSlug($data['title']);
 
         $page['status'] = $data['status'];
         $page['content'] = $data['content'];
 
-
-
-        if ($request->has('images')) {
-            //thumb
-            $thumb_file = $request->images;
-            $thumb = Image::make($thumb_file->getRealPath())->resize(300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-            });
-
-            $thumb_dest = storage_path('admin/images/pages/thumb/');
-            $page['thumb'] = time() . '.' . $request->images->clientExtension();
-            $thumb->save($thumb_dest . $page['thumb']);
-
-            //Image
-            $page['images'] = time() . '.' . $request->images->clientExtension();
-            $image_file = $request->images;
-            $image_dest = storage_path('admin/images/pages');
-            $image_file->move($image_dest, $page['images']);
-        }
-        if ($file = $request->file('background')) {
-            $img = preg_replace('/\s+/', '-', 'page.' . $file->extension());
-            $names = time() . $img;
-            //$names=$img;
-            $destinationPath = public_path('images/');
-            $img = Image::make($file->path());
-            $img->resize(1300, 300, function ($constraint) {
-                $constraint->aspectRatio();
-            })->save($destinationPath . '/' . $names);
-            $page['background'] = $names;
+        // Ensure upload path exists
+        $uploadPath = public_path('uploads/pages/');
+        if (!File::exists($uploadPath)) {
+            File::makeDirectory($uploadPath, 0755, true);
         }
 
-        /// SEO meta table
-        $page['meta_title'] = $data['meta_title'];
-        $page['meta_keyword'] = $data['meta_keyword'];
+        // Handle image and thumb
+        if ($request->hasFile('images')) {
+            $file = $request->file('images');
+            $extension = $file->getClientOriginalExtension();
+            $basename = time();
+
+            // Optional: Delete old images
+            if ($page_to_update->thumb && File::exists($page_to_update->thumb)) {
+                File::delete(public_path($page_to_update->thumb));
+            }
+            if ($page_to_update->images && File::exists($page_to_update->images)) {
+                File::delete($page_to_update->images);
+            }
+
+            // Create and save thumb
+            $thumbName = $basename . '_thumb.' . $extension;
+            $thumbImage = Image::make($file->getRealPath())->fit(300, 300);
+            $thumbImage->save($uploadPath . $thumbName);
+            $page['thumb'] = 'public/uploads/pages/' . $thumbName;
+
+            // Create and save main image
+            $imageName = $basename . '_main.' . $extension;
+            $mainImage = Image::make($file->getRealPath())->fit(400, 400);
+            $mainImage->save($uploadPath . $imageName);
+            $page['images'] = 'public/uploads/pages/' . $imageName;
+        }
+
+        // Handle background image
+        if ($request->hasFile('background')) {
+            $file = $request->file('background');
+            $extension = $file->getClientOriginalExtension();
+            $bgName = time() . '_bg.' . $extension;
+
+            // Optional: Delete old background
+            if ($page_to_update->background && File::exists($page_to_update->background)) {
+                File::delete($page_to_update->background);
+            }
+
+            $bgImage = Image::make($file->getRealPath())->fit(1300, 300);
+            $bgImage->save($uploadPath . $bgName);
+            $page['background'] = 'public/uploads/pages/' . $bgName;
+        }
+
+        // SEO Fields
+        $page['meta_title']       = $data['meta_title'];
+        $page['meta_keyword']     = $data['meta_keyword'];
         $page['meta_description'] = $data['meta_description'];
 
+        // Update page
         $page_to_update->update($page);
-        //$seometa_to_update->update($seo_meta);
 
-        Session::flash('status', 'Your page has been sucessfully updated');
+        Session::flash('status', 'Your page has been successfully updated');
         return redirect()->route('madmin.pages.index');
     }
+
 
     /**
      * Remove the specified resource from storage.

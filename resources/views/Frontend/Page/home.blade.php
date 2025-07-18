@@ -13,10 +13,10 @@
                             @foreach ($slides as $slide)
                                 <a class="block-slideshow__slide" href="{{ $slide->url ?? '#' }}">
                                     <div class="block-slideshow__slide-image block-slideshow__slide-image--desktop"
-                                        style="background-image: url('{{ asset('public/images/slide/' . $slide->images) }}')">
+                                        style="background-image: url('{{ asset($slide->images) }}')">
                                     </div>
                                     <div class="block-slideshow__slide-image block-slideshow__slide-image--mobile"
-                                        style="background-image: url('{{ asset('public/images/slide/' . ($slide->mobile_image ?? $slide->images)) }}')">
+                                        style="background-image: url('{{ asset( ($slide->mobile_image ?? $slide->images)) }}')">
                                     </div>
                                     <div class="block-slideshow__slide-content">
                                         <div class="block-slideshow__slide-title">
@@ -27,7 +27,7 @@
                                         </div>
                                         @if (!empty($slide->button_text))
                                             <div class="block-slideshow__slide-button">
-                                                <span class="btn btn-primary btn-lg">{{ __($slide->button_text) }}</span>
+                                                <span class="btn btn-primary btn-lg">{{ __($slide->button_text) }} </span>
                                             </div>
                                         @endif
                                     </div>
@@ -188,7 +188,7 @@
                         <div class="post-card">
                             <div class="post-card__image">
                                 <a href="#">
-                                    <img src="{{ asset('public/images/blogs') }}/{{ $blog->images }}"
+                                    <img src="{{ asset($blog->images) }}"
                                         alt="{{ $blog->title ?? 'N/A' }}">
                                 </a>
                             </div>
@@ -212,7 +212,7 @@
     </div>
     <!-- .block-posts / end -->
     <!-- .block-brands -->
-    <div class="container">
+    {{-- <div class="container">
         <section id="feature" class="section-p1">
             @foreach ($brands as $brand)
                 <div class="fe-box">
@@ -223,6 +223,6 @@
                 </div>
             @endforeach
         </section>
-    </div>
+    </div> --}}
     <!-- .block-brands / end -->
 @endsection

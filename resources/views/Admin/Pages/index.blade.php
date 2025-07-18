@@ -68,7 +68,7 @@
                                                         @if ($value->thumb == null)
                                                             <img src="{{ asset('public/asset/notfind.png') }}" width="80" height="60" class="img-fluid">
                                                         @else
-                                                            <img src="{{ asset('public/images/pages/' . $value->thumb) }}" width="80" height="60" class="img-fluid">
+                                                            <img src="{{ asset($value->thumb) }}" width="50px" height="50px" class="img-fluid">
                                                         @endif
                                                     </td>
                                                     <td>{{ $value->status }}</td>

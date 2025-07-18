@@ -40,7 +40,7 @@
                                             <td>{{ $slide->url }}</td>
                                             <td>
                                                 @if ($slide->images)
-                                                    <img src="{{ asset('public/images/slide/' . $slide->images) }}"
+                                                    <img src="{{ asset($slide->images) }}"
                                                         alt="Slide Image" width="80" height="60"
                                                         class="img-thumbnail">
                                                 @else
