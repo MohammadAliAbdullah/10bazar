@@ -92,10 +92,49 @@ $(document).ready(function () {
     });
 
     function updateShippingInfo(shippingFee) {
-        const subTotal       = $('#cartSubTotal').text();
+        const subTotal = $('#cartSubTotal').text();
         const couponDiscount = $('#couponDiscount').text() || '0';
-        const grandTotal     = parseFloat(subTotal) - parseFloat(couponDiscount) + parseFloat(shippingFee);
+        const grandTotal = parseFloat(subTotal) - parseFloat(couponDiscount) + parseFloat(shippingFee);
         $('#shippingFee').text(shippingFee);
         $('#grandTotal').text(grandTotal.toFixed(2));
     }
+
+    $(document).on('click', '#applyCoupon', function () {
+        var couponCode = $('#couponCodeInput').val();
+        var shippingFee = $('#shippingFee').text();
+
+        $.ajax({
+            url: window.routes.coupon,
+            method: "POST",
+            data: {
+                _token: window.routescsrf,
+                coupon_code: couponCode,
+                shipping_fee: shippingFee,
+            },
+            success: function (response) {
+                if (response.status === 'success') {
+                    $('#couponDiscount').text(response.discount_amount);
+                    $('#grandTotal').text(response.grand_total);
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Welcome',
+                        text: 'Coupon applied successfully!'
+                    });
+                } else {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Oops!',
+                        text: response.message
+                    });
+                }
+            },
+            error: function () {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oops!',
+                    text: 'An error occurred while applying the coupon.'
+                });
+            }
+        });
+    });
 });

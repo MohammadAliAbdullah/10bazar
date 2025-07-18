@@ -186,7 +186,7 @@ class Checkoutscontroller extends Controller
 
         // Check if this user has already used this coupon
         $alreadyUsed = DB::table('orders')
-            ->where('coupon_id', $coupon->id)
+            ->where('cupon_id', $coupon->id)
             ->where('customer_id', $user->id)
             ->exists();
 

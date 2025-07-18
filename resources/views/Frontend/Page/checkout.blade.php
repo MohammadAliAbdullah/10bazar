@@ -134,12 +134,6 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                        <th>{{ __('Shipping Fee') }}</th>
-                                        <td><span
-                                                id="shippingFee">{{ formatPrice($firstMethod->base_fee ?? 0, false, true) }}</span>
-                                        </td>
-                                    </tr>
-                                    <tr>
                                         <th>{{ __('Coupon Discount') }}</th>
                                         <td><span id="couponDiscount">{{ session('applied_coupon.discount') ?? 0 }}</span></td>
                                     </tr>
@@ -151,6 +145,12 @@
                                             </td>
                                         </tr>
                                     @endif
+                                    <tr>
+                                        <th>{{ __('Shipping Fee') }}</th>
+                                        <td><span
+                                                id="shippingFee">{{ formatPrice($firstMethod->base_fee ?? 0, false, true) }}</span>
+                                        </td>
+                                    </tr>
                                     <tr>
                                         <th>{{ __('Total') }}</th>
                                         <td><span
@@ -225,31 +225,6 @@
         </div>
     </div>
     <script>
-        $(document).on('click', '#applyCoupon', function() {
-            var couponCode = $('#couponCodeInput').val();
-            var shippingFee = $('#shippingFee').text();
-
-            $.ajax({
-                url: "{{ route('coupon') }}",
-                method: "POST",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    coupon_code: couponCode,
-                    shipping_fee: shippingFee,
-                },
-                success: function(response) {
-                    if (response.status === 'success') {
-                        $('#couponDiscount').text(response.discount_amount);
-                        $('#grandTotal').text(response.grand_total);
-                        alert('Coupon applied successfully!');
-                    } else {
-                        alert(response.message);
-                    }
-                },
-                error: function() {
-                    alert('An error occurred while applying the coupon.');
-                }
-            });
-        });
+        
     </script>
 @endsection

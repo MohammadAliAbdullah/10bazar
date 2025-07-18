@@ -179,6 +179,8 @@
             shopFilter: "{{ route('filter.products') }}", // search
             states: "{{ route('states') }}",
             cities: "{{ route('cities') }}",
+            coupon: "{{ route('coupon') }}",
+            csrf: "{{ csrf_token() }}"
         };
     </script>
     <script src="{{ asset('public') }}/assets/js/customJs/cart.js?v={{ time() }}"></script>
