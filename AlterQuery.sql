@@ -644,3 +644,18 @@ INSERT INTO `menus` (`id`, `name`, `parent_id`, `url`, `orders`, `icon`, `status
 -- 16-07-2025
 ALTER TABLE orders CHANGE cupon_amount cupon_amount DECIMAL(10,2) NOT NULL;
 -- 19-07-2025
+
+--  19-08-2025
+CREATE TABLE cs_couriers (
+    id INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(100) NOT NULL,
+    api_url VARCHAR(255),
+    contact_info TEXT,
+    tracking_url VARCHAR(255),
+    status ENUM('Active', 'Inactive') DEFAULT 'Active',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    created_by INT(11) DEFAULT NULL,
+    updated_by INT(11) DEFAULT NULL,
+    updated_at TIMESTAMP NULL DEFAULT NULL,
+    PRIMARY KEY (id)
+) ENGINE=InnoDB; 
