@@ -33,7 +33,7 @@
 
                     <div class="col-6 col-md-3 col-lg-2">
                         <div class="site-footer__widget footer-links">
-                            <h5 class="footer-links__title">{{ __('My Account') }}</h5>
+                            <h5 class="footer-links__title">{{ __('Important Links') }}</h5>
                             <ul class="footer-links__list">
                                 {{-- <li class="footer-links__item"><a href="#" class="footer-links__link">{{ __('Store Location') }}</a></li> --}}
                                 {{-- <li class="footer-links__item"><a href="#" class="footer-links__link">{{ __('Order History') }}</a></li> --}}
