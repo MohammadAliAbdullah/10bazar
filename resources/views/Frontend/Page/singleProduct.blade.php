@@ -193,7 +193,7 @@
                 <div class="product-tabs__content">
                     <div class="product-tabs__pane product-tabs__pane--active" id="tab-description">
                         <div class="typography">
-                            <h3>{{ __('product_full_description') }}</h3>
+                            <h3>{{ __('Product full description') }}</h3>
                             <p>{!! $product->content ?? __('Not Applicable') !!}</p>
                         </div>
                     </div>
