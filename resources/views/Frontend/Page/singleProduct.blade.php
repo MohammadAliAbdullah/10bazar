@@ -5,7 +5,7 @@
 @section('meta_description', $product->meta_description ?? $seo->meta_description)
 
 @section('content')
-    @include('Frontend.components.breadcrumb', ['page' => __('shop'), 'subPage' => $product->title ?? __('n_a')])
+    @include('Frontend.components.breadcrumb', ['page' => __('shop'), 'subPage' => $product->title ?? __('Not Applicable')])
 
     <div class="block">
         <div class="container">
@@ -52,15 +52,15 @@
                         </div>
 
                         <ul class="product__meta">
-                            <li><b>{{ __('category') }}:</b> {{ $product->category->title ?? __('n_a') }}</li>
-                            <li><b>{{ __('brand') }}:</b> {{ $product->brand->title ?? __('n_a') }}</li>
-                            <li><b>SKU:</b> {{ $product->sku ?? __('n_a') }}</li>
+                            <li><b>{{ __('category') }}:</b> {{ $product->category->title ?? __('Not Applicable') }}</li>
+                            <li><b>{{ __('brand') }}:</b> {{ $product->brand->title ?? __('Not Applicable') }}</li>
+                            <li><b>SKU:</b> {{ $product->sku ?? __('Not Applicable') }}</li>
                             <li class="product__meta-availability">
                                 <b>{{ __('availability') }}:</b>
                                 @if ($product->qty != 0)
-                                    {{ __('in_stock') }}
+                                    {{ __('In Stock') }}
                                 @else
-                                    <span class="text-danger">{{ __('out_of_stock') }}</span>
+                                    <span class="text-danger">{{ __('Out of Stock') }}</span>
                                 @endif
                             </li>
                         </ul>
@@ -71,9 +71,9 @@
                     <div class="product__sidebar">
                         <div class="product__availability"><b>{{ __('availability') }}:</b>
                             @if ($product->qty != 0)
-                                {{ __('in_stock') }}
+                                {{ __('In Stock') }}
                             @else
-                                <span class="text-danger">{{ __('out_of_stock') }}</span>
+                                <span class="text-danger">{{ __('Out of Stock') }}</span>
                             @endif
                         </div>
 
@@ -152,7 +152,7 @@
                                         </div>
                                     </div>
                                     <div class="product__actions-item product__actions-item--addtocart">
-                                        <button class="btn btn-primary btn-lg" type="submit">
+                                        <button class="btn btn-primary btn-lg itemAddToCart" data-id="{{ $product->id }}" type="submit">
                                             <i class="fa fa-shopping-cart mr-1"></i> {{ __('add_to_cart') }}
                                         </button>
                                     </div>
@@ -194,13 +194,13 @@
                     <div class="product-tabs__pane product-tabs__pane--active" id="tab-description">
                         <div class="typography">
                             <h3>{{ __('product_full_description') }}</h3>
-                            <p>{!! $product->content ?? __('n_a') !!}</p>
+                            <p>{!! $product->content ?? __('Not Applicable') !!}</p>
                         </div>
                     </div>
                     <div class="product-tabs__pane" id="tab-specification">
                         <div class="spec">
                             <h3 class="spec__header">{{ __('specification') }}</h3>
-                            <p>{!! $product->specification ?? __('n_a') !!}</p>
+                            <p>{!! $product->specification ?? __('Not Applicable') !!}</p>
                         </div>
                     </div>
                 </div>
@@ -212,69 +212,19 @@
     <div class="block block-products-carousel" data-layout="grid-5">
         <div class="container">
             <div class="block-header">
-                <h3 class="block-header__title">{{ __('related_products') }}</h3>
+                <h3 class="block-header__title">{{ __('Related Products') }}</h3>
                 <div class="block-header__divider"></div>
-                <div class="block-header__arrows-list">
-                    <button class="block-header__arrow block-header__arrow--left" type="button">
-                        <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                    </button>
-                    <button class="block-header__arrow block-header__arrow--right" type="button">
-                        <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                    </button>
-                </div>
             </div>
 
-            <div class="block-products-carousel__slider">
-                <div class="block-products-carousel__preloader"></div>
-                <div class="owl-carousel">
-                    @foreach ($similar_products as $related)
-                        <div class="block-products-carousel__column">
-                            <div class="block-products-carousel__cell">
-                                <div class="product-card">
-                                    <button class="product-card__quickview" type="button" title="{{ __('quick_view') }}">
-                                        <svg width="16px" height="16px">
-                                            <use xlink:href="images/sprite.svg#quickview-16"></use>
-                                        </svg>
-                                        <span class="fake-svg-icon"></span>
-                                    </button>
-
-                                    <div class="product-card__badges-list">
-                                        @if ($related->is_new)
-                                            <div class="product-card__badge product-card__badge--new">{{ __('new') }}</div>
-                                        @endif
-                                    </div>
-
-                                    <div class="product-card__image">
-                                        <a href="{{ route('product_details', ['id' => $related->slug]) }}">
-                                            <img src="{{ asset($related->thumb) }}" 
-                                                alt="{{ $related->img_alt ?? $related->title }}">
-                                        </a>
-                                    </div>
-
-                                    <div class="product-card__info">
-                                        <div class="product-card__name">
-                                            <a href="{{ route('product_details', ['id' => $related->slug]) }}">
-                                                {!! Str::limit($related->title, 32, ' ...') !!}
-                                            </a>
-                                        </div>
-                                    </div>
-
-                                    <div class="product-card__actions">
-                                        <div class="product-card__availability">{{ __('availability') }}: 
-                                            <span class="{{ $related->qty > 0 ? 'text-success' : 'text-danger' }}">
-                                                {{ $related->qty > 0 ? __('in_stock') : __('out_of_stock') }}
-                                            </span>
-                                        </div>
-
-                                        @include('Frontend.components.productPrice', ['product' => $related])
-                                        @include('Frontend.components.addToCart', ['product' => $related])
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <section id="productGirdView" class="section-p1">
+                <div class="row">
+                    @foreach ($similar_products as $product)
+                        @include('Frontend.components.productCard', ['product' => $product])
                     @endforeach
                 </div>
-            </div>
+            </section>
+
+            
         </div>
     </div>
 @endsection

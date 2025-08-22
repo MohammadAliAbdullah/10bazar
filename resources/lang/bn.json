@@ -153,11 +153,11 @@
   "Showing :count of :total products": ":total টির মধ্যে :count টি পণ্য দেখানো হচ্ছে",
   "No products found.": "কোনো পণ্য পাওয়া যায়নি",
 
-  "n_a": "প্রযোজ্য নয়",
+  "Not Applicable": "প্রযোজ্য নয়",
   "category": "ক্যাটাগরি",
   "availability": "প্রাপ্যতা",
-  "in_stock": "স্টকে আছে",
-  "out_of_stock": "স্টকে নেই",
+  "In Stock": "স্টকে আছে",
+  "Out of Stock": "স্টকে নেই",
   "add_to_cart": "কার্টে যুক্ত করুন",
   "like": "লাইক",
   "tweet": "টুইট",
@@ -220,5 +220,7 @@
   "Hot Offer": "গরম অফার",
   "Today Offer": "আজকের অফার",
   "Campaign": "প্রচারাভিযান",
-  "complains": "অভিযোগসমূহ"
+  "complains": "অভিযোগসমূহ",
+  "Related Products": "সম্পর্কিত পণ্যসমূহ",
+  "Product Details": "পণ্যের বিস্তারিত"
 } 

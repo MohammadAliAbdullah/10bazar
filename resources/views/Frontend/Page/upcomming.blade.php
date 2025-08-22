@@ -49,7 +49,7 @@
                                             <div class="product-card__actions">
                                                 <div class="product-card__availability">
                                                     {{ __('availability') }}:
-                                                    <span class="text-success">{{ __('in_stock') }}</span>
+                                                    <span class="text-success">{{ __('In Stock') }}</span>
                                                 </div>
                                                 @include('Frontend.components.productPrice', ['product' => $product])
                                                 @include('Frontend.components.addToCart', ['product' => $product])

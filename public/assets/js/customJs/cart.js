@@ -8,9 +8,11 @@ $(document).ready(function () {
     $(document).on('click', '.itemAddToCart', function (e) {
         e.preventDefault();
         var productId = $(this).data('id');
+        var quantity = $('#product-quantity').val();
 
         $.post(window.routes.cartAdd, {
-            id: productId
+            id: productId,
+            quantity: quantity
         }, function (response) {
             if (response.success) {
                 $('#cartCountHeader, #cartCountMobileHeader').text(response.cart_count);

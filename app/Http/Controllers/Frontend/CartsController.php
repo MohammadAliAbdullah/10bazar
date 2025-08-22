@@ -20,6 +20,8 @@ class CartsController extends Controller
     public function addToCart(Request $request)
     {
         $product = Product::findOrFail($request->id);
+        $quantity = $request->quantity ?? 1;
+        // dd($quantity);
         // $price = formatPrice($product->sales_price, false);
         $price = str_replace(',', '', formatPrice($product->sales_price, false));
         // dd($price);
@@ -28,7 +30,7 @@ class CartsController extends Controller
             'id'         => $product->id,
             'name'       => $product->title,
             'price'      => $price, // formatPrice($product->sales_price, false), // Assuming formatPrice is a helper function to format the price
-            'quantity'   => 1,
+            'quantity'   => $quantity,
             'attributes' => array(
                 'image'   => $product->thumb,
                 'slug'    => $product->slug,
