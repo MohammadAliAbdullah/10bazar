@@ -28,12 +28,6 @@
                 'icon' => 'lni-text-align-justify',
                 'route' => route('madmin.orderadmin.index'),
             ],
-            [
-                'name' => 'Complete Sale',
-                'class' => 'btn-secondary',
-                'icon' => 'lni-text-align-justify',
-                'route' => route('madmin.orders.complete'),
-            ],
         ],
     ])
 
@@ -49,10 +43,12 @@
                                     <tr>
                                         <th>SI</th>
                                         <th>Invoice</th>
-                                        <th width="20%">Customer Info</th>
-                                        <th width="25%">Products</th>
-                                        <th>Order Details</th>
+                                        <th width="20%">Customer</th>
+                                        <th>Sub Total</th>
+                                        <th>Delivery Fee</th>
+                                        <th>Total Amount</th>
                                         <th>Date</th>
+                                        <th>Status</th>
                                         <th class="text-center">Action</th>
                                     </tr>
                                 </thead>
@@ -70,42 +66,33 @@
                                             <td>{{ $page ? ($page - 1) * 10 + $key + 1 : $key + 1 }}</td>
                                             <td>{{ $value->invoice_no }}</td>
                                             <td>
-                                                <strong>Name:</strong> {{ $value->customer->name ?? 'N/A' }}<br>
-                                                <strong>Phone:</strong> {{ $value->customer->phone ?? 'N/A' }}<br>
-                                                <strong>Email:</strong> {{ $value->customer->email ?? 'N/A' }}<br>
-                                                <strong>Address:</strong> {{ $value->customer->address ?? 'N/A' }}
+                                                {{ $value->customer->name ?? 'N/A' }}
+                                                [{{ $value->customer->phone ?? 'N/A' }}]
                                             </td>
                                             <td>
-                                                @foreach (\App\Models\OrderDetails::where('order_id', $value->id)->get() as $product)
-                                                    {{ $product->name }}
-                                                    <hr class="my-1">
-                                                @endforeach
+                                                {{ $value->subtotal }}
                                             </td>
                                             <td>
-                                                <strong>Sub Total:</strong> {{ $value->subtotal }}<br>
-                                                @if ($value->discount > 0)
-                                                    <strong>Discount:</strong> {{ $value->discount }}<br>
-                                                @endif
-                                                @if ($value->cupon_amount > 0)
-                                                    <strong>Coup. Discount:</strong> {{ $value->cupon_amount }}<br>
-                                                @endif
                                                 @if ($value->delivary_charge > 0)
-                                                    <strong>Delivery:</strong> {{ $value->delivary_charge }}<br>
+                                                    {{ $value->delivary_charge }}
                                                 @endif
-                                                <strong>Total:</strong> {{ $value->total }}
                                             </td>
                                             <td>
-                                                {{ $value->created_at->diffForHumans() }}<br>
+                                                {{ $value->total }}
+                                            </td>
+                                            <td>
+                                                {{ $value->created_at->diffForHumans() }}
+                                            </td>
+                                            <td>
                                                 @php
                                                     $badgeClass = match ($value->status) {
                                                         'Pending' => 'danger',
                                                         'Processing' => 'warning',
                                                         'Shipped' => 'info',
-                                                        default => 'success',
+                                                        'default' => 'success',
                                                     };
                                                 @endphp
-                                                <span
-                                                    class="badge bg-{{ $badgeClass }} mt-1">{{ $value->status }}</span>
+                                                <span class="badge bg-{{ $badgeClass }} mt-1">{{ $value->status }}</span>
                                             </td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center flex-wrap">

@@ -28,12 +28,6 @@
                 'icon' => 'lni-text-align-justify',
                 'route' => route('madmin.orderadmin.index'),
             ],
-            [
-                'name' => 'Complete Sale',
-                'class' => 'btn-secondary',
-                'icon' => 'lni-text-align-justify',
-                'route' => route('madmin.orders.complete'),
-            ],
         ],
     ])
 
@@ -53,9 +47,10 @@
                                     <tr>
                                         <th>SI</th>
                                         <th>Invoice</th>
-                                        <th width="20%">Customer Info</th>
-                                        <th width="25%">Products</th>
-                                        <th>Order Details</th>
+                                        <th width="20%">Customer</th>
+                                        <th>Sub Total</th>
+                                        <th>Delivery Fee</th>
+                                        <th>Total Amount</th>
                                         <th>Date</th>
                                         <th class="text-center">Action</th>
                                     </tr>
@@ -69,42 +64,21 @@
                                             <td>{{ $page ? ($page - 1) * 10 + $key + 1 : $key + 1 }}</td>
                                             <td>{{ $value->invoice_no }}</td>
                                             <td>
-                                                <strong>Name:</strong> {{ $value->customer->name ?? 'N/A' }}<br>
-                                                <strong>Phone:</strong> {{ $value->customer->phone ?? 'N/A' }}<br>
-                                                <strong>Email:</strong> {{ $value->customer->email ?? 'N/A' }}<br>
-                                                <strong>Address:</strong> {{ $value->customer->address ?? 'N/A' }}
+                                                {{ $value->customer->name ?? 'N/A' }} [{{ $value->customer->phone ?? 'N/A' }}]
                                             </td>
                                             <td>
-                                                @foreach (\App\Models\OrderDetails::where('order_id', $value->id)->get() as $product)
-                                                    {{ $product->name }}
-                                                    <hr class="my-1">
-                                                @endforeach
+                                                {{ $value->subtotal }}
                                             </td>
                                             <td>
-                                                <strong>Sub Total:</strong> {{ $value->subtotal }}<br>
-                                                @if ($value->discount > 0)
-                                                    <strong>Discount:</strong> {{ $value->discount }}<br>
+                                               @if ($value->delivary_charge > 0)
+                                                    {{ $value->delivary_charge }}
                                                 @endif
-                                                @if ($value->cupon_amount > 0)
-                                                    <strong>Coup. Discount:</strong> {{ $value->cupon_amount }}<br>
-                                                @endif
-                                                @if ($value->delivary_charge > 0)
-                                                    <strong>Delivery:</strong> {{ $value->delivary_charge }}<br>
-                                                @endif
-                                                <strong>Total:</strong> {{ $value->total }}
                                             </td>
                                             <td>
-                                                {{ $value->created_at->diffForHumans() }}<br>
-                                                @php
-                                                    $badgeClass = match ($value->status) {
-                                                        'Pending' => 'danger',
-                                                        'Processing' => 'warning',
-                                                        'Shipped' => 'info',
-                                                        default => 'success',
-                                                    };
-                                                @endphp
-                                                <span
-                                                    class="badge bg-{{ $badgeClass }} mt-1">{{ $value->status }}</span>
+                                                {{ $value->total }}
+                                            </td>
+                                            <td>
+                                                {{ $value->created_at->diffForHumans() }}
                                             </td>
                                             <td class="text-center">
                                                 <div class="d-flex justify-content-center flex-wrap">
@@ -112,12 +86,6 @@
                                                         class="btn btn-sm btn-info m-1">
                                                         <i class="lni lni-eye"></i>
                                                     </a>
-                                                    {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.local-sale.destroy', $value->id]]) !!}
-                                                    <button type="submit" class="btn btn-sm btn-danger m-1"
-                                                        onclick="return confirm('Do you want to delete this sale?')">
-                                                        <i class="lni lni-trash"></i>
-                                                    </button>
-                                                    {!! Form::close() !!}
                                                 </div>
                                             </td>
                                         </tr>
