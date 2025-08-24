@@ -17,7 +17,7 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        $customers=Customer::orderBy('id','DESC')->paginate();
+        $customers = Customer::orderBy('id', 'DESC')->paginate();
         return view('Admin.customer.index', compact('customers'));
     }
 
@@ -41,14 +41,14 @@ class CustomerController extends Controller
     {
         $data = $request->all();
         $inseet['name'] = $data['name'];
-        $inseet['phone']=$data['phone'];
+        $inseet['phone'] = $data['phone'];
         $inseet['email'] = $data['email'];
         $inseet['address'] = $data['address'];
         $inseet['password'] = Hash::make($data['password']);
         $inseet['status'] = "Pending";
-//dd($category);
+        //dd($category);
         Customer::create($inseet);
-        Session::flash('status','Your Customer has been sucessfully added!');
+        Session::flash('status', 'Your Customer has been sucessfully added!');
         return redirect()->route('madmin.customeradmin.index');
     }
 
@@ -71,7 +71,7 @@ class CustomerController extends Controller
      */
     public function edit($id)
     {
-        $customer=Customer::findOrFail($id);
+        $customer = Customer::findOrFail($id);
         return view('Admin.customer.edit', compact('customer'));
     }
 
@@ -85,16 +85,16 @@ class CustomerController extends Controller
     public function update(Request $request, $id)
     {
         $data = $request->all();
-        $customer=Customer::findOrFail($id);
+        $customer = Customer::findOrFail($id);
         $inseet['name'] = $data['name'];
-        $inseet['phone']=$data['phone'];
+        $inseet['phone'] = $data['phone'];
         $inseet['email'] = $data['email'];
         $inseet['address'] = $data['address'];
         $inseet['password'] = Hash::make($data['password']);
         $inseet['status'] = "Pending";
-//dd($category);
+        //dd($category);
         $customer->update($inseet);
-        Session::flash('status','Your Customer has been sucessfully Updated!');
+        Session::flash('status', 'Your Customer has been sucessfully Updated!');
         return redirect()->route('madmin.customeradmin.index');
     }
 
@@ -106,9 +106,9 @@ class CustomerController extends Controller
      */
     public function destroy($id)
     {
-        $customer=Customer::findOrFail($id);
+        $customer = Customer::findOrFail($id);
         $customer->delete();
-        Session::flash('status','Your Customer has been sucessfully Delete!');
+        Session::flash('status', 'Your Customer has been sucessfully Delete!');
         return redirect()->route('madmin.customeradmin.index');
     }
 }

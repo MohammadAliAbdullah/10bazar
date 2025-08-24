@@ -101,6 +101,9 @@ class UnitsController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $unit=Unit::findOrFail($id);
+        $unit->delete();
+        Session::flash('status','Your Unit has been sucessfully deleted!!');
+        return redirect('/myadminpanel/units');
     }
 }

@@ -1,13 +1,13 @@
 @extends('Admin.layoutApp.app')
 @section('content')
     @include('Admin.include.breadcrumb', [
-        'page' => __('Attributes'),
-        'parent' => __('Home'),
-        'child' => __('Attribute'),
-        'button' => __('Add Attribute'),
+        'page'        => __('Attributes'),
+        'parent'      => __('Home'),
+        'child'       => __('Attribute'),
+        'button'      => __('Add Attribute'),
         'button_icon' => 'lni-plus',
-        'route' => route('madmin.brands.index'),
-        'route' => route('madmin.attributes.create'),
+        'route'       => route('madmin.brands.index'),
+        'route'       => route('madmin.attributes.create'),
     ])
     <!-- Content Header -->
     <!-- Main Content -->
@@ -16,7 +16,6 @@
             <div class="card">
                 <div class="card-body">
                     @include('Admin.include.message')
-
                     <div class="table-responsive">
                         <table id="dataTable" class="table table-bordered table-striped">
                             <thead class="custom-thead">
@@ -56,11 +55,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
-                    <div class="card-footer clearfix">
-                        <div class="float-right">
-                            {{ $attributes->render() }}
-                        </div>
                     </div>
                     {{-- Optional: Pagination --}}
                     {{-- <div class="row">

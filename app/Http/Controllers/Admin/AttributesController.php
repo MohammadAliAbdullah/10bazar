@@ -20,6 +20,7 @@ class AttributesController extends Controller
     public function index()
     {
         $attributes=Atribute::all();
+        // return $attributes;
         return view('Admin.Attribute.index',compact('attributes'));
     }
 

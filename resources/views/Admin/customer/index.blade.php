@@ -23,6 +23,7 @@
                                     <tr class="">
                                         <th>SI</th>
                                         <th>Name</th>
+                                        <th>Email</th>
                                         <th>Photo</th>
                                         <th>Contact Info</th>
                                         <th>Address</th>
@@ -36,12 +37,13 @@
                                             <td class="text-center">{{ $loop->iteration }}</td>
                                             <td>{{ $value->name }}</td>
                                             <td>
-                                                <img src="{{ $value->images }}" class="img-thumbnail"
-                                                    style="width: 60px; height: 60px;" alt="Customer Image">
+                                                <img src="{{ $value->images }}" class="img-thumbnail" style="width: 60px; height: 60px;" alt="Customer Image">
                                             </td>
                                             <td>
-                                                <strong>Phone:</strong> {{ $value->phone }}<br>
-                                                <strong>Email:</strong> {{ $value->email }}
+                                               {{ $value->phone }}
+                                            </td>
+                                            <td>
+                                               {{ $value->email }}
                                             </td>
                                             <td>{{ $value->address }}</td>
                                             <td>{{ $value->created_at->diffForHumans() }}</td>
@@ -61,7 +63,6 @@
                                             </td>
                                         </tr>
                                     @endforeach
-
                                     @if ($customers->isEmpty())
                                         <tr>
                                             <td colspan="7" class="text-center text-muted">No customers found.</td>
