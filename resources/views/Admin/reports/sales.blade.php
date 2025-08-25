@@ -51,10 +51,12 @@
                             <tr>
                                 <th>SI</th>
                                 <th>Invoice</th>
-                                <th class="d-none d-md-table-cell" width="20%">Customer Information</th>
-                                <th class="d-none d-md-table-cell" width="30%">Product</th>
-                                <th>Order Details</th>
+                                <th width="20%">Customer</th>
+                                <th>Sub Total</th>
+                                <th>Delivery Fee</th>
+                                <th>Total Amount</th>
                                 <th>Date</th>
+                                <th>Status</th>
                                 <th class="text-nowrap" width="10%">Action</th>
                             </tr>
                         </thead>
@@ -64,28 +66,21 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $order->invoice_no }}</td>
                                     <td class="d-none d-md-table-cell" class="text-break">
-                                        <b>Name:</b> {{ $order->customer->name }}<br>
-                                        <b>Phone:</b> {{ $order->customer->phone }}<br>
-                                        <b>Email:</b> {{ $order->customer->email }}<br>
-                                        <b>Address:</b> {{ $order->customer->address }}
-                                    </td>
-                                    <td class="d-none d-md-table-cell">
-                                        @php
-                                            $products = \App\Models\OrderDetails::where('order_id', $order->id)->pluck('name');
-                                        @endphp
-                                        <ul class="mb-0 pl-3" style="list-style-type: disc;">
-                                            @foreach($products as $productName)
-                                                <li style="font-size: 0.9rem;">{{ $productName }}</li>
-                                            @endforeach
-                                        </ul>
+                                        {{ $order->customer->name }} [{{ $order->customer->phone }}]
                                     </td>
                                     <td class="text-break">
-                                        <b>Sub Total:</b> {{ number_format($order->subtotal, 2) }} Tk<br>
-                                        <b>Discount:</b> {{ number_format($order->discount, 2) }} Tk<br>
-                                        <b>Total:</b> {{ number_format($order->total, 2) }} Tk
+                                        {{ number_format($order->subtotal, 2) }}
+                                    </td>
+                                    <td class="text-break">
+                                        {{ number_format($order->discount, 2) }}
+                                    </td>
+                                    <td class="text-break">
+                                        {{ number_format($order->total, 2) }}
                                     </td>
                                     <td>
-                                        {{ $order->created_at->diffForHumans() }}
+                                        {{ $order->created_at }}
+                                    </td>
+                                    <td>
                                         @php
                                             $statusClass = match ($order->status) {
                                                 'Pending' => 'bg-danger',
@@ -94,18 +89,22 @@
                                                 default => 'bg-success',
                                             };
                                         @endphp
-                                        <div class="{{ $statusClass }} text-white p-1 rounded mt-1 text-center">
-                                            {{ $order->status }}
-                                        </div>
+                                        <span class="badge {{ $statusClass }}">{{ $order->status }}</span>
                                     </td>
                                     <td class="text-nowrap">
-                                        <a href="{{ route('madmin.orderadmin.show', $order->id) }}" class="btn btn-info btn-sm m-1" title="View Details">
+                                        <a href="{{ route('madmin.orderadmin.show', $order->id) }}"
+                                            class="btn btn-info btn-sm m-1" title="View Details">
                                             <i class="lni-eye"></i>
                                         </a>
-                                        {!! Form::open(['method' => 'DELETE', 'route' => ['madmin.local-sale.destroy', $order->id], 'style' => 'display:inline-block']) !!}
-                                            <button type="submit" class="btn btn-danger btn-sm m-1" onclick="return confirm('Do you want to Delete?')" title="Delete">
-                                                <i class="lni-trash"></i>
-                                            </button>
+                                        {!! Form::open([
+                                            'method' => 'DELETE',
+                                            'route' => ['madmin.local-sale.destroy', $order->id],
+                                            'style' => 'display:inline-block',
+                                        ]) !!}
+                                        <button type="submit" class="btn btn-danger btn-sm m-1"
+                                            onclick="return confirm('Do you want to Delete?')" title="Delete">
+                                            <i class="lni-trash"></i>
+                                        </button>
                                         {!! Form::close() !!}
                                     </td>
                                 </tr>

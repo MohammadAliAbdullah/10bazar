@@ -28,64 +28,64 @@
                         <div class="row">
                             <div class="form-group col-md-6">
                                 {!! Form::label('meta_title', 'Meta Title') !!}
-                                {!! Form::textarea('meta_title', null, ['class' => 'form-control', 'rows' => 2, 'required']) !!}
+                                {!! Form::text('meta_title', null, ['class' => 'form-control', 'rows' => 2, 'required']) !!}
                             </div>
 
                             <div class="form-group col-md-6">
                                 {!! Form::label('meta_description', 'Meta Description') !!}
-                                {!! Form::textarea('meta_description', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                {!! Form::text('meta_description', null, ['class' => 'form-control', 'rows' => 2]) !!}
                             </div>
 
                             <div class="form-group col-md-6">
                                 {!! Form::label('meta_keyword', 'Meta Keyword') !!}
-                                {!! Form::textarea('meta_keyword', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                {!! Form::text('meta_keyword', null, ['class' => 'form-control', 'rows' => 2]) !!}
                             </div>
 
                             <div class="form-group col-md-6">
                                 {!! Form::label('google_webmaster', 'Google Webmaster') !!}
-                                {!! Form::textarea('google_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                {!! Form::text('google_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
                                 <p class="text-muted">Get it from <a href="https://search.google.com/search-console/about" target="_blank">Google Search Console</a></p>
                             </div>
 
                             <div class="form-group col-md-6">
                                 {!! Form::label('bing_webmaster', 'Bing Webmaster') !!}
-                                {!! Form::textarea('bing_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                {!! Form::text('bing_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
                                 <p class="text-muted">Get it from <a href="https://www.bing.com/webmasters/about" target="_blank">Bing Webmaster Tools</a></p>
                             </div>
 
                             <div class="form-group col-md-6">
                                 {!! Form::label('yindex_webmaster', 'Yandex Webmaster') !!}
-                                {!! Form::textarea('yindex_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                {!! Form::text('yindex_webmaster', null, ['class' => 'form-control', 'rows' => 2]) !!}
                                 <p class="text-muted">Get it from <a href="https://webmaster.yandex.com/welcome/" target="_blank">Yandex Webmaster</a></p>
                             </div>
 
                             <div class="form-group col-md-6">
                                 {!! Form::label('google_analytics', 'Google Analytics') !!}
-                                {!! Form::textarea('google_analytics', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                {!! Form::text('google_analytics', null, ['class' => 'form-control', 'rows' => 2]) !!}
                                 <p class="text-muted">Get it from <a href="https://analytics.google.com/analytics/web/" target="_blank">Google Analytics</a></p>
                             </div>
 
                             <div class="form-group col-md-6">
                                 {!! Form::label('facebook_id', 'Facebook ID') !!}
-                                {!! Form::textarea('facebook_id', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                {!! Form::text('facebook_id', null, ['class' => 'form-control', 'rows' => 2]) !!}
                                 <p class="text-muted">Get it from <a href="https://www.facebook.com/" target="_blank">Facebook</a></p>
                             </div>
 
                             <div class="form-group col-md-6">
                                 {!! Form::label('facebook_pixel', 'Facebook Pixel') !!}
-                                {!! Form::textarea('facebook_pixel', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                {!! Form::text('facebook_pixel', null, ['class' => 'form-control', 'rows' => 2]) !!}
                                 <p class="text-muted">Get it from <a href="https://developers.facebook.com/docs/facebook-pixel/" target="_blank">Facebook Pixel Docs</a></p>
                             </div>
 
                             <div class="form-group col-md-6">
                                 {!! Form::label('tawk', 'Tawk') !!}
-                                {!! Form::textarea('tawk', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                {!! Form::text('tawk', null, ['class' => 'form-control', 'rows' => 2]) !!}
                                 <p class="text-muted">Get it from <a href="https://www.tawk.to/" target="_blank">Tawk.to</a></p>
                             </div>
 
                             <div class="form-group col-md-12">
                                 {!! Form::label('other_code', 'Others') !!}
-                                {!! Form::textarea('other_code', null, ['class' => 'form-control', 'rows' => 2]) !!}
+                                {!! Form::text('other_code', null, ['class' => 'form-control', 'rows' => 2]) !!}
                             </div>
                         </div>
 

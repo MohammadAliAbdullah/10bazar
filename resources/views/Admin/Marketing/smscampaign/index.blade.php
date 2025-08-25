@@ -30,6 +30,7 @@
                                         <th>Content</th>
                                         <th>Job</th>
                                         <th>Status</th>
+                                        <th>Send</th>
                                         <th style="width: 140px;">Action</th>
                                     </tr>
                                 </thead>
@@ -52,8 +53,11 @@
                                                 @else
                                                     <span class="badge badge-danger">{{ $value->status }}</span>
                                                 @endif
-                                                <br><br>
-                                                <a href="{{ url('/myadminpanel/smssends/'.$value->id) }}" class="btn btn-success btn-sm">Send</a>
+                                            </td>
+                                            <td>
+                                                <a href="{{ url('/myadminpanel/smssends/'.$value->id) }}" class="btn btn-success btn-sm">
+                                                    <i class="lni-send"></i>
+                                                    Send</a>
                                             </td>
                                             <td>
                                                 <div class="d-flex">

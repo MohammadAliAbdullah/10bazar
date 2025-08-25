@@ -67,47 +67,49 @@
                     @include('Admin.include.message')
 
                     <!-- Stock Table -->
-                    <div class="card-body table-responsive p-0">
-                        <table class="table table-bordered">
-                            <thead class="custom-thead">
-                                <tr>
-                                    <th>SI</th>
-                                    <th>Title</th>
-                                    <th>Image</th>
-                                    <th>Category</th>
-                                    <th>Brand</th>
-                                    <th>QTY</th>
-                                    <th>Regular Price</th>
-                                    <th>Sales Price</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($stocks as $value)
+                    <div class="card">
+                        <div class="card-body p-0 table-responsive">
+                            <table class="table table-bordered">
+                                <thead class="custom-thead">
                                     <tr>
-                                        <td>{{ $value->id }}</td>
-                                        <td>{{ $value->product->title ?? 'N/A' }}</td>
-                                        <td>
-                                            <img src="{{ asset('public/assets/images/products/' . ($value->product->thumb ?? 'default.jpg')) }}"
-                                                width="60" height="40">
-                                        </td>
-                                        <td>{{ $value->product->category->title ?? 'N/A' }}</td>
-                                        <td>{{ $value->product->brand->title ?? 'N/A' }}</td>
-                                        <td>{{ $value->stock_qty ?? 0 }}</td>
-                                        <td>{{ $value->ragular_price ?? 0 }} Tk</td>
-                                        <td>{{ $value->sales_price ?? 0 }} Tk</td>
+                                        <th>SI</th>
+                                        <th>Title</th>
+                                        <th>Image</th>
+                                        <th>Category</th>
+                                        <th>Brand</th>
+                                        <th>QTY</th>
+                                        <th>Regular Price</th>
+                                        <th>Sales Price</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                        <div class="card-footer clearfix">
-                            <div class="float-right">
-                                {{ $stocks->links() }}
+                                </thead>
+                                <tbody>
+                                    @foreach ($stocks as $value)
+                                        <tr>
+                                            <td>{{ $value->id }}</td>
+                                            <td>{{ $value->product->title ?? 'N/A' }}</td>
+                                            <td>
+                                                <img src="{{ asset('public/assets/images/products/' . ($value->product->thumb ?? 'default.jpg')) }}"
+                                                    width="60" height="40">
+                                            </td>
+                                            <td>{{ $value->product->category->title ?? 'N/A' }}</td>
+                                            <td>{{ $value->product->brand->title ?? 'N/A' }}</td>
+                                            <td>{{ $value->stock_qty ?? 0 }}</td>
+                                            <td>{{ $value->ragular_price ?? 0 }} Tk</td>
+                                            <td>{{ $value->sales_price ?? 0 }} Tk</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                            <div class="card-footer clearfix">
+                                <div class="float-right">
+                                    {{ $stocks->links() }}
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Pagination -->
+
                     </div>
-
-                    <!-- Pagination -->
-
                 </div>
             </div>
         </div>
