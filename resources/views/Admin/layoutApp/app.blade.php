@@ -116,7 +116,7 @@
     <!-- Routes for JS -->
     <script>
         window.routes = {
-            productList: "{{ route('madmin.products.index') }}",
+            productList  : "{{ route('madmin.products.index') }}",
             sidebarToggle: "{{ route('toggle.sidebar') }}",
         };
     </script>

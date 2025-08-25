@@ -201,15 +201,6 @@
                                                         {!! Form::number('sales_price', 0, ['class' => 'form-control', 'id' => 'receiver']) !!}
                                                     </div>
                                                 </div>
-
-                                                {{--                                    <div class="form-group row"> --}}
-                                                {{--                                        {!! Form::label('name', 'Qty', ['class' => 'col-sm-4 col-form-label']) !!} --}}
-                                                {{--                                        <div class="col-sm-8"> --}}
-                                                {{--                                            {!! Form::number('stock_qty', 1, ['class'=>'form-control','id'=>'receiver','required']) !!} --}}
-                                                {{--                                        </div> --}}
-                                                {{--                                    </div> --}}
-
-
                                             </div>
                                         </div>
 
@@ -258,15 +249,6 @@
                                                             </div>
                                                         </div>
                                                     @endforeach
-
-                                                    {{--                                <div class="form-group row"> --}}
-                                                    {{--                                    {!! Form::label('name', 'Size', ['class' => 'col-sm-2']) !!} --}}
-                                                    {{--                                    <div class="col-sm-8"> --}}
-                                                    {{--                                        @foreach ($sizes as $size) --}}
-                                                    {{--                                            {!! Form::checkbox('sized[]',"$size->value",null,['class'=>'','id'=>'receiver']); !!} {{ $size->name }}&nbsp; --}}
-                                                    {{--                                        @endforeach --}}
-                                                    {{--                                    </div> --}}
-                                                    {{--                                </div> --}}
                                                 </div>
                                             </div>
                                         </div>
@@ -310,11 +292,7 @@
                                                 </div>
                                             </div>
                                         </div>
-
-
                                     </div>
-
-
                                 </div>
                             </div>
                             <div class="col-md-3">
@@ -398,13 +376,8 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
-
-
-
                         {!! Form::close() !!}
                     </div>
                     {{-- No pagination needed for form --}}
@@ -440,6 +413,11 @@
     <script src="{{ asset('public') }}/admin/js/bootstrap-tagsinput.js"></script>
 
     <script>
+        $(document).ready(function() {
+            $('#summernote').summernote();
+            $('#summernote2').summernote();
+            $('#summernote3').summernote();
+        })
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -491,12 +469,6 @@
                     }
                 }
             });
-        });
-
-        $(document).ready(function() {
-            $('#summernote').summernote();
-            $('#summernote2').summernote();
-            $('#summernote3').summernote();
         });
 
         $(document).ready(function(e) {
